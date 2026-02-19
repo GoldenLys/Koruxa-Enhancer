@@ -1,0 +1,428 @@
+.game-layout {
+    padding: 0;
+    grid-template-rows: 4em minmax(0, calc(100vh - 4em));
+}
+
+.topbar {
+    height: 4em;
+    padding: 0px;
+    background: var(--topbar-bg);
+    border-radius: 0;
+    border-bottom: 1px solid var(--border-primary);
+    box-shadow: var(--shadow-md);
+}
+
+.topbar-left {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-content: center;
+    max-height: 60px;
+    padding: 0 10px;
+}
+
+.logo-text {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: flex-start;
+    align-items: center;
+    color: rgb(100 116 139);
+    font-size: 0.95em;
+    font-weight: 600;
+}
+
+.sublogo-text {
+    display: flex;
+    flex: 1 1 auto;
+    color: rgb(81, 88, 97);
+    font-size: 0.75em;
+    font-weight: 800;
+}
+
+.topbar-right,
+.topbar-center {
+    height: 100%;
+}
+
+.topbar-right {
+    align-items: stretch;
+    gap: 5px;
+}
+
+.topbar-center>.stat:last-of-type,
+.topbar-right a[href="index.php"],
+.lang-switch-game {
+    display: none;
+}
+
+.sidebar-left {
+    position: relative;
+    padding-bottom: 70px;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 0px;
+    justify-content: center;
+}
+
+.user-box {
+    display: flex;
+    gap: 5px;
+    align-items: stretch;
+    justify-content: center;
+}
+
+.user-credits-box {
+    display: flex;
+    align-items: stretch;
+    gap: 0px;
+    padding: 0px 0px;
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(168, 85, 247, 0.1));
+    border: none;
+    border-radius: 0px;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.seal-points-display,
+.credits-display {
+    width: 50%;
+    padding: 5px 10px 0 10px;
+    justify-content: center;
+}
+
+.btn-buy-credits {
+    display: flex;
+    border-radius: 5px;
+    margin: 0 10px 10px 10px;
+    width: 100%;
+    font-size: 14px;
+    padding: 4px 10px;
+    text-transform: uppercase;
+    justify-content: center;
+    align-items: center;
+}
+
+.seal-points-display,
+.seal-points-display>span,
+.credits-display,
+.credits-display>span {
+    font-size: 18px;
+}
+
+.user-coins,
+.char-switch-link,
+.topbar-tourney,
+.progress-stats-container,
+.notification-bell-container,
+.top-link {
+    display: flex;
+    font-size: 1.15em;
+    font-weight: bold;
+    padding: 6px 12px;
+    border-radius: 0px;
+    border: none;
+    text-decoration: none;
+    background-color: rgb(255 255 255 / 5%);
+    color: #e5e7eb;
+    justify-content: center;
+    align-items: center;
+    min-width: 4rem;
+    margin-right: 0px;
+}
+
+.topbar-tourney[style*="display"] {
+    display: none;
+}
+
+.topbar-tourney {
+    background: rgb(245 158 11 / 10%);
+}
+
+.progress-stats-container {
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.15), rgba(59, 130, 246, 0.15));
+    margin-left: 0;
+}
+
+.progress-stats-badge {
+    background: transparent;
+    border: none;
+}
+
+.progress-badge-text {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.online-players {
+    border: none;
+    border-radius: 0px;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    min-width: 4rem;
+}
+
+.online-players>.online-dot {
+    width: 16px;
+    height: 16px;
+}
+
+.topbar-tourney:hover {
+    background: rgb(245 158 11 / 20%);
+}
+
+.char-switch-link {
+    color: rgb(71 109 255 / 100%);
+    background: rgb(79 102 233 / 25%);
+    margin-left: 0;
+}
+
+.char-switch-link:hover {
+    color: rgb(255 255 255 / 100%);
+    background: rgb(79 102 233 / 50%);
+    margin-left: 0;
+}
+
+.progress-stats-container:hover {
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.25), rgba(59, 130, 246, 0.25));
+}
+
+.top-link:hover {
+    background-color: rgb(255 255 255 / 15%);
+}
+
+.notification-bell-icon,
+.notification-bell-icon:hover {
+    background: transparent;
+}
+
+.notification-bell-icon {
+    font-size: 1.15em;
+    padding: 0px;
+    border-radius: 0
+}
+
+.notification-bell-icon,
+.char-switch-link,
+a.top-link[href="game.php?page=leaderboard"] {
+    font-size: 1.15em;
+    opacity: 1;
+}
+
+a.top-link[href="game.php?page=leaderboard"] {
+    background: rgb(239 182 48 / 20%);
+    color: rgb(239 182 48);
+}
+
+a.top-link[href="game.php?page=leaderboard"]:hover {
+    background: rgb(239 182 48 / 50%);
+    color: white;
+}
+
+a.top-link[href="logout.php"] {
+    background: rgb(246 59 59 / 20%);
+    color: rgb(246 59 59);
+}
+
+a.top-link[href="logout.php"]:hover {
+    background: rgb(246 59 59 / 50%);
+    color: white;
+}
+
+.menu-item {
+    font-size: 14px;
+}
+
+.tree-card .tree-label {
+    text-transform: uppercase;
+    font-size: 16px;
+}
+
+.user-name {
+    font-size: 16px;
+}
+
+.user-total-level {
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+/* TABS REWORK (linking) */
+
+div[class*="-tabs"] {
+    gap: 0px;
+}
+
+button[class*="-tab"] {
+    border-radius: 0px;
+}
+
+button[class*="-tab"]:first-of-type {
+    border-radius: 5px 0 0 5px;
+}
+
+button[class*="-tab"]:last-of-type {
+    border-radius: 0 5px 5px 0;
+}
+
+/* Custom siderbar elements */
+
+.nebs-container {
+    background: linear-gradient(135deg, rgb(36 96 231 / 10%), rgb(15 28 61 / 90%));
+    border: 1px solid rgb(32 125 255 / 15%);
+    border-radius: 10px;
+    padding: 10px 12px;
+    margin-bottom: 12px;
+    margin-right: 0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.nebs-container>.header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 6px;
+}
+
+.nebs-container>.content {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+    margin-bottom: 12px;
+    padding: 10px;
+    background: rgba(15, 23, 42, 0.7);
+    border-radius: 10px;
+    border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.sidebar-custom-bar>.content.full-width {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 6px;
+}
+
+#session-stat.nebs-container {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto 1fr auto;
+    gap: 0px;
+    margin: 0 0 12px 0;
+    padding: 0;
+    overflow: hidden;
+    align-items: center;
+}
+
+#session-stat .session-main {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+    padding: 10px 12px;
+}
+
+#session-stat .session-time {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    margin: 5px 0 0 0;
+    font-size: 14px;
+    background: rgb(246 246 246 / 20%);
+    border-radius: 6px;
+}
+
+.session-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+    height: 100%;
+    width: 32px;
+    overflow: hidden;
+    min-width: 36px;
+}
+
+.session-btn {
+    grid-column: 2 / 2;
+    grid-row: 1 / 2;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    padding: 0;
+    border: none;
+    cursor: pointer;
+    color: white;
+    text-shadow: 1px 1px 4px rgb(75 75 75);
+}
+
+.session-btn-renew {
+    background: rgb(197, 255, 255);
+}
+
+.session-btn-stop {
+    background: rgb(239, 68, 68);
+}
+
+.session-btn-renew:hover {
+    background: rgb(147, 205, 205);
+}
+
+.session-btn-stop:hover {
+    background: rgb(175, 48, 48);
+}
+
+.session-main .queue-badge {
+    display: flex;
+    border: none;
+    border-radius: 6px;
+    font-size: 12px;
+    justify-content: center;
+    align-items: center;
+    margin: 0 0 5px 0;
+}
+
+#cycle-bar-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.user-info-wrapper {
+    display: flex;
+    padding: 10px;
+    gap: 10px;
+}
+
+.user-avatar {
+    width: 4em;
+    height: 4em;
+    border-radius: 50%;
+}
+
+.user-coins {
+    background: rgb(255 214 0 / 20%);
+    color: rgb(255 214 0 / 100%);
+}
+
+.user-coins:hover {
+    background: rgb(255 214 0 / 50%);
+    color: rgb(255 255 255 / 100%);
+}
+
+.user-coins-text {
+    font-size: 16px;
+}
