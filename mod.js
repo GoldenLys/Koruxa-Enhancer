@@ -270,7 +270,6 @@
 
         // Update user coins display
         const coinsBox = document.querySelector("#nebs-user-coins");
-        console.log(vars["coins"]);
         if (coinsBox && vars["coins"]) {
             coinsBox.innerHTML = `<i class="fa-solid fa-coins"></i> ${vars["coins"]}`;
         }

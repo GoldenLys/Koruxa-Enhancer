@@ -59,10 +59,11 @@
     gap: 5px;
 }
 
+.topbar-tourney[style*="display"],
 .topbar-center>.stat:nth-child(5),
-.topbar-right a[href="index.php"],
+.top-link[href="index.php"],
 .lang-switch-game {
-    display: none;
+    display: none !important;
 }
 
 .sidebar-left {
@@ -129,7 +130,7 @@
 .progress-stats-container,
 .notification-bell-container,
 .top-link {
-    display: flex;
+    display: flex !important;
     font-size: 1.15em;
     font-weight: bold;
     padding: 6px 12px;
@@ -144,10 +145,6 @@
     margin-right: 0px;
 }
 
-.topbar-tourney[style*="display"] {
-    display: none;
-}
-
 .topbar-tourney {
     background: rgb(245 158 11 / 10%);
 }
@@ -158,8 +155,9 @@
 }
 
 .progress-stats-badge {
-    background: transparent;
+    background: transparent !important;
     border: none;
+    height: 100%;
 }
 
 .progress-badge-text {
@@ -387,7 +385,7 @@ button[class*="-tab"]:last-of-type {
 }
 
 .session-main .queue-badge {
-    display: flex;
+    display: flex !important;
     border: none;
     border-radius: 6px;
     font-size: 12px;
