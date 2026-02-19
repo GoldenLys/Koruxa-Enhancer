@@ -318,6 +318,8 @@
     // RPG Awesome
     loadCSS("https://cdnjs.cloudflare.com/ajax/libs/rpg-awesome/0.2.0/css/rpg-awesome.min.css");
 
+    loadCSS("https://goldenlys.github.io/Koruxa-Enhancer/style.css");
+
     setTimeout(() => {
         const notifications = document.querySelector("#notification-bell");
         const switch_character = document.querySelector(".char-switch-link");
