@@ -50,6 +50,7 @@
 
 .topbar-right,
 .topbar-center {
+    position: relative;
     height: 100%;
 }
 
