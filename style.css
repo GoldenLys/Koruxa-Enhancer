@@ -1,6 +1,6 @@
 .game-layout {
-    padding: 0;
-    grid-template-rows: 4em minmax(0, calc(100vh - 4em));
+    padding: 0 !important;
+    grid-template-rows: 4em minmax(0, calc(100vh - 4em)) !important;
 }
 
 .topbar {
@@ -402,6 +402,7 @@ button[class*="-tab"]:last-of-type {
 
 .user-info-wrapper {
     display: flex;
+    flex: 1 1 auto;
     padding: 10px;
     gap: 10px;
 }
@@ -424,4 +425,64 @@ button[class*="-tab"]:last-of-type {
 
 .user-coins-text {
     font-size: 16px;
+}
+
+@media (max-width: 1200px) { 
+    .game-layout {
+        gap: 0 !important;
+    }
+    
+    .sidebar-left {
+        position: relative;
+        width: 100%;
+    }
+
+     .sidebar-right {
+        order: 1
+    }
+    
+    .topbar-left {
+        position: initial;
+    }
+
+    .topbar {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .user-coins, .char-switch-link, .topbar-tourney, .progress-stats-container, .notification-bell-container, .top-link, .user-credits-box, .online-players {
+        border-radius: 6px;
+    }
+}
+
+@media (max-width: 768px) {
+    .topbar-right {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin: 10px 0;
+    }
+
+    .topbar-center {
+        display: flex !important;
+        flex-direction: row;
+        flex-wrap: wrap;
+        padding: 10px 0;
+    }
+
+    .user-info-wrapper {
+        display: flex;
+        flex: 1 1 auto;
+        padding: 0 10px;
+    }
+
+    .topbar-center .stat {
+        margin: 10px;
+    }
+
+    .topbar-center .user-info-wrapper+.stat+.stat {
+        width: 100%;
+    }
 }
