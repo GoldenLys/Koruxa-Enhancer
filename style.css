@@ -58,7 +58,7 @@
     gap: 5px;
 }
 
-.topbar-center>.stat:last-of-type,
+.topbar-center>.stat:nth-child(5),
 .topbar-right a[href="index.php"],
 .lang-switch-game {
     display: none;

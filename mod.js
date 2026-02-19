@@ -155,12 +155,17 @@
         const logoText = document.querySelector(".logo-text");
         const userInfo = document.querySelector(".user-info");
         const topbarCenter = document.querySelector(".topbar-center");
+        const activity = document.querySelector("#topbar-activity");
 
         if (logo && sidebarLeft && logo.parentNode !== sidebarLeft) {
             sidebarLeft.appendChild(logo);
             if (logoText) {
                 logoText.innerHTML = `IDLE RPG UNIVERSE <div class="sublogo-text">EARLY ACCESS</div>`;
             }
+        }
+
+        if (activity && topbarCenter) { 
+            topbarCenter.appendChild(activity);
         }
 
         if (userInfo && topbarCenter) {
