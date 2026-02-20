@@ -473,7 +473,7 @@ button[class*="-tab"]:not(.chatbox-tab):last-of-type {
 
 .chatbox.active {
     flex: 1 1 auto;
-    margin: auto -12px 0 -12px;
+    margin: 12px -12px 0 -12px;
 }
 
 .queue-dropdown {
