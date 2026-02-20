@@ -80,7 +80,6 @@
     background: rgb(12 20 39 / 65%);
     border: none;
     border-radius: 0px;
-    justify-content: space-between;
 }
 
 .sidebar-left {
@@ -464,7 +463,7 @@ button[class*="-tab"]:not(.chatbox-tab):last-of-type {
 
 .chatbox  {
     flex: 0 1 auto;
-    margin: 12px -12px 0 -12px;
+    margin: auto -12px 0 -12px;
     border-radius: 0px !important;
     border: none !important;
     border-top: 1px solid var(--border-primary) !important;
@@ -474,6 +473,7 @@ button[class*="-tab"]:not(.chatbox-tab):last-of-type {
 
 .chatbox.active {
     flex: 1 1 auto;
+    margin: auto -12px 0 -12px;
 }
 
 .queue-dropdown {
