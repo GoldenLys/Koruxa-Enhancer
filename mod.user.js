@@ -5,8 +5,8 @@
 // @version       1.02
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    hhttps://github.com/GoldenLys/Koruxa-Enhancer/issues/
-// @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/master/mod.user.js
-// @updateURL     https://github.com/GoldenLys/Koruxa-Enhancer/master/mod.user.js
+// @downloadURL   https://raw.githubusercontent.com/GoldenLys/Koruxa-Enhancer/master/mod.user.js
+// @updateURL     https://raw.githubusercontent.com/GoldenLys/Koruxa-Enhancer/master/mod.user.js
 // @description   Redesign of the game
 // @match         https://koruxa.com/*
 // @icon          https://www.google.com/s2/favicons?domain=https://koruxa.com
