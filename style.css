@@ -427,6 +427,10 @@ button[class*="-tab"]:last-of-type {
     font-size: 16px;
 }
 
+.chatbox  {
+    height: 460px;
+}
+
 @media (max-width: 1200px) { 
     .game-layout {
         gap: 0 !important;

@@ -12,20 +12,21 @@
     'use strict';
 
     // Mappings for EXTRACT_DATA()
-    const mapping = {
-        "#stat-coins": "coins",
-        ".topbar a.user-name": "username",
-        ".user-total-level": "total-level",
-        ".user-total-level .total-level-tooltip": "total-xp",
-        ".user-credits-box .credits-amount": "credits",
-        ".user-credits-box .seal-points-amount": "sealpoints",
-        ".online-count": "online-players",
-        ".topbar #session-skill-name": "current-skill",
-        ".topbar #session-tree-name": "current-item",
-        "#sidebar-hp-current": "current-hp",
-        "#sidebar-hp-max": "max-hp",
-        "#session-remaining": "session-time-left",
-        "#cycle-counter": "cycle",
+    window.mapping = {
+        coins: { selector: "#stat-coins", value: "0" },
+        username: { selector: ".topbar a.user-name", value: "" },
+        "total-level": { selector: ".user-total-level", value: "0" },
+        "total-xp": { selector: ".user-total-level .total-level-tooltip", value: "0" },
+        credits: { selector: ".user-credits-box .credits-amount", value: "0" },
+        sealpoints: { selector: ".user-credits-box .seal-points-amount", value: "0" },
+        "online-players": { selector: ".online-count", value: "0" },
+        "current-skill": { selector: ".topbar #session-skill-name", value: "" },
+        "current-item": { selector: ".topbar #session-tree-name", value: "" },
+        "current-hp": { selector: "#sidebar-hp-current", value: "0" },
+        "max-hp": { selector: "#sidebar-hp-max", value: "0" },
+        "session-time-left": { selector: "#session-remaining", value: "" },
+        cycle: { selector: "#cycle-counter", value: { current: "0", total: "0" } },
+        "session-xp-rate": { selector: "#progress-xp-rate", value: "0" },
     };
 
     // Mappings for REPLACE_ICONS()
@@ -58,6 +59,10 @@
             icon: "fa-solid fa-arrows-rotate",
             text: ""
         },
+        ".progress-badge-icon": { // Session XP Rate
+            icon: "fa-solid fa-gear",
+            text: ""
+        },
     };
 
     // Output element (for debugging)
@@ -76,73 +81,53 @@
         const el = document.querySelector(selector);
         if (!el) return "(not found)";
 
-        // SPECIAL CASE: .user-total-level → extract only the number before the nested span
-        if (selector === ".user-total-level") {
-            const text = el.childNodes[0]?.textContent || "";
-            const num = text.match(/\d+/);
-            return num ? num[0] : "(no number)";
+        const text = el.textContent.trim();
+
+        switch (selector) {
+            case ".user-total-level": {
+                const num = el.childNodes[0]?.textContent.match(/\d+/);
+                return num ? num[0] : "(no number)";
+            }
+
+            case "#stat-coins":
+            case ".user-total-level .total-level-tooltip": {
+                const num = text.match(/[\d.]+/);
+                return num ? num[0] : "(no number)";
+            }
+
+            case "#cycle-counter": {
+                const m = text.match(/(\d+)\s*\/\s*(\d+)/);
+                return m ? { current: m[1], total: m[2] } : "(invalid format)";
+            }
         }
 
-        // SPECIAL CASE: #stat-coins → extract only the numeric part
-        if (selector === "#stat-coins") {
-            const text = el.textContent.trim();
-            const num = text.match(/[\d.]+/);
-            return num ? num[0] : "(no number)";
-        }
-
-        // SPECIAL CASE: .total-level-tooltip → extract only the XP number
-        if (selector === ".user-total-level .total-level-tooltip") {
-            // Example: "Total XP: 140.185"
-            const text = el.textContent.trim();
-            const num = text.match(/[\d.]+/);
-            return num ? num[0] : "(no number)";
-        }
-
-        // SPECIAL CASE: #cycle-counter → extract "0" and "100" separately
-        if (selector === "#cycle-counter") {
-            const text = el.textContent.trim(); // "0/100 ticks"
-            const match = text.match(/(\d+)\s*\/\s*(\d+)/);
-            if (!match) return "(invalid format)";
-
-
-            return {
-                current: match[1],
-                total: match[2]
-            };
-        }
-
-        // NORMAL CASE → return the text from the mapping definition
-        return el.value || el.textContent.trim();
+        return el.value || text;
     }
 
     // Extracts all skills data
-    function EXTRACT_SKILLS(vars) {
-        const tooltips = document.querySelectorAll(".skill-tooltip");
+    function EXTRACT_SKILLS() {
+        document.querySelectorAll(".skill-tooltip").forEach(tip => {
+            const name = tip.querySelector(".skill-tooltip-title")
+                ?.textContent.trim().toLowerCase().replace(/\s+/g, "");
+            if (!name) return;
 
-        tooltips.forEach(tip => {
-            const nameEl = tip.querySelector(".skill-tooltip-title");
-            const levelEl = tip.querySelector(".skill-tooltip-level");
-            const xpEl = tip.querySelector(".skill-tooltip-xp");
-            const totalEl = tip.querySelector(".skill-tooltip-total");
+            const level = tip.querySelector(".skill-tooltip-level")
+                ?.textContent.match(/\d+/)?.[0] || "(no level)";
 
-            if (!nameEl) return;
-            const skill = nameEl.textContent.trim().toLowerCase().replace(/\s+/g, "");
-            const level = levelEl?.textContent.match(/\d+/)?.[0] || "(no level)";
-            let currentXP = "(no xp)";
-            let levelUpXP = "(no xp)";
-            if (xpEl) {
-                const match = xpEl.textContent.match(/([\d.]+)\s*\/\s*([\d.]+)/);
-                if (match) {
-                    currentXP = match[1];
-                    levelUpXP = match[2];
-                }
-            }
-            const totalXP = totalEl?.textContent.match(/[\d.]+/)?.[0] || "(no total xp)";
+            const xpText = tip.querySelector(".skill-tooltip-xp")?.textContent || "";
+            const xpMatch = xpText.match(/([\d.]+)\s*\/\s*([\d.]+)/);
 
-            vars[`${skill}-level`] = level;
-            vars[`${skill}-currentxp`] = currentXP;
-            vars[`${skill}-levelupxp`] = levelUpXP;
-            vars[`${skill}-totalxp`] = totalXP;
+            const currentXP = xpMatch?.[1] || "(no xp)";
+            const levelUpXP = xpMatch?.[2] || "(no xp)";
+
+            const totalXP = tip.querySelector(".skill-tooltip-total")
+                ?.textContent.match(/[\d.]+/)?.[0] || "(no total xp)";
+
+            // Always produce mapping‑compatible entries
+            window.mapping[`${name}-level`] = { selector: null, value: level };
+            window.mapping[`${name}-currentxp`] = { selector: null, value: currentXP };
+            window.mapping[`${name}-levelupxp`] = { selector: null, value: levelUpXP };
+            window.mapping[`${name}-totalxp`] = { selector: null, value: totalXP };
         });
     }
 
@@ -164,7 +149,7 @@
             }
         }
 
-        if (activity && topbarCenter) { 
+        if (activity && topbarCenter) {
             topbarCenter.appendChild(activity);
         }
 
@@ -255,36 +240,40 @@
 
     // Updates values and create new html elements
     function UPDATE_DATA() {
-        const vars = {};
+        for (const key in window.mapping) {
+            const entry = window.mapping[key];      // { selector, value }
+            const result = EXTRACT_DATA(entry.selector);
 
-        for (const selector in mapping) {
-            const result = EXTRACT_DATA(selector);
-
-            if (selector === "#cycle-counter" && typeof result === "object") {
-                vars["current-cycle"] = result.current;
-                vars["current-cycle-total"] = result.total;
+            // Special case: cycle
+            if (key === "cycle" && typeof result === "object") {
+                entry.value = result;               // { current, total }
             } else {
-                vars[mapping[selector]] = result;
+                entry.value = result;               // normal case
             }
         }
 
         // Update user coins display
         const coinsBox = document.querySelector("#nebs-user-coins");
-        if (coinsBox && vars["coins"]) {
-            coinsBox.innerHTML = `<i class="fa-solid fa-coins"></i> ${vars["coins"]}`;
+        if (coinsBox && window.mapping.coins?.value != null) {
+            coinsBox.innerHTML = `<i class="fa-solid fa-coins"></i> ${window.mapping.coins.value}`;
         }
-        EXTRACT_SKILLS(vars);
+
+        EXTRACT_SKILLS(window.mapping);
+
         let text = "Mapped Variables:\n";
-        for (const key in vars) {
-            text += `${key}: ${vars[key]}\n`;
+        for (const key in window.mapping) {
+            text += `${key}: ${JSON.stringify(window.mapping[key].value)}\n`;
         }
+
         MOVE_ELEMENTS();
 
-        // Debug output
+        // Debug output (kept disabled)
         const gameArea = document.querySelector(".game-area");
         if (gameArea && !document.getElementById("tm-selector-mapper-output")) {
-            //output.textContent = text;
-            //gameArea.appendChild(output);
+            // const output = document.createElement("pre");
+            // output.id = "tm-selector-mapper-output";
+            // output.textContent = text;
+            // gameArea.appendChild(output);
         }
     }
 
@@ -301,11 +290,10 @@
         for (const selector in iconReplacements) {
             const cfg = iconReplacements[selector];
             const el = document.querySelector(selector);
+
             if (!el) continue;
-
-            // Prevent duplicate replacements
-            if (el.dataset.iconified === "1") continue;
-
+            if (el.dataset.iconified === "1") continue; // Prevent duplicate replacements
+            
             const iconHTML = `<i class="${cfg.icon}"></i>`;
             const textHTML = cfg.text ? `<span class="icon-text">${cfg.text}</span>` : "";
 
@@ -315,14 +303,9 @@
     }
 
     REPLACE_ICONS();
-
-    // Font Awesome Free (latest stable)
-    loadCSS("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css");
-
-    // RPG Awesome
-    loadCSS("https://cdnjs.cloudflare.com/ajax/libs/rpg-awesome/0.2.0/css/rpg-awesome.min.css");
-
-    loadCSS("https://goldenlys.github.io/Koruxa-Enhancer/style.css");
+    loadCSS("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"); // Font Awesome Free (latest stable)
+    loadCSS("https://goldenlys.github.io/Koruxa-Enhancer/css/rpg-awesome.min.css"); // RPG Awesome (custom version with more icons)
+    loadCSS("https://goldenlys.github.io/Koruxa-Enhancer/css/style.css"); // Let the magic begin
 
     setTimeout(() => {
         const notifications = document.querySelector("#notification-bell");
