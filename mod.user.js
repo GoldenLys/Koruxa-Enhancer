@@ -1,11 +1,17 @@
 /// ==UserScript==
-// @name         Koruxa Redesign
-// @namespace    Koruxa redesign
-// @author       Nebulys
-// @version      1.0
-// @description  Redesign of the game
-// @match        https://koruxa.com/*
-// @grant        none
+// @name          Koruxa Redesign
+// @namespace     Koruxa redesign
+// @author        Nebulys
+// @version       1.0
+// @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
+// @supportURL    hhttps://github.com/GoldenLys/Koruxa-Enhancer/issues/
+// @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/master/mod.user.js
+// @updateURL     https://github.com/GoldenLys/Koruxa-Enhancer/master/mod.user.js
+// @description   Redesign of the game
+// @match         https://koruxa.com/*
+// @icon          https://www.google.com/s2/favicons?domain=https://koruxa.com
+// @grant         unsafeWindow
+// @run-at        document-idle
 // ==/UserScript==
 
 (function () {
@@ -48,7 +54,7 @@
             text: ""
         },
         "a[href='game.php?page=shop']": { // Buy credits
-            icon: "ra ra-crystals",
+            icon: "fa-solid fa-plus",
             text: "Buy"
         },
         "#session-stop": { // Session stop
@@ -293,7 +299,7 @@
 
             if (!el) continue;
             if (el.dataset.iconified === "1") continue; // Prevent duplicate replacements
-            
+
             const iconHTML = `<i class="${cfg.icon}"></i>`;
             const textHTML = cfg.text ? `<span class="icon-text">${cfg.text}</span>` : "";
 
