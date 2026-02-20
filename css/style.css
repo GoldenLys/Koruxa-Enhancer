@@ -461,19 +461,20 @@ button[class*="-tab"]:not(.chatbox-tab):last-of-type {
     font-size: 16px;
 }
 
-.chatbox  {
+.chatbox {
     flex: 0 1 auto;
-    margin: auto -12px 0 -12px;
-    border-radius: 0px !important;
+    margin: auto -12px 0 -12px; /* stays fixed */
+    border-radius: 0 !important;
     border: none !important;
     border-top: 1px solid var(--border-primary) !important;
-    transition: all 0.2s ease;
-    -webkit-transition: all 0.2s ease;
+
+    transform: translateY(0);
+    transition: transform 0.5s ease, flex 0.5s ease;
 }
 
 .chatbox.active {
     flex: 1 1 auto;
-    margin: 12px -12px 0 -12px;
+    transform: translateY(12px);
 }
 
 .queue-dropdown {
