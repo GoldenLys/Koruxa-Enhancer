@@ -1,6 +1,7 @@
 .game-layout {
     padding: 0 !important;
     grid-template-rows: 4em minmax(0, calc(100vh - 4em)) !important;
+    gap: 0 !important;
 }
 
 .topbar {
@@ -15,7 +16,8 @@
 .topbar-left {
     position: fixed;
     bottom: 10px;
-    left: 10px;
+    left: 0px;
+    width: 260px;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -66,9 +68,29 @@
     display: none !important;
 }
 
+.sidebar {
+    border: none;
+    border-radius: 0px;
+}
+
+.game-area {
+    display: flex;
+    flex-direction: column;
+    padding: 12px 12px 0px 12px;
+    background: rgb(12 20 39 / 65%);
+    border: none;
+    border-radius: 0px;
+}
+
 .sidebar-left {
     position: relative;
     padding-bottom: 70px;
+    border-right: 1px solid var(--border-primary);
+    max-height: initial;
+}
+
+.sidebar-right {
+    border-left: 1px solid var(--border-primary);
 }
 
 .user-info {
@@ -145,7 +167,7 @@
     color: #e5e7eb;
     justify-content: center;
     align-items: center;
-    min-width: 4rem;
+    min-width: 3rem;
     margin-right: 0px;
 }
 
@@ -273,19 +295,19 @@ a.top-link[href="logout.php"]:hover {
 
 /* TABS REWORK (linking) */
 
-div[class*="-tabs"] {
+div[class*="-tabs"]:not(.chatbox-tab) {
     gap: 0px;
 }
 
-button[class*="-tab"] {
+button[class*="-tab"]:not(.chatbox-tab) {
     border-radius: 0px;
 }
 
-button[class*="-tab"]:first-of-type {
+button[class*="-tab"]:not(.chatbox-tab):first-of-type {
     border-radius: 5px 0 0 5px;
 }
 
-button[class*="-tab"]:last-of-type {
+button[class*="-tab"]:not(.chatbox-tab):last-of-type {
     border-radius: 0 5px 5px 0;
 }
 
@@ -440,14 +462,29 @@ button[class*="-tab"]:last-of-type {
 }
 
 .chatbox  {
-    height: 460px;
+    flex: 1 1 auto;
+    margin: 12px -12px 0 -12px;
+    border-radius: 0px !important;
+    border: none !important;
+    border-top: 1px solid var(--border-primary) !important;
+}
+
+.queue-dropdown {
+    position: initial;
+    transform: initial;
+    background: transparent;
+    border: 1px solid rgb(32 125 255 / 15%);
+    border-left: none;
+    border-right: none;
+    border-radius: 0px;
+    box-shadow: none;
+}
+
+.skill-name {
+    overflow: visible;
 }
 
 @media (max-width: 1200px) { 
-    .game-layout {
-        gap: 0 !important;
-    }
-    
     .sidebar-left {
         position: relative;
         width: 100%;

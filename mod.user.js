@@ -2,7 +2,7 @@
 // @name          Koruxa Redesign
 // @namespace     Koruxa redesign
 // @author        Nebulys
-// @version       1.0
+// @version       1.01
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    hhttps://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/master/mod.user.js
@@ -210,9 +210,16 @@
         const xpBar = sessionStat.querySelector(".xp-bar");
         const cycleBar = sessionStat.querySelector("#cycle-bar-container");
         const queueBadge = sessionStat.querySelector(".queue-badge");
+        const queueDropdown = document.getElementById("queue-dropdown");
 
-        if (queueBadge && queueBadge.parentNode !== mainBox) mainBox.prepend(queueBadge);
-
+        if (queueBadge && queueBadge.parentNode !== mainBox) {
+            mainBox.prepend(queueBadge);
+            queueBadge.addEventListener('click', (e) => {
+                e.stopPropagation();
+                MOVE_ELEMENTS();
+            });
+        }
+        
         if (label && label.parentNode !== mainBox) mainBox.appendChild(label);
 
         if (xpBar && xpBar.parentNode !== mainBox) mainBox.appendChild(xpBar);
