@@ -60,7 +60,7 @@
             text: ""
         },
         ".progress-badge-icon": { // Session XP Rate
-            icon: "fa-solid fa-gear",
+            icon: "ra ra-progression",
             text: ""
         },
     };

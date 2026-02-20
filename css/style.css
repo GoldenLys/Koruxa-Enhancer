@@ -214,6 +214,7 @@
     border-radius: 0
 }
 
+.progress-badge-icon,
 .notification-bell-icon,
 .char-switch-link,
 a.top-link[href="game.php?page=leaderboard"] {
