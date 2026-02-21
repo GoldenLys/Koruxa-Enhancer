@@ -2,7 +2,7 @@
 // @name          Koruxa Redesign
 // @namespace     Koruxa redesign
 // @author        Nebulys
-// @version       1.03
+// @version       1.04
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    hhttps://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://raw.githubusercontent.com/GoldenLys/Koruxa-Enhancer/master/mod.user.js
@@ -68,6 +68,10 @@
         },
         ".progress-badge-icon": { // Session XP Rate
             icon: "ra ra-progression",
+            text: ""
+        },
+        "a[href='game.php?page=messages']": { // Messages
+            icon: "fa-solid fa-message",
             text: ""
         },
     };
@@ -330,7 +334,7 @@
 
     setTimeout(() => {
         const notifications = document.querySelector("#notification-bell");
-        const switch_character = document.querySelector(".char-switch-link");
+        const switch_character = document.querySelector("a[href='character_select.php']");
         const stats = document.querySelector("#progress-stats");
         const target = document.querySelector(".topbar-right");
         let userCoins = document.querySelector("#nebs-user-coins");
