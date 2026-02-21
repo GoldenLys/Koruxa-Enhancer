@@ -90,7 +90,7 @@
     flex: 1 1 auto;
     color: rgb(81, 88, 97);
     font-size: 0.75em;
-    font-weight: 800;
+    font-weight: 600;
 }
 
 .topbar-right,
@@ -662,6 +662,15 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     border-top: 1px solid var(--border-primary);
     margin: 0 -10px;
     background: transparent;
+}
+
+.logo-text,
+.user-total-level,
+.category-name {
+    color: transparent;
+    background: linear-gradient(90deg, #3b82f6, #22c55e);
+    background-clip: text;
+    -webkit-background-clip: text;
 }
 
 @media (max-width: 1200px) {
