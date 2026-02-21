@@ -366,6 +366,7 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     margin-bottom: 12px;
     margin-right: 0;
     cursor: pointer;
+    text-shadow: -1px -1px 0 #000,        1px -1px 0 #000,        -1px 1px 0 #000,        1px 1px 0 #000,        0 0 4px rgba(0,0,0,0.8);
     transition: all 0.2s ease;
 }
 
@@ -394,17 +395,21 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
 }
 
 #session-stat.nebs-container {
+    position: relative;
+    z-index: 1;
     display: grid;
     grid-template-columns: 1fr auto;
     grid-template-rows: auto 1fr auto;
     gap: 0px;
     margin: 0 0 12px 0;
     padding: 0;
+    font-family: "Saira", sans-serif;
     overflow: hidden;
     align-items: center;
 }
 
 #session-stat .session-main {
+    position: relative;
     grid-column: 1 / 2;
     grid-row: 1 / 2;
     padding: 10px 12px;
@@ -418,7 +423,7 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     justify-content: center;
     margin: 5px 0 0 0;
     font-size: 14px;
-    background: rgb(246 246 246 / 20%);
+    background: rgb(78 91 121 / 50%);
     border-radius: 6px;
 }
 
@@ -473,11 +478,45 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     margin: 0 0 5px 0;
 }
 
+.session-main .xp-bar {
+    display: none;
+}
+
+.session-main #cycle-counter {
+    font-size: 14px;
+    text-shadow: inherit;
+    color: rgb(255 255 255)
+}
+
 #cycle-bar-container {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
 }
+
+.cycle-bar-track {
+    background: transparent;
+    z-index: -1;
+}
+
+.cycle-bar-track {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: 0;
+    width: 100%;
+    height: 100%;
+    box-shadow: none;
+}
+
+#cycle-bar-fill {
+    background: linear-gradient(180deg, rgb(175 175 175), rgb(200 200 200), rgb(175 175 175));
+    box-shadow: none;
+}
+
+#cycle-bar-fill::after {
+    display: none;
+} 
 
 .user-info-wrapper {
     display: flex;
@@ -554,7 +593,7 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     height: 60px;
     width: 48px;
     aspect-ratio: auto;
-    background: rgb(22 31 51 / 100%);
+    background: rgb(22 31 51 / 20%);
     box-shadow: none;
     border: 1px dashed var(--border-subtle);
 }
