@@ -341,6 +341,7 @@ a.top-link[href="logout.php"]:hover {
 
 div[class*="-tabs"]:not(.chatbox-tab):not(.sidebar-tab) {
     gap: 0px;
+    overflow-x: visible;
 }
 
 button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab) {
