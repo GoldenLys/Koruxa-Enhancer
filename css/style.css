@@ -534,24 +534,27 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
 }
 
 .inv-grid.inv-grid-fixed {
-    grid-template-columns: repeat(6, 1fr);
+    display: flex;
     gap: 4px;
+    flex-wrap: wrap;
+    flex-direction: row;
+    padding: 0 5px;
 }
 
 .inv-item {
     overflow: hidden;
-    border: 2px solid var(--border-primary);
+    border: 1px solid var(--border-primary);
     aspect-ratio: auto;
     padding: 0 0 12px 0px;
 }
 
 .inv-slot-empty {
-    height: 62px;
-    width: 50px;
+    height: 60px;
+    width: 48px;
     aspect-ratio: auto;
     background: rgb(22 31 51 / 100%);
     box-shadow: none;
-    border: 2px dashed var(--border-subtle);
+    border: 1px dashed var(--border-subtle);
 }
 
 .inv-item-qty {
@@ -561,13 +564,13 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     left: 0px;
     font-family: "Saira", sans-serif;
     font-size: 12px;
+    background: rgb(255 255 255 / 10%);
     font-weight: 400;
 }
 
 .inv-item-icon {
-    height: 48px;
-    width: 48px;
-    border-radius: 0px 0px 8px 8px;
+    height: 46px;
+    width: 46px;
 }
 
 .inv-item:hover {
@@ -651,7 +654,6 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     .online-players {
         border-radius: 6px;
     }
-
 
     .sidebar-right .inv-section {
         overflow-y: visible;
