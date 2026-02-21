@@ -491,6 +491,17 @@ button[class*="-tab"]:not(.chatbox-tab):last-of-type {
     overflow: visible;
 }
 
+.inv-grid.inv-grid-fixed {
+    grid-template-columns: repeat(6, 1fr);
+    gap: 4px;
+}
+
+.inv-item-qty {
+    font-family: "Saira", sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+}
+
 @media (max-width: 1200px) { 
     .sidebar-left {
         position: relative;
@@ -498,6 +509,7 @@ button[class*="-tab"]:not(.chatbox-tab):last-of-type {
     }
 
      .sidebar-right {
+        height: auto;
         order: 1
     }
     
@@ -514,6 +526,11 @@ button[class*="-tab"]:not(.chatbox-tab):last-of-type {
     .user-coins, .char-switch-link, .topbar-tourney, .progress-stats-container, .notification-bell-container, .top-link, .user-credits-box, .online-players {
         border-radius: 6px;
     }
+
+    
+    .sidebar-right .inv-section {
+        overflow-y: visible;
+    }
 }
 
 @media (max-width: 768px) {
@@ -522,7 +539,7 @@ button[class*="-tab"]:not(.chatbox-tab):last-of-type {
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: center;
-        margin: 10px 0;
+        margin: 10px 10px;
     }
 
     .topbar-center {
@@ -544,5 +561,9 @@ button[class*="-tab"]:not(.chatbox-tab):last-of-type {
 
     .topbar-center .user-info-wrapper+.stat+.stat {
         width: 100%;
+    }
+
+    .area-tab {
+        min-width: min-content;
     }
 }

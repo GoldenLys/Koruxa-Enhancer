@@ -2,7 +2,7 @@
 // @name          Koruxa Redesign
 // @namespace     Koruxa redesign
 // @author        Nebulys
-// @version       1.02
+// @version       1.03
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    hhttps://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://raw.githubusercontent.com/GoldenLys/Koruxa-Enhancer/master/mod.user.js
@@ -10,8 +10,9 @@
 // @description   Redesign of the game
 // @match         https://koruxa.com/*
 // @icon          https://www.google.com/s2/favicons?domain=https://koruxa.com
+// @license       MIT License
 // @grant         unsafeWindow
-// @run-at        document-idle
+// @run-at        document-start
 // ==/UserScript==
 
 (function () {
@@ -322,6 +323,7 @@
     }
 
     REPLACE_ICONS();
+    loadCSS("https://fonts.googleapis.com/css2?family=Saira:ital,wght@0,100..900;1,100..900&display=swap"); // Add Saira font
     loadCSS("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"); // Font Awesome Free (latest stable)
     loadCSS("https://goldenlys.github.io/Koruxa-Enhancer/css/rpg-awesome.min.css"); // RPG Awesome (custom version with more icons)
     loadCSS("https://goldenlys.github.io/Koruxa-Enhancer/css/style.css"); // Let the magic begin
