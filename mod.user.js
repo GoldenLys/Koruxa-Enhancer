@@ -12,7 +12,7 @@
 // @icon          https://www.google.com/s2/favicons?domain=https://koruxa.com
 // @license       MIT License
 // @grant         unsafeWindow
-// @run-at        document-start
+// @run-at        document-idle
 // ==/UserScript==
 
 (function () {
