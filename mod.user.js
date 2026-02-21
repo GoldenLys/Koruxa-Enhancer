@@ -143,123 +143,9 @@
     }
 
     // Moves some html elements
-    function MOVE_ELEMENTS() {
-        const sessionStat = document.querySelector("#session-stat");
-        const sidebarRight = document.querySelector(".sidebar.sidebar-right");
-        const logo = document.querySelector(".topbar>.topbar-left");
-        const sidebarLeft = document.querySelector(".sidebar.sidebar-left");
+    function CHANGE_TEXT() {
         const logoText = document.querySelector(".logo-text");
-        const userInfo = document.querySelector(".user-info");
-        const topbarCenter = document.querySelector(".topbar-center");
-        const activity = document.querySelector("#topbar-activity");
-
-        if (logo && sidebarLeft && logo.parentNode !== sidebarLeft) {
-            sidebarLeft.appendChild(logo);
-            if (logoText) {
-                logoText.innerHTML = `IDLE RPG UNIVERSE <div class="sublogo-text">EARLY ACCESS</div>`;
-            }
-        }
-
-        if (activity && topbarCenter) {
-            topbarCenter.appendChild(activity);
-        }
-
-        if (userInfo && topbarCenter) {
-
-            if (!userInfo.dataset.wrapped) {
-
-                const wrapper = document.createElement("div");
-                wrapper.className = "user-info-wrapper";
-
-                const img = document.createElement("img");
-                img.className = "user-avatar";
-                img.src = "https://koruxa.com/assets/img/avatars/user_409_1771404903.png"; // example
-                img.alt = "User Avatar";
-
-                userInfo.parentNode.insertBefore(wrapper, userInfo);
-
-                wrapper.appendChild(img);
-                wrapper.appendChild(userInfo);
-
-                userInfo.dataset.wrapped = "1";
-            }
-
-            const wrapper = userInfo.closest(".user-info-wrapper");
-            if (wrapper && wrapper.parentNode !== topbarCenter) {
-                topbarCenter.prepend(wrapper);
-            }
-        }
-
-        if (!sessionStat || !sidebarRight || !logo) return;
-
-        sessionStat.className = "nebs-container";
-
-        if (sessionStat.parentNode !== sidebarRight) {
-            sidebarRight.prepend(sessionStat);
-        }
-
-        const timeSpan = sessionStat.querySelector("span.small");
-        if (timeSpan) {
-            timeSpan.classList.remove("small");
-            timeSpan.classList.add("session-time");
-        }
-
-        let mainBox = sessionStat.querySelector(".session-main");
-        if (!mainBox) {
-            mainBox = document.createElement("div");
-            mainBox.className = "session-main";
-            sessionStat.prepend(mainBox);
-        }
-
-        const label = sessionStat.querySelector("span.label");
-        const xpBar = sessionStat.querySelector(".xp-bar");
-        const cycleBar = sessionStat.querySelector("#cycle-bar-container");
-        const queueBadge = sessionStat.querySelector(".queue-badge");
-
-        if (queueBadge && queueBadge.parentNode !== mainBox) {
-            mainBox.prepend(queueBadge);
-            queueBadge.addEventListener('click', (e) => {
-                e.stopPropagation();
-                MOVE_ELEMENTS();
-            });
-        }
-
-        document.addEventListener("click", (e) => {
-            const chatbox = document.querySelector("#chatbox");
-            if (!chatbox) return;
-            if (chatbox.contains(e.target)) chatbox.classList.add("active");
-            else chatbox.classList.remove("active");
-        });
-
-        if (label && label.parentNode !== mainBox) mainBox.appendChild(label);
-
-        if (xpBar && xpBar.parentNode !== mainBox) mainBox.appendChild(xpBar);
-
-        if (cycleBar && cycleBar.parentNode !== mainBox) mainBox.appendChild(cycleBar);
-
-        const sessionTime = sessionStat.querySelector(".session-time");
-        if (sessionTime && sessionTime.parentNode !== mainBox) mainBox.appendChild(sessionTime);
-
-        const renew = document.querySelector("#session-renew");
-        const stop = document.querySelector("#session-stop");
-
-        if (!renew || !stop) return;
-
-        renew.removeAttribute("style");
-        stop.removeAttribute("style");
-
-        renew.classList.add("session-btn", "session-btn-renew");
-        stop.classList.add("session-btn", "session-btn-stop");
-
-        let btnBox = sessionStat.querySelector(".session-buttons");
-        if (!btnBox) {
-            btnBox = document.createElement("div");
-            btnBox.className = "session-buttons";
-            sessionStat.appendChild(btnBox);
-        }
-
-        if (renew.parentNode !== btnBox) btnBox.appendChild(renew);
-        if (stop.parentNode !== btnBox) btnBox.appendChild(stop);
+        if (logoText) logoText.innerHTML = `IDLE RPG UNIVERSE <div class="sublogo-text">EARLY ACCESS</div>`;
     }
 
     // Updates values and create new html elements
@@ -276,12 +162,6 @@
             }
         }
 
-        // Update user coins display
-        const coinsBox = document.querySelector("#nebs-user-coins");
-        if (coinsBox && window.mapping.coins?.value != null) {
-            coinsBox.innerHTML = `<i class="fa-solid fa-coins"></i> ${window.mapping.coins.value}`;
-        }
-
         EXTRACT_SKILLS(window.mapping);
 
         let text = "Mapped Variables:\n";
@@ -289,7 +169,7 @@
             text += `${key}: ${JSON.stringify(window.mapping[key].value)}\n`;
         }
 
-        MOVE_ELEMENTS();
+        CHANGE_TEXT();
 
         // Debug output (kept disabled)
         const gameArea = document.querySelector(".game-area");
@@ -332,27 +212,5 @@
     loadCSS("https://goldenlys.github.io/Koruxa-Enhancer/css/rpg-awesome.min.css"); // RPG Awesome (custom version with more icons)
     loadCSS("https://goldenlys.github.io/Koruxa-Enhancer/css/style.css"); // Let the magic begin
 
-    setTimeout(() => {
-        const notifications = document.querySelector("#notification-bell");
-        const switch_character = document.querySelector("a[href='character_select.php']");
-        const stats = document.querySelector("#progress-stats");
-        const target = document.querySelector(".topbar-right");
-        let userCoins = document.querySelector("#nebs-user-coins");
-
-        if (!userCoins) {
-            userCoins = document.createElement("div");
-            userCoins.className = "user-coins";
-            userCoins.title = "Coins";
-            const userCoinsText = document.createElement("div");
-            userCoinsText.className = "user-coins-text";
-            userCoinsText.id = "nebs-user-coins";
-            userCoins.appendChild(userCoinsText);
-
-            if (target) target.prepend(userCoins);
-            if (switch_character && target) target.prepend(switch_character);
-            if (notifications && target) target.prepend(notifications);
-            if (stats && target) target.prepend(stats);
-        }
-    }, 500);
     setInterval(UPDATE_DATA, 1000);
 })();
