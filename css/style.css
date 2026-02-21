@@ -13,6 +13,49 @@
     box-shadow: var(--shadow-md);
 }
 
+.sidebar-tabs {
+    border-top: 1px solid var(--border-primary);
+    border-bottom: 1px solid var(--border-primary);
+    margin: 0 -10px 10px;
+    border-radius: 0px;
+    padding: 0px;
+}
+
+.sidebar-tab.active {
+    position: relative;
+    background: transparent;
+    color: transparent;
+    border-bottom: 2px solid #3b82f6;
+    z-index: 1;
+}
+
+.sidebar-tab.active:before {
+    position: absolute;
+    inset: 0;
+    content: '';
+    background: rgb(59 130 246 / 10%);
+    z-index: -1;
+}
+
+.sidebar-tab.active::after {
+    position: absolute;
+    inset: 0;
+    content: attr(data-tab);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(90deg, #3b82f6, #22c55e);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    text-transform: capitalize;
+}
+
+.sidebar-tab {
+    font-size: 14px;
+    border-radius: 0px;
+}
+
 .topbar-left {
     position: fixed;
     bottom: 10px;
@@ -295,19 +338,19 @@ a.top-link[href="logout.php"]:hover {
 
 /* TABS REWORK (linking) */
 
-div[class*="-tabs"]:not(.chatbox-tab) {
+div[class*="-tabs"]:not(.chatbox-tab):not(.sidebar-tab) {
     gap: 0px;
 }
 
-button[class*="-tab"]:not(.chatbox-tab) {
+button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab) {
     border-radius: 0px;
 }
 
-button[class*="-tab"]:not(.chatbox-tab):first-of-type {
+button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):first-of-type {
     border-radius: 5px 0 0 5px;
 }
 
-button[class*="-tab"]:not(.chatbox-tab):last-of-type {
+button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     border-radius: 0 5px 5px 0;
 }
 
