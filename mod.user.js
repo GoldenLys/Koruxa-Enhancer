@@ -2,7 +2,7 @@
 // @name          Koruxa Redesign
 // @namespace     Koruxa redesign
 // @author        Nebulys
-// @version       1.04
+// @version       1.06
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    hhttps://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://raw.githubusercontent.com/GoldenLys/Koruxa-Enhancer/master/mod.user.js
@@ -142,12 +142,6 @@
         });
     }
 
-    // Moves some html elements
-    function CHANGE_TEXT() {
-        const logoText = document.querySelector(".logo-text");
-        if (logoText) logoText.innerHTML = `IDLE RPG UNIVERSE <div class="sublogo-text">EARLY ACCESS</div>`;
-    }
-
     // Updates values and create new html elements
     function UPDATE_DATA() {
         for (const key in window.mapping) {
@@ -168,8 +162,6 @@
         for (const key in window.mapping) {
             text += `${key}: ${JSON.stringify(window.mapping[key].value)}\n`;
         }
-
-        CHANGE_TEXT();
 
         // Debug output (kept disabled)
         const gameArea = document.querySelector(".game-area");
@@ -206,6 +198,15 @@
         }
     }
 
+    // Chatbox auto-use full height on click inside, then returns to normal if clicked outside
+    document.addEventListener("click", (e) => {
+        const chatbox = document.querySelector("#chatbox");
+        if (!chatbox) return;
+        if (chatbox.contains(e.target)) chatbox.classList.add("active");
+        else chatbox.classList.remove("active");
+    });
+
+    // Load miscs CSS and icons
     REPLACE_ICONS();
     loadCSS("https://fonts.googleapis.com/css2?family=Saira:ital,wght@0,100..900;1,100..900&display=swap"); // Add Saira font
     loadCSS("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"); // Font Awesome Free (latest stable)

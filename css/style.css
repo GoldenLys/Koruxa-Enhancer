@@ -1,11 +1,41 @@
-.topbar-right {
-    max-width: 100vw;
+.game-layout {
+    position: relative;
+    display: flex !important;
+    flex-direction: row;
+    min-height: 100vh;
     flex-wrap: wrap;
 }
+
+.topbar {
+    max-height: 4.5em;
+    flex: 1 1 100%;
+}
+
+.sidebar-left {
+    flex: 0 0 calc(260px);
+    max-height: 100%;
+}
+
+.game-area {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 calc(40% - 32px);
+}
+
+.sidebar-right {
+    position: relative;
+    flex: 0 0 calc(382px);
+}
+
+.topbar-right {
+    max-width: 100vw;
+}
+
 
 .user-box {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
 }
 
 .sidebar-tabs {
@@ -51,32 +81,19 @@
     border-radius: 0px;
 }
 
-.logo-text {
+.logo-sub {
     display: flex;
-    flex: 1 1 auto;
     flex-direction: column;
     flex-wrap: wrap;
     align-content: center;
     justify-content: flex-start;
     align-items: center;
     color: rgb(100 116 139);
-    font-size: 0.95em;
-    font-weight: 600;
-}
-
-.sublogo-text {
-    display: flex;
-    flex: 1 1 auto;
-    color: rgb(81, 88, 97);
-    font-size: 0.75em;
+    font-size: 0.85em;
     font-weight: 600;
 }
 
 /* this is for the dynamic chatbox size */
-.game-area {
-    display: flex;
-    flex-direction: column;
-}
 
 .chatbox {
     flex: 0 1 auto;
@@ -90,7 +107,9 @@
 
 .chatbox.active {
     flex: 1 1 auto;
-} /* end of chatbox edit */
+}
+
+/* end of chatbox edit */
 
 
 /* Resize some text sizes for readability */
@@ -113,9 +132,10 @@
     flex: 1 1 auto;
     font-size: 14px;
     text-transform: uppercase;
+    justify-content: center;
 }
 
-/* TABS REWORK (linking) */
+/* GATHERING/ARTISAN SUB-TABS REWORK (linking) */
 
 div[class*="-tabs"]:not(.chatbox-tab):not(.sidebar-tab) {
     gap: 0px;
@@ -132,44 +152,6 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):first-of-type {
 
 button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     border-radius: 0 5px 5px 0;
-}
-
-/* Custom siderbar elements */
-
-.nebs-container {
-    background: linear-gradient(135deg, rgb(36 96 231 / 10%), rgb(15 28 61 / 90%));
-    border: 1px solid rgb(32 125 255 / 15%);
-    border-radius: 10px;
-    padding: 10px 12px;
-    margin-bottom: 12px;
-    margin-right: 0;
-    cursor: pointer;
-    text-shadow: -1px -1px 0 #000,        1px -1px 0 #000,        -1px 1px 0 #000,        1px 1px 0 #000,        0 0 4px rgba(0,0,0,0.8);
-    transition: all 0.2s ease;
-}
-
-.nebs-container>.header {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin-bottom: 6px;
-}
-
-.nebs-container>.content {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 6px;
-    margin-bottom: 12px;
-    padding: 10px;
-    background: rgba(15, 23, 42, 0.7);
-    border-radius: 10px;
-    border: 1px solid rgba(148, 163, 184, 0.2);
-}
-
-.sidebar-custom-bar>.content.full-width {
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    gap: 6px;
 }
 
 #session-stat.nebs-container {
@@ -274,7 +256,7 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
 
 #cycle-bar-fill::after {
     display: none;
-} 
+}
 
 .user-info-wrapper {
     display: flex;
@@ -306,9 +288,13 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
 
 .inv-item {
     padding: 0 0 12px 0px;
+    min-width: 48px;
 }
 
 .inv-slot-empty {
+    aspect-ratio: auto;
+    min-width: 48px;
+    display: flex;
     box-shadow: none;
     border: 1px dashed var(--border-subtle);
 }
@@ -391,9 +377,14 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     align-items: center;
     flex-wrap: wrap;
     flex-direction: row;
+    justify-content: center;
 }
 
-.logo-text,
+.inv-grid {
+    margin: 0 auto;
+}
+
+.logo-sub,
 .user-total-level,
 .category-name {
     color: transparent;
@@ -402,14 +393,23 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     -webkit-background-clip: text;
 }
 
-@media (max-width: 1200px) {
-    .sidebar-left {
-        width: 100%;
+@media (max-width: 768px) {
+    .topbar {
+        max-height: 100%;
+    }
+
+    .user-info {
+        flex: 1 1 100%;
+    }
+
+    .sidebar-left,
+    .sidebar-right {
+        flex: 1 1 100%;
     }
 }
 
-@media (max-width: 768px) {
-    .area-tab {
-        min-width: min-content;
+@media (max-width: 480px) {
+    .topbar-left .logo-text {
+        display: flex;
     }
 }
