@@ -11,7 +11,6 @@
     max-width: 100vw;
 }
 
-
 .user-box {
     flex-wrap: wrap;
     justify-content: center;
@@ -196,7 +195,7 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     background: rgb(175, 48, 48);
 }
 
-.session-main .queue-badge {
+#session-stat .queue-badge {
     display: flex !important;
     border: none;
     border-radius: 6px;
@@ -206,11 +205,12 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     margin: 0 0 5px 0;
 }
 
-.session-main .xp-bar {
+.small.xp-total,
+#session-stat .xp-bar {
     display: none;
 }
 
-.session-main #cycle-counter {
+#session-stat #cycle-counter {
     font-size: 14px;
     text-shadow: inherit;
     color: rgb(255 255 255)
