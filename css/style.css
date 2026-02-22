@@ -1,35 +1,10 @@
-.game-layout {
-    position: relative;
-    display: flex !important;
-    flex-direction: row;
-    min-height: 100vh;
-    flex-wrap: wrap;
-}
-
-.topbar {
-    max-height: 10vh;
-    flex: 1 1 100%;
-}
-
 /* Limit logo size to fix auto height size */
 .topbar-logo-link {
     max-height: 4.5vh;
 }
 
-.sidebar-left {
-    flex: 0 0 calc(260px);
-    max-height: 100%;
-}
-
-.game-area {
-    display: flex;
-    flex-direction: column;
-    flex: 1 1 calc(40% - 32px);
-}
-
 .sidebar-right {
     position: relative;
-    flex: 0 0 calc(382px);
 }
 
 .topbar-right {
@@ -38,7 +13,6 @@
 
 
 .user-box {
-    display: flex;
     flex-wrap: wrap;
     justify-content: center;
 }
@@ -98,24 +72,13 @@
     font-weight: 600;
 }
 
-/* this is for the dynamic chatbox size */
-
 .chatbox {
-    flex: 0 1 auto;
-    margin: auto -12px 0 -12px;
+    margin: 12px -12px 0 -12px;
     border-radius: 0 !important;
     border: none !important;
     border-top: 1px solid var(--border-primary) !important;
-    transform: translateY(0);
-    transition: transform 0.5s ease, flex 0.5s ease;
+    height: 600px !important;
 }
-
-.chatbox.active {
-    flex: 1 1 auto;
-}
-
-/* end of chatbox edit */
-
 
 /* Resize some text sizes for readability */
 .menu-item {
@@ -381,13 +344,17 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     position: relative;
     display: flex;
     align-items: center;
-    flex-wrap: wrap;
     flex-direction: row;
     justify-content: center;
+    flex-wrap: wrap;
 }
 
 .inv-grid {
     margin: 0 auto;
+}
+
+.inv-grid.inv-grid-fixed {
+    grid-template-columns: repeat(48px, 1fr);
 }
 
 .logo-sub,
@@ -417,5 +384,9 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
 @media (max-width: 480px) {
     .topbar-left .logo-text {
         display: flex;
+    }
+
+    .logo-sub {
+        display: none !important;
     }
 }
