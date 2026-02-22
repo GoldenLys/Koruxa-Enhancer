@@ -7,8 +7,13 @@
 }
 
 .topbar {
-    max-height: 6vh;
+    max-height: 10vh;
     flex: 1 1 100%;
+}
+
+/* Limit logo size to fix auto height size */
+.topbar-logo-link {
+    max-height: 4.5vh;
 }
 
 .sidebar-left {
@@ -294,6 +299,7 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
 .inv-slot-empty {
     aspect-ratio: auto;
     min-width: 48px;
+    min-height: 60px;
     display: flex;
     box-shadow: none;
     border: 1px dashed var(--border-subtle);
