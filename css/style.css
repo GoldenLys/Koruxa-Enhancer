@@ -354,7 +354,7 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
 }
 
 .inv-grid.inv-grid-fixed {
-    grid-template-columns: repeat(48px, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(48px, 1fr));
 }
 
 .logo-sub,
