@@ -290,7 +290,7 @@
         else chatbox.classList.remove("active");
     });
 
-    // Auto-update current skill
+    // Auto-update current skill on php update
     SET_CURRENT_SKILL_CLASS();
     const observer = new MutationObserver(() => SET_CURRENT_SKILL_CLASS());
     observer.observe(document.body, { childList: true, subtree: true });
