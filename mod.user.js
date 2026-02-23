@@ -2,7 +2,7 @@
 // @name          Koruxa Redesign
 // @namespace     Koruxa redesign
 // @author        Nebulys
-// @version       1.07
+// @version       1.08
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    hhttps://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://raw.githubusercontent.com/GoldenLys/Koruxa-Enhancer/master/mod.user.js
@@ -74,7 +74,8 @@
             icon: "fa-solid fa-message",
             text: ""
         },
-        // Skills
+
+        // Gathering Skills
 
         "a[href='game.php?skill=woodcutting'] .skill-icon": { // Woodcutting
             icon: "ra ra-wood-pile",
@@ -97,14 +98,16 @@
         },
 
         "a[href='game.php?skill=thieving'] .skill-icon": { // Thieving
-            icon: "ra ra-robber-mask", // or: ra-hand
+            icon: "ra ra-hand",
             text: ""
         },
 
         "a[href='game.php?skill=arcana'] .skill-icon": { // Arcana
-            icon: "ra ra-orb-wand",
+            icon: "ra ra-spell-book",
             text: ""
         },
+
+        // Artisan skills
 
         "a[href='game.php?skill=cooking'] .skill-icon": { // Cooking
             icon: "ra ra-meat",
@@ -133,6 +136,55 @@
 
         "a[href='game.php?skill=firemaking'] .skill-icon": { // Firemaking
             icon: "fa-solid fa-fire",
+            text: ""
+        },
+
+        // Combat skills
+
+        "a[href='game.php?skill=slayer'] .skill-icon": { // Slayer
+            icon: "ra ra-skull",
+            text: ""
+        },
+
+        "a[href='game.php?skill=attack'] .skill-icon": { // Attack
+            icon: "ra ra-sword",
+            text: ""
+        },
+
+        "a[href='game.php?skill=strength'] .skill-icon": { // Strength
+            icon: "fa-solid fa-dumbbell",
+            text: ""
+        },
+
+        "a[href='game.php?skill=defence'] .skill-icon": { // Defence
+            icon: "fa-solid fa-shield",
+            text: ""
+        },
+
+        "a[href='game.php?skill=hitpoints'] .skill-icon": { // Hitpoints
+            icon: "fa-solid fa-heart",
+            text: ""
+        },
+
+        "a[href='game.php?skill=magic'] .skill-icon": { // Magic
+            icon: "fa-solid fa-magic",
+            text: ""
+        },
+
+        // Skill categories
+
+        ".skill-category[data-category='gathering'] .skill-category-header .category-icon": { // Gathering
+            icon: "ra ra-dig-dug",
+            text: ""
+        },
+
+        ".skill-category[data-category='artisan'] .skill-category-header .category-icon": { // Artisan
+            icon: "ra ra-gear-hammer",
+            text: ""
+        },
+
+        ".skill-category[data-category='combat'] .skill-category-header .category-icon": { // Combat
+            icon: "ra ra-knight-helmet",
             text: ""
         },
 
@@ -280,6 +332,20 @@
             el.innerHTML = iconHTML + textHTML;
             el.dataset.iconified = "1";
         }
+    }
+
+    // Detect if the left-sidebar is hovered, if yes then it adds an hover class to the game layout
+    const sidebarLeft = document.querySelector('.sidebar-left');
+    const gameLayout = document.querySelector('.game-layout');
+
+    if (sidebarLeft && gameLayout) {
+        sidebarLeft.addEventListener('mouseenter', () => {
+            gameLayout.classList.add('lside-hover');
+        });
+
+        sidebarLeft.addEventListener('mouseleave', () => {
+            gameLayout.classList.remove('lside-hover');
+        });
     }
 
     // Chatbox auto-use full height on click inside, then returns to normal if clicked outside

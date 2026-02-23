@@ -1,7 +1,3 @@
-.game-layout {
-    grid-template-columns: 300px minmax(0, 1fr) 340px !important;
-}
-
 /* Limit logo size to fix auto height size */
 .topbar-logo-link {
     max-height: 4.5vh;
@@ -442,4 +438,78 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     color: rgb(190 219 255);
     background: rgb(28 57 142 / 40%);
     border-color: rgb(43 127 255 / 30%);
+}
+
+.skill-category .skill-category-header {
+    gap: 0px;
+    transition: all 0.5s ease;
+}
+
+.game-layout.lside-hover .skill-category .skill-category-header {
+    gap: 8px;
+}
+
+.skill-category .skill-category-header .category-icon {
+    text-align: center;
+    font-size: 30px;
+    flex: 1 1 100%;
+    transition: all 0.5s ease;
+}
+
+.game-layout.lside-hover .skill-category .skill-category-header .category-icon {
+    font-size: 14px;
+    flex: 0 0 auto;
+}
+
+.game-layout .skill-category-header .category-name,
+.game-layout .menu-item .skill-name {
+    font-size: 0;
+    line-height: 0;
+    margin-right: 0;
+    transition: all 0.5s ease;
+}
+
+.game-layout.lside-hover .skill-category-header .category-name {
+    font-size: 12px;
+    line-height: normal;
+    text-align: center;
+}
+.game-layout.lside-hover .menu-item .skill-name {
+    font-size: 14px;
+    line-height: normal;
+    margin-right: 5px;
+}
+
+.game-layout {
+    transition: all 0.5s ease;
+    grid-template-columns: 160px minmax(0, 1fr) 340px !important;
+}
+
+.game-layout.lside-hover {
+    grid-template-columns: 300px minmax(0, 1fr) 340px !important;
+}
+
+.game-layout .sidebar-left {
+    transition: all 0.5s ease;
+    width: 160px;
+    min-width: 160px;
+}
+
+.game-layout.lside-hover .sidebar-left {
+    width: 300px;
+    min-width: 300px;
+}
+
+.game-layout:not(.lside-hover) .sidebar-left {
+    transition: all 0.5s ease;
+}
+
+.game-layout:not(.lside-hover) .sidebar-left .sidebar-footer {
+    flex-direction: column;
+}
+
+.category-toggle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
