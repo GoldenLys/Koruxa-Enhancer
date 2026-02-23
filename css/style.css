@@ -340,11 +340,7 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
 
 .user-info {
     position: relative;
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    justify-content: center;
-    flex-wrap: wrap;
+    display: block;
 }
 
 .inv-grid {
