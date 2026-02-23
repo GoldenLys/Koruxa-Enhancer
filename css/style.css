@@ -1,6 +1,15 @@
+.game-layout {
+    grid-template-columns: 300px minmax(0, 1fr) 340px !important;
+}
+
 /* Limit logo size to fix auto height size */
 .topbar-logo-link {
     max-height: 4.5vh;
+}
+
+.sidebar-left {
+    min-width: 300px;
+    width: 300px;
 }
 
 .sidebar-right {
@@ -60,14 +69,7 @@
 }
 
 .logo-sub {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    align-content: center;
-    justify-content: flex-start;
-    align-items: center;
     color: rgb(100 116 139);
-    font-size: 0.85em;
     font-weight: 600;
 }
 
@@ -372,4 +374,72 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     .logo-sub {
         display: none !important;
     }
+}
+
+.skill-category[data-category="gathering"] .skill-category-list,
+.skill-category[data-category="artisan"] .skill-category-list,
+.skill-category[data-category="combat"] .skill-category-list {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0;
+    margin: 2px 0 0 0;
+    border-left: none;
+}
+
+.skill-category[data-category="gathering"] .menu-item,
+.skill-category[data-category="artisan"] .menu-item,
+.skill-category[data-category="combat"] .menu-item {
+    flex: 1 1 50%;
+}
+
+.skill-category[data-category="gathering"] .menu-item>.skill-link,
+.skill-category[data-category="artisan"] .menu-item>.skill-link,
+.skill-category[data-category="combat"] .menu-item>.skill-link {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 6px 0px;
+    justify-content: center;
+}
+
+.skill-category[data-category="gathering"] .skill-name,
+.skill-category[data-category="artisan"] .skill-name,
+.skill-category[data-category="combat"] .skill-name {
+    text-align: center;
+    margin-right: 5px;
+    flex: initial;
+    order: 1;
+}
+
+
+.skill-category[data-category="gathering"] .skill-level,
+.skill-category[data-category="artisan"] .skill-level,
+.skill-category[data-category="combat"] .skill-level {
+    order: 2;
+}
+
+.sidebar-left .skill-icon {
+    flex: 1 1 100%;
+    font-size: 22px;
+    width: 30px;
+    height: 30px;
+    order: 0;
+}
+
+.menu-item {
+    border: 2px solid transparent;
+    color: rgb(153 161 175);
+    background: transparent;
+}
+
+.menu-item:hover {
+    color: white;
+    background: rgb(24 39 60 / 50%);
+    border-color: rgb(69 93 126 / 50%);
+}
+
+.menu-item.active {
+    color: rgb(190 219 255);
+    background: rgb(28 57 142 / 40%);
+    border-color: rgb(43 127 255 / 30%);
 }

@@ -2,7 +2,7 @@
 // @name          Koruxa Redesign
 // @namespace     Koruxa redesign
 // @author        Nebulys
-// @version       1.06
+// @version       1.07
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    hhttps://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://raw.githubusercontent.com/GoldenLys/Koruxa-Enhancer/master/mod.user.js
@@ -74,6 +74,68 @@
             icon: "fa-solid fa-message",
             text: ""
         },
+        // Skills
+
+        "a[href='game.php?skill=woodcutting'] .skill-icon": { // Woodcutting
+            icon: "ra ra-wood-pile",
+            text: ""
+        },
+
+        "a[href='game.php?skill=mining'] .skill-icon": { // Mining
+            icon: "ra ra-stone-pile",
+            text: ""
+        },
+
+        "a[href='game.php?skill=fishing'] .skill-icon": { // Fishing
+            icon: "ra ra-fish",
+            text: ""
+        },
+
+        "a[href='game.php?skill=farming'] .skill-icon": { // Farming
+            icon: "fa-solid fa-seedling",
+            text: ""
+        },
+
+        "a[href='game.php?skill=thieving'] .skill-icon": { // Thieving
+            icon: "ra ra-robber-mask", // or: ra-hand
+            text: ""
+        },
+
+        "a[href='game.php?skill=arcana'] .skill-icon": { // Arcana
+            icon: "ra ra-orb-wand",
+            text: ""
+        },
+
+        "a[href='game.php?skill=cooking'] .skill-icon": { // Cooking
+            icon: "ra ra-meat",
+            text: ""
+        },
+
+        "a[href='game.php?skill=fletching'] .skill-icon": { // Fletching
+            icon: "ra ra-arrowhead",
+            text: ""
+        },
+
+        "a[href='game.php?skill=crafting'] .skill-icon": { // Crafting
+            icon: "ra ra-hammer",
+            text: ""
+        },
+
+        "a[href='game.php?skill=herblore'] .skill-icon": { // Herblore
+            icon: "ra ra-corked-tube",
+            text: ""
+        },
+
+        "a[href='game.php?skill=smithing'] .skill-icon": { // Smithing
+            icon: "ra ra-flat-hammer",
+            text: ""
+        },
+
+        "a[href='game.php?skill=firemaking'] .skill-icon": { // Firemaking
+            icon: "fa-solid fa-fire",
+            text: ""
+        },
+
     };
 
     // Output element (for debugging)
@@ -173,6 +235,28 @@
         }
     }
 
+    function SET_CURRENT_SKILL_CLASS() {
+        const url = window.location.href;
+
+        // Extract ?skill=whatever
+        const match = url.match(/skill=([^&]+)/);
+        if (!match) return;
+
+        const skill = match[1].trim().toLowerCase();
+        const gameArea = document.querySelector(".game-area");
+        if (!gameArea) return;
+
+        // Remove any existing skill class (anything after "game-area")
+        gameArea.classList.forEach(cls => {
+            if (cls !== "game-area") {
+                gameArea.classList.remove(cls);
+            }
+        });
+
+        // Add the new skill class
+        gameArea.classList.add(skill);
+    }
+
     function loadCSS(url) {
         if (document.querySelector(`link[href="${url}"]`)) return;
 
@@ -205,6 +289,11 @@
         if (chatbox.contains(e.target)) chatbox.classList.add("active");
         else chatbox.classList.remove("active");
     });
+
+    // Auto-update current skill
+    SET_CURRENT_SKILL_CLASS();
+    const observer = new MutationObserver(() => SET_CURRENT_SKILL_CLASS());
+    observer.observe(document.body, { childList: true, subtree: true });
 
     // Load miscs CSS and icons
     REPLACE_ICONS();
