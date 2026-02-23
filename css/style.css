@@ -227,10 +227,8 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
 }
 
 .user-info-wrapper {
-    display: flex;
-    flex: 1 1 auto;
+    display: block;
     padding: 10px;
-    gap: 10px;
 }
 
 .user-avatar {
