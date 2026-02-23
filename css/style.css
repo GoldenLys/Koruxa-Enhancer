@@ -237,17 +237,6 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     border-radius: 50%;
 }
 
-.queue-dropdown {
-    position: initial;
-    transform: initial;
-    background: transparent;
-    border: 1px solid rgb(32 125 255 / 15%);
-    border-left: none;
-    border-right: none;
-    border-radius: 0px;
-    box-shadow: none;
-}
-
 .skill-name {
     overflow: visible;
 }
