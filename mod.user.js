@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       1.13
+// @version       1.14
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    hhttps://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://raw.githubusercontent.com/GoldenLys/Koruxa-Enhancer/master/mod.user.js
@@ -356,6 +356,7 @@ unsafeWindow.mapping = { // Mappings of game data
     const cleanName = str => str.replace(/[^\w\s]/g, "").trim(); // Remove emojis + trim
     const cleanValue = str => Number(str.replace(/[^\d.-]/g, "")); // Convert "+15%" → 15
 
+    // Generates a globals for each farm stats
     function LOAD_FARM_STATS() {
         const FARMS = [
             'woodcutting', 'mining', 'fishing', 'farming', 'cooking', 'thieving',
@@ -387,6 +388,7 @@ unsafeWindow.mapping = { // Mappings of game data
         unsafeWindow.KORUXA_FARMS = result;
     }
 
+    // Generates a globals for each tool stats
     function LOAD_TOOL_STATS() {
         const TOOL_SKILLS = [
             'woodcutting', 'mining', 'fishing',
@@ -440,37 +442,35 @@ unsafeWindow.mapping = { // Mappings of game data
         unsafeWindow.KORUXA_TOOLS = result;
     }
 
+    // Displays a helper for the current skill or the skill in the current session
     function ENHANCED_HELPER() {
         const skill = unsafeWindow.KORUXA_GLOBALS["current-skill"]?.toLowerCase();
         if (!skill) return;
-
         const data = CALC_SKILL_LEVEL_UP(skill);
         if (!data) return;
-
+        const level = unsafeWindow.KORUXA_STATS[skill].level;
         const phrase =
             `Level up ${data.skill} with <b>${data.required}</b> XP<br>` +
             `Do <b>${data.action} x${data.loops}</b> (<b>${data.time}</b>)`;
+        let el = document.querySelector("#enhanced-helper");
 
-        const el = document.querySelector("#enhanced-helper");
         if (el) {
             el.querySelector(".enhanced-helper-item").innerHTML = phrase;
-            el.querySelector(".enhanced-helper-subtitle").textContent = `${data.skill} ${unsafeWindow.KORUXA_STATS[skill].level}`;
+            el.querySelector(".enhanced-helper-subtitle").textContent = `${data.skill} ${level}`;
             return;
         }
 
-        const wrapper = document.createElement("div");
-        wrapper.className = "enhanced-helper";
-        wrapper.id = "enhanced-helper";
-
-        wrapper.innerHTML = `
+        el = document.createElement("div");
+        el.id = "enhanced-helper";
+        el.className = "enhanced-helper";
+        el.innerHTML = `
         <div class="enhanced-helper-title">
             <i class="ra ra-crown-coin"></i> Koruxa Helper
-            <span class="enhanced-helper-subtitle">${data.skill} ${unsafeWindow.KORUXA_STATS[skill].level}</span>
+            <span class="enhanced-helper-subtitle">${data.skill} ${level}</span>
         </div>
-
         <div class="enhanced-helper-item">${phrase}</div>`;
 
-        document.querySelector(".sidebar-right")?.prepend(wrapper);
+        document.querySelector(".sidebar-right")?.prepend(el);
     }
 
     function GET_LAST_UNLOCK_SKILL(skill) {
@@ -527,14 +527,14 @@ unsafeWindow.mapping = { // Mappings of game data
             if (!data) return null;
         }
 
-        // --- Bonuses ---
+        // Calculate Bonuses
         const tool = KORUXA_TOOLS?.[skill] || { speed: 0, xp: 0 };
         const farm = KORUXA_FARMS?.[skill] || { speed: 0, xp: 0 };
 
         const speedBonus = (tool.speed + farm.speed) / 100;
         const xpBonus = (tool.xp + farm.xp) / 100;
 
-        // --- Loop stats ---
+        // Calculate Level up time + Experience
         const xpPerLoop = (data.xp || 0) * (1 + xpBonus);
         const timePerLoop = (data.duration_ms || 0) / (1 + speedBonus);
 
@@ -563,7 +563,7 @@ unsafeWindow.mapping = { // Mappings of game data
         });
     }
 
-    document.querySelector('#sidebar-hp-bar').after(document.querySelector('#food-bar'));
+    if (document.querySelector('#food-bar')) document.querySelector('#sidebar-hp-bar').after(document.querySelector('#food-bar'));
 
     // Auto-update current skill name on server update
 
