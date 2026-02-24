@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       1.1
+// @version       1.11
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    hhttps://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://raw.githubusercontent.com/GoldenLys/Koruxa-Enhancer/master/mod.user.js
@@ -524,6 +524,8 @@ unsafeWindow.mapping = { // Mappings of game data
             gameLayout.classList.remove('lside-hover');
         });
     }
+
+    document.querySelector('#sidebar-hp-bar').after(document.querySelector('#food-bar'));
 
     // Auto-update current skill name on server update
 
