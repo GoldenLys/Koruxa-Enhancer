@@ -546,6 +546,10 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     line-height: normal;
 }
 
+.combat-dashboard {
+    display: none;
+}
+
 @media (max-width: 768px) {
     .topbar {
         max-height: 100%;
