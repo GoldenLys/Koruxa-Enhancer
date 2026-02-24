@@ -1,8 +1,8 @@
 /// ==UserScript==
-// @name          Koruxa Redesign
-// @namespace     Koruxa redesign
+// @name          Koruxa Enhanced
+// @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       1.08
+// @version       1.1
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    hhttps://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://raw.githubusercontent.com/GoldenLys/Koruxa-Enhancer/master/mod.user.js
@@ -15,25 +15,43 @@
 // @run-at        document-idle
 // ==/UserScript==
 
+// Additional global variables for easier access, mostly based on HTML elements
+unsafeWindow.KORUXA_GLOBALS = {};
+unsafeWindow.KORUXA_STATS = {};
+unsafeWindow.KORUXA_TOOLS = {};
+unsafeWindow.KORUXA_FARMS = {};
+
+unsafeWindow.mapping = { // Mappings of game data
+    coins: { selector: "#stat-coins", value: "0" },
+    username: { selector: ".topbar a.user-name", value: "" },
+    "total-level": { selector: ".user-total-level", value: "0" },
+    "total-xp": { selector: ".user-total-level .total-level-tooltip", value: "0" },
+    credits: { selector: ".user-credits-box .credits-amount", value: "0" },
+    sealpoints: { selector: ".user-credits-box .seal-points-amount", value: "0" },
+    "online-players": { selector: ".online-count", value: "0" },
+    "current-skill": { selector: ".topbar #session-skill-name", value: "" },
+    "current-item": { selector: ".topbar #session-tree-name", value: "" },
+    "current-hp": { selector: "#sidebar-hp-current", value: "0" },
+    "max-hp": { selector: "#sidebar-hp-max", value: "0" },
+    "session-time-left": { selector: "#session-remaining", value: "" },
+    cycle: { selector: "#cycle-counter", value: { current: "0", total: "0" } },
+    "session-xp-rate": { selector: "#progress-xp-rate", value: "0" },
+};
+
 (function () {
     'use strict';
 
-    // Mappings for EXTRACT_DATA()
-    window.mapping = {
-        coins: { selector: "#stat-coins", value: "0" },
-        username: { selector: ".topbar a.user-name", value: "" },
-        "total-level": { selector: ".user-total-level", value: "0" },
-        "total-xp": { selector: ".user-total-level .total-level-tooltip", value: "0" },
-        credits: { selector: ".user-credits-box .credits-amount", value: "0" },
-        sealpoints: { selector: ".user-credits-box .seal-points-amount", value: "0" },
-        "online-players": { selector: ".online-count", value: "0" },
-        "current-skill": { selector: ".topbar #session-skill-name", value: "" },
-        "current-item": { selector: ".topbar #session-tree-name", value: "" },
-        "current-hp": { selector: "#sidebar-hp-current", value: "0" },
-        "max-hp": { selector: "#sidebar-hp-max", value: "0" },
-        "session-time-left": { selector: "#session-remaining", value: "" },
-        cycle: { selector: "#cycle-counter", value: { current: "0", total: "0" } },
-        "session-xp-rate": { selector: "#progress-xp-rate", value: "0" },
+    const KORUXA_CONFIGS = {
+        woodcutting: KORUXA_WOODCUT_CONFIG,
+        mining: KORUXA_MINING_CONFIG,
+        fishing: KORUXA_FISHING_CONFIG,
+        cooking: KORUXA_COOKING_CONFIG,
+        fletching: KORUXA_FLETCHING_CONFIG,
+        crafting: KORUXA_CRAFTING_CONFIG,
+        herblore: KORUXA_HERBLORE_CONFIG,
+        smithing: KORUXA_SMITHING_CONFIG,
+        firemaking: KORUXA_FIREMAKING_CONFIG,
+        arcana: KORUXA_ARCANA_CONFIG
     };
 
     // Mappings for REPLACE_ICONS()
@@ -190,17 +208,6 @@
 
     };
 
-    // Output element (for debugging)
-    const output = document.createElement("div");
-    Object.assign(output.style, {
-        padding: "10px",
-        marginTop: "10px",
-        background: "rgba(0,0,0,0.25)",
-        color: "#fff",
-        fontFamily: "monospace",
-        whiteSpace: "pre",
-    });
-
     // Extracts data from the given selector (for use in new elements)
     function EXTRACT_DATA(selector) {
         const el = document.querySelector(selector);
@@ -232,8 +239,11 @@
     // Extracts all skills data
     function EXTRACT_SKILLS() {
         document.querySelectorAll(".skill-tooltip").forEach(tip => {
-            const name = tip.querySelector(".skill-tooltip-title")
-                ?.textContent.trim().toLowerCase().replace(/\s+/g, "");
+
+            const titleEl = tip.querySelector(".skill-tooltip-title");
+            if (!titleEl) return;
+
+            const name = titleEl.textContent.trim().toLowerCase().replace(/\s+/g, "");
             if (!name) return;
 
             const level = tip.querySelector(".skill-tooltip-level")
@@ -242,55 +252,46 @@
             const xpText = tip.querySelector(".skill-tooltip-xp")?.textContent || "";
             const xpMatch = xpText.match(/([\d.]+)\s*\/\s*([\d.]+)/);
 
-            const currentXP = xpMatch?.[1] || "(no xp)";
-            const levelUpXP = xpMatch?.[2] || "(no xp)";
+            const currentXP = xpMatch ? xpMatch[1].replace(/\./g, "") : "(no xp)";
+            const levelUpXP = xpMatch ? xpMatch[2].replace(/\./g, "") : "(no xp)";
 
-            const totalXP = tip.querySelector(".skill-tooltip-total")
+            const totalXPraw = tip.querySelector(".skill-tooltip-total")
                 ?.textContent.match(/[\d.]+/)?.[0] || "(no total xp)";
+            const totalXP = totalXPraw.replace(/\./g, "");
 
-            // Always produce mapping‑compatible entries
-            window.mapping[`${name}-level`] = { selector: null, value: level };
-            window.mapping[`${name}-currentxp`] = { selector: null, value: currentXP };
-            window.mapping[`${name}-levelupxp`] = { selector: null, value: levelUpXP };
-            window.mapping[`${name}-totalxp`] = { selector: null, value: totalXP };
+            unsafeWindow.KORUXA_STATS[name] = {
+                level,
+                xp_current: currentXP,
+                xp_needed: levelUpXP,
+                xp_total: totalXP
+            };
         });
     }
 
     // Updates values and create new html elements
     function UPDATE_DATA() {
-        for (const key in window.mapping) {
-            const entry = window.mapping[key];      // { selector, value }
+        for (const key in unsafeWindow.mapping) {
+            const entry = unsafeWindow.mapping[key]; // { selector, value }
             const result = EXTRACT_DATA(entry.selector);
+            unsafeWindow.KORUXA_GLOBALS[key] = entry.value;
 
             // Special case: cycle
             if (key === "cycle" && typeof result === "object") {
-                entry.value = result;               // { current, total }
+                entry.value = result;                // { current, total }
             } else {
-                entry.value = result;               // normal case
+                entry.value = result;                // normal case
             }
         }
-
-        EXTRACT_SKILLS(window.mapping);
-
-        let text = "Mapped Variables:\n";
-        for (const key in window.mapping) {
-            text += `${key}: ${JSON.stringify(window.mapping[key].value)}\n`;
-        }
-
-        // Debug output (kept disabled)
-        const gameArea = document.querySelector(".game-area");
-        if (gameArea && !document.getElementById("tm-selector-mapper-output")) {
-            // const output = document.createElement("pre");
-            // output.id = "tm-selector-mapper-output";
-            // output.textContent = text;
-            // gameArea.appendChild(output);
-        }
+        EXTRACT_SKILLS(unsafeWindow.mapping);
+        SET_CURRENT_SKILL_CLASS();
+        LOAD_TOOL_STATS();
+        LOAD_FARM_STATS();
+        if (KORUXA_GLOBALS["current-skill"] !== "Doing") ENHANCED_HELPER();
+        //console.table(unsafeWindow.mapping); // Debug output
     }
 
     function SET_CURRENT_SKILL_CLASS() {
         const url = window.location.href;
-
-        // Extract ?skill=whatever
         const match = url.match(/skill=([^&]+)/);
         if (!match) return;
 
@@ -298,15 +299,13 @@
         const gameArea = document.querySelector(".game-area");
         if (!gameArea) return;
 
-        // Remove any existing skill class (anything after "game-area")
         gameArea.classList.forEach(cls => {
             if (cls !== "game-area") {
                 gameArea.classList.remove(cls);
             }
         });
-
-        // Add the new skill class
         gameArea.classList.add(skill);
+        unsafeWindow.KORUXA_GLOBALS["current-skill"] = skill;
     }
 
     function loadCSS(url) {
@@ -316,6 +315,21 @@
         link.rel = "stylesheet";
         link.href = url;
         document.head.appendChild(link);
+    }
+
+    function toHHMMSS(sec) {
+        sec = parseInt(sec, 10);
+
+        const hours = Math.floor(sec / 3600);
+        const minutes = Math.floor((sec % 3600) / 60);
+        const seconds = sec % 60;
+        const parts = [];
+
+        if (hours > 0) parts.push(hours + "h");
+        if (minutes > 0) parts.push(minutes + "m");
+        if (seconds > 0 || parts.length === 0) parts.push(seconds + "s");
+
+        return parts.join(" ");
     }
 
     function REPLACE_ICONS() {
@@ -334,6 +348,169 @@
         }
     }
 
+    const cleanName = str => str.replace(/[^\w\s]/g, "").trim(); // Remove emojis + trim
+    const cleanValue = str => Number(str.replace(/[^\d.-]/g, "")); // Convert "+15%" → 15
+
+    function LOAD_FARM_STATS() {
+        const FARMS = [
+            'woodcutting', 'mining', 'fishing', 'farming', 'cooking', 'thieving',
+            'fletching', 'crafting', 'herblore', 'smithing', 'firemaking', 'arcana'
+        ];
+        const result = Object.create(null);
+        const SPEED = [0, 2, 4, 6, 8, 10, 12, 14, 16];
+        const XP = [0, 1, 2, 4, 6, 8, 10, 15, 20];
+
+        FARMS.forEach(farm => {
+            const el = document.querySelector(`.farm-card[data-skill="${farm}"] .farm-level`);
+            if (!el) return;
+
+            let lvl = 0;
+            const txt = el.textContent.trim().toLowerCase();
+
+            if (txt !== "not built") {
+                const m = txt.match(/\d+/);
+                if (m) lvl = Number(m[0]);
+            }
+
+            result[farm] = {
+                level: lvl,
+                speed: SPEED[lvl] || 0,
+                xp: XP[lvl] || 0
+            };
+        });
+
+        unsafeWindow.KORUXA_FARMS = result;
+    }
+
+    function LOAD_TOOL_STATS() {
+        const TOOL_SKILLS = [
+            'woodcutting', 'mining', 'fishing',
+            'farming', 'cooking', 'thieving',
+            'fletching', 'crafting', 'herblore',
+            'smithing', 'firemaking', 'arcana',
+            'slayer'
+        ];
+
+        const TOOL_STAT_FORMAT = {
+            "XP Gain": "xp",
+            "Speed": "speed",
+            /*"Attack": "attack",
+            "Defence": "defence",
+            "Strength": "strength",
+            "Hitpoints": "hitpoints",
+            "Ranged": "ranged",
+            "Crit": "crit",
+            "Magic": "magic", WIP */
+        }
+
+        const result = Object.create(null);
+
+        TOOL_SKILLS.forEach(skill => {
+            const root = document.querySelector(
+                `.equipment-slot[data-slot="tool_${skill}"]`
+            );
+
+            if (!root) {
+                result[skill] = {};
+                return;
+            }
+
+            const stats = Object.create(null);
+
+            root.querySelectorAll(".tooltip-stat").forEach(stat => {
+                const nameRaw = stat.children[0]?.textContent || "";
+                const valueRaw = stat.querySelector(".tooltip-stat-value")?.textContent || "";
+
+                let name = cleanName(nameRaw);
+                let value = cleanValue(valueRaw);
+
+                if (TOOL_STAT_FORMAT[name]) name = TOOL_STAT_FORMAT[name];
+
+                stats[name] = value;
+            });
+
+            result[skill] = stats;
+        });
+
+        unsafeWindow.KORUXA_TOOLS = result;
+    }
+
+    function ENHANCED_HELPER() {
+        const skill = unsafeWindow.KORUXA_GLOBALS["current-skill"]?.toLowerCase();
+        if (!skill) return;
+
+        const data = CALC_SKILL_LEVEL_UP(skill);
+        if (!data) return;
+
+        const phrase =
+            `Level up ${data.skill} with <b>${data.required}</b> XP<br>` +
+            `Do <b>${data.action} x${data.loops}</b> (<b>${data.time}</b>)`;
+
+        const el = document.querySelector("#enhanced-helper");
+        if (el) {
+            el.querySelector(".enhanced-helper-item").innerHTML = phrase;
+            el.querySelector(".enhanced-helper-subtitle").textContent = `${data.skill} ${unsafeWindow.KORUXA_STATS[skill].level}`;
+            return;
+        }
+
+        const wrapper = document.createElement("div");
+        wrapper.className = "enhanced-helper";
+        wrapper.id = "enhanced-helper";
+
+        wrapper.innerHTML = `
+        <div class="enhanced-helper-title">
+            <i class="ra ra-crown-coin"></i> Koruxa Helper
+            <span class="enhanced-helper-subtitle">${data.skill} ${unsafeWindow.KORUXA_STATS[skill].level}</span>
+        </div>
+
+        <div class="enhanced-helper-item">${phrase}</div>`;
+
+        document.querySelector(".sidebar-right")?.prepend(wrapper);
+    }
+
+    function GET_LAST_UNLOCK_SKILL(skill) {
+        const data = KORUXA_CONFIGS[skill];
+        if (!data) return null;
+
+        const lvl = KORUXA_STATS?.[skill]?.level ?? 0;
+        let bestKey = null;
+        let bestReq = -1;
+
+        for (const key in data) {
+            const req = data[key].min_level || 0;
+            if (req <= lvl && req > bestReq) {
+                bestKey = key;
+                bestReq = req;
+            }
+        }
+
+        return bestKey;
+    }
+
+    function CALC_SKILL_LEVEL_UP(skill) {
+        const action = GET_LAST_UNLOCK_SKILL(skill);
+        if (!action) return null;
+
+        const data = KORUXA_CONFIGS[skill][action];
+        const tool = KORUXA_TOOLS?.[skill] || { speed: 0, xp: 0 };
+        const farm = KORUXA_FARMS?.[skill] || { speed: 0, xp: 0 };
+        const speedBonus = (tool.speed + farm.speed) / 100;
+        const xpBonus = (tool.xp + farm.xp) / 100;
+        const xpPerLoop = (data.xp || 0) * (1 + xpBonus);
+        const timePerLoop = (data.duration_ms || 0) / (1 + speedBonus);
+        const stats = KORUXA_STATS[skill];
+        const xpLeft = Number(stats.xp_needed) - Number(stats.xp_current);
+
+        if (xpLeft <= 0 || xpPerLoop <= 0)
+            return { skill, action, loops: 0, time: "0s" };
+
+        const loops = Math.ceil(xpLeft / xpPerLoop);
+        const time = toHHMMSS((loops * timePerLoop) / 1000);
+        const required = Math.round(xpPerLoop * loops);
+
+        return { skill, required, action, loops, time };
+    }
+
     // Detect if the left-sidebar is hovered, if yes then it adds an hover class to the game layout
     const sidebarLeft = document.querySelector('.sidebar-left');
     const gameLayout = document.querySelector('.game-layout');
@@ -348,16 +525,8 @@
         });
     }
 
-    // Chatbox auto-use full height on click inside, then returns to normal if clicked outside
-    document.addEventListener("click", (e) => {
-        const chatbox = document.querySelector("#chatbox");
-        if (!chatbox) return;
-        if (chatbox.contains(e.target)) chatbox.classList.add("active");
-        else chatbox.classList.remove("active");
-    });
+    // Auto-update current skill name on server update
 
-    // Auto-update current skill on php update
-    SET_CURRENT_SKILL_CLASS();
     const observer = new MutationObserver(() => SET_CURRENT_SKILL_CLASS());
     observer.observe(document.body, { childList: true, subtree: true });
 
@@ -368,5 +537,6 @@
     loadCSS("https://goldenlys.github.io/Koruxa-Enhancer/css/rpg-awesome.min.css"); // RPG Awesome (custom version with more icons)
     loadCSS("https://goldenlys.github.io/Koruxa-Enhancer/css/style.css"); // Let the magic begin
 
+    // console.table(unsafeWindow.mapping); // Debug output
     setInterval(UPDATE_DATA, 1000);
 })();

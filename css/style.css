@@ -239,17 +239,20 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     overflow: visible;
 }
 
+.inv-slot-empty,
 .inv-item {
+    display: flex;
+    flex: 0 0 auto;
+    width: calc(20% - 6px);
     padding: 0 0 12px 0px;
     min-width: 48px;
+    min-height: 60px;
+    aspect-ratio: unset;
+    box-shadow: none;
+    box-sizing: content-box;
 }
 
 .inv-slot-empty {
-    aspect-ratio: auto;
-    min-width: 48px;
-    min-height: 60px;
-    display: flex;
-    box-shadow: none;
     border: 1px dashed var(--border-subtle);
 }
 
@@ -320,9 +323,9 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
 }
 
 .sidebar-footer {
-    border-top: 1px solid var(--border-primary);
-    margin: 0 -10px;
-    background: transparent;
+    background: linear-gradient(135deg, rgb(17 36 61), rgb(14 36 46));
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    border-radius: 8px;
 }
 
 .user-info {
@@ -335,9 +338,16 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
 }
 
 .inv-grid.inv-grid-fixed {
-    grid-template-columns: repeat(auto-fill, minmax(48px, 1fr));
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
+.enhanced-helper-item>bold,
+.enhanced-helper-title,
+.menu-item.active .skill-icon,
 .logo-sub,
 .user-total-level,
 .category-name {
@@ -380,6 +390,10 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     padding: 0;
     margin: 2px 0 0 0;
     border-left: none;
+}
+
+.skill-category.collapsed .skill-category-list {
+    display: none;
 }
 
 .skill-category[data-category="gathering"] .menu-item,
@@ -493,6 +507,7 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     transition: all 0.5s ease;
     width: 160px;
     min-width: 160px;
+    overflow-x: hidden;
 }
 
 .game-layout.lside-hover .sidebar-left {
@@ -512,4 +527,44 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.enhanced-helper {
+    background: linear-gradient(135deg, rgb(255 255 255 / 15%), rgba(15, 23, 42, 0.9));
+    border: 1px solid rgb(213 213 213 / 30%);
+    border-radius: 10px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+}
+
+.enhanced-helper-title {
+    font-size: 14px;
+    padding: 0px 7px 10px;
+}
+
+.enhanced-helper-subtitle {
+    font-size: 12px;
+    border: 1px solid rgb(59 130 246 / 20%);
+    text-shadow: 0px 0px 6px black;
+    padding: 2px 5px;
+    background: hsl(224.78deg 98.27% 62.99% / 10%);
+    border-radius: 5px;
+    text-transform: capitalize;
+}
+
+.enhanced-helper-item {
+    font-size: 12px;
+    text-align: center;
+    padding: 0px 10px;
+}
+
+#category-other {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+#category-other .skill-name {
+    font-size: 11px;
+    line-height: normal;
 }
