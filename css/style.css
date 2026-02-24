@@ -442,8 +442,12 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
 }
 
 .enhanced-helper-title {
+    display: flex;
+    gap: 6px;
     font-size: 14px;
     padding: 0px 7px 10px;
+    justify-content: center;
+    align-items: center;
 }
 
 .enhanced-helper-subtitle {
@@ -510,6 +514,10 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     background: linear-gradient(90deg, #3b82f6, #22c55e);
     background-size: 500% 100%;
     animation: backgroundSlide 5s linear infinite;
+}
+
+.enhanced-helper-title>i {
+    font-size: 26px;
 }
 
 @keyframes backgroundSlide {
