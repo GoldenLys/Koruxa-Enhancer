@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       1.15
+// @version       1.16
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    hhttps://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://raw.githubusercontent.com/GoldenLys/Koruxa-Enhancer/master/mod.user.js
@@ -287,7 +287,7 @@ unsafeWindow.mapping = { // Mappings of game data
                 entry.value = result;                // normal case
             }
         }
-        EXTRACT_SKILLS(unsafeWindow.mapping);
+        EXTRACT_SKILLS();
         SET_CURRENT_SKILL_CLASS();
         LOAD_TOOL_STATS();
         LOAD_FARM_STATS();
@@ -451,7 +451,7 @@ unsafeWindow.mapping = { // Mappings of game data
         const level = unsafeWindow.KORUXA_STATS[skill].level;
         const phrase =
             `Level up ${data.skill} with <b>${data.required}</b> XP<br>` +
-            `Do <b>${KORUXA_CONFIGS[skill][data.action].label} x${data.loops}</b> (<b>${data.time}</b>)`;
+            `Do <b>${data.label} x${data.loops}</b> (<b>${data.time}</b>)`;
         let el = document.querySelector("#enhanced-helper");
 
         if (el) {
@@ -516,7 +516,7 @@ unsafeWindow.mapping = { // Mappings of game data
                 const entry = category?.[action];
                 if (!entry) continue;
 
-                const ratio = (entry.xp || 0) / ((entry.duration_ms || 1));
+                const ratio = (entry.xp || 0) / (entry.duration_ms || 1);
                 if (ratio > bestRatio) {
                     best = entry;
                     bestRatio = ratio;
@@ -527,6 +527,9 @@ unsafeWindow.mapping = { // Mappings of game data
             if (!data) return null;
         }
 
+        var label = data.label ?? action;
+        if (skill === "herblore") label = data.name;
+
         // Calculate Bonuses
         const tool = KORUXA_TOOLS?.[skill] || {};
         const farm = KORUXA_FARMS?.[skill] || {};
@@ -534,19 +537,27 @@ unsafeWindow.mapping = { // Mappings of game data
         const speedBonus = ((tool.speed ?? 0) + (farm.speed ?? 0)) / 100;
         const xpBonus = ((tool.xp ?? 0) + (farm.xp ?? 0)) / 100;
 
-        // Calculate Level up time + Experience
+        // Calculate XP + time
         const xpPerLoop = (data.xp || 0) * (1 + xpBonus);
         const timePerLoop = (data.duration_ms || 0) / (1 + speedBonus);
 
         const stats = KORUXA_STATS[skill];
-        const xpLeft = stats.xp_needed - stats.xp_current;
+        const xpLeft = (stats.xp_needed ?? 0) - (stats.xp_current ?? 0);
 
-        if (xpLeft <= 0 || xpPerLoop <= 0) return { skill, action, loops: 0, time: "0s" };
+        if (xpLeft <= 0 || xpPerLoop <= 0)
+            return { skill, action, label, loops: 0, time: "0s" };
 
         const loops = Math.ceil(xpLeft / xpPerLoop);
         const time = toHHMMSS((loops * timePerLoop) / 1000);
 
-        return { skill, action, required: Math.round(xpPerLoop * loops), loops, time };
+        return {
+            skill,
+            action,
+            label,
+            required: Math.round(xpPerLoop * loops),
+            loops,
+            time
+        };
     }
 
     // Detect if the left-sidebar is hovered, if yes then it adds an hover class to the game layout
@@ -566,7 +577,6 @@ unsafeWindow.mapping = { // Mappings of game data
     if (document.querySelector('#food-bar')) document.querySelector('#sidebar-hp-bar').after(document.querySelector('#food-bar'));
 
     // Auto-update current skill name on server update
-
     const observer = new MutationObserver(() => SET_CURRENT_SKILL_CLASS());
     observer.observe(document.body, { childList: true, subtree: true });
 
