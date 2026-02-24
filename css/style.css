@@ -357,31 +357,6 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     -webkit-background-clip: text;
 }
 
-@media (max-width: 768px) {
-    .topbar {
-        max-height: 100%;
-    }
-
-    .user-info {
-        flex: 1 1 100%;
-    }
-
-    .sidebar-left,
-    .sidebar-right {
-        flex: 1 1 100%;
-    }
-}
-
-@media (max-width: 480px) {
-    .topbar-left .logo-text {
-        display: flex;
-    }
-
-    .logo-sub {
-        display: none !important;
-    }
-}
-
 .skill-category[data-category="gathering"] .skill-category-list,
 .skill-category[data-category="artisan"] .skill-category-list,
 .skill-category[data-category="combat"] .skill-category-list {
@@ -488,6 +463,7 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     line-height: normal;
     text-align: center;
 }
+
 .game-layout.lside-hover .menu-item .skill-name {
     font-size: 14px;
     line-height: normal;
@@ -502,6 +478,7 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
 .game-layout.lside-hover {
     grid-template-columns: 300px minmax(0, 1fr) 340px !important;
 }
+
 
 .game-layout .sidebar-left {
     transition: all 0.5s ease;
@@ -567,4 +544,43 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
 #category-other .skill-name {
     font-size: 11px;
     line-height: normal;
+}
+
+@media (max-width: 768px) {
+    .topbar {
+        max-height: 100%;
+    }
+
+    .user-info {
+        flex: 1 1 100%;
+    }
+
+    .sidebar-left,
+    .sidebar-right,
+    .game-layout .sidebar-left,
+    .game-layout.lside-hover .sidebar-left {
+        flex: 1 1 100%;
+        width: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .topbar-left .logo-text {
+        display: flex;
+    }
+
+    .logo-sub {
+        display: none !important;
+    }
+}
+
+@media (min-width: 1024px) {
+    .game-layout {
+        grid-template-columns: 160px minmax(0, 1fr) 340px !important;
+    }
+
+    .game-layout .sidebar-left {
+        width: 160px;
+        min-width: 160px;
+    }
 }
