@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       1.11
+// @version       1.13
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    hhttps://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://raw.githubusercontent.com/GoldenLys/Koruxa-Enhancer/master/mod.user.js
@@ -96,7 +96,7 @@ unsafeWindow.mapping = { // Mappings of game data
         // Gathering Skills
 
         "a[href='game.php?skill=woodcutting'] .skill-icon": { // Woodcutting
-            icon: "ra ra-wood-pile",
+            icon: "ra ra-pine-tree",
             text: ""
         },
 
@@ -106,7 +106,7 @@ unsafeWindow.mapping = { // Mappings of game data
         },
 
         "a[href='game.php?skill=fishing'] .skill-icon": { // Fishing
-            icon: "ra ra-fish",
+            icon: "ra ra-fishing-pole", // or ra-fish
             text: ""
         },
 
@@ -116,7 +116,7 @@ unsafeWindow.mapping = { // Mappings of game data
         },
 
         "a[href='game.php?skill=thieving'] .skill-icon": { // Thieving
-            icon: "ra ra-hand",
+            icon: "ra ra-hand", // or ra-balaclava
             text: ""
         },
 
@@ -138,22 +138,22 @@ unsafeWindow.mapping = { // Mappings of game data
         },
 
         "a[href='game.php?skill=crafting'] .skill-icon": { // Crafting
-            icon: "ra ra-hammer",
+            icon: "ra ra-hammer", // or ra-hand-saw
             text: ""
         },
 
         "a[href='game.php?skill=herblore'] .skill-icon": { // Herblore
-            icon: "ra ra-corked-tube",
+            icon: "ra ra-potion-ball", // or ra-corked-tube
             text: ""
         },
 
         "a[href='game.php?skill=smithing'] .skill-icon": { // Smithing
-            icon: "ra ra-flat-hammer",
+            icon: "ra ra-armor-blueprint",
             text: ""
         },
 
         "a[href='game.php?skill=firemaking'] .skill-icon": { // Firemaking
-            icon: "fa-solid fa-fire",
+            icon: "ra ra-campfire",
             text: ""
         },
 
@@ -165,27 +165,32 @@ unsafeWindow.mapping = { // Mappings of game data
         },
 
         "a[href='game.php?skill=attack'] .skill-icon": { // Attack
-            icon: "ra ra-sword",
+            icon: "ra ra-relic-blade", // or ra-sword
             text: ""
         },
 
         "a[href='game.php?skill=strength'] .skill-icon": { // Strength
-            icon: "fa-solid fa-dumbbell",
+            icon: "ra ra-biceps",
             text: ""
         },
 
         "a[href='game.php?skill=defence'] .skill-icon": { // Defence
-            icon: "fa-solid fa-shield",
+            icon: "ra ra-heavy-shield",
             text: ""
         },
 
         "a[href='game.php?skill=hitpoints'] .skill-icon": { // Hitpoints
-            icon: "fa-solid fa-heart",
+            icon: "ra ra-health-increase", // or ra-glass-heart
             text: ""
         },
 
         "a[href='game.php?skill=magic'] .skill-icon": { // Magic
-            icon: "fa-solid fa-magic",
+            icon: "ra ra-wizard-staff",
+            text: ""
+        },
+
+        "a[href='game.php?skill=ranged'] .skill-icon": { // Ranged
+            icon: "ra ra-crossbow",
             text: ""
         },
 
@@ -469,46 +474,79 @@ unsafeWindow.mapping = { // Mappings of game data
     }
 
     function GET_LAST_UNLOCK_SKILL(skill) {
-        const data = KORUXA_CONFIGS[skill];
-        if (!data) return null;
+        const config = KORUXA_CONFIGS[skill];
+        if (!config) return null;
 
         const lvl = KORUXA_STATS?.[skill]?.level ?? 0;
-        let bestKey = null;
-        let bestReq = -1;
+        let best = null, bestReq = -1;
 
-        for (const key in data) {
-            const req = data[key].min_level || 0;
-            if (req <= lvl && req > bestReq) {
-                bestKey = key;
-                bestReq = req;
+        for (const key in config) {
+            const entry = config[key];
+
+            // Skills without categories
+            if (entry?.min_level !== undefined) {
+                const req = entry.min_level;
+                if (req <= lvl && req > bestReq) best = key, bestReq = req;
+                continue;
+            }
+
+            // Skills with categories
+            if (entry && typeof entry === "object") {
+                for (const action in entry) {
+                    const req = entry[action]?.min_level ?? 0;
+                    if (req <= lvl && req > bestReq) best = action, bestReq = req;
+                }
             }
         }
 
-        return bestKey;
+        return best;
     }
 
     function CALC_SKILL_LEVEL_UP(skill) {
         const action = GET_LAST_UNLOCK_SKILL(skill);
         if (!action) return null;
+        const config = KORUXA_CONFIGS[skill];
+        let data = config[action];
 
-        const data = KORUXA_CONFIGS[skill][action];
+        if (!data) {
+            let best = null;
+            let bestRatio = -1;
+
+            for (const category of Object.values(config)) {
+                const entry = category?.[action];
+                if (!entry) continue;
+
+                const ratio = (entry.xp || 0) / ((entry.duration_ms || 1));
+                if (ratio > bestRatio) {
+                    best = entry;
+                    bestRatio = ratio;
+                }
+            }
+
+            data = best;
+            if (!data) return null;
+        }
+
+        // --- Bonuses ---
         const tool = KORUXA_TOOLS?.[skill] || { speed: 0, xp: 0 };
         const farm = KORUXA_FARMS?.[skill] || { speed: 0, xp: 0 };
+
         const speedBonus = (tool.speed + farm.speed) / 100;
         const xpBonus = (tool.xp + farm.xp) / 100;
+
+        // --- Loop stats ---
         const xpPerLoop = (data.xp || 0) * (1 + xpBonus);
         const timePerLoop = (data.duration_ms || 0) / (1 + speedBonus);
-        const stats = KORUXA_STATS[skill];
-        const xpLeft = Number(stats.xp_needed) - Number(stats.xp_current);
 
-        if (xpLeft <= 0 || xpPerLoop <= 0)
-            return { skill, action, loops: 0, time: "0s" };
+        const stats = KORUXA_STATS[skill];
+        const xpLeft = stats.xp_needed - stats.xp_current;
+
+        if (xpLeft <= 0 || xpPerLoop <= 0) return { skill, action, loops: 0, time: "0s" };
 
         const loops = Math.ceil(xpLeft / xpPerLoop);
         const time = toHHMMSS((loops * timePerLoop) / 1000);
-        const required = Math.round(xpPerLoop * loops);
 
-        return { skill, required, action, loops, time };
+        return { skill, action, required: Math.round(xpPerLoop * loops), loops, time };
     }
 
     // Detect if the left-sidebar is hovered, if yes then it adds an hover class to the game layout
