@@ -407,7 +407,7 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
 
 .sidebar-left .skill-icon {
     flex: 1 1 100%;
-    font-size: 22px;
+    font-size: 30px;
     width: 30px;
     height: 30px;
     order: 0;
@@ -431,83 +431,6 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     background-size: 500% 100%;
     animation: backgroundSlide 5s linear infinite;
     border-color: rgb(43 127 255 / 30%);
-}
-
-.skill-category .skill-category-header {
-    gap: 0px;
-    transition: all 0.5s ease;
-}
-
-.game-layout.lside-hover .skill-category .skill-category-header {
-    gap: 8px;
-}
-
-.skill-category .skill-category-header .category-icon {
-    text-align: center;
-    font-size: 30px;
-    flex: 1 1 100%;
-    transition: all 0.5s ease;
-}
-
-.game-layout.lside-hover .skill-category .skill-category-header .category-icon {
-    font-size: 14px;
-    flex: 0 0 auto;
-}
-
-.game-layout .skill-category-header .category-name,
-.game-layout .menu-item .skill-name {
-    font-size: 0;
-    line-height: 0;
-    margin-right: 0;
-    transition: all 0.5s ease;
-}
-
-.game-layout.lside-hover .skill-category-header .category-name {
-    font-size: 12px;
-    line-height: normal;
-    text-align: center;
-}
-
-.game-layout.lside-hover .menu-item .skill-name {
-    font-size: 14px;
-    line-height: normal;
-    margin-right: 5px;
-}
-
-.game-layout {
-    transition: all 0.5s ease;
-    grid-template-columns: 160px minmax(0, 1fr) 340px !important;
-}
-
-.game-layout.lside-hover {
-    grid-template-columns: 300px minmax(0, 1fr) 340px !important;
-}
-
-
-.game-layout .sidebar-left {
-    transition: all 0.5s ease;
-    width: 160px;
-    min-width: 160px;
-    overflow-x: hidden;
-}
-
-.game-layout.lside-hover .sidebar-left {
-    width: 300px;
-    min-width: 300px;
-}
-
-.game-layout:not(.lside-hover) .sidebar-left {
-    transition: all 0.5s ease;
-}
-
-.game-layout:not(.lside-hover) .sidebar-left .sidebar-footer {
-    flex-direction: column;
-}
-
-.category-toggle {
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .enhanced-helper {
@@ -593,9 +516,11 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     0% {
         background-position: 0% 0;
     }
+
     50% {
         background-position: 100% 0;
     }
+
     100% {
         background-position: 0% 0;
     }
@@ -606,8 +531,13 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
         max-height: 100%;
     }
 
+    .logo-sub {
+        display: block;
+    }
+
     .user-info {
         flex: 1 1 100%;
+        text-align: center;
     }
 
     .sidebar-left,
@@ -616,6 +546,7 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     .game-layout.lside-hover .sidebar-left {
         flex: 1 1 100%;
         width: auto;
+        max-height: 100%;
     }
 }
 
@@ -625,17 +556,86 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     }
 
     .logo-sub {
-        display: none !important;
+        display: block;
     }
 }
 
+/* PCs only code */
 @media (min-width: 1024px) {
     .game-layout {
         grid-template-columns: 160px minmax(0, 1fr) 340px !important;
+        transition: all 0.5s ease;
+    }
+
+    .game-layout.lside-hover {
+        grid-template-columns: 300px minmax(0, 1fr) 340px !important;
+    }
+
+
+    .skill-category .skill-category-header {
+        gap: 0px;
+        transition: all 0.5s ease;
+    }
+
+    .game-layout.lside-hover .skill-category .skill-category-header {
+        gap: 8px;
+    }
+
+    .skill-category .skill-category-header .category-icon {
+        text-align: center;
+        font-size: 30px;
+        flex: 1 1 100%;
+        transition: all 0.5s ease;
+    }
+
+    .game-layout.lside-hover .skill-category .skill-category-header .category-icon {
+        font-size: 14px;
+        flex: 0 0 auto;
+    }
+
+    .game-layout.lside-hover .skill-category-header .category-name {
+        font-size: 12px;
+        line-height: normal;
+        text-align: center;
+    }
+
+    .game-layout.lside-hover .menu-item .skill-name {
+        font-size: 14px;
+        line-height: normal;
+        margin-right: 5px;
+    }
+
+    .category-toggle {
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     .game-layout .sidebar-left {
+        transition: all 0.5s ease;
         width: 160px;
         min-width: 160px;
+        overflow-x: hidden;
+    }
+
+    .game-layout.lside-hover .sidebar-left {
+        width: 300px;
+        min-width: 300px;
+    }
+
+    .game-layout:not(.lside-hover) .sidebar-left {
+        transition: all 0.5s ease;
+    }
+
+    .game-layout:not(.lside-hover) .sidebar-left .sidebar-footer {
+        flex-direction: column;
+    }
+
+    .game-layout .skill-category-header .category-name,
+    .game-layout .menu-item .skill-name {
+        font-size: 0;
+        line-height: 0;
+        margin-right: 0;
+        transition: all 0.5s ease;
     }
 }
