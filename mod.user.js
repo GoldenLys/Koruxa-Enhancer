@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       1.18
+// @version       1.19
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    hhttps://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
@@ -231,12 +231,12 @@ unsafeWindow.mapping = { // Mappings of game data
         // Gathering Skills
 
         "a[href='game.php?skill=woodcutting'] .skill-icon": { // Woodcutting
-            icon: "ra ra-pine-tree",
+            icon: "ra ra-fire-axe",
             text: ""
         },
 
         "a[href='game.php?skill=mining'] .skill-icon": { // Mining
-            icon: "ra ra-stone-pile",
+            icon: "ra ra-war-pick",
             text: ""
         },
 
@@ -251,7 +251,7 @@ unsafeWindow.mapping = { // Mappings of game data
         },
 
         "a[href='game.php?skill=thieving'] .skill-icon": { // Thieving
-            icon: "ra ra-hand", // or ra-balaclava
+            icon: "ra ra-balaclava", // or ra-balaclava
             text: ""
         },
 
@@ -273,7 +273,7 @@ unsafeWindow.mapping = { // Mappings of game data
         },
 
         "a[href='game.php?skill=crafting'] .skill-icon": { // Crafting
-            icon: "ra ra-hammer", // or ra-hand-saw
+            icon: "ra ra-claw-hammer", // or ra-hand-saw
             text: ""
         },
 
@@ -283,7 +283,7 @@ unsafeWindow.mapping = { // Mappings of game data
         },
 
         "a[href='game.php?skill=smithing'] .skill-icon": { // Smithing
-            icon: "ra ra-armor-blueprint",
+            icon: "ra ra-anvil-impact",
             text: ""
         },
 
@@ -295,7 +295,7 @@ unsafeWindow.mapping = { // Mappings of game data
         // Combat skills
 
         "a[href='game.php?skill=slayer'] .skill-icon": { // Slayer
-            icon: "ra ra-skull",
+            icon: "ra ra-daemon-skull",
             text: ""
         },
 
@@ -310,7 +310,7 @@ unsafeWindow.mapping = { // Mappings of game data
         },
 
         "a[href='game.php?skill=defence'] .skill-icon": { // Defence
-            icon: "ra ra-heavy-shield",
+            icon: "ra ra-slashed-shield",
             text: ""
         },
 
@@ -695,8 +695,6 @@ unsafeWindow.mapping = { // Mappings of game data
         const premium = KORUXA_IS_PREMIUM ? 20 : 0; // premium bonus of 20% speed and xp
         const speedBonus = (tool.speed ?? 0) + (farm.speed ?? 0) + premium;
         const xpBonus = (tool.xp ?? 0) + (farm.xp ?? 0) + premium;
-
-        console.log("speed bonus %", speedBonus, "xp bonus %", xpBonus);
 
         // Calculate XP + time
         const xpPerLoop = (data.xp || 0) * (1 + xpBonus / 100);
