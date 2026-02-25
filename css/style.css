@@ -352,7 +352,6 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-    max-height: 55vh;
     overflow: hidden auto;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
@@ -515,11 +514,28 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
 
 .quest-tracker-header {
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: row;
+    flex-wrap: wrap;
+    text-align: center;
+    justify-content: center;
 }
 
 .quest-tracker-dots {
+    flex: 1 1 100%;
+    flex-wrap: wrap;
+    justify-content: center;
     margin: 0 auto 8px auto;
+    order: 0;
+}
+
+.quest-tracker-icon {
+    order: 1;
+    max-width: max-content;
+}
+
+.quest-tracker-name {
+    order: 2;
+    max-width: max-content;
 }
 
 .quest-tracker-dot {
@@ -594,11 +610,12 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
 
 /* PCs only code */
 @media (min-width: 1024px) {
+
     /* Limit logo size to fix auto height size */
     .topbar-logo-link {
         max-height: 4.5vh;
     }
-    
+
     .game-layout {
         grid-template-columns: 160px minmax(0, 1fr) 340px !important;
         grid-template-rows: auto minmax(0, calc(100vh - 70px)) !important;
@@ -687,8 +704,14 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     .game-layout {
         transition: all 0.5s ease;
     }
+
     .user-box {
         flex-wrap: wrap;
         justify-content: center;
     }
+}
+
+.topbar {
+    position: relative;
+    padding-bottom: 5px;
 }
