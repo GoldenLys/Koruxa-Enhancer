@@ -601,7 +601,7 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     
     .game-layout {
         grid-template-columns: 160px minmax(0, 1fr) 340px !important;
-        grid-template-rows: auto !important;
+        grid-template-rows: auto minmax(0, calc(100vh - 70px)) !important;
         transition: all 0.5s ease;
     }
 
@@ -685,7 +685,6 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
 
 @media (min-width: 1024px) and (max-width: 1760px) {
     .game-layout {
-        grid-template-rows: auto minmax(0, calc(100vh - 70px)) !important;
         transition: all 0.5s ease;
     }
     .user-box {
