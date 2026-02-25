@@ -1,6 +1,7 @@
-/* Limit logo size to fix auto height size */
-.topbar-logo-link {
-    max-height: 4.5vh;
+.game-area {
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(100, 116, 139, 0.5) transparent;
 }
 
 .sidebar-left {
@@ -10,6 +11,7 @@
 
 .sidebar-right {
     position: relative;
+    height: 100%;
 }
 
 .topbar-right {
@@ -93,14 +95,6 @@
     font-size: 16px;
 }
 
-.user-total-level {
-    width: 100%;
-    display: flex;
-    flex: 1 1 auto;
-    font-size: 14px;
-    text-transform: uppercase;
-    justify-content: center;
-}
 
 /* GATHERING/ARTISAN SUB-TABS REWORK (linking) */
 
@@ -196,7 +190,9 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
 }
 
 #session-stat .queue-badge {
+    order: -1;
     display: flex !important;
+    flex: 1 1 100%;
     border: none;
     border-radius: 6px;
     font-size: 12px;
@@ -226,20 +222,35 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     display: none;
 }
 
+.user-info {
+    position: relative;
+    display: block;
+}
+
 .user-info-wrapper {
     display: block;
     padding: 10px;
 }
 
-.user-avatar {
-    width: 4em;
-    height: 4em;
-    border-radius: 50%;
+.user-total-level {
+    width: 100%;
+    display: flex;
+    flex: 1 1 auto;
+    font-size: 14px;
+    text-transform: uppercase;
+    justify-content: center;
 }
 
 .skill-name {
     overflow: visible;
 }
+
+.stat .label {
+    display: inline-flex;
+    flex-wrap: wrap;
+}
+
+/* Inventory Rework */
 
 .inv-slot-empty,
 .inv-item {
@@ -330,10 +341,6 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     border-radius: 8px;
 }
 
-.user-info {
-    position: relative;
-    display: block;
-}
 
 .inv-grid {
     margin: 0 auto;
@@ -345,6 +352,11 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
+    max-height: 55vh;
+    overflow: hidden auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(100, 116, 139, 0.5) transparent;
 }
 
 .enhanced-helper-item>bold,
@@ -377,6 +389,7 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
 .skill-category[data-category="artisan"] .menu-item,
 .skill-category[data-category="combat"] .menu-item {
     flex: 1 1 50%;
+    padding: 0;
 }
 
 .skill-category[data-category="gathering"] .menu-item>.skill-link,
@@ -385,7 +398,8 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    gap: 6px 0px;
+    gap: 2px 0px;
+    height: 48px;
     justify-content: center;
 }
 
@@ -407,10 +421,13 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
 
 .sidebar-left .skill-icon {
     flex: 1 1 100%;
-    font-size: 30px;
+    display: flex;
+    font-size: 26px;
     width: 30px;
     height: 30px;
     order: 0;
+    justify-content: center;
+    align-items: center;
 }
 
 .menu-item {
@@ -426,6 +443,7 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
 }
 
 .menu-item.active {
+    max-width: 100%;
     color: rgb(190 219 255);
     background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(34, 197, 94, 0.1));
     background-size: 500% 100%;
@@ -470,11 +488,15 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
+    margin-top: 0px;
+    padding-left: 0px;
+    margin-left: 0px;
+    border-left: none;
 }
 
 #category-other .skill-name {
-    font-size: 11px;
-    line-height: normal;
+    font-size: 12px;
+    line-height: 12px;
 }
 
 .combat-dashboard {
@@ -540,9 +562,6 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
 }
 
 @media (max-width: 768px) {
-    .topbar {
-        max-height: 100%;
-    }
 
     .logo-sub {
         display: block;
@@ -575,6 +594,11 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
 
 /* PCs only code */
 @media (min-width: 1024px) {
+    /* Limit logo size to fix auto height size */
+    .topbar-logo-link {
+        max-height: 4.5vh;
+    }
+    
     .game-layout {
         grid-template-columns: 160px minmax(0, 1fr) 340px !important;
         grid-template-rows: auto !important;
@@ -587,7 +611,11 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
 
 
     .skill-category .skill-category-header {
+        display: flex;
+        margin-bottom: 4px;
         gap: 0px;
+        height: 26px;
+        padding: 4px 10px;
         transition: all 0.5s ease;
     }
 
@@ -597,7 +625,8 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
 
     .skill-category .skill-category-header .category-icon {
         text-align: center;
-        font-size: 30px;
+        font-size: 18px;
+        line-height: 14px;
         flex: 1 1 100%;
         transition: all 0.5s ease;
     }
@@ -642,7 +671,7 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     }
 
     .game-layout:not(.lside-hover) .sidebar-left .sidebar-footer {
-        flex-direction: column;
+        flex-direction: row;
     }
 
     .game-layout .skill-category-header .category-name,
@@ -651,5 +680,16 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
         line-height: 0;
         margin-right: 0;
         transition: all 0.5s ease;
+    }
+}
+
+@media (min-width: 1024px) and (max-width: 1760px) {
+    .game-layout {
+        grid-template-rows: auto minmax(0, calc(100vh - 70px)) !important;
+        transition: all 0.5s ease;
+    }
+    .user-box {
+        flex-wrap: wrap;
+        justify-content: center;
     }
 }
