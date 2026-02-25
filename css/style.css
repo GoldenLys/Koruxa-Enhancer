@@ -577,6 +577,7 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
 @media (min-width: 1024px) {
     .game-layout {
         grid-template-columns: 160px minmax(0, 1fr) 340px !important;
+        grid-template-rows: auto !important;
         transition: all 0.5s ease;
     }
 
