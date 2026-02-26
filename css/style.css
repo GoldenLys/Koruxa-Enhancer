@@ -1,12 +1,39 @@
+:root {
+    /* Background colors */
+    --bg-body: radial-gradient(circle at top, #283855 0, #050816 60%);
+    --bg-panel: rgb(12 20 39 / 75%);
+    --bg-panel-solid: #0c1427;
+    --bg-card: rgba(15, 23, 42, 0.9);
+    --bg-card-hover: rgba(15, 23, 42, 0.98);
+    --bg-input: rgba(15, 23, 42, 0.9);
+    --bg-overlay: rgba(15, 23, 42, 0.85);
+    --chat-bg: rgb(0 0 0 / 25%);
+    --chat-header-bg: rgb(0 0 0 / 25%);
+    --chat-input-area-bg: rgb(0 0 0 / 25%);
+
+    /* Component specific */
+    --topbar-bg: rgb(12 20 39 / 75%);
+    --topbar-border: #3b82f6;
+    --sidebar-bg: rgba12, 20, 39, 0.96);
+    --sidebar-bg: rgb12, 20, 39, 0.96);
+    --sidebar-bg: rgb(12 20 39 / 75%);
+    --scrollbar-thumb: rgba(100, 116, 139, 0.5);
+    --scrollbar-thumb-hover: rgba(100, 116, 139, 0.7);
+}
+
 .game-area {
     -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
     scrollbar-color: rgba(100, 116, 139, 0.5) transparent;
+    z-index: 1;
+    padding: 12px 12px 0;
+    max-height: fit-content;
 }
 
 .sidebar-left {
     min-width: 300px;
     width: 300px;
+    z-index: 1;
 }
 
 .sidebar-right {
@@ -456,6 +483,44 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     border-radius: 10px;
     padding: 10px 12px;
     margin-bottom: 8px;
+    overflow: hidden;
+}
+
+.enhanced-helper-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    margin: -10px -12px 10px;
+    border-bottom: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+.enhanced-helper-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex: 1 1 calc(16.666%);
+    max-width: calc(16.666%);
+    padding: 6px 10px;
+    border: none;
+    cursor: pointer;
+    color: white;
+    text-shadow: 1px 1px 4px rgb(75 75 75);
+    background-color: rgb(0 0 0 / 25%)
+}
+
+.enhanced-helper-btn:hover {
+    background: rgb(255 255 255 / 10%);
+}
+
+.enhanced-helper-btn.active:hover,
+.enhanced-helper-btn.active {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(34, 197, 94, 0.1));
+}
+
+.enhanced-helper-btn:disabled {
+    background: rgb(0 0 0 / 50%);
+    color: rgb(227 227 227 / 75%);
+    text-shadow: none;
 }
 
 .enhanced-helper-title {
@@ -715,3 +780,71 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     position: relative;
     padding-bottom: 5px;
 }
+
+.card-row {
+    justify-content: center;
+}
+
+/* SKILLS BACKGROUNDS */
+.bg-skill {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    background: url(https://goldenlys.github.io/Koruxa-Enhancer/images/skill-placeholder.png) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+} 
+
+/* Gathering skills */
+.bg-skill.mining {
+    background-image: url(https://goldenlys.github.io/Koruxa-Enhancer/images/skills/skill-mining.png);
+}
+.bg-skill.woodcutting {
+    background-image: url(https://goldenlys.github.io/Koruxa-Enhancer/images/skills/skill-woodcutting.png);
+}
+.bg-skill.fishing {
+    background-image: url(https://goldenlys.github.io/Koruxa-Enhancer/images/skills/skill-fishing.png);
+}
+.bg-skill.farming {
+    background-image: url(https://goldenlys.github.io/Koruxa-Enhancer/images/skills/skill-farming.png);
+}
+.bg-skill.thieving {
+    background-image: url(https://goldenlys.github.io/Koruxa-Enhancer/images/skills/skill-thieving.png);
+}
+.bg-skill.arcana {]
+    background-image: url(https://goldenlys.github.io/Koruxa-Enhancer/images/skills/skill-arcana.png);
+}
+
+/* Artisan skills */
+.bg-skill.cooking {
+    background-image: url(https://goldenlys.github.io/Koruxa-Enhancer/images/skills/skill-cooking.png);
+}
+.bg-skill.fletching {
+    background-image: url(https://goldenlys.github.io/Koruxa-Enhancer/images/skills/skill-fletching.png);
+}
+.bg-skill.crafting {
+    background-image: url(https://goldenlys.github.io/Koruxa-Enhancer/images/skills/skill-crafting.png);
+}
+.bg-skill.herblore {
+    background-image: url(https://goldenlys.github.io/Koruxa-Enhancer/images/skills/skill-herblore.png);
+}
+.bg-skill.smithing {
+    background-image: url(https://goldenlys.github.io/Koruxa-Enhancer/images/skills/skill-smithing.png);
+}
+.bg-skill.firemaking {
+    background-image: url(https://goldenlys.github.io/Koruxa-Enhancer/images/skills/skill-firemaking.png);
+}
+
+/* Combat skills (WIP)
+.bg-skill.slayer {}
+.bg-skill.attack {}
+.bg-skill.strength {}
+.bg-skill.defence {}
+.bg-skill.hitpoints {}
+.bg-skill.magic {}
+.bg-skill.ranged {}*/
