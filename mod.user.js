@@ -2,13 +2,14 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       1.19
+// @version       1.20
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    hhttps://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
 // @updateURL     https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
 // @description   Redesign of the game
 // @match         https://koruxa.com/*
+// @match         https://www.koruxa.com/*
 // @icon          https://www.google.com/s2/favicons?domain=https://koruxa.com
 // @license       MIT License
 // @grant         unsafeWindow
@@ -52,7 +53,80 @@ unsafeWindow.mapping = { // Mappings of game data
         smithing: KORUXA_SMITHING_CONFIG,
         firemaking: KORUXA_FIREMAKING_CONFIG,
         arcana: KORUXA_ARCANA_CONFIG,
-        thieving: {},
+        thieving: {
+            farmer: {
+                key: 'farmer',
+                label: 'Farmer',
+                min_level: 1,
+                xp: 10,
+                coins: 0,
+                success_chance: 95,
+                duration_ms: 4000,
+            },
+            market_stall: {
+                key: 'market_stall',
+                label: 'Market Stall',
+                min_level: 10,
+                xp: 20,
+                coins: 0,
+                success_chance: 95,
+                duration_ms: 6000,
+            },
+            wealthy_citizen: {
+                key: 'wealthy_citizen',
+                label: 'Wealthy Citizen',
+                min_level: 25,
+                xp: 25,
+                coins: 0,
+                success_chance: 88,
+                duration_ms: 7000,
+            },
+            traveling_merchant: {
+                key: 'traveling_merchant',
+                label: 'Traveling Merchant',
+                min_level: 40,
+                xp: 40,
+                coins: 0,
+                success_chance: 59,
+                duration_ms: 9000,
+            },
+            noble: {
+                key: 'noble',
+                label: 'Noble',
+                min_level: 55,
+                xp: 0,
+                coins: 0,
+                success_chance: 0,
+                duration_ms: 0,
+            },
+            treasure_chest: {
+                key: 'treasure_chest',
+                label: 'Treasure Chest',
+                min_level: 70,
+                xp: 0,
+                coins: 0,
+                success_chance: 0,
+                duration_ms: 0,
+            },
+            royal_guard: {
+                key: 'royal_guard',
+                label: 'Royal Guard',
+                min_level: 85,
+                xp: 0,
+                coins: 0,
+                success_chance: 0,
+                duration_ms: 0,
+            },
+            bank_vault: {
+                key: 'bank_vault',
+                label: 'Bank Vault',
+                min_level: 95,
+                xp: 0,
+                coins: 0,
+                success_chance: 0,
+                duration_ms: 0,
+            },
+        },
         farming: {}
     };
 
@@ -246,7 +320,7 @@ unsafeWindow.mapping = { // Mappings of game data
         },
 
         "a[href='game.php?skill=farming'] .skill-icon": { // Farming
-            icon: "fa-solid fa-seedling",
+            icon: "ra ra-wheat",
             text: ""
         },
 
@@ -498,6 +572,14 @@ unsafeWindow.mapping = { // Mappings of game data
     const cleanValue = str => Number(str.replace(/[^\d.-]/g, "")); // Convert "+15%" → 15
     const xpByLevel = Object.fromEntries(xpTable.map(e => [e.level, e])); // Get a skill required xp manually, usage: xpByLevel[level].xpToNext
 
+    function FORMAT_NUMBER(num, decimals = 0) {
+        if (typeof num !== "number" || isNaN(num)) return "0,0";
+        const fixed = num.toFixed(decimals);
+        let [intPart, decPart] = fixed.split(".");
+        intPart = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        return decPart ? `${intPart},${decPart}` : intPart;
+    }
+
     // Generates a globals for each farm stats
     function LOAD_FARM_STATS() {
         const FARMS = [
@@ -594,17 +676,31 @@ unsafeWindow.mapping = { // Mappings of game data
     function ENHANCED_HELPER() {
         const skill = unsafeWindow.KORUXA_GLOBALS["current-skill"]?.toLowerCase();
         if (!skill) return;
-        const data = CALC_SKILL_LEVEL_UP(skill);
-        if (!data) return;
+
+        const result = CALC_SKILL_LEVEL_UP(skill);
+        if (!result) return;
+
+        const first = result[0];
+        const second = result[1];
+
         const level = unsafeWindow.KORUXA_STATS[skill].level;
-        const phrase =
-            `Level up ${data.skill} with <b>${data.required}</b> XP<br>` +
-            `Do <b>${data.label} x${data.loops}</b> (<b>${data.time}</b>)`;
+        const approx = skill === "thieving" ? "~" : "";
+
+        let phrase =
+            `Level up ${first.skill} with <b>${approx}${FORMAT_NUMBER(first.required)}</b> XP<br>` +
+            `1. <b>${first.label} ${approx}x${FORMAT_NUMBER(first.loops, 0)}</b> (<b>${first.time}</b>)`;
+
+        if (second) {
+            phrase +=
+                `<br>2. <b>${second.label} ${approx}x${FORMAT_NUMBER(second.loops, 0)}</b> ` +
+                `(<b>${second.time}</b>)`;
+        }
+
         let el = document.querySelector("#enhanced-helper");
 
         if (el) {
             el.querySelector(".enhanced-helper-item").innerHTML = phrase;
-            el.querySelector(".enhanced-helper-subtitle").textContent = `${data.skill} ${level}`;
+            el.querySelector(".enhanced-helper-subtitle").textContent = `Reach ${skill} Lv. ${(Number(level) + 1)}`;
             return;
         }
 
@@ -612,110 +708,135 @@ unsafeWindow.mapping = { // Mappings of game data
         el.id = "enhanced-helper";
         el.className = "enhanced-helper";
         el.innerHTML = `
-        <div class="enhanced-helper-title">
-            <i class="ra ra-crown-coin"></i> Koruxa Helper
-            <span class="enhanced-helper-subtitle">${data.skill} ${level}</span>
-        </div>
-        <div class="enhanced-helper-item">${phrase}</div>`;
+    <div class="enhanced-helper-title">
+        <i class="ra ra-crown-coin"></i> Koruxa Helper
+        <span class="enhanced-helper-subtitle">Reach ${skill} Lv. ${(Number(level) + 1)}</span>
+    </div>
+    <div class="enhanced-helper-item">${phrase}</div>`;
 
         document.querySelector(".sidebar-right")?.prepend(el);
     }
 
     function GET_LAST_UNLOCK_SKILL(skill) {
         const config = KORUXA_CONFIGS[skill];
-        if (!config) return null;
+        if (!config) return [];
 
         const lvl = KORUXA_ALL_SKILL_LEVELS?.[skill] ?? 0;
-        let best = null;
-        let bestReq = -1;
+        const unlocked = [];
 
         for (const key in config) {
             const entry = config[key];
-            const reqField = entry?.min_level !== undefined ? "min_level" : entry?.level_required !== undefined ? "level_required" : null;
+            const reqField = entry?.min_level !== undefined
+                ? "min_level"
+                : entry?.level_required !== undefined
+                    ? "level_required"
+                    : null;
 
-            // Skills without categories
             if (reqField) {
                 const req = entry[reqField];
-                if (req <= lvl && req > bestReq) {
-                    best = key;
-                    bestReq = req;
-                }
+                if (req <= lvl) unlocked.push({ action: key, req });
                 continue;
             }
 
-            // Skills with categories
             if (entry && typeof entry === "object") {
                 for (const action in entry) {
                     const sub = entry[action];
-                    const subReqField = sub?.min_level !== undefined ? "min_level" : sub?.level_required !== undefined ? "level_required" : null;
+                    const subReqField = sub?.min_level !== undefined
+                        ? "min_level"
+                        : sub?.level_required !== undefined
+                            ? "level_required"
+                            : null;
+
                     if (!subReqField) continue;
+
                     const req = sub[subReqField];
-                    if (req <= lvl && req > bestReq) {
-                        best = action;
-                        bestReq = req;
-                    }
+                    if (req <= lvl) unlocked.push({ action, req });
                 }
             }
         }
-        return best;
+
+        unlocked.sort((a, b) => b.req - a.req);
+
+        return unlocked.map(x => x.action);
     }
 
     function CALC_SKILL_LEVEL_UP(skill) {
-        const action = GET_LAST_UNLOCK_SKILL(skill);
-        if (!action) return null;
+        const actions = GET_LAST_UNLOCK_SKILL(skill);
+        if (!actions || actions.length === 0) return null;
+
         const config = KORUXA_CONFIGS[skill];
-        let data = config[action];
 
-        if (!data) {
-            let best = null;
-            let bestRatio = -1;
+        function compute(action, e) {
+            let label = skill === "herblore" ? e.name : (e.label ?? action);
 
-            for (const category of Object.values(config)) {
-                const entry = category?.[action];
-                if (!entry) continue;
+            const tool = KORUXA_TOOLS?.[skill] || {};
+            const farm = KORUXA_FARMS?.[skill] || {};
+            const premium = KORUXA_IS_PREMIUM ? 20 : 0;
 
-                const ratio = (entry.xp || 0) / (entry.duration_ms || 1);
-                if (ratio > bestRatio) {
-                    best = entry;
-                    bestRatio = ratio;
-                }
-            }
+            const speed = (tool.speed ?? 0) + (farm.speed ?? 0) + premium;
+            const xpB = (tool.xp ?? 0) + (farm.xp ?? 0) + premium;
 
-            data = best;
-            if (!data) return null;
+            const xpLoop = (e.xp || 0) * (1 + xpB / 100);
+            const tLoop = (e.duration_ms || 0) * (1 - speed / 100);
+
+            const stats = KORUXA_STATS[skill];
+            const xpLeft = (stats.xp_needed ?? 0) - (stats.xp_current ?? 0);
+
+            if (xpLeft <= 0 || xpLoop <= 0)
+                return { skill, action, label, loops: 0, time: "0s" };
+
+            const loops = Math.ceil(xpLeft / xpLoop);
+            const time = toHHMMSS((loops * tLoop) / 1000);
+
+            return {
+                skill,
+                action,
+                label,
+                required: Math.round(xpLoop * loops),
+                loops,
+                time
+            };
         }
 
-        var label = data.label ?? action;
-        if (skill === "herblore") label = data.name;
+        const ranked = [];
 
-        // Calculate Bonuses
-        const tool = KORUXA_TOOLS?.[skill] || {};
-        const farm = KORUXA_FARMS?.[skill] || {};
+        for (const action of actions) {
+            const entry = config[action];
 
-        const premium = KORUXA_IS_PREMIUM ? 20 : 0; // premium bonus of 20% speed and xp
-        const speedBonus = (tool.speed ?? 0) + (farm.speed ?? 0) + premium;
-        const xpBonus = (tool.xp ?? 0) + (farm.xp ?? 0) + premium;
+            if (entry && entry.xp) {
+                ranked.push({
+                    action,
+                    entry,
+                    ratio: (entry.xp || 0) / (entry.duration_ms || 1)
+                });
+                continue;
+            }
 
-        // Calculate XP + time
-        const xpPerLoop = (data.xp || 0) * (1 + xpBonus / 100);
-        const timePerLoop = (data.duration_ms || 0) * (1 - speedBonus / 100);
+            for (const cat of Object.values(config)) {
+                const e = cat?.[action];
+                if (!e) continue;
 
-        const stats = KORUXA_STATS[skill];
-        const xpLeft = (stats.xp_needed ?? 0) - (stats.xp_current ?? 0);
+                ranked.push({
+                    action,
+                    entry: e,
+                    ratio: (e.xp || 0) / (e.duration_ms || 1)
+                });
+            }
+        }
 
-        if (xpLeft < 0 || xpPerLoop < 0)
-            return { skill, action, label, loops: 0, time: "0s" };
+        ranked.sort((a, b) => b.ratio - a.ratio);
 
-        const loops = Math.ceil(xpLeft / xpPerLoop);
-        const time = loops === 1 ? toHHMMSS(timePerLoop / 1000) : toHHMMSS((loops * timePerLoop) / 1000);
+        if (ranked.length === 0) return null;
+
+        const best1 = ranked[0];
+        const best2 = ranked[1];
+
+        if (!best2)
+            return { 0: compute(best1.action, best1.entry) };
 
         return {
-            skill,
-            action,
-            label,
-            required: Math.round(xpPerLoop * loops),
-            loops,
-            time
+            0: compute(best1.action, best1.entry),
+            1: compute(best2.action, best2.entry)
         };
     }
 
