@@ -816,7 +816,8 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
 .bg-skill.thieving {
     background-image: url(https://goldenlys.github.io/Koruxa-Enhancer/images/skills/skill_thieving.jpg);
 }
-.bg-skill.arcana {]
+
+.bg-skill.arcana {
     background-image: url(https://goldenlys.github.io/Koruxa-Enhancer/images/skills/skill_arcana.jpg);
 }
 
