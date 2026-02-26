@@ -802,42 +802,42 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
 
 /* Gathering skills */
 .bg-skill.mining {
-    background-image: url(https://goldenlys.github.io/Koruxa-Enhancer/images/skills/skill-mining.jpg);
+    background-image: url(https://goldenlys.github.io/Koruxa-Enhancer/images/skills/skill_mining.jpg);
 }
 .bg-skill.woodcutting {
-    background-image: url(https://goldenlys.github.io/Koruxa-Enhancer/images/skills/skill-woodcutting.jpg);
+    background-image: url(https://goldenlys.github.io/Koruxa-Enhancer/images/skills/skill_woodcutting.jpg);
 }
 .bg-skill.fishing {
-    background-image: url(https://goldenlys.github.io/Koruxa-Enhancer/images/skills/skill-fishing.jpg);
+    background-image: url(https://goldenlys.github.io/Koruxa-Enhancer/images/skills/skill_fishing.jpg);
 }
 .bg-skill.farming {
-    background-image: url(https://goldenlys.github.io/Koruxa-Enhancer/images/skills/skill-farming.jpg);
+    background-image: url(https://goldenlys.github.io/Koruxa-Enhancer/images/skills/skill_farming.jpg);
 }
 .bg-skill.thieving {
-    background-image: url(https://goldenlys.github.io/Koruxa-Enhancer/images/skills/skill-thieving.jpg);
+    background-image: url(https://goldenlys.github.io/Koruxa-Enhancer/images/skills/skill_thieving.jpg);
 }
 .bg-skill.arcana {]
-    background-image: url(https://goldenlys.github.io/Koruxa-Enhancer/images/skills/skill-arcana.jpg);
+    background-image: url(https://goldenlys.github.io/Koruxa-Enhancer/images/skills/skill_arcana.jpg);
 }
 
 /* Artisan skills */
 .bg-skill.cooking {
-    background-image: url(https://goldenlys.github.io/Koruxa-Enhancer/images/skills/skill-cooking.jpg);
+    background-image: url(https://goldenlys.github.io/Koruxa-Enhancer/images/skills/skill_cooking.jpg);
 }
 .bg-skill.fletching {
-    background-image: url(https://goldenlys.github.io/Koruxa-Enhancer/images/skills/skill-fletching.jpg);
+    background-image: url(https://goldenlys.github.io/Koruxa-Enhancer/images/skills/skill_fletching.jpg);
 }
 .bg-skill.crafting {
-    background-image: url(https://goldenlys.github.io/Koruxa-Enhancer/images/skills/skill-crafting.jpg);
+    background-image: url(https://goldenlys.github.io/Koruxa-Enhancer/images/skills/skill_crafting.jpg);
 }
 .bg-skill.herblore {
-    background-image: url(https://goldenlys.github.io/Koruxa-Enhancer/images/skills/skill-herblore.jpg);
+    background-image: url(https://goldenlys.github.io/Koruxa-Enhancer/images/skills/skill_herblore.jpg);
 }
 .bg-skill.smithing {
-    background-image: url(https://goldenlys.github.io/Koruxa-Enhancer/images/skills/skill-smithing.jpg);
+    background-image: url(https://goldenlys.github.io/Koruxa-Enhancer/images/skills/skill_smithing.jpg);
 }
 .bg-skill.firemaking {
-    background-image: url(https://goldenlys.github.io/Koruxa-Enhancer/images/skills/skill-firemaking.jpg);
+    background-image: url(https://goldenlys.github.io/Koruxa-Enhancer/images/skills/skill_firemaking.jpg);
 }
 
 /* Combat skills (WIP)
