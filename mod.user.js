@@ -20,13 +20,13 @@
  - (Maybe) add "Stats" tab with more stats
  - Add a + button to the helper to select which level to reach 
  - With the plus button, make it generate a formula to reach the desired level with the less amount of time 
- - Add a skill background image on the page
 */
 
 const KX = unsafeWindow;
 // Additional global variables for easier access, mostly based on HTML elements
 KX.KORUXA_GLOBALS = {
     "forced-current-skill": "none",
+    "target-level": "none",
 };
 KX.KORUXA_STATS = {};
 KX.KORUXA_TOOLS = {};
@@ -50,6 +50,7 @@ KX.mapping = { // Mappings of game data
     "session-time-left": { selector: "#session-remaining", value: "" },
     cycle: { selector: "#cycle-counter", value: { current: "0", total: "0" } },
     "session-xp-rate": { selector: "#progress-xp-rate", value: "0" },
+    //"session-current-skill": { selector: "#session-skill-name", value: "" },
 };
 
 (function () {
@@ -62,7 +63,134 @@ KX.mapping = { // Mappings of game data
         cooking: (typeof KORUXA_COOKING_CONFIG !== 'undefined') ? KORUXA_COOKING_CONFIG : {},
         fletching: (typeof KORUXA_FLETCHING_CONFIG !== 'undefined') ? KORUXA_FLETCHING_CONFIG : {},
         crafting: (typeof KORUXA_CRAFTING_CONFIG !== 'undefined') ? KORUXA_CRAFTING_CONFIG : {},
-        herblore: (typeof KORUXA_HERBLORE_CONFIG !== 'undefined') ? KORUXA_HERBLORE_CONFIG : {},
+        herblore: {
+            attack_potion: {
+                key: 'attack_potion',
+                label: 'Attack Potion',
+                min_level: 1,
+                xp: 8,
+                duration_ms: 14000,
+            },
+            defence_potion: {
+                key: 'defence_potion',
+                label: 'Defence Potion',
+                min_level: 5,
+                xp: 12,
+                duration_ms: 16000,
+            },
+            health_potion: {
+                key: 'health_potion',
+                label: 'Health Potion',
+                min_level: 12,
+                xp: 18,
+                duration_ms: 18000,
+            },
+            thieving_potion: {
+                key: 'thieving_potion',
+                label: 'Thieving Potion',
+                min_level: 18,
+                xp: 24,
+                duration_ms: 21000,
+            },
+            wisdom_potion: {
+                key: 'wisdom_potion',
+                label: 'Wisdom Potion',
+                min_level: 25,
+                xp: 32,
+                duration_ms: 24000,
+            },
+            haste_potion: {
+                key: 'haste_potion',
+                label: 'Haste Potion',
+                min_level: 30,
+                xp: 38,
+                duration_ms: 26000,
+            },
+            super_attack_potion: {
+                key: 'super_attack_potion',
+                label: 'Super Attack Potion',
+                min_level: 38,
+                xp: 45,
+                duration_ms: 30000,
+            },
+            super_defence_potion: {
+                key: 'super_defence_potion',
+                label: 'Super Defence Potion',
+                min_level: 43,
+                xp: 52,
+                duration_ms: 33000,
+            },
+            fortune_potion: {
+                key: 'fortune_potion',
+                label: 'Fortune Potion',
+                min_level: 48,
+                xp: 58,
+                duration_ms: 35000,
+            },
+            super_health_potion: {
+                key: 'super_health_potion',
+                label: 'Super Health Potion',
+                min_level: 53,
+                xp: 65,
+                duration_ms: 38000,
+            },
+            super_thieving_potion: {
+                key: 'super_thieving_potion',
+                label: 'Super Thieving Potion',
+                min_level: 58,
+                xp: 72,
+                duration_ms: 41000,
+            },
+            combat_potion: {
+                key: 'combat_potion',
+                label: 'Combat Potion',
+                min_level: 63,
+                xp: 78,
+                duration_ms: 44000,
+            },
+            super_wisdom_potion: {
+                key: 'super_wisdom_potion',
+                label: 'Super Wisdom Potion',
+                min_level: 68,
+                xp: 85,
+                duration_ms: 46000,
+            },
+            super_haste_potion: {
+                key: 'super_haste_potion',
+                label: 'Super Haste Potion',
+                min_level: 73,
+                xp: 95,
+                duration_ms: 50000,
+            },
+            skiller_potion: {
+                key: 'skiller_potion',
+                label: 'Skiller Potion',
+                min_level: 75,
+                xp: 100,
+                duration_ms: 52000,
+            },
+            super_fortune_potion: {
+                key: 'super_fortune_potion',
+                label: 'Super Fortune Potion',
+                min_level: 78,
+                xp: 105,
+                duration_ms: 55000,
+            },
+            master_potion: {
+                key: 'master_potion',
+                label: 'Master Potion',
+                min_level: 88,
+                xp: 140,
+                duration_ms: 65000,
+            },
+            overload_potion: {
+                key: 'overload_potion',
+                label: 'Overload',
+                min_level: 96,
+                xp: 200,
+                duration_ms: 80000,
+            },
+        },
         smithing: (typeof KORUXA_SMITHING_CONFIG !== 'undefined') ? KORUXA_SMITHING_CONFIG : {},
         firemaking: (typeof KORUXA_FIREMAKING_CONFIG !== 'undefined') ? KORUXA_FIREMAKING_CONFIG : {},
         arcana: (typeof KORUXA_ARCANA_CONFIG !== 'undefined') ? KORUXA_ARCANA_CONFIG : {},
@@ -140,39 +268,209 @@ KX.mapping = { // Mappings of game data
                 duration_ms: 0,
             },
         },
-        farming: {}
+        farming: {
+            herbs: {
+                glowroot_seed: {
+                    key: 'glowroot_seed',
+                    label: 'Glowroot Seed',
+                    min_level: 1,
+                    xp: 35,
+                    duration_ms: 900000,
+                },
+                emberstem_seed: {
+                    key: 'emberstem_seed',
+                    label: 'Emberstem Seed',
+                    min_level: 10,
+                    xp: 70,
+                    duration_ms: 1800000,
+                },
+                frostleaf_seed: {
+                    key: 'frostleaf_seed',
+                    label: 'Frostleaf Seed',
+                    min_level: 20,
+                    xp: 115,
+                    duration_ms: 2700000,
+                },
+                shadowmoss_seed: {
+                    key: 'shadowmoss_seed',
+                    label: 'Shadowmoss Seed',
+                    min_level: 32,
+                    xp: 175,
+                    duration_ms: 3600000,
+                },
+                spiritbloom_seed: {
+                    key: 'spiritbloom_seed',
+                    label: 'Spiritbloom Seed',
+                    min_level: 45,
+                    xp: 255,
+                    duration_ms: 5400000,
+                },
+                voidpetal_seed: {
+                    key: 'voidpetal_seed',
+                    label: 'Voidpetal Seed',
+                    min_level: 60,
+                    xp: 370,
+                    duration_ms: 7200000,
+                },
+                celestine_seed: {
+                    key: 'celestine_seed',
+                    label: 'Celestine Seed',
+                    min_level: 75,
+                    xp: 525,
+                    duration_ms: 10800000,
+                },
+                elderbloom_seed: {
+                    key: 'elderbloom_seed',
+                    label: 'Elderbloom Seed',
+                    min_level: 90,
+                    xp: 750,
+                    duration_ms: 14400000,
+                },
+            },
+            crops: {
+                dustwheat_seed: {
+                    key: 'dustwheat_seed',
+                    label: 'Dustwheat Seed',
+                    min_level: 1,
+                    xp: 20,
+                    duration_ms: 600000,
+                },
+                crimson_corn_seed: {
+                    key: 'crimson_corn_seed',
+                    label: 'Crimson Corn Seed',
+                    min_level: 15,
+                    xp: 80,
+                    duration_ms: 1200000,
+                },
+                moonpotato_seed: {
+                    key: 'moonpotato_seed',
+                    label: 'Moonpotato Seed',
+                    min_level: 28,
+                    xp: 130,
+                    duration_ms: 2400000,
+                },
+                starmelon_seed: {
+                    key: 'starmelon_seed',
+                    label: 'Starmelon Seed',
+                    min_level: 42,
+                    xp: 205,
+                    duration_ms: 3600000,
+                },
+                voidberry_seed: {
+                    key: 'voidberry_seed',
+                    label: 'Voidberry Seed',
+                    min_level: 58,
+                    xp: 295,
+                    duration_ms: 5400000,
+                },
+                soulgrape_seed: {
+                    key: 'soulgrape_seed',
+                    label: 'Soulgrape Seed',
+                    min_level: 72,
+                    xp: 420,
+                    duration_ms: 7200000,
+                },
+            },
+            trees: {
+                ashling_sapling: {
+                    key: 'ashling_sapling',
+                    label: 'Ashling Sapling',
+                    min_level: 15,
+                    xp: 200,
+                    duration_ms: 14400000,
+                },
+                duskwood_sapling: {
+                    key: 'duskwood_sapling',
+                    label: 'Duskwood Sapling',
+                    min_level: 30,
+                    xp: 400,
+                    duration_ms: 21600000,
+                },
+                crystalbark_sapling: {
+                    key: 'crystalbark_sapling',
+                    label: 'Crystalbark Sapling',
+                    min_level: 50,
+                    xp: 675,
+                    duration_ms: 28800000,
+                },
+                spiritoak_sapling: {
+                    key: 'spiritoak_sapling',
+                    label: 'Spiritoak Sapling',
+                    min_level: 70,
+                    xp: 1025,
+                    duration_ms: 43200000,
+                },
+                worldtree_sapling: {
+                    key: 'worldtree_sapling',
+                    label: 'Worldtree Sapling',
+                    min_level: 90,
+                    xp: 1400,
+                    duration_ms: 86400000,
+                },
+            },
+            flowers: {
+                sunpetal_seed: {
+                    key: 'sunpetal_seed',
+                    label: 'Sunpetal Seed',
+                    min_level: 5,
+                    xp: 42,
+                    duration_ms: 1200000,
+                },
+                nightshade_seed: {
+                    key: 'nightshade_seed',
+                    label: 'Nightshade Seed',
+                    min_level: 25,
+                    xp: 110,
+                    duration_ms: 2700000,
+                },
+                stardust_rose_seed: {
+                    key: 'stardust_rose_seed',
+                    label: 'Stardust Rose Seed',
+                    min_level: 50,
+                    xp: 155,
+                    duration_ms: 5400000,
+                },
+                voidorchid_seed: {
+                    key: 'voidorchid_seed',
+                    label: 'Voidorchid Seed',
+                    min_level: 75,
+                    xp: 475,
+                    duration_ms: 10800000,
+                },
+            }
+        }
     };
 
     // Mappings for REPLACE_ICONS()
     const iconReplacements = {
 
         // General
-        "a[href='logout.php']": { // Log out
+        ".topbar a[href='logout.php']": { // Log out
             icon: "fa-solid fa-right-from-bracket", text: ""
         },
-        ".notification-bell-icon": { // Notifications
+        ".topbar .notification-bell-icon": { // Notifications
             icon: "fa-solid fa-envelope", text: ""
         },
-        "a[href='character_select.php']": { // Change character
+        ".topbar a[href='character_select.php']": { // Change character
             icon: "fa-solid fa-person-walking-dashed-line-arrow-right", text: ""
         },
-        "a[href='game.php?page=leaderboard']": { // Leaderboard
+        ".topbar a[href='game.php?page=leaderboard']": { // Leaderboard
             icon: "ra ra-trophy", text: ""
         },
-        "a[href='game.php?page=shop']": { // Buy credits
+        ".topbar a[href='game.php?page=shop']": { // Buy credits
             icon: "fa-solid fa-plus", text: "Buy"
         },
-        "#session-stop": { // Session stop
+        ".topbar #session-stop": { // Session stop
             icon: "fa-solid fa-xmark", text: ""
         },
-        "#session-renew": { // Session Renew
+        ".topbar #session-renew": { // Session Renew
             icon: "fa-solid fa-arrows-rotate", text: ""
         },
-        ".progress-badge-icon": { // Session XP Rate
+        ".topbar .progress-badge-icon": { // Session XP Rate
             icon: "ra ra-progression", text: ""
         },
-        "a[href='game.php?page=messages']": { // Messages
-            icon: "fa-solid fa-message", text: ""
+        ".topbar a[href='game.php?page=messages']": { // Messages
+            icon: "ra ra-speech-bubble", text: ""
         },
 
         "a[href='game.php?page=news']": { // News
@@ -181,6 +479,38 @@ KX.mapping = { // Mappings of game data
 
         "a[href='game.php?page=settings']": { // News
             icon: "fa-solid fa-gear", text: ""
+        },
+
+        ".dm-reward-icon": { // Daily Quests Reward
+            icon: "fa-solid fa-gift", text: " Reward"
+        },
+
+        ".dm-reroll-btn": { // Daily Quests Reroll
+            icon: "fa-solid fa-redo", text: ""
+        },
+
+        ".dm-bonus-locked": { // Daily Quests Locked
+            icon: "ra ra-padlock", text: ""
+        },
+
+        ".premium-badge>.premium-icon": { // Premium Badge
+            icon: "ra ra-jewel-crown", text: ""
+        },
+
+        ".quest-tracker-icon": { // Quest Tracker
+            icon: "ra ra-stabbed-note", text: ""
+        },
+
+        ".sidebar-inventory-title>span:not([class])": { // Inventory
+            icon: "ra ra-light-backpack", text: " Inventory"
+        },
+
+        ".sidebar-inventory-title .inv-sort-btn": { // Inventory Sort
+            icon: "fa-solid fa-sort", text: ""
+        },
+
+        ".sidebar-inventory-title a[href='game.php?page=bank']": { // Bank
+            icon: "ra ra-strongbox", text: " Bank"
         },
 
         // Gathering Skills
@@ -382,6 +712,9 @@ KX.mapping = { // Mappings of game data
             document.body.prepend(bg_el);
         }
 
+        const skillBlacklist = ["slayer", "attack", , "strength", "defence", "hitpoints", "magic", "ranged"];
+        if (skillBlacklist.includes(skill)) return;
+
         bg_el.className = `bg-skill ${skill}`;
         KX.KORUXA_GLOBALS["current-skill"] = skill;
     }
@@ -416,16 +749,19 @@ KX.mapping = { // Mappings of game data
     function REPLACE_ICONS() {
         for (const selector in iconReplacements) {
             const cfg = iconReplacements[selector];
-            const el = document.querySelector(selector);
+            const elements = document.querySelectorAll(selector);
 
-            if (!el) continue;
-            if (el.dataset.iconified === "1") continue; // Prevent duplicate replacements
+            if (!elements.length) continue;
 
-            const iconHTML = `<i class="${cfg.icon}"></i>`;
-            const textHTML = cfg.text ? `<span class="icon-text">${cfg.text}</span>` : "";
+            elements.forEach(el => {
+                if (el.dataset.iconified === "1") return;
 
-            el.innerHTML = iconHTML + textHTML;
-            el.dataset.iconified = "1";
+                const iconHTML = `<i class="${cfg.icon}"></i>`;
+                const textHTML = cfg.text ? `<span class="icon-text">${cfg.text}</span>` : "";
+
+                el.innerHTML = iconHTML + textHTML;
+                el.dataset.iconified = "1";
+            });
         }
     }
 
@@ -498,9 +834,7 @@ KX.mapping = { // Mappings of game data
             const pageLevel = Number(allLevels[skill] ?? 0);
             const localLevel = Number(KX.KORUXA_STATS[skill]?.level ?? 0);
 
-            if (pageLevel > localLevel + 1) {
-                console.warn("Skill desync detected, but reload prevented.");
-            }
+            if (pageLevel > localLevel) location.reload();
         }
     }
 
@@ -532,7 +866,7 @@ KX.mapping = { // Mappings of game data
         return unlocked.sort((a, b) => b.req - a.req).map(x => x.action);
     }
 
-    function CALC_SKILL_LEVEL_UP(skill) {
+    function CALC_SKILL_LEVEL_UP(skill, level = 0) {
         const actions = GET_LAST_UNLOCK_SKILL(skill);
         if (!actions || actions.length === 0) return null;
 
@@ -540,10 +874,11 @@ KX.mapping = { // Mappings of game data
         const tools = KX.KORUXA_TOOLS || {};
         const farms = KX.KORUXA_FARMS || {};
         const stats = KX.KORUXA_STATS?.[skill] || {};
+        const ExpToNext = level !== 0 ? Number(stats.xp_current) : GET_XP(level).totalXp;
         const premiumBonus = (KX.KORUXA_IS_PREMIUM ? 20 : 0);
 
         const compute = (action, e) => {
-            const label = skill === "herblore" ? e.name : (e.label ?? action);
+            const label = (e.label ?? action);
             const tool = tools[skill] || {};
             const farm = farms[skill] || {};
 
@@ -553,7 +888,7 @@ KX.mapping = { // Mappings of game data
             const xpPerLoop = (e.xp || 0) * (1 + xpBonus / 100);
             const msPerLoop = (e.duration_ms || 0) * Math.max(0, 1 - speed / 100);
 
-            const xpLeft = Math.max(0, (Number(stats.xp_needed) || 0) - (Number(stats.xp_current) || 0));
+            const xpLeft = Math.max(0, (Number(stats.xp_needed) || 0) - ExpToNext || 0));
             if (xpLeft <= 0 || xpPerLoop <= 0) return { skill, action, label, loops: 0, time: "0s", required: 0 };
 
             const loops = Math.ceil(xpLeft / xpPerLoop);
@@ -600,11 +935,11 @@ KX.mapping = { // Mappings of game data
     function ENHANCED_HELPER() {
         const SKILL_ICONS = {
             woodcutting: "ra ra-fire-axe", mining: "ra ra-war-pick",
-            fishing: "ra ra-fishing-pole",  farming: "ra ra-wheat",
+            fishing: "ra ra-fishing-pole", farming: "ra ra-wheat",
             thieving: "ra ra-balaclava", arcana: "ra ra-spell-book",
             cooking: "ra ra-meat", fletching: "ra ra-arrowhead",
-            crafting: "ra ra-claw-hammer", herblore: "ra ra-potion-ball", 
-            smithing: "ra ra-anvil-impact", firemaking: "ra ra-campfire", 
+            crafting: "ra ra-claw-hammer", herblore: "ra ra-potion-ball",
+            smithing: "ra ra-anvil-impact", firemaking: "ra ra-campfire",
             default: "fa-solid fa-star"
         };
 
@@ -613,17 +948,17 @@ KX.mapping = { // Mappings of game data
         const skill = (forced && forced !== "none") ? forced : (current || null);
         if (!skill) return;
 
-        const result = CALC_SKILL_LEVEL_UP(skill);
+        const result = CALC_SKILL_LEVEL_UP(skill); // optionnal arg is the current level
         if (!result?.length) return;
 
         const [first, second, third] = result;
         const level = KX.KORUXA_STATS?.[skill]?.level ?? 0;
         const approx = skill === "thieving" ? "~" : "";
         const phrase = [
-            `Level up ${first.skill} with <b>${approx}${FORMAT_NUMBER(first.required)}</b> XP`,
-            `1. <b>${first.label} ${approx}x${FORMAT_NUMBER(first.loops, 0)}</b> (<b>${first.time}</b>)`,
-            second && `2. <b>${second.label} ${approx}x${FORMAT_NUMBER(second.loops, 0)}</b> (<b>${second.time}</b>)`,
-            third && `3. <b>${third.label} ${approx}x${FORMAT_NUMBER(third.loops, 0)}</b> (<b>${third.time}</b>)`
+            `Level up ${first.skill} with <b>${FORMAT_NUMBER(first.required)}</b> XP`,
+            `1. <b>${first.label} ${approx}x${FORMAT_NUMBER(first.loops, 0)}</b> — <b>${first.time}</b>`,
+            second && `2. <b>${second.label} ${approx}x${FORMAT_NUMBER(second.loops, 0)}</b> — <b>${second.time}</b>`,
+            third && `3. <b>${third.label} ${approx}x${FORMAT_NUMBER(third.loops, 0)}</b> — <b>${third.time}</b>`
         ].filter(Boolean).join("<br>");
 
         let el = document.querySelector("#enhanced-helper");
@@ -654,7 +989,6 @@ KX.mapping = { // Mappings of game data
                 btn.className = "enhanced-helper-btn";
                 btn.dataset.skill = key;
                 btn.innerHTML = `<i class="${SKILL_ICONS[key] || SKILL_ICONS.default}" aria-hidden="true"></i>`;
-                if (key === "farming") btn.disabled = true;
                 return btn;
             }));
         }
@@ -713,6 +1047,46 @@ KX.mapping = { // Mappings of game data
             startAfterIdle();
         }
     }
+
+    function TRANSFORM_DROPS() {
+        const container = document.querySelector(".chatbox-messages");
+        if (!container) return;
+
+        const drops = container.querySelectorAll(".chat-message.drop");
+
+        drops.forEach(drop => {
+            const textEl = drop.querySelector(".chat-drop-text");
+            const userEl = drop.querySelector(".chat-username.drop");
+
+            if (!textEl || !userEl) return;
+            if (textEl.dataset.transformed === "1") return;
+
+            let txt = textEl.textContent.trim();
+
+            // Replace Star/Moon/Sun words with icons
+            txt = txt.replace(/\bStar\b/g, "⭐").replace(/\bMoon\b/g, "🌙").replace(/\bSun\b/g, "☀️");
+
+            // Extract username
+            const username = userEl.textContent.trim();
+
+            // Extract item name (between first emoji and second emoji)
+            const match = txt.match(/[\⭐🌙☀️]\s*(.*?)\s*[\⭐🌙☀️]/);
+            const item = match ? match[1].trim() : "";
+
+            // Extract the rest (e.g., "from Thieving at level 47!")
+            const after = txt.split(/[\⭐🌙☀️].*?[\⭐🌙☀️]/)[1].trim();
+
+            // Extract the emoji used
+            const emoji = txt.match(/[\⭐🌙☀️]/)?.[0] || "";
+
+            // Build final message
+            const finalText = `${username} found a ${emoji} ${item} ${after}`;
+
+            textEl.textContent = finalText;
+            textEl.dataset.transformed = "1";
+        });
+    }
+
     // Detect if the left-sidebar is hovered, if yes then it adds an hover class to the game layout
     const sidebarLeft = document.querySelector('.sidebar-left');
     const gameLayout = document.querySelector('.game-layout');
@@ -724,8 +1098,11 @@ KX.mapping = { // Mappings of game data
 
     // Moves the food bar to the right sidebar when possible
     if (document.querySelector('#food-bar')) document.querySelector('#sidebar-hp-bar').after(document.querySelector('#food-bar'));
-    const observer = new MutationObserver(() => SET_CURRENT_SKILL_CLASS());
+    const observer = new MutationObserver(() => { REPLACE_ICONS(); SET_CURRENT_SKILL_CLASS(); });
     observer.observe(document.body, { childList: true, subtree: true });
+
+    // Update REPLACE_ICONS on sort-menu button click
+    document.querySelector('#inv-sort-menu button').addEventListener('click', () => { setTimeout(() => { console.log("Updating Icons.."); REPLACE_ICONS(); }, 1500); });
 
     REPLACE_ICONS();
     LOAD_CSS("https://fonts.googleapis.com/css2?family=Saira:ital,wght@0,100..900;1,100..900&display=swap");

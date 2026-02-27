@@ -1,3 +1,8 @@
+@font-face {
+    font-family: 'emoji';
+    src: url('https://goldenlys.github.io/Koruxa-Enhancer/fonts/NotoColorEmoji.ttf') format('truetype');
+}
+
 :root {
     /* Background colors */
     --bg-body: radial-gradient(circle at top, #283855 0, #050816 60%);
@@ -14,11 +19,13 @@
     /* Component specific */
     --topbar-bg: rgb(12 20 39 / 75%);
     --topbar-border: #3b82f6;
-    --sidebar-bg: rgba12, 20, 39, 0.96);
-    --sidebar-bg: rgb12, 20, 39, 0.96);
     --sidebar-bg: rgb(12 20 39 / 75%);
     --scrollbar-thumb: rgba(100, 116, 139, 0.5);
     --scrollbar-thumb-hover: rgba(100, 116, 139, 0.7);
+}
+
+body {
+    font-family: "Inter", "emoji", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 .game-area {
@@ -793,7 +800,7 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     width: 100%;
     height: 100%;
     z-index: 0;
-    background: url(https://goldenlys.github.io/Koruxa-Enhancer/images/skill-placeholder.png) no-repeat center center fixed;
+    background: none no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -849,3 +856,29 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
 .bg-skill.hitpoints {}
 .bg-skill.magic {}
 .bg-skill.ranged {}*/
+
+/* fix custom icons colors */
+
+.progress-badge-icon {
+    color: #22c55e;
+}
+
+.premium-badge .premium-icon {
+    font-size: 22px;
+    line-height: 14px;
+    color: #ffca81;
+    text-shadow: 0 0 4px #7d5a1c;
+}
+
+.sidebar-title i {
+    font-size: 18px;
+    line-height: 20px;
+}
+
+.sidebar-title>* {
+    display: flex;
+    gap: 4px;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
