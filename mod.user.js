@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       1.22
+// @version       1.23
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    https://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
@@ -27,6 +27,7 @@ const KX = unsafeWindow;
 KX.KORUXA_GLOBALS = {
     "forced-current-skill": "none",
     "target-level": "none",
+    "sidebar-state": "lsb-unlocked"
 };
 KX.KORUXA_STATS = {};
 KX.KORUXA_TOOLS = {};
@@ -448,9 +449,6 @@ KX.mapping = { // Mappings of game data
         ".topbar a[href='logout.php']": { // Log out
             icon: "fa-solid fa-right-from-bracket", text: ""
         },
-        ".topbar .notification-bell-icon": { // Notifications
-            icon: "fa-solid fa-envelope", text: ""
-        },
         ".topbar a[href='character_select.php']": { // Change character
             icon: "fa-solid fa-person-walking-dashed-line-arrow-right", text: ""
         },
@@ -493,7 +491,11 @@ KX.mapping = { // Mappings of game data
             icon: "ra ra-padlock", text: ""
         },
 
-        ".premium-badge>.premium-icon": { // Premium Badge
+        ".premium-badge>.premium-icon": { // PTopbar Premium Badge
+            icon: "ra ra-jewel-crown", text: ""
+        },
+
+        ".prf-premium-badge": { // User Premium Badge
             icon: "ra ra-jewel-crown", text: ""
         },
 
@@ -1086,27 +1088,64 @@ KX.mapping = { // Mappings of game data
         });
     }
 
-    // Detect if the left-sidebar is hovered, if yes then it adds an hover class to the game layout
-    const sidebarLeft = document.querySelector('.sidebar-left');
-    const sidebarRight = document.querySelector('.sidebar-right');
-    const gameLayout = document.querySelector('.game-layout');
-    const sortMenu = document.querySelector('#inv-sort-menu');
+    function LOCK_SIDEBAR() {
+        const sts = ['lsb-unlocked', 'lsb-locked-open', 'lsb-locked-closed'],
+            ics = ['fas fa-arrows-left-right', 'fas fa-lock', 'fas fa-lock'],
+            sL = document.querySelector('.sidebar-left'),
+            gL = document.querySelector('.game-layout'),
+            f = document.querySelector('.sidebar-footer');
 
-    if (sidebarLeft && gameLayout) {
-        sidebarLeft.addEventListener('mouseenter', () => { gameLayout.classList.add('lside-hover'); });
-        sidebarLeft.addEventListener('mouseleave', () => { gameLayout.classList.remove('lside-hover'); });
+        if (!f || document.getElementById('sidebar-lock-btn')) return;
+
+        const b = document.createElement('div');
+        b.id = 'sidebar-lock-btn';
+        b.className = 'sidebar-footer-btn';
+
+        const updateUI = (state = "lsb-unlocked") => {
+            const idx = sts.indexOf(state);
+            b.innerHTML = `<i class="${ics[idx]}"></i>`;
+
+            if (gL) {
+                b.className = `sidebar-footer-btn ${state.replace('lsb-', '')}`;
+                sts.forEach(s => gL.classList.toggle(s, s === state));
+                if (state !== 'lsb-unlocked') gL.classList.remove('lsb-hover');
+            }
+        };
+
+        b.onclick = () => {
+            const cur = KX.KORUXA_GLOBALS["sidebar-state"];
+            const next = sts[(sts.indexOf(cur) + 1) % 3];
+            KX.KORUXA_GLOBALS["sidebar-state"] = next;
+            updateUI(next);
+        };
+
+        if (sL && gL && window.innerWidth > 1024) {
+            sL.onmouseenter = () => {
+                if (KX.KORUXA_GLOBALS["sidebar-state"] === 'lsb-unlocked') {
+                    gL.classList.add('lsb-hover');
+                }
+            };
+            sL.onmouseleave = () => gL.classList.remove('lsb-hover');
+        }
+
+        f.prepend(b);
+        updateUI(KX.KORUXA_GLOBALS["sidebar-state"]);
     }
 
-    // Moves the food bar to the right sidebar when possible
+    const sidebarRight = document.querySelector('.sidebar-right');
     if (document.querySelector('#food-bar')) document.querySelector('#sidebar-hp-bar').after(document.querySelector('#food-bar'));
     const observer = new MutationObserver(() => { REPLACE_ICONS(); TRANSFORM_DROPS(); SET_CURRENT_SKILL_CLASS(); });
     observer.observe(document.body, { childList: true, subtree: true });
 
     // Update REPLACE_ICONS on sort-menu button click
-    if (sortMenu && sidebarRight) document.querySelector('#inv-sort-menu button').addEventListener('click', () => { setTimeout(() => { REPLACE_ICONS(); }, 1500); });
+    const sortMenu = document.querySelector('.inv-sort-menu');
+    if (sortMenu && sidebarRight) sortMenu.addEventListener('click', e => {
+        setTimeout(() => { REPLACE_ICONS(); }, 1500);
+    });
 
     REPLACE_ICONS();
     TRANSFORM_DROPS();
+    LOCK_SIDEBAR();
     LOAD_CSS("https://fonts.googleapis.com/css2?family=Saira:ital,wght@0,100..900;1,100..900&display=swap");
     LOAD_CSS("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css");
     LOAD_CSS("https://goldenlys.github.io/Koruxa-Enhancer/css/rpg-awesome.min.css");
