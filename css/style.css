@@ -574,11 +574,12 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
 
 .neh-text {
     display: flex;
-    flex: 1 0 auto;
+    flex: 1 1 auto;
     flex-direction: column;
-    align-items: stretch;
     overflow: visible;
     justify-content: center;
+    flex-wrap: wrap;
+    align-items: stretch;
 }
 
 .neh-right-buttons {
@@ -1046,4 +1047,9 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
 
 .sidebar-footer-btn.locked-closed {
     color: rgb(229 91 91);
+}
+
+.stun-indicator[style="display: none;"] {
+    display: block !important;
+    visibility: hidden;
 }
