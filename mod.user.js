@@ -842,11 +842,11 @@ KX.mapping = { // Mappings of game data
         }
     }
 
-    function GET_LAST_UNLOCK_SKILL(skill) {
+    function GET_LAST_UNLOCK_SKILL(skill, level = 0) {
         const config = KORUXA_CONFIGS?.[skill];
         if (!config) return [];
-
-        const lvl = (KX.KORUXA_ALL_SKILL_LEVELS || {})[skill] || 0;
+        const currentLvl = (KX.KORUXA_ALL_SKILL_LEVELS || {})[skill] || 0;
+        const lvl = level > 0 ? level : currentLvl;
         const unlocked = [];
 
         for (const key in config) {
@@ -870,19 +870,24 @@ KX.mapping = { // Mappings of game data
         return unlocked.sort((a, b) => b.req - a.req).map(x => x.action);
     }
 
-    function CALC_SKILL_LEVEL_UP(skill, level = 0) {
-        const actions = GET_LAST_UNLOCK_SKILL(skill);
+    function CALC_SKILL_LEVEL_UP(skill, targetLevel = 0) {
+        const actions = GET_LAST_UNLOCK_SKILL(skill, targetLevel);
         if (!actions || actions.length === 0) return null;
 
         const config = KORUXA_CONFIGS?.[skill] || {};
-        const tools = KX.KORUXA_TOOLS || {};
-        const farms = KX.KORUXA_FARMS || {};
         const stats = KX.KORUXA_STATS?.[skill] || {};
-        const ExpToNext = level !== 0 ? Number(stats.xp_current) : GET_XP(level, "total");
         const premiumBonus = (KX.KORUXA_IS_PREMIUM ? 20 : 0);
+        const currentXP = Number(stats.xp_current) || 0;
+        let targetXP;
+
+        if (targetLevel > 0) { targetXP = GET_XP(targetLevel, "total"); }
+        else { targetXP = Number(stats.xp_needed) || 0; }
+        const xpLeft = Math.max(0, targetXP - currentXP);
 
         const compute = (action, e) => {
             const label = (e.label ?? action);
+            const tools = KX.KORUXA_TOOLS || {};
+            const farms = KX.KORUXA_FARMS || {};
             const tool = tools[skill] || {};
             const farm = farms[skill] || {};
 
@@ -892,7 +897,6 @@ KX.mapping = { // Mappings of game data
             const xpPerLoop = (e.xp || 0) * (1 + xpBonus / 100);
             const msPerLoop = (e.duration_ms || 0) * Math.max(0, 1 - speed / 100);
 
-            const xpLeft = Math.max(0, (Number(stats.xp_needed) || 0) - ExpToNext || 0);
             if (xpLeft <= 0 || xpPerLoop <= 0) return { skill, action, label, loops: 0, time: "0s", required: 0 };
 
             const loops = Math.ceil(xpLeft / xpPerLoop);
@@ -916,7 +920,6 @@ KX.mapping = { // Mappings of game data
         for (const action of actions) {
             const entry = config[action];
             if (entry && entry.xp) { pushEntry(action, entry); continue; }
-
             for (const cat of Object.values(config)) {
                 const e = cat?.[action];
                 if (e) { pushEntry(action, e); break; }
@@ -960,7 +963,7 @@ KX.mapping = { // Mappings of game data
         const [first, second, third] = result;
         const approx = skill === "thieving" ? "~" : "";
         const phrase = [
-            `Level up ${first.skill} with <b>${FORMAT_NUMBER(first.required)}</b> XP`,
+            `Reach ${first.skill} level <b>${tLvl}</b> with <b>${FORMAT_NUMBER(first.required)}</b> XP`,
             `1. <b>${first.label} ${approx}x${FORMAT_NUMBER(first.loops, 0)}</b> — <b>${first.time}</b>`,
             second && `2. <b>${second.label} ${approx}x${FORMAT_NUMBER(second.loops, 0)}</b> — <b>${second.time}</b>`,
             third && `3. <b>${third.label} ${approx}x${FORMAT_NUMBER(third.loops, 0)}</b> — <b>${third.time}</b>`
@@ -1013,7 +1016,7 @@ KX.mapping = { // Mappings of game data
         tLvl <= level ? bM.setAttribute("disabled", "") : bM.removeAttribute("disabled");
 
         el.querySelector(".neh-item").innerHTML = phrase;
-        el.querySelector(".neh-subtitle").textContent = `Reach ${skill} Lv. ${tLvl}`;
+        el.querySelector(".neh-subtitle").textContent = `${skill} ${tLvl}`;
 
         const bC = el.querySelector(".neh-btns");
         if (!bC.hasChildNodes()) {
