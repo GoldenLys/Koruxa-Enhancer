@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       1.23
+// @version       1.24
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    https://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
@@ -26,7 +26,7 @@ const KX = unsafeWindow;
 // Additional global variables for easier access, mostly based on HTML elements
 KX.KORUXA_GLOBALS = {
     "forced-current-skill": "none",
-    "target-level": "none",
+    "target-level": 0,
     "sidebar-state": "lsb-unlocked"
 };
 KX.KORUXA_STATS = {};
@@ -696,7 +696,7 @@ KX.mapping = { // Mappings of game data
         SET_CURRENT_SKILL_CLASS();
         LOAD_TOOL_STATS();
         LOAD_FARM_STATS();
-        if (KX.KORUXA_GLOBALS["current-skill"] !== "Doing") ENHANCED_HELPER();
+        if (KX.KORUXA_GLOBALS["current-skill"] !== "Doing") NEH();
         //console.table(KX.mapping); // Debug output
     }
 
@@ -926,7 +926,6 @@ KX.mapping = { // Mappings of game data
         if (candidates.length === 0) return null;
         candidates.sort((a, b) => b.ratio - a.ratio);
 
-        // compute top 3 (if available)
         const results = [];
         for (let i = 0; i < 3 && i < candidates.length; i++) {
             results.push(compute(candidates[i].action, candidates[i].entry));
@@ -936,14 +935,12 @@ KX.mapping = { // Mappings of game data
     }
 
     // Displays a helper for the current skill or forced skill
-    function ENHANCED_HELPER() {
+    function NEH() {
         const SKILL_ICONS = {
-            woodcutting: "ra ra-fire-axe", mining: "ra ra-war-pick",
-            fishing: "ra ra-fishing-pole", farming: "ra ra-wheat",
-            thieving: "ra ra-balaclava", arcana: "ra ra-spell-book",
-            cooking: "ra ra-meat", fletching: "ra ra-arrowhead",
-            crafting: "ra ra-claw-hammer", herblore: "ra ra-potion-ball",
-            smithing: "ra ra-anvil-impact", firemaking: "ra ra-campfire",
+            woodcutting: "ra ra-fire-axe", mining: "ra ra-war-pick", fishing: "ra ra-fishing-pole",
+            farming: "ra ra-wheat", thieving: "ra ra-balaclava", arcana: "ra ra-spell-book",
+            cooking: "ra ra-meat", fletching: "ra ra-arrowhead", crafting: "ra ra-claw-hammer",
+            herblore: "ra ra-potion-ball", smithing: "ra ra-anvil-impact", firemaking: "ra ra-campfire",
             default: "fa-solid fa-star"
         };
 
@@ -952,11 +949,15 @@ KX.mapping = { // Mappings of game data
         const skill = (forced && forced !== "none") ? forced : (current || null);
         if (!skill) return;
 
-        const result = CALC_SKILL_LEVEL_UP(skill); // optionnal arg is the current level
+        const level = Number(KX.KORUXA_STATS?.[skill]?.level ?? 0);
+        let tLvl = Number(KX.KORUXA_GLOBALS["target-level"] ?? level);
+        if (tLvl < level) tLvl = level;
+        KX.KORUXA_GLOBALS["target-level"] = tLvl;
+
+        const result = tLvl > level ? CALC_SKILL_LEVEL_UP(skill, tLvl) : CALC_SKILL_LEVEL_UP(skill);
         if (!result?.length) return;
 
         const [first, second, third] = result;
-        const level = KX.KORUXA_STATS?.[skill]?.level ?? 0;
         const approx = skill === "thieving" ? "~" : "";
         const phrase = [
             `Level up ${first.skill} with <b>${FORMAT_NUMBER(first.required)}</b> XP`,
@@ -965,58 +966,77 @@ KX.mapping = { // Mappings of game data
             third && `3. <b>${third.label} ${approx}x${FORMAT_NUMBER(third.loops, 0)}</b> — <b>${third.time}</b>`
         ].filter(Boolean).join("<br>");
 
-        let el = document.querySelector("#enhanced-helper");
+        let el = document.querySelector("#neh-helper");
         if (!el) {
             el = document.createElement("div");
-            el.id = "enhanced-helper";
-            el.className = "enhanced-helper";
+            el.id = "neh-helper";
+            el.className = "neh-helper";
             el.innerHTML = `
-      <div class="enhanced-helper-buttons"></div>
-      <div class="enhanced-helper-title"><i class="ra ra-crown-coin"></i> Koruxa Helper <span class="enhanced-helper-subtitle"></span></div>
-      <div class="enhanced-helper-item"></div>`;
+            <div class="neh-btns"></div>
+            <div class="neh-content">
+                <div class="neh-text">
+                    <div class="neh-title"><i class="ra ra-crown-coin"></i> Koruxa Helper <span class="neh-subtitle"></span></div>
+                    <div class="neh-item"></div>
+                </div>
+                <div class="neh-right-buttons">
+                    <div id="NEH-Plus" class="neh-button"><i class="fa-solid fa-plus"></i></div>
+                    <div id="NEH-Minus" class="neh-button"><i class="fa-solid fa-minus"></i></div>
+                </div>
+            </div>`;
             document.querySelector(".sidebar-right")?.prepend(el);
+
+            el.querySelector("#NEH-Plus").onclick = () => {
+                const s = (KX.KORUXA_GLOBALS["forced-current-skill"] || KX.KORUXA_GLOBALS["current-skill"] || "").toLowerCase();
+                const l = Number(KX.KORUXA_STATS?.[s]?.level ?? 0);
+                const target = Number(KX.KORUXA_GLOBALS["target-level"] || l);
+                if (target < 120) {
+                    KX.KORUXA_GLOBALS["target-level"] = target + 1;
+                    NEH();
+                }
+            };
+
+            el.querySelector("#NEH-Minus").onclick = () => {
+                const s = (KX.KORUXA_GLOBALS["forced-current-skill"] || KX.KORUXA_GLOBALS["current-skill"] || "").toLowerCase();
+                const l = Number(KX.KORUXA_STATS?.[s]?.level ?? 0);
+                const target = Number(KX.KORUXA_GLOBALS["target-level"] || l);
+                if (target > l) {
+                    KX.KORUXA_GLOBALS["target-level"] = target - 1;
+                    NEH();
+                }
+            };
         }
 
-        const buttonsContainer = el.querySelector(".enhanced-helper-buttons") ?? (() => {
-            const c = document.createElement("div");
-            c.className = "enhanced-helper-buttons";
-            el.prepend(c);
-            return c;
-        })();
+        const bP = el.querySelector("#NEH-Plus");
+        const bM = el.querySelector("#NEH-Minus");
 
-        if (!buttonsContainer.hasChildNodes()) {
-            const skills = (typeof KORUXA_CONFIGS === "object" && KORUXA_CONFIGS) ? Object.keys(KORUXA_CONFIGS) : [skill];
-            buttonsContainer.append(...skills.map(k => {
+        tLvl >= 120 ? bP.setAttribute("disabled", "") : bP.removeAttribute("disabled");
+        tLvl <= level ? bM.setAttribute("disabled", "") : bM.removeAttribute("disabled");
+
+        el.querySelector(".neh-item").innerHTML = phrase;
+        el.querySelector(".neh-subtitle").textContent = `Reach ${skill} Lv. ${tLvl}`;
+
+        const bC = el.querySelector(".neh-btns");
+        if (!bC.hasChildNodes()) {
+            const sks = (typeof KORUXA_CONFIGS === "object") ? Object.keys(KORUXA_CONFIGS) : [skill];
+            bC.append(...sks.map(k => {
                 const key = k.toLowerCase();
-                const btn = document.createElement("button");
-                btn.type = "button";
-                btn.className = "enhanced-helper-btn";
-                btn.dataset.skill = key;
-                btn.innerHTML = `<i class="${SKILL_ICONS[key] || SKILL_ICONS.default}" aria-hidden="true"></i>`;
-                return btn;
+                const b = document.createElement("button");
+                b.className = "neh-button";
+                b.dataset.skill = key;
+                b.innerHTML = `<i class="${SKILL_ICONS[key] || SKILL_ICONS.default}"></i>`;
+                return b;
             }));
+            bC.onclick = (e) => {
+                const b = e.target.closest(".neh-button");
+                if (!b) return;
+                const ns = b.dataset.skill;
+                KX.KORUXA_GLOBALS["forced-current-skill"] = ns;
+                KX.KORUXA_GLOBALS["target-level"] = Number(KX.KORUXA_STATS?.[ns]?.level ?? 0);
+                NEH();
+            };
         }
 
-        if (!buttonsContainer._enhancedHelperDelegated) {
-            buttonsContainer.addEventListener("click", e => {
-                const btn = e.target.closest("button.enhanced-helper-btn");
-                if (!btn) return;
-                const clicked = (btn.dataset.skill || "").toLowerCase();
-                if (!clicked) return;
-                KX.KORUXA_GLOBALS["forced-current-skill"] = clicked;
-                ENHANCED_HELPER();
-            });
-            buttonsContainer._enhancedHelperDelegated = true;
-        }
-
-        const activeTarget = (KX.KORUXA_GLOBALS?.["forced-current-skill"] || "").toLowerCase();
-        const target = (activeTarget && activeTarget !== "none") ? activeTarget : skill;
-        buttonsContainer.querySelectorAll("button.enhanced-helper-btn").forEach(b =>
-            b.classList.toggle("active", (b.dataset.skill || "").toLowerCase() === target)
-        );
-
-        el.querySelector(".enhanced-helper-item").innerHTML = phrase;
-        el.querySelector(".enhanced-helper-subtitle").textContent = `Reach ${skill} Lv. ${Number(level) + 1}`;
+        bC.querySelectorAll(".neh-button").forEach(b => b.classList.toggle("active", b.dataset.skill === skill));
     }
 
     function startKoruxaUpdater({ initialDelayMs = 1500, intervalMs = 2000 } = {}) {
