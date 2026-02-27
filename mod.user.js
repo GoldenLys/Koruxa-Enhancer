@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       1.21
+// @version       1.22
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    https://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
@@ -768,7 +768,7 @@ KX.mapping = { // Mappings of game data
     const cleanName = str => str.replace(/[^\w\s]/g, "").trim(); // Remove emojis + trim
     const cleanValue = str => Number(str.replace(/[^\d.-]/g, "")); // Convert "+15%" → 15
 
-    function GET_XP(level) { // Usage : GET_XP(level).xpToNext or .totalXp
+    function GET_XP(level, type = "ExpToNext") { // Usage : GET_XP(level, type)
         const xpToNext = [
             4, 11, 20, 31, 44, 60, 79, 101, 126, 155, 188, 226, 269, 318, 373, 435, 505, 584, 672, 771, 882, 1005, 1143, 1296, 1467, 1657, 1867, 2101, 2360, 2647,
             2965, 3317, 3705, 4135, 4609, 5131, 5708, 6343, 7043, 7813, 8661, 9593, 10619, 11745, 12982, 14341, 15832, 17468, 19262, 21230, 23386, 25749,
@@ -781,7 +781,9 @@ KX.mapping = { // Mappings of game data
 
         let total = 0;
         for (let i = 0; i < level - 1; i++) { total += xpToNext[i]; }
-        return { level, xpToNext: xpToNext[level - 1], totalXp: total };
+
+        if (type === "ExpToNext") return (level - 1);
+        else return total;
     }
 
     function FORMAT_NUMBER(num, decimals = 0) {
@@ -874,7 +876,7 @@ KX.mapping = { // Mappings of game data
         const tools = KX.KORUXA_TOOLS || {};
         const farms = KX.KORUXA_FARMS || {};
         const stats = KX.KORUXA_STATS?.[skill] || {};
-        const ExpToNext = level !== 0 ? Number(stats.xp_current) : GET_XP(level).totalXp;
+        const ExpToNext = level !== 0 ? Number(stats.xp_current) : GET_XP(level, "total");
         const premiumBonus = (KX.KORUXA_IS_PREMIUM ? 20 : 0);
 
         const compute = (action, e) => {
@@ -888,7 +890,7 @@ KX.mapping = { // Mappings of game data
             const xpPerLoop = (e.xp || 0) * (1 + xpBonus / 100);
             const msPerLoop = (e.duration_ms || 0) * Math.max(0, 1 - speed / 100);
 
-            const xpLeft = Math.max(0, (Number(stats.xp_needed) || 0) - ExpToNext || 0));
+            const xpLeft = Math.max(0, (Number(stats.xp_needed) || 0) - ExpToNext || 0);
             if (xpLeft <= 0 || xpPerLoop <= 0) return { skill, action, label, loops: 0, time: "0s", required: 0 };
 
             const loops = Math.ceil(xpLeft / xpPerLoop);
@@ -1049,47 +1051,46 @@ KX.mapping = { // Mappings of game data
     }
 
     function TRANSFORM_DROPS() {
-        const container = document.querySelector(".chatbox-messages");
-        if (!container) return;
+        const box = document.querySelector(".chatbox-messages");
+        if (!box) return;
 
-        const drops = container.querySelectorAll(".chat-message.drop");
+        box.querySelectorAll(".chat-drop-text").forEach(t => {
+            if (t.dataset.transformed === "1") return;
 
-        drops.forEach(drop => {
-            const textEl = drop.querySelector(".chat-drop-text");
-            const userEl = drop.querySelector(".chat-username.drop");
+            const u =
+                t.closest(".chat-drop-content")?.querySelector(".chat-username.drop") ||
+                t.closest(".chat-message")?.querySelector(".chat-username.drop");
+            if (!u) return;
 
-            if (!textEl || !userEl) return;
-            if (textEl.dataset.transformed === "1") return;
+            const raw = t.textContent.trim();
+            const username = u.textContent.trim();
 
-            let txt = textEl.textContent.trim();
+            let emoji = "🌙";
+            if (raw.includes("⭐") || raw.includes("Star")) emoji = "⭐";
+            else if (raw.includes("☀️") || raw.includes("Sun")) emoji = "☀️";
+            else if (raw.includes("🌙") || raw.includes("Moon")) emoji = "🌙";
 
-            // Replace Star/Moon/Sun words with icons
-            txt = txt.replace(/\bStar\b/g, "⭐").replace(/\bMoon\b/g, "🌙").replace(/\bSun\b/g, "☀️");
+            const mCombat = raw.match(/found\s+(.+?)\s+from\s+(.+?)\s+\(monster lvl\s+(\d+)\)!?$/);
+            const mSkill = raw.match(/found\s+(.+?)\s+from\s+(.+?)\s+at level\s+(\d+)!?$/);
+            const m = mCombat || mSkill;
+            if (!m) return;
 
-            // Extract username
-            const username = userEl.textContent.trim();
+            let item = m[1].replace(/\s+(Star|Moon|Sun)$/, "").trim();
+            const action = m[2];
+            const level = m[3];
 
-            // Extract item name (between first emoji and second emoji)
-            const match = txt.match(/[\⭐🌙☀️]\s*(.*?)\s*[\⭐🌙☀️]/);
-            const item = match ? match[1].trim() : "";
-
-            // Extract the rest (e.g., "from Thieving at level 47!")
-            const after = txt.split(/[\⭐🌙☀️].*?[\⭐🌙☀️]/)[1].trim();
-
-            // Extract the emoji used
-            const emoji = txt.match(/[\⭐🌙☀️]/)?.[0] || "";
-
-            // Build final message
-            const finalText = `${username} found a ${emoji} ${item} ${after}`;
-
-            textEl.textContent = finalText;
-            textEl.dataset.transformed = "1";
+            t.innerHTML =
+                `<div class="chat-drop-emoji">${emoji}</div> ` +
+                `${username} found a ${emoji} ${item} from ${action} at level ${level}!`;
+            t.dataset.transformed = "1";
         });
     }
 
     // Detect if the left-sidebar is hovered, if yes then it adds an hover class to the game layout
     const sidebarLeft = document.querySelector('.sidebar-left');
+    const sidebarRight = document.querySelector('.sidebar-right');
     const gameLayout = document.querySelector('.game-layout');
+    const sortMenu = document.querySelector('#inv-sort-menu');
 
     if (sidebarLeft && gameLayout) {
         sidebarLeft.addEventListener('mouseenter', () => { gameLayout.classList.add('lside-hover'); });
@@ -1098,13 +1099,14 @@ KX.mapping = { // Mappings of game data
 
     // Moves the food bar to the right sidebar when possible
     if (document.querySelector('#food-bar')) document.querySelector('#sidebar-hp-bar').after(document.querySelector('#food-bar'));
-    const observer = new MutationObserver(() => { REPLACE_ICONS(); SET_CURRENT_SKILL_CLASS(); });
+    const observer = new MutationObserver(() => { REPLACE_ICONS(); TRANSFORM_DROPS(); SET_CURRENT_SKILL_CLASS(); });
     observer.observe(document.body, { childList: true, subtree: true });
 
     // Update REPLACE_ICONS on sort-menu button click
-    document.querySelector('#inv-sort-menu button').addEventListener('click', () => { setTimeout(() => { console.log("Updating Icons.."); REPLACE_ICONS(); }, 1500); });
+    if (sortMenu && sidebarRight) document.querySelector('#inv-sort-menu button').addEventListener('click', () => { setTimeout(() => { REPLACE_ICONS(); }, 1500); });
 
     REPLACE_ICONS();
+    TRANSFORM_DROPS();
     LOAD_CSS("https://fonts.googleapis.com/css2?family=Saira:ital,wght@0,100..900;1,100..900&display=swap");
     LOAD_CSS("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css");
     LOAD_CSS("https://goldenlys.github.io/Koruxa-Enhancer/css/rpg-awesome.min.css");
