@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       1.24
+// @version       1.25
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    https://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
@@ -51,7 +51,7 @@ KX.mapping = { // Mappings of game data
     "session-time-left": { selector: "#session-remaining", value: "" },
     cycle: { selector: "#cycle-counter", value: { current: "0", total: "0" } },
     "session-xp-rate": { selector: "#progress-xp-rate", value: "0" },
-    //"session-current-skill": { selector: "#session-skill-name", value: "" },
+    "session-current-skill": { selector: "#session-skill-name", value: "" },
 };
 
 (function () {
@@ -697,7 +697,6 @@ KX.mapping = { // Mappings of game data
         LOAD_TOOL_STATS();
         LOAD_FARM_STATS();
         if (KX.KORUXA_GLOBALS["current-skill"] !== "Doing") NEH();
-        //console.table(KX.mapping); // Debug output
     }
 
     function SET_CURRENT_SKILL_CLASS() {
@@ -845,7 +844,7 @@ KX.mapping = { // Mappings of game data
     function GET_LAST_UNLOCK_SKILL(skill, level = 0) {
         const config = KORUXA_CONFIGS?.[skill];
         if (!config) return [];
-        const currentLvl = (KX.KORUXA_ALL_SKILL_LEVELS || {})[skill] || 0;
+        const currentLvl = (KX.KORUXA_ALL_SKILL_LEVELS || {})[skill] || 1;
         const lvl = level > 0 ? level : currentLvl;
         const unlocked = [];
 
@@ -871,13 +870,13 @@ KX.mapping = { // Mappings of game data
     }
 
     function CALC_SKILL_LEVEL_UP(skill, targetLevel = 0) {
-        const actions = GET_LAST_UNLOCK_SKILL(skill, targetLevel);
+        const actions = GET_LAST_UNLOCK_SKILL(skill);
         if (!actions || actions.length === 0) return null;
 
         const config = KORUXA_CONFIGS?.[skill] || {};
         const stats = KX.KORUXA_STATS?.[skill] || {};
         const premiumBonus = (KX.KORUXA_IS_PREMIUM ? 20 : 0);
-        const currentXP = Number(stats.xp_current) || 0;
+        const currentXP = Number(stats.xp_total) || 0;
         let targetXP;
 
         if (targetLevel > 0) { targetXP = GET_XP(targetLevel, "total"); }
@@ -937,6 +936,54 @@ KX.mapping = { // Mappings of game data
         return results;
     }
 
+    function CALC_SESSION_XP() {
+        const skillId = KX.KORUXA_GLOBALS['session-current-skill'].trim().toLowerCase();
+        const identifier = KX.KORUXA_GLOBALS['current-item'];
+        const cycle = KX.KORUXA_GLOBALS.cycle;
+        if (!skillId || !identifier || !cycle) return null;
+
+        const config = KORUXA_CONFIGS?.[skillId] || {};
+        let itemData = null;
+        let finalKey = null;
+
+        const searchStr = identifier.toString().toLowerCase().trim();
+        for (const [key, value] of Object.entries(config)) {
+            if (!value || typeof value !== 'object') continue;
+
+            const lowKey = key.toLowerCase();
+            const lowLabel = value.label ? value.label.toString().toLowerCase().trim() : "";
+            if (lowKey === searchStr || lowLabel === searchStr) {
+                itemData = value;
+                finalKey = key;
+                break;
+            }
+        }
+
+        if (!itemData) return null;
+        const tools = KX.KORUXA_TOOLS || {};
+        const farms = KX.KORUXA_FARMS || {};
+        const premiumBonus = (KX.KORUXA_IS_PREMIUM ? 20 : 0);
+
+        const tool = tools[skillId] || {};
+        const farm = farms[skillId] || {};
+        const xpBonusTotal = (tool.xp || 0) + (farm.xp || 0) + premiumBonus;
+
+        const xpPerLoop = (itemData.xp || 0) * (1 + xpBonusTotal / 100);
+        const currentLoops = Number(cycle.current) || 0;
+        const totalLoops = Number(cycle.total) || 0;
+
+        return {
+            skill: skillId,
+            itemKey: finalKey,
+            xpGained: Math.round(currentLoops * xpPerLoop),
+            xpRemaining: Math.round(Math.max(0, totalLoops - currentLoops) * xpPerLoop),
+            xpTotalSession: Math.round(totalLoops * xpPerLoop),
+            xpPerLoop: xpPerLoop,
+            loops: (totalLoops - currentLoops),
+            progress: totalLoops > 0 ? Math.min(100, (currentLoops / totalLoops) * 100) : 0
+        };
+    }
+
     // Displays a helper for the current skill or forced skill
     function NEH() {
         const SKILL_ICONS = {
@@ -954,7 +1001,7 @@ KX.mapping = { // Mappings of game data
 
         const level = Number(KX.KORUXA_STATS?.[skill]?.level ?? 0);
         let tLvl = Number(KX.KORUXA_GLOBALS["target-level"] ?? level);
-        if (tLvl < level) tLvl = level;
+        if (tLvl < level) tLvl = (level + 1);
         KX.KORUXA_GLOBALS["target-level"] = tLvl;
 
         const result = tLvl > level ? CALC_SKILL_LEVEL_UP(skill, tLvl) : CALC_SKILL_LEVEL_UP(skill);
@@ -968,7 +1015,6 @@ KX.mapping = { // Mappings of game data
             second && `2. <b>${second.label} ${approx}x${FORMAT_NUMBER(second.loops, 0)}</b> — <b>${second.time}</b>`,
             third && `3. <b>${third.label} ${approx}x${FORMAT_NUMBER(third.loops, 0)}</b> — <b>${third.time}</b>`
         ].filter(Boolean).join("<br>");
-
         let el = document.querySelector("#neh-helper");
         if (!el) {
             el = document.createElement("div");
@@ -985,6 +1031,8 @@ KX.mapping = { // Mappings of game data
                     <div id="NEH-Plus" class="neh-button"><i class="fa-solid fa-plus"></i></div>
                     <div id="NEH-Minus" class="neh-button"><i class="fa-solid fa-minus"></i></div>
                 </div>
+            </div><div class="neh-content">
+                <div id="neh-footer" class="neh-footer"></div>
             </div>`;
             document.querySelector(".sidebar-right")?.prepend(el);
 
@@ -1002,7 +1050,7 @@ KX.mapping = { // Mappings of game data
                 const s = (KX.KORUXA_GLOBALS["forced-current-skill"] || KX.KORUXA_GLOBALS["current-skill"] || "").toLowerCase();
                 const l = Number(KX.KORUXA_STATS?.[s]?.level ?? 0);
                 const target = Number(KX.KORUXA_GLOBALS["target-level"] || l);
-                if (target > l) {
+                if (target > l + 1) {
                     KX.KORUXA_GLOBALS["target-level"] = target - 1;
                     NEH();
                 }
@@ -1011,12 +1059,17 @@ KX.mapping = { // Mappings of game data
 
         const bP = el.querySelector("#NEH-Plus");
         const bM = el.querySelector("#NEH-Minus");
+        const bT = el.querySelector("#neh-footer");
 
-        tLvl >= 120 ? bP.setAttribute("disabled", "") : bP.removeAttribute("disabled");
-        tLvl <= level ? bM.setAttribute("disabled", "") : bM.removeAttribute("disabled");
+        const session = CALC_SESSION_XP();
+        const sessionXP_Current = (KX.KORUXA_GLOBALS["session-current-skill"] !== "Doing" && session && typeof session?.xpTotalSession === "number") ? `<b>${FORMAT_NUMBER(session?.xpPerLoop, 0)}</b> XP x<b>${FORMAT_NUMBER(session?.loops, 0)}</b>` : "";
+        const sessionXP_Total = (KX.KORUXA_GLOBALS["session-current-skill"] !== "Doing" && session && typeof session?.xpTotalSession === "number") ? ` — +<b>${FORMAT_NUMBER(session?.xpTotalSession, 0)}</b> Total ${KX.KORUXA_GLOBALS["session-current-skill"]} XP` : "";
+        tLvl == 120 ? bP.setAttribute("disabled", "") : bP.removeAttribute("disabled");
+        tLvl <= (level + 1) ? bM.setAttribute("disabled", "") : bM.removeAttribute("disabled");
 
         el.querySelector(".neh-item").innerHTML = phrase;
         el.querySelector(".neh-subtitle").textContent = `${skill} ${tLvl}`;
+        if (typeof session?.xpTotalSession === "number") bT.innerHTML = `<i class="ra ra-clockwork"></i> <b>${sessionXP_Current}</b> <span class="neh-sub-footer">${sessionXP_Total}</span>`;
 
         const bC = el.querySelector(".neh-btns");
         if (!bC.hasChildNodes()) {
@@ -1034,7 +1087,7 @@ KX.mapping = { // Mappings of game data
                 if (!b) return;
                 const ns = b.dataset.skill;
                 KX.KORUXA_GLOBALS["forced-current-skill"] = ns;
-                KX.KORUXA_GLOBALS["target-level"] = Number(KX.KORUXA_STATS?.[ns]?.level ?? 0);
+                KX.KORUXA_GLOBALS["target-level"] = (Number(KX.KORUXA_STATS?.[ns]?.level || 0) + 1);
                 NEH();
             };
         }
