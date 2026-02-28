@@ -56,7 +56,9 @@ body {
 }
 
 .topbar-center {
+    display: flex;
     flex-wrap: wrap;
+    justify-content: center !important;
 }
 
 .topbar-right {
@@ -416,6 +418,8 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     color: transparent;
     background: linear-gradient(90deg, #3b82f6, #22c55e);
     background-clip: text;
+    background-size: 500% 100%;
+    animation: backgroundSlide 5s linear infinite;
     -webkit-background-clip: text;
 }
 
@@ -503,8 +507,9 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     display: flex;
     flex-direction: column;
     font-family: "Saira", sans-serif;
-    background: rgb(34 197 94 / 10%);
-    border: 1px solid rgb(34 197 94 / 20%);
+    background: rgb(68 151 156 / 10%);
+    border: 1px solid rgb(82 181 187 / 35%);
+    box-shadow: inset 0 0 8px rgb(82 181 187 / 30%);
     border-radius: 10px;
     padding: 10px 12px;
     margin-bottom: 8px;
@@ -515,7 +520,7 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     display: flex;
     flex-wrap: wrap;
     margin: -10px -12px 10px;
-    border-bottom: 1px solid rgba(34, 197, 94, 0.2);
+    border-bottom: 1px solid rgb(82 181 187 / 35%);
 }
 
 .neh-button {
@@ -571,8 +576,14 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
 
 .neh-item {
     font-size: 12px;
+    font-weight: lighter;
     text-align: left;
     padding: 0px 0px;
+}
+
+.neh-item b {
+    font-weight: 500;
+    color: rgb(68 151 156);
 }
 
 .neh-content {
@@ -588,7 +599,7 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     font-size: 12px;
     margin: 10px -10px -10px;
     padding: 5px 10px;
-    border-top: 1px solid rgba(34, 197, 94, 0.2);
+    border-top: 1px solid rgb(82 181 187 / 35%);
     width: calc(100% + 20px);
     justify-content: center;
     align-items: center;
@@ -608,8 +619,8 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
 .neh-right-buttons {
     display: flex;
     flex: 0 1 auto;
-    background: rgb(59 130 246 / 50%);
-    box-shadow: inset -4px 4px 6px rgb(59 130 246 / 25%), inset 4px -4px 6px rgb(255 255 255 / 10%);
+    background: rgb(82 181 187 / 50%);
+    box-shadow: inset 4px -4px 6px rgb(0 0 0 / 10%);
     flex-direction: column;
     justify-content: center;
     border-radius: 8px;
@@ -624,7 +635,7 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
 }
 
 .neh-right-buttons>.neh-button:not(:last-child) {
-    border-bottom: 1px solid rgb(59 130 246 / 20%);
+    border-bottom: 1px solid rgb(82 181 187 / 55%);
 }
 
 #category-other {

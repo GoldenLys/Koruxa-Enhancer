@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       1.26
+// @version       1.27
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    https://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
@@ -680,16 +680,12 @@ KX.mapping = { // Mappings of game data
     // Updates values and create new html elements
     function UPDATE_DATA() {
         for (const key in KX.mapping) {
-            const entry = KX.mapping[key]; // { selector, value }
+            const entry = KX.mapping[key];
             const result = EXTRACT_DATA(entry.selector);
             KX.KORUXA_GLOBALS[key] = entry.value;
+            if (key === "cycle" && typeof result === "object") entry.value = result;
+            else entry.value = result;
 
-            // Special case: cycle
-            if (key === "cycle" && typeof result === "object") {
-                entry.value = result;                // { current, total }
-            } else {
-                entry.value = result;                // normal case
-            }
         }
         CHECK_SKILLS_LEVELS();
         EXTRACT_SKILLS();
@@ -700,24 +696,29 @@ KX.mapping = { // Mappings of game data
     }
 
     function SET_CURRENT_SKILL_CLASS() {
+        const urlMatch = window.location.href.match(/skill=([^&]+)/);
+        let skill = (urlMatch ? urlMatch[1] : "woodcutting").trim().toLowerCase();
+        if (["slayer", "attack", "strength", "defence", "hitpoints", "magic", "ranged"].includes(skill)) skill = "woodcutting";
+        let bg = document.querySelector("#skill-background");
+        if (!bg) document.body.insertAdjacentHTML('afterbegin', '<div id="skill-background"></div>');
+
+        document.querySelector("#skill-background").className = `bg-skill ${skill}`;
+        KX.KORUXA_GLOBALS["current-skill"] = skill;
+    }
+
+    function GET_CURRENT_SKILL() {
         const url = window.location.href;
-        const match = url.match(/skill=([^&]+)/);
-        if (!match) return;
+        const skillBlacklist = ["slayer", "attack", "strength", "defence", "hitpoints", "magic", "ranged"];
+        const defaultSkill = "woodcutting";
+        let skill = (KX.KORUXA_GLOBALS["forced-current-skill"] || KX.KORUXA_GLOBALS["current-skill"] || "").toLowerCase().trim();
 
-        const skill = match[1].trim().toLowerCase();
-        let bg_el = document.querySelector("#skill-background");
-
-        if (!bg_el) {
-            bg_el = document.createElement("div");
-            bg_el.id = "skill-background";
-            document.body.prepend(bg_el);
+        if (!skill) {
+            const urlMatch = url.match(/skill=([^&]+)/);
+            if (urlMatch && urlMatch[1]) skill = urlMatch[1].toLowerCase().trim();
         }
 
-        const skillBlacklist = ["slayer", "attack", , "strength", "defence", "hitpoints", "magic", "ranged"];
-        if (skillBlacklist.includes(skill)) return;
-
-        bg_el.className = `bg-skill ${skill}`;
-        KX.KORUXA_GLOBALS["current-skill"] = skill;
+        if (!skill || skillBlacklist.includes(skill)) return defaultSkill;
+        return skill;
     }
 
     function LOAD_CSS(url) {
@@ -1036,25 +1037,29 @@ KX.mapping = { // Mappings of game data
             </div>`;
             document.querySelector(".sidebar-right")?.prepend(el);
 
-            el.querySelector("#NEH-Plus").onclick = () => {
-                const s = (KX.KORUXA_GLOBALS["forced-current-skill"] || KX.KORUXA_GLOBALS["current-skill"] || "").toLowerCase();
-                const l = Number(KX.KORUXA_STATS?.[s]?.level ?? 0);
-                const target = Number(KX.KORUXA_GLOBALS["target-level"] || l);
+            el.querySelector("#NEH-Plus").addEventListener('click', function () {
+                if (this.hasAttribute("disabled")) return;
+                const skill = GET_CURRENT_SKILL();
+                const currentLevel = Number(KX.KORUXA_STATS?.[skill]?.level ?? 0);
+                const target = Number(KX.KORUXA_GLOBALS["target-level"] || currentLevel);
+
                 if (target < 120) {
                     KX.KORUXA_GLOBALS["target-level"] = target + 1;
                     NEH();
                 }
-            };
+            });
 
-            el.querySelector("#NEH-Minus").onclick = () => {
-                const s = (KX.KORUXA_GLOBALS["forced-current-skill"] || KX.KORUXA_GLOBALS["current-skill"] || "").toLowerCase();
-                const l = Number(KX.KORUXA_STATS?.[s]?.level ?? 0);
-                const target = Number(KX.KORUXA_GLOBALS["target-level"] || l);
-                if (target > l + 1) {
+            el.querySelector("#NEH-Minus").addEventListener('click', function () {
+                if (this.hasAttribute("disabled")) return;
+                const skill = GET_CURRENT_SKILL();
+                const currentLevel = Number(KX.KORUXA_STATS?.[skill]?.level ?? 0);
+                const target = Number(KX.KORUXA_GLOBALS["target-level"] || currentLevel);
+
+                if (target > currentLevel + 1) {
                     KX.KORUXA_GLOBALS["target-level"] = target - 1;
                     NEH();
                 }
-            };
+            });
         }
 
         const bP = el.querySelector("#NEH-Plus");
@@ -1165,42 +1170,31 @@ KX.mapping = { // Mappings of game data
     }
 
     function LOCK_SIDEBAR() {
-        const sts = ['lsb-unlocked', 'lsb-locked-open', 'lsb-locked-closed'],
-            ics = ['fas fa-arrows-left-right', 'fas fa-lock', 'fas fa-lock'],
-            sL = document.querySelector('.sidebar-left'),
-            gL = document.querySelector('.game-layout'),
-            f = document.querySelector('.sidebar-footer');
-
+        const sts = ['lsb-unlocked', 'lsb-locked-open', 'lsb-locked-closed'];
+        const icons = { 'lsb-unlocked': 'arrows-left-right', 'lsb-locked-open': 'lock', 'lsb-locked-closed': 'lock' };
+        const [sL, gL, f] = ['.sidebar-left', '.game-layout', '.sidebar-footer'].map(s => document.querySelector(s));
         if (!f || document.getElementById('sidebar-lock-btn')) return;
-
         const b = document.createElement('div');
         b.id = 'sidebar-lock-btn';
-        b.className = 'sidebar-footer-btn';
 
-        const updateUI = (state = "lsb-unlocked") => {
-            const idx = sts.indexOf(state);
-            b.innerHTML = `<i class="${ics[idx]}"></i>`;
+        const updateUI = (s = sts[0]) => {
+            const stateShort = s.replace('lsb-', '');
+            b.className = `sidebar-footer-btn ${stateShort}`;
+            b.innerHTML = `<i class="fas fa-${icons[s]}"></i>`;
 
             if (gL) {
-                b.className = `sidebar-footer-btn ${state.replace('lsb-', '')}`;
-                sts.forEach(s => gL.classList.toggle(s, s === state));
-                if (state !== 'lsb-unlocked') gL.classList.remove('lsb-hover');
+                sts.forEach(cls => gL.classList.toggle(cls, cls === s));
+                if (s !== sts[0]) gL.classList.remove('lsb-hover');
             }
         };
 
         b.onclick = () => {
-            const cur = KX.KORUXA_GLOBALS["sidebar-state"];
-            const next = sts[(sts.indexOf(cur) + 1) % 3];
-            KX.KORUXA_GLOBALS["sidebar-state"] = next;
-            updateUI(next);
+            const next = sts[(sts.indexOf(KX.KORUXA_GLOBALS["sidebar-state"]) + 1) % 3];
+            updateUI(KX.KORUXA_GLOBALS["sidebar-state"] = next);
         };
 
         if (sL && gL && window.innerWidth > 1024) {
-            sL.onmouseenter = () => {
-                if (KX.KORUXA_GLOBALS["sidebar-state"] === 'lsb-unlocked') {
-                    gL.classList.add('lsb-hover');
-                }
-            };
+            sL.onmouseenter = () => KX.KORUXA_GLOBALS["sidebar-state"] === sts[0] && gL.classList.add('lsb-hover');
             sL.onmouseleave = () => gL.classList.remove('lsb-hover');
         }
 
@@ -1208,16 +1202,9 @@ KX.mapping = { // Mappings of game data
         updateUI(KX.KORUXA_GLOBALS["sidebar-state"]);
     }
 
-    const sidebarRight = document.querySelector('.sidebar-right');
     if (document.querySelector('#food-bar')) document.querySelector('#sidebar-hp-bar').after(document.querySelector('#food-bar'));
     const observer = new MutationObserver(() => { REPLACE_ICONS(); TRANSFORM_DROPS(); SET_CURRENT_SKILL_CLASS(); });
     observer.observe(document.body, { childList: true, subtree: true });
-
-    // Update REPLACE_ICONS on sort-menu button click
-    const sortMenu = document.querySelector('.inv-sort-menu');
-    if (sortMenu && sidebarRight) sortMenu.addEventListener('click', e => {
-        setTimeout(() => { REPLACE_ICONS(); }, 1500);
-    });
 
     REPLACE_ICONS();
     TRANSFORM_DROPS();
@@ -1226,10 +1213,7 @@ KX.mapping = { // Mappings of game data
     LOAD_CSS("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css");
     LOAD_CSS("https://goldenlys.github.io/Koruxa-Enhancer/css/rpg-awesome.min.css");
     LOAD_CSS("https://goldenlys.github.io/Koruxa-Enhancer/css/style.css");
-
-    // console.table(KX.mapping); // Debug output
     try {
-        // start with a 1.5s initial delay and 2s interval
         startKoruxaUpdater({ initialDelayMs: 1500, intervalMs: 2000 });
     } catch (err) { console.error('Koruxa Enhanced error', err); }
 })();
