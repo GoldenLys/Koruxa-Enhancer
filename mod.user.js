@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       1.27
+// @version       1.28
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    https://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
@@ -439,7 +439,8 @@ KX.mapping = { // Mappings of game data
                     duration_ms: 10800000,
                 },
             }
-        }
+        },
+        alchemy: (typeof KORUXA_ALCHEMY_CONFIG !== 'undefined') ? KORUXA_ALCHEMY_CONFIG : {},
     };
 
     // Mappings for REPLACE_ICONS()
@@ -652,8 +653,9 @@ KX.mapping = { // Mappings of game data
             const titleEl = tip.querySelector(".skill-tooltip-title");
             if (!titleEl) return;
 
-            const name = titleEl.textContent.trim().toLowerCase().replace(/\s+/g, "");
+            var name = titleEl.textContent.trim().toLowerCase().replace(/\s+/g, "");
             if (!name) return;
+            if (name == "alt.magic") name = "alchemy"; // Alchemy skill is called "alt.magic" in the tooltip
 
             const level = tip.querySelector(".skill-tooltip-level")
                 ?.textContent.match(/\d+/)?.[0] || "(no level)";
@@ -815,7 +817,7 @@ KX.mapping = { // Mappings of game data
 
     // Generates a globals for each tool stats
     function LOAD_TOOL_STATS() {
-        const KNOWN = ['woodcutting', 'mining', 'fishing', 'farming', 'cooking', 'thieving', 'fletching', 'crafting', 'herblore', 'smithing', 'firemaking', 'arcana', 'slayer'];
+        const KNOWN = ['woodcutting', 'mining', 'fishing', 'farming', 'cooking', 'thieving', 'fletching', 'crafting', 'herblore', 'smithing', 'firemaking', 'arcana', 'alchemy', 'slayer'];
         const MAP = { "XP Gain": "xp", "Speed": "speed" };
         const res = [...document.querySelectorAll('.equipment-slot[data-slot^="tool_"]')].reduce((acc, slot) => {
             const skill = (slot.dataset.slot || '').replace(/^tool_/, '');
@@ -992,7 +994,7 @@ KX.mapping = { // Mappings of game data
             farming: "ra ra-wheat", thieving: "ra ra-balaclava", arcana: "ra ra-spell-book",
             cooking: "ra ra-meat", fletching: "ra ra-arrowhead", crafting: "ra ra-claw-hammer",
             herblore: "ra ra-potion-ball", smithing: "ra ra-anvil-impact", firemaking: "ra ra-campfire",
-            default: "fa-solid fa-star"
+            alchemy: "ra ra-fizzing-flask", default: "fa-solid fa-star"
         };
 
         const forced = (KX.KORUXA_GLOBALS?.["forced-current-skill"] || "").toLowerCase();
