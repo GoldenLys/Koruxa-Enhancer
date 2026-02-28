@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       1.25
+// @version       1.26
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    https://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
@@ -1062,14 +1062,14 @@ KX.mapping = { // Mappings of game data
         const bT = el.querySelector("#neh-footer");
 
         const session = CALC_SESSION_XP();
-        const sessionXP_Current = (KX.KORUXA_GLOBALS["session-current-skill"] !== "Doing" && session && typeof session?.xpTotalSession === "number") ? `<b>${FORMAT_NUMBER(session?.xpPerLoop, 0)}</b> XP x<b>${FORMAT_NUMBER(session?.loops, 0)}</b>` : "";
-        const sessionXP_Total = (KX.KORUXA_GLOBALS["session-current-skill"] !== "Doing" && session && typeof session?.xpTotalSession === "number") ? ` — +<b>${FORMAT_NUMBER(session?.xpTotalSession, 0)}</b> Total ${KX.KORUXA_GLOBALS["session-current-skill"]} XP` : "";
+        const sessionXP_Current = (KX.KORUXA_GLOBALS["session-current-skill"] !== "Doing" && session && typeof session?.xpRemaining === "number") ? `<b>${FORMAT_NUMBER(session?.xpPerLoop, 0)}</b> XP x<b>${FORMAT_NUMBER(session?.loops, 0)}</b>` : "";
+        const sessionXP_Total = (KX.KORUXA_GLOBALS["session-current-skill"] !== "Doing" && session && typeof session?.xpRemaining === "number") ? ` — +<b>${FORMAT_NUMBER(session?.xpRemaining, 0)}</b> Total ${KX.KORUXA_GLOBALS["session-current-skill"]} XP` : "";
         tLvl == 120 ? bP.setAttribute("disabled", "") : bP.removeAttribute("disabled");
         tLvl <= (level + 1) ? bM.setAttribute("disabled", "") : bM.removeAttribute("disabled");
 
         el.querySelector(".neh-item").innerHTML = phrase;
         el.querySelector(".neh-subtitle").textContent = `${skill} ${tLvl}`;
-        if (typeof session?.xpTotalSession === "number") bT.innerHTML = `<i class="ra ra-clockwork"></i> <b>${sessionXP_Current}</b> <span class="neh-sub-footer">${sessionXP_Total}</span>`;
+        if (typeof session?.xpRemaining === "number") bT.innerHTML = `<i class="ra ra-clockwork"></i> <b>${sessionXP_Current}</b> <span class="neh-sub-footer">${sessionXP_Total}</span>`;
 
         const bC = el.querySelector(".neh-btns");
         if (!bC.hasChildNodes()) {
