@@ -1133,9 +1133,5 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
 /* Fix visibility in users profile */
 
 .prf-info span {
-    color: #fff;
-    filter: drop-shadow(0.5px 0 0 #0c1427) 
-        drop-shadow(0.5px 0 0 #0c1427) 
-        drop-shadow(0 0.5px 0 #0c1427) 
-        drop-shadow(0 0.5px 0 #0c1427);
+    filter: drop-shadow(0 0 0.8px #0c1427)
 }
