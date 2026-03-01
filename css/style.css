@@ -1114,8 +1114,14 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
 
 .ra.ra-double {
     margin-left: -12px;
-    -webkit-text-stroke: 1px #0c1427;
-    paint-order: stroke fill;
+    display: inline-block;
+    background: inherit;
+    -webkit-background-clip: text;
+    background-clip: text;
+    filter: drop-shadow(0.5px 0 0 #0c1427) 
+        drop-shadow(0.5px 0 0 #0c1427) 
+        drop-shadow(0 0.5px 0 #0c1427) 
+        drop-shadow(0 0.5px 0 #0c1427);
 }
 
 .ra.ra-double.smaller {
