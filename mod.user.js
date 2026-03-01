@@ -18,8 +18,7 @@
 
 /* TODO & Ideas List
  - (Maybe) add "Stats" tab with more stats
- - Add a + button to the helper to select which level to reach 
- - With the plus button, make it generate a formula to reach the desired level with the less amount of time 
+ - Make the plus button generate a formula to reach the desired level with the less amount of time 
 */
 
 const KX = unsafeWindow;
