@@ -557,6 +557,7 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     display: flex;
     gap: 6px;
     font-size: 14px;
+    font-weight: 500;
     padding: 0px 7px 10px;
     justify-content: center;
     align-items: center;
@@ -575,8 +576,6 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
 }
 
 .neh-item {
-    font-size: 12px;
-    font-weight: lighter;
     text-align: left;
     padding: 0px 0px;
 }
@@ -591,6 +590,8 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     width: calc(100% + 10px);
     gap: 5px;
     margin: 0 -5px;
+    font-size: 12px;
+    font-weight: lighter;
 }
 
 .neh-footer {

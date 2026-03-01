@@ -1102,7 +1102,7 @@ KX.mapping = { // Mappings of game data
 
         el.querySelector(".neh-item").innerHTML = phrase;
         el.querySelector(".neh-subtitle").textContent = `${skill} ${tLvl}`;
-        if (typeof session?.xpRemaining === "number") bT.innerHTML = `<i class="ra ra-clockwork"></i> <b>${sessionXP_Current}</b> <span class="neh-sub-footer">${sessionXP_Total}</span>`;
+        if (typeof session?.xpRemaining === "number") bT.innerHTML = `<i class="ra ra-alarm-clock"></i> <b>${sessionXP_Current}</b> <span class="neh-sub-footer">${sessionXP_Total}</span>`;
 
         const bC = el.querySelector(".neh-btns");
         if (!bC.hasChildNodes()) {
