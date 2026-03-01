@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       1.28
+// @version       1.29
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    https://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
@@ -892,22 +892,21 @@ KX.mapping = { // Mappings of game data
             const farms = KX.KORUXA_FARMS || {};
             const tool = tools[skill] || {};
             const farm = farms[skill] || {};
-
             const speed = (tool.speed || 0) + (farm.speed || 0) + premiumBonus;
             const xpBonus = (tool.xp || 0) + (farm.xp || 0) + premiumBonus;
-
             const xpPerLoop = (e.xp || 0) * (1 + xpBonus / 100);
             const msPerLoop = (e.duration_ms || 0) * Math.max(0, 1 - speed / 100);
-
             if (xpLeft <= 0 || xpPerLoop <= 0) return { skill, action, label, loops: 0, time: "0s", required: 0 };
-
             const loops = Math.ceil(xpLeft / xpPerLoop);
+            const totalIngredientsPerUnit = Object.values(e.ingredients || {}).reduce((a, b) => a + b, 0);
+
             return {
                 skill,
                 action,
                 label,
                 required: Math.round(xpPerLoop * loops),
                 loops,
+                total_ingredients_needed: totalIngredientsPerUnit * loops,
                 time: FORMAT_TIME(Math.round((loops * msPerLoop) / 1000))
             };
         };
@@ -915,7 +914,11 @@ KX.mapping = { // Mappings of game data
         const candidates = [];
         const pushEntry = (action, e) => {
             if (!e) return;
-            const ratio = (e.xp || 0) / Math.max(1, (e.duration_ms || 1));
+
+            const ingredientCount = Object.values(e.ingredients || {}).reduce((sum, qty) => sum + qty, 0);
+            const costFactor = Math.max(1, ingredientCount);
+            const ratio = (e.xp || 0) / (Math.max(1, e.duration_ms) * costFactor);
+
             candidates.push({ action, entry: e, ratio });
         };
 
@@ -940,9 +943,10 @@ KX.mapping = { // Mappings of game data
     }
 
     function CALC_SESSION_XP() {
-        const skillId = KX.KORUXA_GLOBALS['session-current-skill'].trim().toLowerCase();
+        const skillId = KX.KORUXA_GLOBALS['session-current-skill']?.trim().toLowerCase();
         const identifier = KX.KORUXA_GLOBALS['current-item'];
         const cycle = KX.KORUXA_GLOBALS.cycle;
+
         if (!skillId || !identifier || !cycle) return null;
 
         const config = KORUXA_CONFIGS?.[skillId] || {};
@@ -950,19 +954,36 @@ KX.mapping = { // Mappings of game data
         let finalKey = null;
 
         const searchStr = identifier.toString().toLowerCase().trim();
+
         for (const [key, value] of Object.entries(config)) {
             if (!value || typeof value !== 'object') continue;
 
-            const lowKey = key.toLowerCase();
-            const lowLabel = value.label ? value.label.toString().toLowerCase().trim() : "";
-            if (lowKey === searchStr || lowLabel === searchStr) {
-                itemData = value;
-                finalKey = key;
-                break;
+            const checkMatch = (k, v) => {
+                const lowKey = k.toLowerCase();
+                const lowLabel = v.label ? v.label.toString().toLowerCase().trim() : "";
+                return lowKey === searchStr || lowLabel === searchStr;
+            };
+
+            if (value.xp !== undefined) {
+                if (checkMatch(key, value)) {
+                    itemData = value;
+                    finalKey = key;
+                    break;
+                }
+            } else {
+                for (const [subKey, subValue] of Object.entries(value)) {
+                    if (subValue && typeof subValue === 'object' && checkMatch(subKey, subValue)) {
+                        itemData = subValue;
+                        finalKey = subKey;
+                        break;
+                    }
+                }
             }
+            if (itemData) break;
         }
 
         if (!itemData) return null;
+
         const tools = KX.KORUXA_TOOLS || {};
         const farms = KX.KORUXA_FARMS || {};
         const premiumBonus = (KX.KORUXA_IS_PREMIUM ? 20 : 0);
@@ -1102,6 +1123,68 @@ KX.mapping = { // Mappings of game data
         bC.querySelectorAll(".neh-button").forEach(b => b.classList.toggle("active", b.dataset.skill === skill));
     }
 
+    function UPDATE_SKILL_CARDS_XP() {
+        const currentSkill = KX?.KORUXA_ACTIVE_SKILL;
+        if (!currentSkill) return;
+
+        // Configuration du mapping des attributs par compétence
+        const attributeMapping = {
+            "woodcutting": "data-tree",
+            "mining": "data-rock",
+            "fishing": "data-fish", 
+            "thieving": "data-target",
+            "arcana": "data-recipe",
+            "cooking": "data-recipe",
+            "fletching": "data-quiver",
+            "crafting": "data-recipe",
+            "heblore": "data-potion",
+            "smithing": "data-recipe",
+            "firemaking": "data-recipe",
+        };
+
+        const dataAttribute = attributeMapping[currentSkill];
+        const config = KORUXA_CONFIGS?.[currentSkill];
+
+        // Si la compétence n'est pas dans notre liste de mapping ou pas de config, on arrête
+        if (!dataAttribute || !config) return;
+
+        const cards = document.querySelectorAll('.cow-card');
+        if (!cards.length) return;
+
+        cards.forEach(card => {
+            const actionId = card.getAttribute(dataAttribute);
+            if (!actionId) return;
+
+            let actionData = null;
+
+            if (config[actionId] && config[actionId].xp !== undefined) {
+                actionData = config[actionId];
+            } else {
+                for (const category of Object.values(config)) {
+                    if (category && typeof category === 'object' && category[actionId]) {
+                        actionData = category[actionId];
+                        break;
+                    }
+                }
+            }
+
+            if (actionData) {
+                let rewardDiv = card.querySelector('.neh-rewardexp');
+
+                if (!rewardDiv) {
+                    rewardDiv = document.createElement('div');
+                    rewardDiv.className = 'neh-rewardexp';
+                    const labelDiv = card.querySelector('.tree-label');
+                    if (labelDiv) {
+                        labelDiv.after(rewardDiv);
+                    }
+                }
+
+                rewardDiv.textContent = `${FORMAT_NUMBER(actionData.xp, 0)} XP`;
+            }
+        });
+    }
+
     function startKoruxaUpdater({ initialDelayMs = 1500, intervalMs = 2000 } = {}) {
         if (KX.__koruxa_updater_started) return;
         KX.__koruxa_updater_started = true;
@@ -1215,6 +1298,8 @@ KX.mapping = { // Mappings of game data
     LOAD_CSS("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css");
     LOAD_CSS("https://goldenlys.github.io/Koruxa-Enhancer/css/rpg-awesome.min.css");
     LOAD_CSS("https://goldenlys.github.io/Koruxa-Enhancer/css/style.css");
+    UPDATE_DATA();
+    UPDATE_SKILL_CARDS_XP();
     try {
         startKoruxaUpdater({ initialDelayMs: 1500, intervalMs: 2000 });
     } catch (err) { console.error('Koruxa Enhanced error', err); }
