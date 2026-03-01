@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       1.29
+// @version       1.30
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    https://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
@@ -201,7 +201,7 @@ KX.mapping = { // Mappings of game data
                 label: 'Farmer',
                 min_level: 1,
                 xp: 10,
-                coins: 0,
+                coins: "3-10",
                 success_chance: 95,
                 duration_ms: 4000,
             },
@@ -210,25 +210,25 @@ KX.mapping = { // Mappings of game data
                 label: 'Market Stall',
                 min_level: 10,
                 xp: 20,
-                coins: 0,
+                coins: "10-20",
                 success_chance: 95,
                 duration_ms: 6000,
             },
-            wealthy_citizen: {
-                key: 'wealthy_citizen',
+            citizen: {
+                key: 'citizen',
                 label: 'Wealthy Citizen',
                 min_level: 25,
                 xp: 25,
-                coins: 0,
+                coins: "25-60",
                 success_chance: 88,
                 duration_ms: 7000,
             },
-            traveling_merchant: {
-                key: 'traveling_merchant',
+            merchant: {
+                key: 'merchant',
                 label: 'Traveling Merchant',
                 min_level: 40,
                 xp: 40,
-                coins: 0,
+                coins: "50-100",
                 success_chance: 59,
                 duration_ms: 9000,
             },
@@ -236,37 +236,37 @@ KX.mapping = { // Mappings of game data
                 key: 'noble',
                 label: 'Noble',
                 min_level: 55,
-                xp: 0,
-                coins: 0,
+                xp: 55,
+                coins: "100-200",
                 success_chance: 0,
-                duration_ms: 0,
+                duration_ms: 16000,
             },
             treasure_chest: {
                 key: 'treasure_chest',
                 label: 'Treasure Chest',
                 min_level: 70,
-                xp: 0,
-                coins: 0,
+                xp: 65,
+                coins: "100-250",
                 success_chance: 0,
-                duration_ms: 0,
+                duration_ms: 18000,
             },
             royal_guard: {
                 key: 'royal_guard',
                 label: 'Royal Guard',
                 min_level: 85,
-                xp: 0,
-                coins: 0,
+                xp: 80,
+                coins: "150-300",
                 success_chance: 0,
-                duration_ms: 0,
+                duration_ms: 21000,
             },
-            bank_vault: {
-                key: 'bank_vault',
+            vault: {
+                key: 'vault',
                 label: 'Bank Vault',
                 min_level: 95,
-                xp: 0,
-                coins: 0,
+                xp: 100,
+                coins: "200-350",
                 success_chance: 0,
-                duration_ms: 0,
+                duration_ms: 25000,
             },
         },
         farming: {
@@ -1123,67 +1123,81 @@ KX.mapping = { // Mappings of game data
         bC.querySelectorAll(".neh-button").forEach(b => b.classList.toggle("active", b.dataset.skill === skill));
     }
 
-    function UPDATE_SKILL_CARDS_XP() {
-        const currentSkill = KX?.KORUXA_ACTIVE_SKILL;
-        if (!currentSkill) return;
+    function UPDATE_SKILL_CARDS_REWARDS() {
+    const currentSkill = KX?.KORUXA_ACTIVE_SKILL;
+    if (!currentSkill) return;
+    
+    const attributeMapping = {
+        "woodcutting": "data-tree",
+        "mining": "data-rock",
+        "fishing": "data-fish",
+        "thieving": "data-target",
+        "arcana": "data-recipe",
+        "cooking": "data-recipe",
+        "fletching": "data-quiver",
+        "crafting": "data-recipe",
+        "heblore": "data-potion",
+        "smithing": "data-recipe",
+        "firemaking": "data-recipe"
+    };
 
-        // Configuration du mapping des attributs par compétence
-        const attributeMapping = {
-            "woodcutting": "data-tree",
-            "mining": "data-rock",
-            "fishing": "data-fish", 
-            "thieving": "data-target",
-            "arcana": "data-recipe",
-            "cooking": "data-recipe",
-            "fletching": "data-quiver",
-            "crafting": "data-recipe",
-            "heblore": "data-potion",
-            "smithing": "data-recipe",
-            "firemaking": "data-recipe",
-        };
+    const dataAttribute = attributeMapping[currentSkill];
+    const config = KORUXA_CONFIGS?.[currentSkill];
 
-        const dataAttribute = attributeMapping[currentSkill];
-        const config = KORUXA_CONFIGS?.[currentSkill];
+    if (!dataAttribute || !config) return;
 
-        // Si la compétence n'est pas dans notre liste de mapping ou pas de config, on arrête
-        if (!dataAttribute || !config) return;
+    const cards = document.querySelectorAll('.cow-card');
+    if (!cards.length) return;
 
-        const cards = document.querySelectorAll('.cow-card');
-        if (!cards.length) return;
+    cards.forEach(card => {
+        const actionId = card.getAttribute(dataAttribute);
+        if (!actionId) return;
 
-        cards.forEach(card => {
-            const actionId = card.getAttribute(dataAttribute);
-            if (!actionId) return;
+        let actionData = null;
 
-            let actionData = null;
-
-            if (config[actionId] && config[actionId].xp !== undefined) {
-                actionData = config[actionId];
-            } else {
-                for (const category of Object.values(config)) {
-                    if (category && typeof category === 'object' && category[actionId]) {
-                        actionData = category[actionId];
-                        break;
-                    }
+        if (config[actionId] && config[actionId].xp !== undefined) {
+            actionData = config[actionId];
+        } else {
+            for (const category of Object.values(config)) {
+                if (category && typeof category === 'object' && category[actionId]) {
+                    actionData = category[actionId];
+                    break;
                 }
             }
+        }
 
-            if (actionData) {
+        if (actionData) {
+            const labelDiv = card.querySelector('.tree-label');
+            if (!labelDiv) return;
+
+            if (currentSkill === "thieving" && actionData.coins !== undefined) {
+                let coinsDiv = card.querySelector('.neh-rewardcoins');
+                if (!coinsDiv) {
+                    coinsDiv = document.createElement('div');
+                    coinsDiv.className = 'neh-rewardcoins';
+                    labelDiv.after(coinsDiv);
+                }
+                coinsDiv.textContent = `${actionData.coins} Coins`;
+            }
+
+            if (actionData.xp !== undefined) {
                 let rewardDiv = card.querySelector('.neh-rewardexp');
-
                 if (!rewardDiv) {
                     rewardDiv = document.createElement('div');
                     rewardDiv.className = 'neh-rewardexp';
-                    const labelDiv = card.querySelector('.tree-label');
-                    if (labelDiv) {
+                    
+                    const coinsDiv = card.querySelector('.neh-rewardcoins');
+                    if (coinsDiv) {
+                        coinsDiv.after(rewardDiv);
+                    } else {
                         labelDiv.after(rewardDiv);
                     }
                 }
-
                 rewardDiv.textContent = `${FORMAT_NUMBER(actionData.xp, 0)} XP`;
             }
-        });
-    }
+        }
+    });
+}
 
     function startKoruxaUpdater({ initialDelayMs = 1500, intervalMs = 2000 } = {}) {
         if (KX.__koruxa_updater_started) return;
@@ -1299,7 +1313,7 @@ KX.mapping = { // Mappings of game data
     LOAD_CSS("https://goldenlys.github.io/Koruxa-Enhancer/css/rpg-awesome.min.css");
     LOAD_CSS("https://goldenlys.github.io/Koruxa-Enhancer/css/style.css");
     UPDATE_DATA();
-    UPDATE_SKILL_CARDS_XP();
+    UPDATE_SKILL_CARDS_REWARDS();
     try {
         startKoruxaUpdater({ initialDelayMs: 1500, intervalMs: 2000 });
     } catch (err) { console.error('Koruxa Enhanced error', err); }

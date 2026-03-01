@@ -1088,9 +1088,9 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     visibility: hidden;
 }
 
+.tree-card .neh-rewardcoins,
 .tree-card .neh-rewardexp {
     position: absolute;
-    bottom: 31px;
     left: 10px;
     padding: 2px 8px;
     border-radius: 999px;
@@ -1101,4 +1101,13 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     z-index: 4;
     pointer-events: none;
     border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.tree-card .neh-rewardexp {
+    bottom: 32px;
+}
+
+.tree-card .neh-rewardcoins {
+    bottom: 54px;
+    
 }
