@@ -1111,3 +1111,18 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     bottom: 54px;
     
 }
+
+.ra.ra-double {
+    margin-left: -14px;
+    text-shadow: -1px -1px 0px rgb(12 20 39), 1px 1px 0px rgb(12 20 39);
+}
+
+.ra.ra-double.smaller {
+    font-size: 18px;
+    margin-top: 5px;
+}
+
+.ra.ra-double.small {
+    font-size: 20px;
+    margin-top: 3px;
+}

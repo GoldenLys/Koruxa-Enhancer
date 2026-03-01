@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       1.30
+// @version       1.31
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    https://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
@@ -461,7 +461,7 @@ KX.mapping = { // Mappings of game data
         ".topbar #session-stop": { // Session stop
             icon: "fa-solid fa-xmark", text: ""
         },
-        ".topbar #session-renew": { // Session Renew
+        ".topbar #session-renew": { // Session renew
             icon: "fa-solid fa-arrows-rotate", text: ""
         },
         ".topbar .progress-badge-icon": { // Session XP Rate
@@ -471,23 +471,23 @@ KX.mapping = { // Mappings of game data
             icon: "ra ra-speech-bubble", text: ""
         },
 
-        "a[href='game.php?page=news']": { // News
+        "a[href='game.php?page=news']": { // Footer news
             icon: "fa-solid fa-newspaper", text: ""
         },
 
-        "a[href='game.php?page=settings']": { // News
+        "a[href='game.php?page=settings']": { // Footer settings
             icon: "fa-solid fa-gear", text: ""
         },
 
-        ".dm-reward-icon": { // Daily Quests Reward
+        ".dm-reward-icon": { // Daily Quests reward
             icon: "fa-solid fa-gift", text: " Reward"
         },
 
-        ".dm-reroll-btn": { // Daily Quests Reroll
+        ".dm-reroll-btn": { // Daily Quests reroll
             icon: "fa-solid fa-redo", text: ""
         },
 
-        ".dm-bonus-locked": { // Daily Quests Locked
+        ".dm-bonus-locked": { // Daily Quests rocked
             icon: "ra ra-padlock", text: ""
         },
 
@@ -534,7 +534,7 @@ KX.mapping = { // Mappings of game data
         },
 
         "a[href='game.php?skill=thieving'] .skill-icon": { // Thieving
-            icon: "ra ra-balaclava", // or ra-balaclava
+            icon: ["ra ra-balaclava", "ra ra-hand ra-double smaller"], // or ra-balaclava
             text: ""
         },
 
@@ -567,6 +567,11 @@ KX.mapping = { // Mappings of game data
 
         "a[href='game.php?skill=firemaking'] .skill-icon": { // Firemaking
             icon: "ra ra-campfire", text: ""
+        },
+
+        "a[href='game.php?skill=alchemy'] .skill-icon": { // Alchemy
+            icon: "ra ra-fizzing-flask",
+            text: ""
         },
 
         // Combat skills
@@ -753,15 +758,16 @@ KX.mapping = { // Mappings of game data
         for (const selector in iconReplacements) {
             const cfg = iconReplacements[selector];
             const elements = document.querySelectorAll(selector);
-
             if (!elements.length) continue;
 
             elements.forEach(el => {
                 if (el.dataset.iconified === "1") return;
+                let iconHTML = "";
 
-                const iconHTML = `<i class="${cfg.icon}"></i>`;
+                if (Array.isArray(cfg.icon)) cfg.icon.forEach(iconClass => { iconHTML += `<i class="${iconClass}"></i> `; });
+                else iconHTML = `<i class="${cfg.icon}"></i> `;
+
                 const textHTML = cfg.text ? `<span class="icon-text">${cfg.text}</span>` : "";
-
                 el.innerHTML = iconHTML + textHTML;
                 el.dataset.iconified = "1";
             });
@@ -1123,80 +1129,80 @@ KX.mapping = { // Mappings of game data
     }
 
     function UPDATE_SKILL_CARDS_REWARDS() {
-    const currentSkill = KX?.KORUXA_ACTIVE_SKILL;
-    if (!currentSkill) return;
-    
-    const attributeMapping = {
-        "woodcutting": "data-tree",
-        "mining": "data-rock",
-        "fishing": "data-fish",
-        "thieving": "data-target",
-        "arcana": "data-recipe",
-        "cooking": "data-recipe",
-        "fletching": "data-quiver",
-        "crafting": "data-recipe",
-        "heblore": "data-potion",
-        "smithing": "data-recipe",
-        "firemaking": "data-recipe"
-    };
+        const currentSkill = KX?.KORUXA_ACTIVE_SKILL;
+        if (!currentSkill) return;
 
-    const dataAttribute = attributeMapping[currentSkill];
-    const config = KORUXA_CONFIGS?.[currentSkill];
+        const attributeMapping = {
+            "woodcutting": "data-tree",
+            "mining": "data-rock",
+            "fishing": "data-fish",
+            "thieving": "data-target",
+            "arcana": "data-recipe",
+            "cooking": "data-recipe",
+            "fletching": "data-recipe",
+            "crafting": "data-recipe",
+            "heblore": "data-potion",
+            "smithing": "data-recipe",
+            "firemaking": "data-recipe"
+        };
 
-    if (!dataAttribute || !config) return;
+        const dataAttribute = attributeMapping[currentSkill];
+        const config = KORUXA_CONFIGS?.[currentSkill];
 
-    const cards = document.querySelectorAll('.cow-card');
-    if (!cards.length) return;
+        if (!dataAttribute || !config) return;
 
-    cards.forEach(card => {
-        const actionId = card.getAttribute(dataAttribute);
-        if (!actionId) return;
+        const cards = document.querySelectorAll('.cow-card');
+        if (!cards.length) return;
 
-        let actionData = null;
+        cards.forEach(card => {
+            const actionId = card.getAttribute(dataAttribute);
+            if (!actionId) return;
 
-        if (config[actionId] && config[actionId].xp !== undefined) {
-            actionData = config[actionId];
-        } else {
-            for (const category of Object.values(config)) {
-                if (category && typeof category === 'object' && category[actionId]) {
-                    actionData = category[actionId];
-                    break;
-                }
-            }
-        }
+            let actionData = null;
 
-        if (actionData) {
-            const labelDiv = card.querySelector('.tree-label');
-            if (!labelDiv) return;
-
-            if (currentSkill === "thieving" && actionData.coins !== undefined) {
-                let coinsDiv = card.querySelector('.neh-rewardcoins');
-                if (!coinsDiv) {
-                    coinsDiv = document.createElement('div');
-                    coinsDiv.className = 'neh-rewardcoins';
-                    labelDiv.after(coinsDiv);
-                }
-                coinsDiv.textContent = `${actionData.coins} Coins`;
-            }
-
-            if (actionData.xp !== undefined) {
-                let rewardDiv = card.querySelector('.neh-rewardexp');
-                if (!rewardDiv) {
-                    rewardDiv = document.createElement('div');
-                    rewardDiv.className = 'neh-rewardexp';
-                    
-                    const coinsDiv = card.querySelector('.neh-rewardcoins');
-                    if (coinsDiv) {
-                        coinsDiv.after(rewardDiv);
-                    } else {
-                        labelDiv.after(rewardDiv);
+            if (config[actionId] && config[actionId].xp !== undefined) {
+                actionData = config[actionId];
+            } else {
+                for (const category of Object.values(config)) {
+                    if (category && typeof category === 'object' && category[actionId]) {
+                        actionData = category[actionId];
+                        break;
                     }
                 }
-                rewardDiv.textContent = `${FORMAT_NUMBER(actionData.xp, 0)} XP`;
             }
-        }
-    });
-}
+
+            if (actionData) {
+                const labelDiv = card.querySelector('.tree-label');
+                if (!labelDiv) return;
+
+                if (currentSkill === "thieving" && actionData.coins !== undefined) {
+                    let coinsDiv = card.querySelector('.neh-rewardcoins');
+                    if (!coinsDiv) {
+                        coinsDiv = document.createElement('div');
+                        coinsDiv.className = 'neh-rewardcoins';
+                        labelDiv.after(coinsDiv);
+                    }
+                    coinsDiv.textContent = `${actionData.coins} Coins`;
+                }
+
+                if (actionData.xp !== undefined) {
+                    let rewardDiv = card.querySelector('.neh-rewardexp');
+                    if (!rewardDiv) {
+                        rewardDiv = document.createElement('div');
+                        rewardDiv.className = 'neh-rewardexp';
+
+                        const coinsDiv = card.querySelector('.neh-rewardcoins');
+                        if (coinsDiv) {
+                            coinsDiv.after(rewardDiv);
+                        } else {
+                            labelDiv.after(rewardDiv);
+                        }
+                    }
+                    rewardDiv.textContent = `${FORMAT_NUMBER(actionData.xp, 0)} XP`;
+                }
+            }
+        });
+    }
 
     function startKoruxaUpdater({ initialDelayMs = 1500, intervalMs = 2000 } = {}) {
         if (KX.__koruxa_updater_started) return;
@@ -1308,7 +1314,7 @@ KX.mapping = { // Mappings of game data
     TRANSFORM_DROPS();
     LOCK_SIDEBAR();
     LOAD_CSS("https://fonts.googleapis.com/css2?family=Saira:ital,wght@0,100..900;1,100..900&display=swap");
-    LOAD_CSS("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css");
+    LOAD_CSS("https://goldenlys.github.io/Koruxa-Enhancer/css/fa-7.2.0.min.css");
     LOAD_CSS("https://goldenlys.github.io/Koruxa-Enhancer/css/rpg-awesome.min.css");
     LOAD_CSS("https://goldenlys.github.io/Koruxa-Enhancer/css/style.css");
     UPDATE_DATA();
