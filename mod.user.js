@@ -7,7 +7,7 @@
 // @supportURL    https://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
 // @updateURL     https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
-// @description   Redesign of the game
+// @description   A script that adds QoL features and enhanced UI to Koruxa
 // @match         https://koruxa.com/*
 // @match         https://www.koruxa.com/*
 // @icon          https://www.google.com/s2/favicons?domain=https://koruxa.com
