@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       1.31
+// @version       1.32
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    https://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
@@ -26,7 +26,7 @@ const KX = unsafeWindow;
 KX.KORUXA_GLOBALS = {
     "forced-current-skill": "none",
     "target-level": 0,
-    "sidebar-state": "lsb-unlocked"
+    "sidebar-state": "lsb-locked-closed"
 };
 KX.KORUXA_STATS = {};
 KX.KORUXA_TOOLS = {};
@@ -70,6 +70,7 @@ KX.mapping = { // Mappings of game data
                 min_level: 1,
                 xp: 8,
                 duration_ms: 14000,
+                ingredients: { glowroot: 1, vial_of_water: 1 },
             },
             defence_potion: {
                 key: 'defence_potion',
@@ -77,6 +78,7 @@ KX.mapping = { // Mappings of game data
                 min_level: 5,
                 xp: 12,
                 duration_ms: 16000,
+                ingredients: { emberstem: 1, vial_of_water: 1 },
             },
             health_potion: {
                 key: 'health_potion',
@@ -84,6 +86,7 @@ KX.mapping = { // Mappings of game data
                 min_level: 12,
                 xp: 18,
                 duration_ms: 18000,
+                ingredients: { frostleaf: 1, vial_of_water: 1 },
             },
             thieving_potion: {
                 key: 'thieving_potion',
@@ -91,6 +94,7 @@ KX.mapping = { // Mappings of game data
                 min_level: 18,
                 xp: 24,
                 duration_ms: 21000,
+                ingredients: { shadowmoss: 1, vial_of_water: 1 },
             },
             wisdom_potion: {
                 key: 'wisdom_potion',
@@ -98,6 +102,7 @@ KX.mapping = { // Mappings of game data
                 min_level: 25,
                 xp: 32,
                 duration_ms: 24000,
+                ingredients: { spiritbloom: 1, vial_of_water: 1 },
             },
             haste_potion: {
                 key: 'haste_potion',
@@ -105,6 +110,7 @@ KX.mapping = { // Mappings of game data
                 min_level: 30,
                 xp: 38,
                 duration_ms: 26000,
+                ingredients: { frostleaf: 2, vial_of_water: 1 },
             },
             super_attack_potion: {
                 key: 'super_attack_potion',
@@ -112,6 +118,7 @@ KX.mapping = { // Mappings of game data
                 min_level: 38,
                 xp: 45,
                 duration_ms: 30000,
+                ingredients: { spiritbloom: 2, vial_of_water: 1, crystal_dust: 1 },
             },
             super_defence_potion: {
                 key: 'super_defence_potion',
@@ -119,6 +126,7 @@ KX.mapping = { // Mappings of game data
                 min_level: 43,
                 xp: 52,
                 duration_ms: 33000,
+                ingredients: { voidpetal: 2, vial_of_water: 1, crystal_dust: 1 },
             },
             fortune_potion: {
                 key: 'fortune_potion',
@@ -126,6 +134,7 @@ KX.mapping = { // Mappings of game data
                 min_level: 48,
                 xp: 58,
                 duration_ms: 35000,
+                ingredients: { spiritbloom: 1, vial_of_water: 1, voidpetal: 1 },
             },
             super_health_potion: {
                 key: 'super_health_potion',
@@ -133,6 +142,7 @@ KX.mapping = { // Mappings of game data
                 min_level: 53,
                 xp: 65,
                 duration_ms: 38000,
+                ingredients: { celestine_herb: 2, vial_of_water: 1, spirit_extract: 1 },
             },
             super_thieving_potion: {
                 key: 'super_thieving_potion',
@@ -140,6 +150,7 @@ KX.mapping = { // Mappings of game data
                 min_level: 58,
                 xp: 72,
                 duration_ms: 41000,
+                ingredients: { voidpetal: 2, shadowmoss: 1, vial_of_water: 1 },
             },
             combat_potion: {
                 key: 'combat_potion',
@@ -147,6 +158,7 @@ KX.mapping = { // Mappings of game data
                 min_level: 63,
                 xp: 78,
                 duration_ms: 44000,
+                ingredients: { attack_potion: 1, crystal_dust: 2, defence_potion: 1 },
             },
             super_wisdom_potion: {
                 key: 'super_wisdom_potion',
@@ -154,6 +166,7 @@ KX.mapping = { // Mappings of game data
                 min_level: 68,
                 xp: 85,
                 duration_ms: 46000,
+                ingredients: { elderbloom: 2, vial_of_water: 1, spirit_extract: 1 },
             },
             super_haste_potion: {
                 key: 'super_haste_potion',
@@ -161,6 +174,7 @@ KX.mapping = { // Mappings of game data
                 min_level: 73,
                 xp: 95,
                 duration_ms: 50000,
+                ingredients: { celestine_herb: 2, frostleaf: 1, vial_of_water: 1, crystal_dust: 1 },
             },
             skiller_potion: {
                 key: 'skiller_potion',
@@ -168,6 +182,7 @@ KX.mapping = { // Mappings of game data
                 min_level: 75,
                 xp: 100,
                 duration_ms: 52000,
+                ingredients: { wisdom_potion: 1, haste_potion: 1, spirit_extract: 2 },
             },
             super_fortune_potion: {
                 key: 'super_fortune_potion',
@@ -175,6 +190,7 @@ KX.mapping = { // Mappings of game data
                 min_level: 78,
                 xp: 105,
                 duration_ms: 55000,
+                ingredients: { elderbloom: 2, voidpetal: 1, vial_of_water: 1, void_essence: 1 },
             },
             master_potion: {
                 key: 'master_potion',
@@ -182,6 +198,7 @@ KX.mapping = { // Mappings of game data
                 min_level: 88,
                 xp: 140,
                 duration_ms: 65000,
+                ingredients: { combat_potion: 1, fortune_potion: 1, skiller_potion: 1, void_essence: 3 },
             },
             overload_potion: {
                 key: 'overload_potion',
@@ -189,6 +206,7 @@ KX.mapping = { // Mappings of game data
                 min_level: 96,
                 xp: 200,
                 duration_ms: 80000,
+                ingredients: { super_attack_potion: 1, super_defence_potion: 1, super_fortune_potion: 1, super_haste_potion: 1, super_health_potion: 1, super_wisdom_potion: 1, void_essence: 5 },
             },
         },
         smithing: (typeof KORUXA_SMITHING_CONFIG !== 'undefined') ? KORUXA_SMITHING_CONFIG : {},
@@ -505,10 +523,6 @@ KX.mapping = { // Mappings of game data
 
         ".sidebar-inventory-title>span:not([class])": { // Inventory
             icon: "ra ra-light-backpack", text: " Inventory"
-        },
-
-        ".sidebar-inventory-title .inv-sort-btn": { // Inventory Sort
-            icon: "fa-solid fa-sort", text: ""
         },
 
         ".sidebar-inventory-title a[href='game.php?page=bank']": { // Bank
@@ -877,6 +891,7 @@ KX.mapping = { // Mappings of game data
         return unlocked.sort((a, b) => b.req - a.req).map(x => x.action);
     }
 
+    // Calcule les meilleures actions en adaptant la source des ingrédients (ingredients, recipe, ou input) selon le skill.
     function CALC_SKILL_LEVEL_UP(skill, targetLevel = 0) {
         const actions = GET_LAST_UNLOCK_SKILL(skill);
         if (!actions || actions.length === 0) return null;
@@ -885,66 +900,45 @@ KX.mapping = { // Mappings of game data
         const stats = KX.KORUXA_STATS?.[skill] || {};
         const premiumBonus = (KX.KORUXA_IS_PREMIUM ? 20 : 0);
         const currentXP = Number(stats.xp_total) || 0;
-        let targetXP;
-
-        if (targetLevel > 0) { targetXP = GET_XP(targetLevel, "total"); }
-        else { targetXP = Number(stats.xp_needed) || 0; }
+        const targetXP = targetLevel > 0 ? GET_XP(targetLevel, "total") : (Number(stats.xp_needed) || 0);
         const xpLeft = Math.max(0, targetXP - currentXP);
 
         const compute = (action, e) => {
-            const label = (e.label ?? action);
-            const tools = KX.KORUXA_TOOLS || {};
-            const farms = KX.KORUXA_FARMS || {};
-            const tool = tools[skill] || {};
-            const farm = farms[skill] || {};
-            const speed = (tool.speed || 0) + (farm.speed || 0) + premiumBonus;
-            const xpBonus = (tool.xp || 0) + (farm.xp || 0) + premiumBonus;
+            const label = e.label ?? action;
+            const tools = KX.KORUXA_TOOLS?.[skill] || {};
+            const farms = KX.KORUXA_FARMS?.[skill] || {};
+            const speed = (tools.speed || 0) + (farms.speed || 0) + premiumBonus;
+            const xpBonus = (tools.xp || 0) + (farms.xp || 0) + premiumBonus;
             const xpPerLoop = (e.xp || 0) * (1 + xpBonus / 100);
             const msPerLoop = (e.duration_ms || 0) * Math.max(0, 1 - speed / 100);
+
             if (xpLeft <= 0 || xpPerLoop <= 0) return { skill, action, label, loops: 0, time: "0s", required: 0 };
+
             const loops = Math.ceil(xpLeft / xpPerLoop);
-            const totalIngredientsPerUnit = Object.values(e.ingredients || {}).reduce((a, b) => a + b, 0);
+            const rawIng = e.ingredients || e.recipe || e.input || {};
 
             return {
-                skill,
-                action,
-                label,
+                skill, action, label,
                 required: Math.round(xpPerLoop * loops),
                 loops,
-                total_ingredients_needed: totalIngredientsPerUnit * loops,
+                ingredients_list: Object.fromEntries(Object.entries(rawIng).map(([k, v]) => [k, v * loops])),
                 time: FORMAT_TIME(Math.round((loops * msPerLoop) / 1000))
             };
         };
 
-        const candidates = [];
-        const pushEntry = (action, e) => {
-            if (!e) return;
+        const bestPerCategory = new Map();
+        for (const [catName, catContent] of Object.entries(config)) {
+            for (const action of actions) {
+                const e = catContent?.[action] || (catName === action ? catContent : null);
+                if (!e || !e.xp) continue;
 
-            const ingredientCount = Object.values(e.ingredients || {}).reduce((sum, qty) => sum + qty, 0);
-            const costFactor = Math.max(1, ingredientCount);
-            const ratio = (e.xp || 0) / (Math.max(1, e.duration_ms) * costFactor);
-
-            candidates.push({ action, entry: e, ratio });
-        };
-
-        for (const action of actions) {
-            const entry = config[action];
-            if (entry && entry.xp) { pushEntry(action, entry); continue; }
-            for (const cat of Object.values(config)) {
-                const e = cat?.[action];
-                if (e) { pushEntry(action, e); break; }
+                const ratio = e.xp / Math.max(1, e.duration_ms);
+                const currentBest = bestPerCategory.get(catName);
+                if (!currentBest || ratio > currentBest.ratio) bestPerCategory.set(catName, { action, entry: e, ratio });
             }
         }
 
-        if (candidates.length === 0) return null;
-        candidates.sort((a, b) => b.ratio - a.ratio);
-
-        const results = [];
-        for (let i = 0; i < 3 && i < candidates.length; i++) {
-            results.push(compute(candidates[i].action, candidates[i].entry));
-        }
-
-        return results;
+        return Array.from(bestPerCategory.values()).sort((a, b) => b.ratio - a.ratio).slice(0, 3).map(c => compute(c.action, c.entry));
     }
 
     function CALC_SESSION_XP() {
@@ -1038,12 +1032,21 @@ KX.mapping = { // Mappings of game data
 
         const [first, second, third] = result;
         const approx = skill === "thieving" ? "~" : "";
+
+        const formatIng = (item) => {
+            if (!item || !item.ingredients_list) return "";
+            const list = Object.entries(item.ingredients_list)
+                .map(([name, qty]) => `${FORMAT_NUMBER(qty, 0)} ${name}`)
+                .join(", ");
+            return list ? `<br><div class="neh-req">Requires: ${list}</div>` : "";
+        };
+
         const phrase = [
-            `Reach ${first.skill} level <b>${tLvl}</b> with <b>${FORMAT_NUMBER(first.required)}</b> XP`,
-            `1. <b>${first.label} ${approx}x${FORMAT_NUMBER(first.loops, 0)}</b> — <b>${first.time}</b>`,
-            second && `2. <b>${second.label} ${approx}x${FORMAT_NUMBER(second.loops, 0)}</b> — <b>${second.time}</b>`,
-            third && `3. <b>${third.label} ${approx}x${FORMAT_NUMBER(third.loops, 0)}</b> — <b>${third.time}</b>`
-        ].filter(Boolean).join("<br>");
+            `<div class="neh-summary">Reach ${first.skill} level <b>${tLvl}</b> with <b>${FORMAT_NUMBER(first.required)}</b> XP</div>`,
+            `<div class="neh-option-item">1. <b>${first.label} ${approx}x${FORMAT_NUMBER(first.loops, 0)}</b> — <b>${first.time}</b>${formatIng(first)}</div>`,
+            second ? `<div class="neh-option-item">2. <b>${second.label} ${approx}x${FORMAT_NUMBER(second.loops, 0)}</b> — <b>${second.time}</b>${formatIng(second)}</div>` : null,
+            third ? `<div class="neh-option-item">3. <b>${third.label} ${approx}x${FORMAT_NUMBER(third.loops, 0)}</b> — <b>${third.time}</b>${formatIng(third)}</div>` : null
+        ].filter(Boolean).join("");
         let el = document.querySelector("#neh-helper");
         if (!el) {
             el = document.createElement("div");
@@ -1157,7 +1160,6 @@ KX.mapping = { // Mappings of game data
         cards.forEach(card => {
             const actionId = card.getAttribute(dataAttribute);
             if (!actionId) return;
-
             let actionData = null;
 
             if (config[actionId] && config[actionId].xp !== undefined) {
@@ -1187,6 +1189,15 @@ KX.mapping = { // Mappings of game data
 
                 if (actionData.xp !== undefined) {
                     let rewardDiv = card.querySelector('.neh-rewardexp');
+                    const tools = KX.KORUXA_TOOLS || {};
+                    const farms = KX.KORUXA_FARMS || {};
+                    const premiumBonus = (KX.KORUXA_IS_PREMIUM ? 20 : 0);
+
+                    const tool = tools[currentSkill] || {};
+                    const farm = farms[currentSkill] || {};
+                    const xpBonusTotal = (tool.xp || 0) + (farm.xp || 0) + premiumBonus;
+
+                    const xpPerLoop = (actionData.xp || 0) * (1 + xpBonusTotal / 100);
                     if (!rewardDiv) {
                         rewardDiv = document.createElement('div');
                         rewardDiv.className = 'neh-rewardexp';
@@ -1198,10 +1209,59 @@ KX.mapping = { // Mappings of game data
                             labelDiv.after(rewardDiv);
                         }
                     }
-                    rewardDiv.textContent = `${FORMAT_NUMBER(actionData.xp, 0)} XP`;
+                    rewardDiv.textContent = `${FORMAT_NUMBER(xpPerLoop, 0)} XP`;
                 }
             }
         });
+    }
+
+    function GET_BEST_XP_EFFICIENCY() {
+        const allSkills = Object.keys(KORUXA_CONFIGS || {});
+        const rankings = [];
+
+        allSkills.forEach(skill => {
+            const results = CALC_SKILL_LEVEL_UP(skill);
+
+            if (results && results.length > 0) {
+                const bestAction = results[0];
+                const config = KORUXA_CONFIGS[skill];
+                const stats = KX.KORUXA_STATS?.[skill] || {};
+                const premiumBonus = (KX.KORUXA_IS_PREMIUM ? 20 : 0);
+                const tool = KX.KORUXA_TOOLS?.[skill] || {};
+                const farm = KX.KORUXA_FARMS?.[skill] || {};
+                let entry = config[bestAction.action];
+                if (!entry) {
+                    for (const cat of Object.values(config)) {
+                        if (cat?.[bestAction.action]) { entry = cat[bestAction.action]; break; }
+                    }
+                }
+
+                if (entry) {
+                    const speed = (tool.speed || 0) + (farm.speed || 0) + premiumBonus;
+                    const xpBonus = (tool.xp || 0) + (farm.xp || 0) + premiumBonus;
+                    const xpPerLoop = (entry.xp || 0) * (1 + xpBonus / 100);
+                    const msPerLoop = (entry.duration_ms || 0) * Math.max(0, 1 - speed / 100);
+                    const xpPerSecond = msPerLoop > 0 ? (xpPerLoop / (msPerLoop / 1000)) : 0;
+
+                    rankings.push({
+                        skill: skill,
+                        level: stats.level,
+                        action: bestAction.label,
+                        xpPerSec: xpPerSecond.toFixed(2)
+                    });
+                }
+            }
+        });
+        rankings.sort((a, b) => b.xpPerSec - a.xpPerSec);
+        console.log("%c--- Best XP Efficiency Rankings ---", "color: #00ff00; font-weight: bold;");
+        if (rankings.length === 0) {
+            console.log("Aucune donnée disponible.");
+        } else {
+            rankings.forEach((item, index) => {
+                const medal = index === 0 ? "🏆" : (index + 1) + ".";
+                console.log(`${medal} [${item.skill.toUpperCase()} ${item.level}] : ${item.xpPerSec} XP/s with action: ${item.action}`);
+            });
+        }
     }
 
     function startKoruxaUpdater({ initialDelayMs = 1500, intervalMs = 2000 } = {}) {
@@ -1319,6 +1379,7 @@ KX.mapping = { // Mappings of game data
     LOAD_CSS("https://goldenlys.github.io/Koruxa-Enhancer/css/style.css");
     UPDATE_DATA();
     UPDATE_SKILL_CARDS_REWARDS();
+    GET_BEST_XP_EFFICIENCY();
     try {
         startKoruxaUpdater({ initialDelayMs: 1500, intervalMs: 2000 });
     } catch (err) { console.error('Koruxa Enhanced error', err); }

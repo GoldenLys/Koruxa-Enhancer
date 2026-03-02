@@ -252,24 +252,7 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     margin: 0 0 5px 0;
 }
 
-.small.xp-total,
-#session-stat .xp-bar {
-    display: none;
-}
-
-#session-stat #cycle-counter {
-    font-size: 14px;
-    text-shadow: inherit;
-    color: rgb(255 255 255)
-}
-
-#cycle-bar-fill {
-    background: linear-gradient(180deg, rgb(175 175 175) 0%, rgb(200 200 200) 10%, rgb(255 255 255) 50%, rgb(255 255 255) 100%);
-    box-shadow: none;
-    border-radius: 2.5px;
-}
-
-#cycle-bar-fill::after {
+.small.xp-total {
     display: none;
 }
 
@@ -403,10 +386,6 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-    overflow: hidden auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(100, 116, 139, 0.5) transparent;
 }
 
 .neh-item>bold,
@@ -496,11 +475,6 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
 
 .menu-item.active {
     max-width: 100%;
-    color: rgb(190 219 255);
-    background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(34, 197, 94, 0.1));
-    background-size: 500% 100%;
-    animation: backgroundSlide 5s linear infinite;
-    border-color: rgb(43 127 255 / 30%);
 }
 
 .neh-helper {
@@ -615,6 +589,33 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     justify-content: center;
     flex-wrap: wrap;
     align-items: stretch;
+}
+
+.neh-summary {
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.neh-option-item {
+    position: relative;
+    margin-bottom: 9px;
+}
+
+.neh-option-item:not(:last-child):after {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    bottom: -5px;
+    height: 1px;
+    background: rgb(82 181 187 / 35%);
+}
+
+.neh-req {
+    text-align: center;
+    color: #eaeaea;
+    font-size: 0.9em;
 }
 
 .neh-right-buttons {
