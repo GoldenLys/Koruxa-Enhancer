@@ -891,7 +891,6 @@ KX.mapping = { // Mappings of game data
         return unlocked.sort((a, b) => b.req - a.req).map(x => x.action);
     }
 
-    // Calcule les meilleures actions en adaptant la source des ingrédients (ingredients, recipe, ou input) selon le skill.
     function CALC_SKILL_LEVEL_UP(skill, targetLevel = 0) {
         const actions = GET_LAST_UNLOCK_SKILL(skill);
         if (!actions || actions.length === 0) return null;

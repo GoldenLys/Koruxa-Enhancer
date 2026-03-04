@@ -1136,3 +1136,12 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
 .prf-info span {
     filter: drop-shadow(0 0 0.8px #0c1427)
 }
+
+/* Improve distinction between martketplace items in feed */
+.marketplace-feed .chat-message[data-view-type="listings"] {
+    background-color: rgb(59 130 246 / 20%);
+}
+
+.marketplace-feed .chat-message[data-view-type="buy_orders"] {
+    background-color: rgb(34 197 94 / 20%);
+}
