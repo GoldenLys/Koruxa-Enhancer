@@ -144,7 +144,7 @@ ticks: 1
 
                 const baseDamage = 5 + lvlDmg;
                 const totalTime = 30 + Math.min(lvlTime, 30);
-                const critChance = (5 + Math.min(lvlCrit, 25)) / 100;
+                const critChance = (5 + lvlCrit) / 100;
                 const powerMult = Math.pow(1.24, lvlPower);
                 const critMult = 1.5 + (lvlDev * 0.15);
                 const rageBonus = Math.min(lvlRage, 15) * 0.05;
@@ -165,7 +165,7 @@ ticks: 1
 
                 document.getElementById('boostValue').textContent = "+" + FORMAT_NUMBER(lvlDmg, 0) + " max hit damage";
                 document.getElementById('timeValue').textContent = "+" + FORMAT_NUMBER(lvlTime, 0) + " second" + (lvlTime === 1 ? "" : "s");
-                document.getElementById('critValue').textContent = "+" + FORMAT_NUMBER(lvlCrit, 0) + " %";
+                document.getElementById('critValue').textContent = "" + FORMAT_NUMBER(critChance*100, 0) + " % crit chance";
                 document.getElementById('powerValue').textContent = "x" + FORMAT_NUMBER(powerMult, 2) + " damage";
                 document.getElementById('devastationValue').textContent = "x" + FORMAT_NUMBER(critMult, 2) + " crit damage";
                 document.getElementById('rageValue').textContent = "" + FORMAT_NUMBER(rageBonus*100, 0) + " % focus damage cap";
