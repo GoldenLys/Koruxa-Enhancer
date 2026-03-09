@@ -19,32 +19,38 @@
             <div class="stat-card">
                 <label>Damage Boost:</label>
                 <input type="number" id="lvlDamage" value="4" min="0" step="1">
-                <small>+1 dmg / lvl</small>
+                <div class="label white" >+1 dmg / lvl</div>
+                <div class="label" id="boostValue"></div>
             </div>
             <div class="stat-card">
                 <label>Time Extension:</label>
                 <input type="number" id="lvlTime" value="1" min="0" max="30" step="1">
-                <small>+1s / lvl </small>
+                <div class="label white" >+1s / lvl </div>
+                <div class="label" id="timeValue"></div>
             </div>
             <div class="stat-card">
                 <label>Crit Strike:</label>
                 <input type="number" id="lvlCrit" value="1" min="0" max="25" step="1">
-                <small>+1% / lvl (Max 25%)</small>
+                <div class="label white" >+1% / lvl (Max 25%)</div>
+                <div class="label" id="critValue"></div>
             </div>
             <div class="stat-card">
                 <label>Power:</label>
                 <input type="number" id="lvlPower" value="2" min="0" step="1">
-                <small>x1.24 mult / lvl</small>
+                <div class="label white" >x1.24 mult / lvl</div>
+                <div class="label" id="powerValue"></div>
             </div>
             <div class="stat-card">
                 <label>Devastation:</label>
                 <input type="number" id="lvlDevastation" value="1" min="0" max="20" step="1">
-                <small>+0.15 crit mult / lvl</small>
+                <div class="label white" >+0.15 crit mult / lvl</div>
+                <div class="label" id="devastationValue"></div>
             </div>
             <div class="stat-card">
                 <label>Rage:</label>
                 <input type="number" id="lvlRage" value="0" min="0" max="15" step="1">
-                <small>+5% bonus / lvl</small>
+                <div class="label white">+5% bonus / lvl</div>
+                <div class="label" id="rageValue"></div>
             </div>
         </div>
 
@@ -75,6 +81,18 @@
 
     <script>
         /*
+        Game values at current level:
+base_damage: 5
+consecutive: 6
+crit_chance: 6
+crit_mult: 1.65
+dmg_bonus: 4
+max_hit: 9
+power_mult: 1.54
+rage_cap: 0
+ticks: 1
+
+
         * Koruxa Boss Damage Stat Table
         * 
         * Shows default values and increases per point invested
@@ -129,9 +147,9 @@
                 const critChance = (5 + Math.min(lvlCrit, 25)) / 100;
                 const powerMult = Math.pow(1.24, lvlPower);
                 const critMult = 1.5 + (lvlDev * 0.15);
-                const rageBonus = 1 + (Math.min(lvlRage, 15) * 0.05);
+                const rageBonus = Math.min(lvlRage, 15) * 0.05;
 
-                const normalHit = baseDamage * powerMult * rageBonus;
+                const normalHit = (baseDamage * powerMult) * (1 + rageBonus);
                 const trueMaxHit = normalHit * critMult;
                 const expectedHitPerSec = (normalHit * (1 - critChance)) + (trueMaxHit * critChance);
 
@@ -144,6 +162,13 @@
                 avgAttemptDisplay.textContent = FORMAT_NUMBER(avgDamage, 0);
                 durationDisplay.textContent = totalTime;
                 durationDisplay2.textContent = totalTime;
+
+                document.getElementById('boostValue').textContent = "+" + FORMAT_NUMBER(lvlDmg, 0) + " max hit damage";
+                document.getElementById('timeValue').textContent = "+" + FORMAT_NUMBER(lvlTime, 0) + " second" + (lvlTime === 1 ? "" : "s");
+                document.getElementById('critValue').textContent = "+" + FORMAT_NUMBER(lvlCrit, 0) + " %";
+                document.getElementById('powerValue').textContent = "x" + FORMAT_NUMBER(powerMult, 2) + " damage";
+                document.getElementById('devastationValue').textContent = "x" + FORMAT_NUMBER(critMult, 2) + " crit damage";
+                document.getElementById('rageValue').textContent = "" + FORMAT_NUMBER(rageBonus*100, 0) + " % focus damage cap";
             }
 
             Object.values(inputs).forEach(input => {
