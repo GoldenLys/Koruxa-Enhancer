@@ -152,12 +152,12 @@
                 durationDisplay.textContent = totalTime;
                 durationDisplay2.textContent = totalTime;
 
-                document.getElementById('boostValue').textContent = "+" + FORMAT_NUMBER(lvlDmg, 0) + " max hit damage";
-                document.getElementById('timeValue').textContent = "+" + FORMAT_NUMBER(lvlTime, 0) + " second" + (lvlTime === 1 ? "" : "s");
-                document.getElementById('critValue').textContent = "" + FORMAT_NUMBER(critChance*100, 0) + " % crit chance";
-                document.getElementById('powerValue').textContent = "x" + FORMAT_NUMBER(powerMult, 2) + " damage";
-                document.getElementById('devastationValue').textContent = "x" + FORMAT_NUMBER(critMult, 2) + " crit damage";
-                document.getElementById('rageValue').textContent = "" + FORMAT_NUMBER(rageBonus*100, 0) + " % focus damage cap";
+                document.getElementById('boostValue').textContent = "" + FORMAT_NUMBER((5 + lvlDmg) * powerMult, 0) + " max hit damage";
+                document.getElementById('timeValue').textContent = "" + FORMAT_NUMBER(lvlTime + 30, 0) + " seconds";
+                document.getElementById('critValue').textContent = "" + FORMAT_NUMBER(critChance * 100, 0) + " % critical hit chance";
+                document.getElementById('powerValue').textContent = "x" + FORMAT_NUMBER(powerMult, 2) + " damage multiplier";
+                document.getElementById('devastationValue').textContent = "x" + FORMAT_NUMBER(critMult, 2) + " critical hit damage";
+                document.getElementById('rageValue').textContent = "" + FORMAT_NUMBER(rageBonus * 100, 0) + " % focus damage cap";
             }
 
             Object.values(inputs).forEach(input => {
