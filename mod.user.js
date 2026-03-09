@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       1.32
+// @version       1.33
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    https://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
@@ -19,6 +19,16 @@
 /* TODO & Ideas List
  - (Maybe) add "Stats" tab with more stats
  - Make the plus button generate a formula to reach the desired level with the less amount of time 
+
+  /////////////////////////////////////////////////////
+  //                 Don't mind this                 //
+  /////////////////////////////////////////////////////
+ - .kx-modal-backdrop.show = New session modal
+ - #modal-start-btn = "Start session" button
+ - #modal-queue-btn = "Queue session" button
+ - #modal-max-btn = "Maximize items in session" button
+ - input#modal-cycles-input = "number of items" input
+  /////////////////////////////////////////////////////
 */
 
 const KX = unsafeWindow;
@@ -34,7 +44,6 @@ KX.KORUXA_FARMS = {};
 KX.KORUXA_ALL_SKILL_LEVELS = KX.KORUXA_ALL_SKILL_LEVELS || {};
 KX.__koruxa_intervals = KX.__koruxa_intervals || [];
 KX.__koruxa_updater_started = KX.__koruxa_updater_started || false;
-
 KX.mapping = { // Mappings of game data
     coins: { selector: "#stat-coins", value: "0" },
     username: { selector: ".topbar a.user-name", value: "" },
@@ -708,6 +717,7 @@ KX.mapping = { // Mappings of game data
 
         }
         CHECK_SKILLS_LEVELS();
+        SORT_QUESTS_DOTS();
         EXTRACT_SKILLS();
         SET_CURRENT_SKILL_CLASS();
         LOAD_TOOL_STATS();
@@ -1354,6 +1364,7 @@ KX.mapping = { // Mappings of game data
         b.onclick = () => {
             const next = sts[(sts.indexOf(KX.KORUXA_GLOBALS["sidebar-state"]) + 1) % 3];
             updateUI(KX.KORUXA_GLOBALS["sidebar-state"] = next);
+            NEH_STORAGE('save');
         };
 
         if (sL && gL && window.innerWidth > 1024) {
@@ -1363,22 +1374,60 @@ KX.mapping = { // Mappings of game data
 
         f.prepend(b);
         updateUI(KX.KORUXA_GLOBALS["sidebar-state"]);
+        NEH_STORAGE('save');
+    }
+
+    function SORT_QUESTS_DOTS() {
+        const container = document.getElementById('quest-tracker-dots');
+        if (!container) return;
+
+        const buttons = [...container.querySelectorAll('button')];
+        const nums = buttons.map(btn => parseInt(btn.getAttribute('onclick').match(/switchTrackedQuest\((\d+)\)/)[1]));
+
+        if (nums.some((n, i) => i > 0 && n < nums[i - 1])) {
+            buttons.sort((a, b) => {
+                const numA = parseInt(a.getAttribute('onclick').match(/switchTrackedQuest\((\d+)\)/)[1]);
+                const numB = parseInt(b.getAttribute('onclick').match(/switchTrackedQuest\((\d+)\)/)[1]);
+                return numA - numB;
+            }).forEach(btn => container.appendChild(btn));
+        }
+
+        if (!container.dataset.sortListener) {
+            container.dataset.sortListener = 'true';
+            container.addEventListener('click', function (e) {
+                if (e.target.tagName === 'BUTTON') {
+                    setTimeout(() => SORT_QUESTS_DOTS(), 750);
+                }
+            });
+        }
+    }
+
+    function NEH_STORAGE(action) {
+        const key = 'KORUXA_ENHANCED';
+        if (action === 'save') {
+            localStorage.setItem(key, JSON.stringify(KX.KORUXA_GLOBALS));
+        } else if (action === 'load') {
+            const data = localStorage.getItem(key);
+            if (data) KX.KORUXA_GLOBALS = JSON.parse(data);
+        }
     }
 
     if (document.querySelector('#food-bar')) document.querySelector('#sidebar-hp-bar').after(document.querySelector('#food-bar'));
     const observer = new MutationObserver(() => { REPLACE_ICONS(); TRANSFORM_DROPS(); SET_CURRENT_SKILL_CLASS(); });
     observer.observe(document.body, { childList: true, subtree: true });
 
-    REPLACE_ICONS();
-    TRANSFORM_DROPS();
-    LOCK_SIDEBAR();
     LOAD_CSS("https://fonts.googleapis.com/css2?family=Saira:ital,wght@0,100..900;1,100..900&display=swap");
     LOAD_CSS("https://goldenlys.github.io/Koruxa-Enhancer/css/fa-7.2.0.min.css");
     LOAD_CSS("https://goldenlys.github.io/Koruxa-Enhancer/css/rpg-awesome.min.css");
     LOAD_CSS("https://goldenlys.github.io/Koruxa-Enhancer/css/style.css");
+    NEH_STORAGE('load');
+    REPLACE_ICONS();
+    TRANSFORM_DROPS();
+    LOCK_SIDEBAR();
     UPDATE_DATA();
     UPDATE_SKILL_CARDS_REWARDS();
     GET_BEST_XP_EFFICIENCY();
+
     try {
         startKoruxaUpdater({ initialDelayMs: 1500, intervalMs: 2000 });
     } catch (err) { console.error('Koruxa Enhanced error', err); }
