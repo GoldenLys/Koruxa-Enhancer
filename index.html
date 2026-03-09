@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Koruxa Clan Boss Damage Calculator</title>
+    <link rel="stylesheet" href="./css/boss.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Koruxa Clan Boss damage calculator</h1>
+            <p class="subtitle">Optimize your points to maximize your damage output!</p>
+        </header>
+
+        <div class="stat-grid">
+            <div class="stat-card">
+                <label>Damage Boost:</label>
+                <input type="number" id="lvlDamage" value="4" min="0" step="1">
+                <small>+1 dmg / lvl</small>
+            </div>
+            <div class="stat-card">
+                <label>Time Extension:</label>
+                <input type="number" id="lvlTime" value="1" min="0" max="30" step="1">
+                <small>+1s / lvl </small>
+            </div>
+            <div class="stat-card">
+                <label>Crit Strike:</label>
+                <input type="number" id="lvlCrit" value="1" min="0" max="25" step="1">
+                <small>+1% / lvl (Max 25%)</small>
+            </div>
+            <div class="stat-card">
+                <label>Power:</label>
+                <input type="number" id="lvlPower" value="2" min="0" step="1">
+                <small>x1.24 mult / lvl</small>
+            </div>
+            <div class="stat-card">
+                <label>Devastation:</label>
+                <input type="number" id="lvlDevastation" value="1" min="0" max="20" step="1">
+                <small>+0.15 crit mult / lvl</small>
+            </div>
+            <div class="stat-card">
+                <label>Rage:</label>
+                <input type="number" id="lvlRage" value="0" min="0" max="15" step="1">
+                <small>+5% bonus / lvl</small>
+            </div>
+        </div>
+
+        <div class="result-container">
+            <div class="result-box">
+                <div class="result-title">Damage Range:</div>
+                <div class="result-value" id="rangeHitValue">0</div>
+                <p class="info-text">Includes Crits & Multipliers</p>
+            </div>
+            <div class="result-box">
+                <div class="result-title">Total Damage Range:</div>
+                <div class="result-value" id="rangeAttemptValue">0</div>
+                <p class="info-text">Total damage over <span id="combatDuration">30</span> seconds</p>
+            </div>
+
+            <div class="result-box">
+                <div class="result-title">Average Damage per Attempt:</div>
+                <div class="result-value" id="avgHitValue">0</div>
+                <p class="info-text">Includes Crits & Multipliers</p>
+            </div>
+            <div class="result-box">
+                <div class="result-title">Average Damage per Attempt:</div>
+                <div class="result-value" id="avgAttemptValue">0</div>
+                <p class="info-text">Total damage over <span id="combatDuration">30</span> seconds</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /*
+        * Koruxa Boss Damage Stat Table
+        * 
+        * Shows default values and increases per point invested
+
+        | Stat Name       | Default value                   | Increase per Point  | Maximum    | Maximum points | Price per point | Notes                                       |
+        |-----------------|---------------------------------|---------------------|------------|----------------|-----------------|---------------------------------------------|
+        | Damage Boost    | +5 max damage                   | +1 per level        | Unlimited  | Infinite       | 5               | Increases base attack power                 |
+        | Time Extension  | 30s time per attempt            | +1 second per level | Unlimited  | 30             | 8               | Extends each attack attempt duration        |
+        | Critical Strike | 5% chance                       | +1% per level       | 25%        | 25             | 8               | Higher crit chance means more damage procs  |
+        | Power           | ×1.00 (base)                    | x1.24 per level     | Unlimited  | Infinite       | 12              | Multiplies total damage output              |
+        | Devastation     | ×1.00 crit damage mult          | +0.15× per level    | 3.00×      | 20             | 12              | Increases critical hit damage               |
+        | Rage            | +0% bonus from consecutive hits | +5% per Rage level  | 75%        | 15             | 12              | Hitting same body repeatedly builds up Rage |
+        
+        This table shows how each stat impacts your damage potential as you invest more points.
+        */
+
+        function FORMAT_NUMBER(num, decimals = 0) {
+            if (typeof num !== "number" || isNaN(num)) return "0";
+            const fixed = num.toFixed(decimals);
+            let [intPart, decPart] = fixed.split(".");
+            intPart = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            return decPart ? `${intPart},${decPart}` : intPart;
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const inputs = {
+                lvlDamage: document.getElementById('lvlDamage'),
+                lvlTime: document.getElementById('lvlTime'),
+                lvlCrit: document.getElementById('lvlCrit'),
+                lvlPower: document.getElementById('lvlPower'),
+                lvlDevastation: document.getElementById('lvlDevastation'),
+                lvlRage: document.getElementById('lvlRage')
+            };
+
+            const rangeHitValueDisplay = document.getElementById('rangeHitValue');
+            const rangeAttemptDisplay = document.getElementById('rangeAttemptValue');
+            const avgHitDisplay = document.getElementById('avgHitValue');
+            const avgAttemptDisplay = document.getElementById('avgAttemptValue');
+            const durationDisplay = document.getElementById('combatDuration');
+
+            function calculateResults() {
+                const lvlDmg = parseInt(inputs.lvlDamage.value) || 0;
+                const lvlTime = parseInt(inputs.lvlTime.value) || 0;
+                const lvlCrit = parseInt(inputs.lvlCrit.value) || 0;
+                const lvlPower = parseInt(inputs.lvlPower.value) || 0;
+                const lvlDev = parseInt(inputs.lvlDevastation.value) || 0;
+                const lvlRage = parseInt(inputs.lvlRage.value) || 0;
+
+                const baseDamage = 5 + lvlDmg;
+                const totalTime = 30 + Math.min(lvlTime, 30);
+                const critChance = (5 + Math.min(lvlCrit, 25)) / 100;
+                const powerMult = Math.pow(1.24, lvlPower);
+                const critMult = 1.5 + (lvlDev * 0.15);
+                const rageBonus = 1 + (Math.min(lvlRage, 15) * 0.05);
+
+                const normalHit = baseDamage * powerMult * rageBonus;
+                const trueMaxHit = normalHit * critMult;
+                const expectedHitPerSec = (normalHit * (1 - critChance)) + (trueMaxHit * critChance);
+
+                const totalDamageMax = expectedHitPerSec * totalTime;
+                const avgDamage = ((1 + expectedHitPerSec) / 2) * totalTime;
+
+                rangeHitValueDisplay.textContent = "1,0 - " + FORMAT_NUMBER(trueMaxHit, 1);
+                rangeAttemptDisplay.textContent = FORMAT_NUMBER(totalTime) + " - " + FORMAT_NUMBER(totalDamageMax, 0);
+                avgHitDisplay.textContent = FORMAT_NUMBER(expectedHitPerSec, 1);
+                avgAttemptDisplay.textContent = FORMAT_NUMBER(avgDamage, 0);
+                durationDisplay.textContent = totalTime;
+            }
+
+            Object.values(inputs).forEach(input => {
+                input.addEventListener('input', calculateResults);
+            });
+
+            calculateResults();
+        });
+    </script>
+</body>
+
+</html>
