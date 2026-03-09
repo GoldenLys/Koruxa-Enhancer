@@ -68,7 +68,7 @@
             <div class="result-box">
                 <div class="result-title">Average Damage per Attempt:</div>
                 <div class="result-value" id="avgAttemptValue">0</div>
-                <p class="info-text">Total damage over <span id="combatDuration">30</span> seconds</p>
+                <p class="info-text">Total damage over <span id="combatDuration2">30</span> seconds</p>
             </div>
         </div>
     </div>
@@ -114,6 +114,7 @@
             const avgHitDisplay = document.getElementById('avgHitValue');
             const avgAttemptDisplay = document.getElementById('avgAttemptValue');
             const durationDisplay = document.getElementById('combatDuration');
+            const durationDisplay2 = document.getElementById('combatDuration2');
 
             function calculateResults() {
                 const lvlDmg = parseInt(inputs.lvlDamage.value) || 0;
@@ -142,6 +143,7 @@
                 avgHitDisplay.textContent = FORMAT_NUMBER(expectedHitPerSec, 1);
                 avgAttemptDisplay.textContent = FORMAT_NUMBER(avgDamage, 0);
                 durationDisplay.textContent = totalTime;
+                durationDisplay2.textContent = totalTime;
             }
 
             Object.values(inputs).forEach(input => {
