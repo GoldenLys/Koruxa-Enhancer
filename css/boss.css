@@ -99,6 +99,21 @@ input[type="number"]:focus {
     background: rgb(0 0 0 / 50%);
 }
 
+.marked {
+    display: block;
+    font-weight: bold;
+    color: #5d6ae7;
+}
+
+.marked.small {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.red {
+    color: rgb(231, 93, 93);
+}
+
 .slider-container {
     display: flex;
     align-items: center;
@@ -183,14 +198,22 @@ input[type="range"]::-ms-thumb {
 }
 
 .result-value {
+    display: flex;
+    gap: 0.25rem;
     font-size: 2rem;
     font-weight: 600;
     color: var(--primary-color);
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 .info-text {
+    display: inline-flex;
+    gap: 0.25rem;
     font-size: 0.9rem;
     color: #777;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
 
 .stat-grid {

@@ -17,37 +17,37 @@
 
         <div class="stat-grid">
             <div class="stat-card">
-                <label>Damage Boost:</label>
+                <label>⚔️ Damage Boost:</label>
                 <input type="number" id="lvlDamage" value="0" min="0" step="1">
-                <div class="label white" >+1 dmg / lvl</div>
+                <div class="label white">+1 dmg / lvl</div>
                 <div class="label" id="boostValue"></div>
             </div>
             <div class="stat-card">
-                <label>Time Extension:</label>
+                <label>⏱️ Time Extension:</label>
                 <input type="number" id="lvlTime" value="0" min="0" max="30" step="1">
-                <div class="label white" >+1s / lvl </div>
+                <div class="label white">+1s / lvl </div>
                 <div class="label" id="timeValue"></div>
             </div>
             <div class="stat-card">
-                <label>Crit Strike:</label>
+                <label>⚡ Critical Strike:</label>
                 <input type="number" id="lvlCrit" value="0" min="0" max="25" step="1">
-                <div class="label white" >+1% / lvl</div>
+                <div class="label white">+1% / lvl</div>
                 <div class="label" id="critValue"></div>
             </div>
             <div class="stat-card">
-                <label>Power:</label>
+                <label>🔥 Power:</label>
                 <input type="number" id="lvlPower" value="0" min="0" step="1">
-                <div class="label white" >x1.24 mult / lvl</div>
+                <div class="label white">x1.24 mult / lvl</div>
                 <div class="label" id="powerValue"></div>
             </div>
             <div class="stat-card">
-                <label>Devastation:</label>
+                <label>💀 Devastation:</label>
                 <input type="number" id="lvlDevastation" value="0" min="0" max="20" step="1">
-                <div class="label white" >+0.15 crit mult / lvl</div>
+                <div class="label white">+0.15 crit mult / lvl</div>
                 <div class="label" id="devastationValue"></div>
             </div>
             <div class="stat-card">
-                <label>Rage:</label>
+                <label>🌊 Rage:</label>
                 <input type="number" id="lvlRage" value="0" min="0" max="15" step="1">
                 <div class="label white">+5% bonus / lvl</div>
                 <div class="label" id="rageValue"></div>
@@ -58,23 +58,25 @@
             <div class="result-box">
                 <div class="result-title">Damage Range:</div>
                 <div class="result-value" id="rangeHitValue">0</div>
-                <p class="info-text">Includes Crits & Multipliers</p>
-            </div>
-            <div class="result-box">
-                <div class="result-title">Total Damage Range:</div>
-                <div class="result-value" id="rangeAttemptValue">0</div>
-                <p class="info-text">Total damage over <span id="combatDuration">30</span> seconds</p>
+                <div class="info-text" id="rangeHitDesc"></div>
             </div>
 
             <div class="result-box">
-                <div class="result-title">Average Damage per Hit:</div>
-                <div class="result-value" id="avgHitValue">0</div>
-                <p class="info-text">Includes Crits & Multipliers</p>
+                <div class="result-title">Damage Range per Attempt:</div>
+                <div class="result-value" id="rangeAttemptValue">0</div>
+                <div class="info-text">Total damage over <span id="combatDuration">30</span> seconds</div>
             </div>
+
             <div class="result-box">
-                <div class="result-title">Average Damage per Attempt:</div>
+                <div class="result-title">Average Hit Damage per Attempt:</div>
+                <div class="result-value" id="avgHitValue">0</div>
+                <p class="info-text red">Includes Crits, Rage & Damage Boost</p>
+            </div>
+
+            <div class="result-box">
+                <div class="result-title">Average Total Damage per Attempt:</div>
                 <div class="result-value" id="avgAttemptValue">0</div>
-                <p class="info-text">Total damage over <span id="combatDuration2">30</span> seconds</p>
+                <div class="info-text">Total damage over <span id="combatDuration2">30</span> seconds</div>
             </div>
         </div>
     </div>
@@ -117,6 +119,9 @@
             };
 
             const rangeHitValueDisplay = document.getElementById('rangeHitValue');
+            const rangeHitDescDisplay = document.getElementById('rangeHitDesc');
+            const rangeCritHitValueDisplay = document.getElementById('rangeCritHitValue');
+            const rangeCritHitDescDisplay = document.getElementById('rangeCritHitDesc');
             const rangeAttemptDisplay = document.getElementById('rangeAttemptValue');
             const avgHitDisplay = document.getElementById('avgHitValue');
             const avgAttemptDisplay = document.getElementById('avgAttemptValue');
@@ -131,39 +136,52 @@
                 const lvlDev = parseInt(inputs.lvlDevastation.value) || 0;
                 const lvlRage = parseInt(inputs.lvlRage.value) || 0;
 
-                const baseDamage = 5 + lvlDmg;
+                // Constants & Base Stats
+                const baseMaxDmg = 5 + lvlDmg;
                 const totalTime = 30 + Math.min(lvlTime, 30);
-                const critChance = (5 + lvlCrit) / 100;
                 const powerMult = Math.pow(1.24, lvlPower);
+                const critChance = Math.min((5 + lvlCrit) / 100, 1);
                 const critMult = 1.5 + (lvlDev * 0.15);
-                const rageBonus = Math.min(lvlRage, 15) * 0.05;
+                const maxRageBonus = Math.min(lvlRage, 15) * 0.05;
 
-                const normalHit = (baseDamage * powerMult) * (1 + rageBonus);
-                const trueMaxHit = normalHit * critMult;
-                const expectedHitPerSec = (normalHit * (1 - critChance)) + (trueMaxHit * critChance);
+                // 1. Calculate Average Rage Multiplier over time (Ramp-up: +10% per hit/sec until cap)
+                let rageAvgMult = 1.0;
+                if (maxRageBonus > 0) {
+                    const rampTime = Math.ceil(maxRageBonus / 0.10);
+                    const actualRampTime = Math.min(totalTime, rampTime);
+                    const rampArea = (actualRampTime * (0 + (actualRampTime - 1) * 0.10)) / 2;
+                    const capArea = Math.max(0, totalTime - actualRampTime) * maxRageBonus;
+                    rageAvgMult = 1 + ((rampArea + capArea) / totalTime);
+                }
 
-                const totalDamageMax = expectedHitPerSec * totalTime;
-                const avgDamage = ((1 + expectedHitPerSec) / 2) * totalTime;
+                // 2. Damage per Second (DPS) Logic
+                const avgBaseRoll = (1 + baseMaxDmg) / 2;
+                const critFactor = 1 + (critChance * (critMult - 1));
+                const globalDPS = avgBaseRoll * powerMult * critFactor * rageAvgMult;
 
-                rangeHitValueDisplay.textContent = "1,0 - " + FORMAT_NUMBER(trueMaxHit, 1);
-                rangeAttemptDisplay.textContent = FORMAT_NUMBER(totalTime) + " - " + FORMAT_NUMBER(totalDamageMax, 0);
-                avgHitDisplay.textContent = FORMAT_NUMBER(expectedHitPerSec, 1);
-                avgAttemptDisplay.textContent = FORMAT_NUMBER(avgDamage, 0);
+                // 3. Peak Performance (Max Hit display)
+                const peakNormalHit = baseMaxDmg * powerMult * (1 + maxRageBonus);
+                const peakCritHit = peakNormalHit * critMult;
+                const totalMaxDamage = peakCritHit * totalTime;
+
+                // UI Updates
+                rangeHitValueDisplay.innerHTML = `1 - ${FORMAT_NUMBER(baseMaxDmg * powerMult, 0)} <div class="marked small red">(${FORMAT_NUMBER(baseMaxDmg * powerMult * critMult, 0)} Crit)</div>`;
+                rangeHitDescDisplay.innerHTML = `with a <div class="marked">x${FORMAT_NUMBER(powerMult, 2)}</div> damage multiplier`;
+                rangeAttemptDisplay.textContent = `${FORMAT_NUMBER(totalTime)} - ${FORMAT_NUMBER(totalMaxDamage, 0)}`;
+                avgHitDisplay.textContent = "~" + FORMAT_NUMBER(globalDPS, 0);
+                avgAttemptDisplay.textContent = "~" + FORMAT_NUMBER(globalDPS * totalTime, 0);
                 durationDisplay.textContent = totalTime;
                 durationDisplay2.textContent = totalTime;
 
-                document.getElementById('boostValue').textContent = "" + FORMAT_NUMBER((5 + lvlDmg) * powerMult, 0) + " max hit damage";
-                document.getElementById('timeValue').textContent = "" + FORMAT_NUMBER(lvlTime + 30, 0) + " seconds";
-                document.getElementById('critValue').textContent = "" + FORMAT_NUMBER(critChance * 100, 0) + " % critical hit chance";
-                document.getElementById('powerValue').textContent = "x" + FORMAT_NUMBER(powerMult, 2) + " damage multiplier";
-                document.getElementById('devastationValue').textContent = "x" + FORMAT_NUMBER(critMult, 2) + " critical hit damage";
-                document.getElementById('rageValue').textContent = "" + FORMAT_NUMBER(rageBonus * 100, 0) + " % focus damage cap";
+                document.getElementById('boostValue').textContent = `${FORMAT_NUMBER(baseMaxDmg * powerMult, 0)} max hit damage`;
+                document.getElementById('timeValue').textContent = `${totalTime} seconds`;
+                document.getElementById('critValue').textContent = `${FORMAT_NUMBER(critChance * 100, 0)}% critical hit chance`;
+                document.getElementById('powerValue').textContent = `x${FORMAT_NUMBER(powerMult, 2)} damage multiplier`;
+                document.getElementById('devastationValue').textContent = `x${FORMAT_NUMBER(critMult, 2)} critical hit damage`;
+                document.getElementById('rageValue').textContent = `+${FORMAT_NUMBER(maxRageBonus * 100, 0)}% focus damage cap`;
             }
 
-            Object.values(inputs).forEach(input => {
-                input.addEventListener('input', calculateResults);
-            });
-
+            Object.values(inputs).forEach(input => { input.addEventListener('input', calculateResults); });
             calculateResults();
         });
     </script>
