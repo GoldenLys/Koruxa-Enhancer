@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       1.36
+// @version       1.37
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    https://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
@@ -1408,24 +1408,29 @@ KX.mapping = { // Mappings of game data
     }
 
     function DETAIL_CLAN_BOSS() {
-        const parent = document.querySelector('.boss-header');
-        const tierContainer = document.querySelector('#boss-tier');
-        if (!tierContainer || !parent) return;
+        const active = document.getElementById('boss-tier');
+        const fight = document.getElementById('fight-tier');
+        const activeContainer = active || fight;
+        if (!activeContainer) return;
 
-        let scrollsContainer = document.querySelector('#boss-scrolls');
+        const bossLevel = parseInt(activeContainer.textContent.replace(/\D/g, ''), 10) || 0;
+        const formatted = "📜 " + FORMAT_NUMBER(5 + (bossLevel - 1) * 3, 0);
 
-        const bossLevel = parseInt(tierContainer.textContent.replace(/\D/g, ''), 10) || 0;
-        const scrolls = 5 + (bossLevel - 1) * 3;
-        const formatted = FORMAT_NUMBER(scrolls, 0);
+        ['#boss-active .boss-header', '#boss-fighting .boss-header'].forEach(selector => {
+            const parent = document.querySelector(selector);
+            if (!parent) return;
 
-        if (!scrollsContainer) {
-            const wrapper = document.createElement('div');
-            wrapper.className = 'boss-tier-badge';
-            wrapper.innerHTML = `<span id="boss-scrolls" class="boss-scrolls">📜 ${formatted}</span>`;
-            parent.append(wrapper);
-        } else {
-            scrollsContainer.textContent = "📜 " + formatted;
-        }
+            let scrollsSpan = parent.querySelector('.boss-scrolls');
+
+            if (!scrollsSpan) {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'boss-tier-badge';
+                wrapper.innerHTML = `<span class="boss-scrolls">${formatted}</span>`;
+                parent.append(wrapper);
+            } else {
+                scrollsSpan.textContent = formatted;
+            }
+        });
     }
 
     function NEH_STORAGE(action) {
