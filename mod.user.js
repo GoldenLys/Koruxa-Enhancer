@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       1.4
+// @version       1.41
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    https://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
@@ -19,16 +19,6 @@
 /* TODO & Ideas List
  - (Maybe) add "Stats" tab with more stats
  - Make the plus button generate a formula to reach the desired level with the less amount of time 
-
-  /////////////////////////////////////////////////////
-  //                 Don't mind this                 //
-  /////////////////////////////////////////////////////
- - .kx-modal-backdrop.show = New session modal
- - #modal-start-btn = "Start session" button
- - #modal-queue-btn = "Queue session" button
- - #modal-max-btn = "Maximize items in session" button
- - input#modal-cycles-input = "number of items" input
-  /////////////////////////////////////////////////////
 */
 
 const KX = unsafeWindow;
@@ -733,7 +723,6 @@ KX.mapping = { // Mappings of game data
         SET_CURRENT_SKILL_CLASS();
         LOAD_TOOL_STATS();
         LOAD_FARM_STATS();
-        DETAIL_CLAN_BOSS();
         if (KX.KORUXA_GLOBALS["current-skill"] !== "Doing") NEH();
     }
 
@@ -1408,32 +1397,6 @@ KX.mapping = { // Mappings of game data
         f.prepend(b);
         updateUI(KX.KORUXA_GLOBALS["sidebar-state"]);
         NEH_STORAGE('save');
-    }
-
-    function DETAIL_CLAN_BOSS() {
-        const active = document.getElementById('boss-tier');
-        const fight = document.getElementById('fight-tier');
-        const activeContainer = active || fight;
-        if (!activeContainer) return;
-
-        const bossLevel = parseInt(activeContainer.textContent.replace(/\D/g, ''), 10) || 0;
-        const formatted = "📜 " + FORMAT_NUMBER(5 + (bossLevel - 1) * 3, 0);
-
-        ['#boss-active .boss-header', '#boss-fighting .boss-header'].forEach(selector => {
-            const parent = document.querySelector(selector);
-            if (!parent) return;
-
-            let scrollsSpan = parent.querySelector('.boss-scrolls');
-
-            if (!scrollsSpan) {
-                const wrapper = document.createElement('div');
-                wrapper.className = 'boss-tier-badge';
-                wrapper.innerHTML = `<span class="boss-scrolls">${formatted}</span>`;
-                parent.append(wrapper);
-            } else {
-                scrollsSpan.textContent = formatted;
-            }
-        });
     }
 
     function NEH_STORAGE(action) {
