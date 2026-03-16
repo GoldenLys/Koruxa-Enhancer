@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       1.33
+// @version       1.34
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    https://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
@@ -717,23 +717,35 @@ KX.mapping = { // Mappings of game data
 
         }
         CHECK_SKILLS_LEVELS();
-        SORT_QUESTS_DOTS();
         EXTRACT_SKILLS();
         SET_CURRENT_SKILL_CLASS();
         LOAD_TOOL_STATS();
         LOAD_FARM_STATS();
+        DETAIL_CLAN_BOSS();
         if (KX.KORUXA_GLOBALS["current-skill"] !== "Doing") NEH();
     }
 
     function SET_CURRENT_SKILL_CLASS() {
-        const urlMatch = window.location.href.match(/skill=([^&]+)/);
-        let skill = (urlMatch ? urlMatch[1] : "woodcutting").trim().toLowerCase();
-        if (["slayer", "attack", "strength", "defence", "hitpoints", "magic", "ranged"].includes(skill)) skill = "woodcutting";
-        let bg = document.querySelector("#skill-background");
-        if (!bg) document.body.insertAdjacentHTML('afterbegin', '<div id="skill-background"></div>');
+        const url = window.location.href;
+        const skillMatch = url.match(/[?&]skill=([^&]+)/);
+        const pageMatch = url.match(/[?&]page=([^&]+)/);
 
-        document.querySelector("#skill-background").className = `bg-skill ${skill}`;
-        KX.KORUXA_GLOBALS["current-skill"] = skill;
+        const blacklist = ["slayer", "attack", "strength", "defence", "hitpoints", "magic", "ranged"];
+        let selected = "";
+        if (skillMatch) {
+            const skill = skillMatch[1];
+            if (!blacklist.includes(skill)) selected = skill;
+        } else if (pageMatch && pageMatch[1] === "clan_boss") selected = "clan-boss";
+        
+        if (selected) {
+            let bg = document.getElementById("skill-background");
+            if (!bg) {
+                document.body.insertAdjacentHTML('afterbegin', '<div id="skill-background"></div>');
+                bg = document.getElementById("skill-background");
+            }
+            bg.className = `bg-skill ${selected}`;
+            KX.KORUXA_GLOBALS["current-skill"] = selected;
+        }
     }
 
     function GET_CURRENT_SKILL() {
@@ -1377,28 +1389,24 @@ KX.mapping = { // Mappings of game data
         NEH_STORAGE('save');
     }
 
-    function SORT_QUESTS_DOTS() {
-        const container = document.getElementById('quest-tracker-dots');
-        if (!container) return;
+    function DETAIL_CLAN_BOSS() {
+        const parent = document.querySelector('.boss-header');
+        const tierContainer = document.querySelector('#boss-tier');
+        if (!tierContainer || !parent) return;
 
-        const buttons = [...container.querySelectorAll('button')];
-        const nums = buttons.map(btn => parseInt(btn.getAttribute('onclick').match(/switchTrackedQuest\((\d+)\)/)[1]));
+        let scrollsContainer = document.querySelector('#boss-scrolls');
 
-        if (nums.some((n, i) => i > 0 && n < nums[i - 1])) {
-            buttons.sort((a, b) => {
-                const numA = parseInt(a.getAttribute('onclick').match(/switchTrackedQuest\((\d+)\)/)[1]);
-                const numB = parseInt(b.getAttribute('onclick').match(/switchTrackedQuest\((\d+)\)/)[1]);
-                return numA - numB;
-            }).forEach(btn => container.appendChild(btn));
-        }
+        const bossLevel = parseInt(tierContainer.textContent.replace(/\D/g, ''), 10) || 0;
+        const scrolls = 5 + (bossLevel - 1) * 3;
+        const formatted = FORMAT_NUMBER(scrolls, 0);
 
-        if (!container.dataset.sortListener) {
-            container.dataset.sortListener = 'true';
-            container.addEventListener('click', function (e) {
-                if (e.target.tagName === 'BUTTON') {
-                    setTimeout(() => SORT_QUESTS_DOTS(), 750);
-                }
-            });
+        if (!scrollsContainer) {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'boss-tier-badge';
+            wrapper.innerHTML = `<span id="boss-scrolls" class="boss-scrolls">📜 ${formatted}</span>`;
+            parent.append(wrapper);
+        } else {
+            scrollsContainer.textContent = "📜 " + formatted;
         }
     }
 
