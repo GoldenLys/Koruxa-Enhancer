@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       1.35
+// @version       1.36
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    https://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
@@ -647,6 +647,15 @@ KX.mapping = { // Mappings of game data
 
     };
 
+    const xpToNext = [
+        4, 11, 20, 31, 44, 60, 79, 101, 126, 155, 188, 226, 269, 318, 373, 435, 505, 584, 672, 771, 882, 1005, 1143, 1296, 1467, 1657, 1867, 2101, 2360, 2647,
+        2965, 3317, 3705, 4135, 4609, 5131, 5708, 6343, 7043, 7813, 8661, 9593, 10619, 11745, 12982, 14341, 15832, 17468, 19262, 21230, 23386, 25749,
+        28337, 31171, 34273, 37668, 41383, 45446, 49888, 54745, 60054, 65854, 72191, 79112, 86669, 94920, 103925, 113752, 124475, 136171, 148927,
+        162837, 178002, 194533, 212549, 232181, 253569, 276869, 302246, 329881, 359971, 392728, 428386, 467193, 509424, 555374, 605364, 659742, 718886,
+        783205, 853144, 929185, 1011850, 1101706, 1199369, 1305503, 1420833, 1546140, 1682274, 1830156, 1990782, 2165234, 2354683, 2560400, 2783760,
+        3026253, 3289495, 3575236, 3885371, 4221954, 4587210, 4983547, 5413575, 5880121, 6386245, 6935261, 7530760, 8176626, 8877068, 9636642
+    ];
+
     // Extracts data from the given selector from .mapping {}
     function EXTRACT_DATA(selector) {
         const el = document.querySelector(selector);
@@ -736,7 +745,7 @@ KX.mapping = { // Mappings of game data
             const skill = skillMatch[1];
             if (!blacklist.includes(skill)) selected = skill;
         } else if (pageMatch && pageMatch[1] === "clan_boss") selected = "clan-boss";
-        
+
         if (selected) {
             let bg = document.getElementById("skill-background");
             if (!bg) {
@@ -814,14 +823,6 @@ KX.mapping = { // Mappings of game data
     const cleanValue = str => Number(str.replace(/[^\d.-]/g, "")); // Convert "+15%" → 15
 
     function GET_XP(level, type = "ExpToNext") { // Usage : GET_XP(level, type)
-        const xpToNext = [
-            4, 11, 20, 31, 44, 60, 79, 101, 126, 155, 188, 226, 269, 318, 373, 435, 505, 584, 672, 771, 882, 1005, 1143, 1296, 1467, 1657, 1867, 2101, 2360, 2647,
-            2965, 3317, 3705, 4135, 4609, 5131, 5708, 6343, 7043, 7813, 8661, 9593, 10619, 11745, 12982, 14341, 15832, 17468, 19262, 21230, 23386, 25749,
-            28337, 31171, 34273, 37668, 41383, 45446, 49888, 54745, 60054, 65854, 72191, 79112, 86669, 94920, 103925, 113752, 124475, 136171, 148927,
-            162837, 178002, 194533, 212549, 232181, 253569, 276869, 302246, 329881, 359971, 392728, 428386, 467193, 509424, 555374, 605364, 659742, 718886,
-            783205, 853144, 929185, 1011850, 1101706, 1199369, 1305503, 1420833, 1546140, 1682274, 1830156, 1990782, 2165234, 2354683, 2560400, 2783760,
-            3026253, 3289495, 3575236, 3885371, 4221954, 4587210, 4983547, 5413575, 5880121, 6386245, 6935261, 7530760, 8176626, 8877068, 9636642
-        ];
         if (level < 1 || level > xpToNext.length) return null;
 
         let total = 0;
@@ -829,6 +830,15 @@ KX.mapping = { // Mappings of game data
 
         if (type === "ExpToNext") return (level - 1);
         else return total;
+    }
+
+    function GET_LEVEL_FROM_XP(totalXp, skillName) {
+        let cumulative = 0;
+        for (let i = 0; i < xpToNext.length; i++) {
+            cumulative += xpToNext[i];
+            if (totalXp < cumulative) return i + 1;
+        }
+        return xpToNext.length + 1;
     }
 
     function FORMAT_NUMBER(num, decimals = 0) {
@@ -1119,14 +1129,22 @@ KX.mapping = { // Mappings of game data
         const bT = el.querySelector("#neh-footer");
 
         const session = CALC_SESSION_XP();
-        const sessionXP_Current = (KX.KORUXA_GLOBALS["session-current-skill"] !== "Doing" && session && typeof session?.xpRemaining === "number") ? `<b>${FORMAT_NUMBER(session?.xpPerLoop, 0)}</b> XP x<b>${FORMAT_NUMBER(session?.loops, 0)}</b>` : "";
-        const sessionXP_Total = (KX.KORUXA_GLOBALS["session-current-skill"] !== "Doing" && session && typeof session?.xpRemaining === "number") ? ` — +<b>${FORMAT_NUMBER(session?.xpRemaining, 0)}</b> Total ${KX.KORUXA_GLOBALS["session-current-skill"]} XP` : "";
+        const sessionXP_Current = (KX.KORUXA_GLOBALS["session-current-skill"] !== "Doing" && session && typeof session?.xpRemaining === "number") ?
+            `<b>${FORMAT_NUMBER(session?.xpPerLoop, 0)}</b> XP x<b>${FORMAT_NUMBER(session?.loops, 0)}</b>` : "";
+
+        const sessionXP_Total = (KX.KORUXA_GLOBALS["session-current-skill"] !== "Doing" && session && typeof session?.xpRemaining === "number") ?
+            `<b>${FORMAT_NUMBER(session?.xpRemaining, 0)}</b> XP` : "";
+
+        const sessionLevels = (KX.KORUXA_GLOBALS["session-current-skill"] !== "Doing" && session && typeof session?.xpRemaining === "number") ?
+            `<b>${(GET_LEVEL_FROM_XP((Number(KX.KORUXA_STATS?.[KX.KORUXA_GLOBALS["session-current-skill"].toLowerCase()].xp_total) + session?.xpRemaining), KX.KORUXA_GLOBALS["session-current-skill"]))}</b>` : "";
+
         tLvl == 120 ? bP.setAttribute("disabled", "") : bP.removeAttribute("disabled");
         tLvl <= (level + 1) ? bM.setAttribute("disabled", "") : bM.removeAttribute("disabled");
 
         el.querySelector(".neh-item").innerHTML = phrase;
         el.querySelector(".neh-subtitle").textContent = `${skill} ${tLvl}`;
-        if (typeof session?.xpRemaining === "number") bT.innerHTML = `<i class="ra ra-alarm-clock"></i> <b>${sessionXP_Current}</b> <span class="neh-sub-footer">${sessionXP_Total}</span>`;
+        if (typeof session?.xpRemaining === "number" && session?.xpRemaining > 0) bT.innerHTML =
+            `<i class="ra ra-alarm-clock"></i> <b>${sessionXP_Current}</b> <span class="neh-sub-footer">${KX.KORUXA_GLOBALS["session-current-skill"]} ${sessionLevels} and ${sessionXP_Total} </span>`;
 
         const bC = el.querySelector(".neh-btns");
         if (!bC.hasChildNodes()) {
@@ -1417,9 +1435,9 @@ KX.mapping = { // Mappings of game data
         } else if (action === 'load') {
             const data = localStorage.getItem(key);
             const parsed_data = JSON.parse(data);
-            if (data) { 
-                KX.KORUXA_GLOBALS["sidebar-state"] = parsed_data["sidebar-state"] ||"lsb-locked-closed";
-             }
+            if (data) {
+                KX.KORUXA_GLOBALS["sidebar-state"] = parsed_data["sidebar-state"] || "lsb-locked-closed";
+            }
         }
     }
 
