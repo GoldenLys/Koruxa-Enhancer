@@ -229,3 +229,8 @@ input[type="range"]::-ms-thumb {
     border-radius: 8px;
     border: 1px solid #ddd;
 }
+
+.tab-buttons {}
+.tab-buttons .tab-button {}
+.tab-buttons .tab-button:hover {}
+.tab-buttons .tab-button.active {}

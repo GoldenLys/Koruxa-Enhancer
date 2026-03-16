@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Koruxa Level Helper</title>
+    <link rel="stylesheet" href="./assets/css/calculator.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Koruxa Levelling Helper</h1>
+            <p class="subtitle">Optimize your progression speed !</p>
+        </header>
+        <div class="tabs">
+            <div class="tab-buttons">
+                <button class="tab-button active" data-tab="config">🛠️ Config</button>
+                <button class="tab-button" data-tab="farms">🌾 Farms</button>
+                <button class="tab-button" data-tab="farms">🎒 Equipement</button>
+            </div>
+            <div class="tab-content active" id="config">
+                <div class="tab-header">
+                    <div class="tab-desc">Configure your points</div>
+                </div>
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <label>Is premium ?:</label>
+                        <input type="checkbox" id="isPremium" value="0">
+                        <div class="label white"></div>
+                        <div class="label"></div>
+                    </div>
+
+                    <div class="stat-card">
+                        <label>Clan XP (in %):</label>
+                        <input type="number" id="clan-xp-level" value="0" min="0" max="25" step="1">
+                        <div class="label white"></div>
+                        <div class="label"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-content" id="farms">
+                <div class="tab-header">
+                    <div class="tab-desc">Configure your farms</div>
+                </div>
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <label>🪵 Lumber Mill:</label>
+                        <input type="number" id="woodcutting-farm-level" value="0" min="0" max="8" step="1">
+                        <div class="label white"></div>
+                        <div class="label"></div>
+                    </div>
+                    <div class="stat-card">
+                        <label>⛏️ Mining Outpost:</label>
+                        <input type="number" id="mining-farm-level" value="0" min="0" max="8" step="1">
+                        <div class="label white"></div>
+                        <div class="label"></div>
+                    </div>
+                    <div class="stat-card">
+                        <label>🎣 Fishing Dock:</label>
+                        <input type="number" id="fishing-farm-level" value="0" min="0" max="8" step="1">
+                        <div class="label white"></div>
+                        <div class="label"></div>
+                    </div>
+                    
+
+                    <div class="stat-card">
+                        <label>👨‍🍳 Kitchen:</label>
+                        <input type="number" id="cooking-farm-level" value="0" min="0" max="8" step="1">
+                        <div class="label white"></div>
+                        <div class="label"></div>
+                    </div>
+                    <div class="stat-card">
+                        <label>🔨 Forge:</label>
+                        <input type="number" id="smithing-farm-level" value="0" min="0" max="8" step="1">
+                        <div class="label white"></div>
+                        <div class="label"></div>
+                    </div>
+                    <div class="stat-card">
+                        <label>🔧 Workshop:</label>
+                        <input type="number" id="crafting-farm-level" value="0" min="0" max="8" step="1">
+                        <div class="label white"></div>
+                        <div class="label"></div>
+                    </div>
+
+
+                    <div class="stat-card">
+                        <label>🏹 Archery Workshop:</label>
+                        <input type="number" id="fletching-farm-level" value="0" min="0" max="8" step="1">
+                        <div class="label white"></div>
+                        <div class="label"></div>
+                    </div>
+                    <div class="stat-card">
+                        <label>🔥 Fire Pit:</label>
+                        <input type="number" id="firemaking-farm-level" value="0" min="0" max="8" step="1">
+                        <div class="label white"></div>
+                        <div class="label"></div>
+                    </div>
+                    <div class="stat-card">
+                        <label>🔮 Mystical Tower:</label>
+                        <input type="number" id="arcana-farm-level" value="0" min="0" max="8" step="1">
+                        <div class="label white"></div>
+                        <div class="label"></div>
+                    </div>
+
+
+                    <div class="stat-card">
+                        <label>🗝️ Thieves' Den:</label>
+                        <input type="number" id="thieving-farm-level" value="0" min="0" max="8" step="1">
+                        <div class="label white"></div>
+                        <div class="label"></div>
+                    </div>
+                    <div class="stat-card">
+                        <label>🧪 Apothecary:</label>
+                        <input type="number" id="herblore-farm-level" value="0" min="0" max="8" step="1">
+                        <div class="label white"></div>
+                        <div class="label"></div>
+                    </div>
+                    <div class="stat-card">
+                        <label>🌱 Greenhouse:</label>
+                        <input type="number" id="farming-farm-level" value="0" min="0" max="8" step="1">
+                        <div class="label white"></div>
+                        <div class="label"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="equipement">
+                <div class="tab-header">
+                    <div class="tab-desc">Configure your equipement</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="result-container">
+            <div class="result-box">
+                <div class="result-title">Damage Range:</div>
+                <div class="result-value" id="rangeHitValue">0</div>
+                <div class="info-text" id="rangeHitDesc"></div>
+            </div>
+
+            <div class="result-box">
+                <div class="result-title">Damage Range per Attempt:</div>
+                <div class="result-value" id="rangeAttemptValue">0</div>
+                <div class="info-text">Total damage over <span id="combatDuration">30</span> seconds</div>
+            </div>
+
+            <div class="result-box">
+                <div class="result-title">Average Hit Damage per Attempt:</div>
+                <div class="result-value" id="avgHitValue">0</div>
+                <p class="info-text red">Includes Crits, Rage & Damage Boost</p>
+            </div>
+
+            <div class="result-box">
+                <div class="result-title">Average Total Damage per Attempt:</div>
+                <div class="result-value" id="avgAttemptValue">0</div>
+                <div class="info-text">Total damage over <span id="combatDuration2">30</span> seconds</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./assets/libs/require.min.js" type="text/javascript"></script>
+    <script src="./assets/js/neh.js" type="text/javascript"></script>
+</body>
+
+</html>

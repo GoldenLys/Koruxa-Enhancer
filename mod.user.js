@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       1.37
+// @version       1.4
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    https://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
@@ -41,6 +41,7 @@ KX.KORUXA_GLOBALS = {
 KX.KORUXA_STATS = {};
 KX.KORUXA_TOOLS = {};
 KX.KORUXA_FARMS = {};
+//KX.KORUXA_SKILL_CONFIGS = {}; // DEBUG ENV ONLY
 KX.KORUXA_ALL_SKILL_LEVELS = KX.KORUXA_ALL_SKILL_LEVELS || {};
 KX.__koruxa_intervals = KX.__koruxa_intervals || [];
 KX.__koruxa_updater_started = KX.__koruxa_updater_started || false;
@@ -264,7 +265,7 @@ KX.mapping = { // Mappings of game data
                 min_level: 55,
                 xp: 55,
                 coins: "100-200",
-                success_chance: 0,
+                success_chance: 49,
                 duration_ms: 16000,
             },
             treasure_chest: {
@@ -273,7 +274,7 @@ KX.mapping = { // Mappings of game data
                 min_level: 70,
                 xp: 65,
                 coins: "100-250",
-                success_chance: 0,
+                success_chance: 49,
                 duration_ms: 18000,
             },
             royal_guard: {
@@ -282,7 +283,7 @@ KX.mapping = { // Mappings of game data
                 min_level: 85,
                 xp: 80,
                 coins: "150-300",
-                success_chance: 0,
+                success_chance: 49,
                 duration_ms: 21000,
             },
             vault: {
@@ -291,7 +292,7 @@ KX.mapping = { // Mappings of game data
                 min_level: 95,
                 xp: 100,
                 coins: "200-350",
-                success_chance: 0,
+                success_chance: 49,
                 duration_ms: 25000,
             },
         },
@@ -468,6 +469,8 @@ KX.mapping = { // Mappings of game data
         },
         alchemy: (typeof KORUXA_ALCHEMY_CONFIG !== 'undefined') ? KORUXA_ALCHEMY_CONFIG : {},
     };
+
+    //KX.KORUXA_SKILL_CONFIGS = KORUXA_CONFIGS; // DEBUG ENV ONLY
 
     // Mappings for REPLACE_ICONS()
     const iconReplacements = {
@@ -1451,9 +1454,9 @@ KX.mapping = { // Mappings of game data
     observer.observe(document.body, { childList: true, subtree: true });
 
     LOAD_CSS("https://fonts.googleapis.com/css2?family=Saira:ital,wght@0,100..900;1,100..900&display=swap");
-    LOAD_CSS("https://goldenlys.github.io/Koruxa-Enhancer/css/fa-7.2.0.min.css");
-    LOAD_CSS("https://goldenlys.github.io/Koruxa-Enhancer/css/rpg-awesome.min.css");
-    LOAD_CSS("https://goldenlys.github.io/Koruxa-Enhancer/css/style.css");
+    LOAD_CSS("https://goldenlys.github.io/Koruxa-Enhancer/assets/css/fa-7.2.0.min.css");
+    LOAD_CSS("https://goldenlys.github.io/Koruxa-Enhancer/assets/css/rpg-awesome.min.css");
+    LOAD_CSS("https://goldenlys.github.io/Koruxa-Enhancer/assets/css/style.css");
     NEH_STORAGE('load');
     REPLACE_ICONS();
     TRANSFORM_DROPS();
