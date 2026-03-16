@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       1.34
+// @version       1.35
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    https://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
@@ -1416,7 +1416,10 @@ KX.mapping = { // Mappings of game data
             localStorage.setItem(key, JSON.stringify(KX.KORUXA_GLOBALS));
         } else if (action === 'load') {
             const data = localStorage.getItem(key);
-            if (data) KX.KORUXA_GLOBALS = JSON.parse(data);
+            const parsed_data = JSON.parse(data);
+            if (data) { 
+                KX.KORUXA_GLOBALS["sidebar-state"] = parsed_data["sidebar-state"] ||"lsb-locked-closed";
+             }
         }
     }
 
