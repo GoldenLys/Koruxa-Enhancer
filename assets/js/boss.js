@@ -9,7 +9,7 @@
 | Damage Boost    | +5 max damage                   | +1 per level        | Unlimited  | Infinite       | 5               | Increases base attack power                 |
 | Time Extension  | 30s time per attempt            | +1 second per level | Unlimited  | 30             | 8               | Extends each attack attempt duration        |
 | Critical Strike | 5% chance                       | +1% per level       | 25%        | 25             | 8               | Higher crit chance means more damage procs  |
-| Power           | ×1.00 (base)                    | x1.24 per level     | Unlimited  | Infinite       | 12              | Multiplies total damage output              |
+| Power           | ×1.00 (base)                    | x1.28 per level     | Unlimited  | Infinite       | 12              | Multiplies total damage output              |
 | Devastation     | ×1.00 crit damage mult          | +0.15× per level    | 3.00×      | 20             | 12              | Increases critical hit damage               |
 | Rage            | +0% bonus from consecutive hits | +5% per Rage level  | 75%        | 15             | 12              | Hitting same body repeatedly builds up Rage |
  
@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // Constants & Base Stats
         const baseMaxDmg = 5 + lvlDmg;
         const totalTime = 30 + Math.min(lvlTime, 30);
-        const powerMult = Math.pow(1.24, lvlPower);
+        const powerMult = Math.pow(1.28, lvlPower);
         const critChance = Math.min((5 + lvlCrit) / 100, 1);
         const critMult = 1.5 + (lvlDev * 0.15);
         const maxRageBonus = Math.min(lvlRage, 15) * 0.05;
