@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       1.41
+// @version       1.42
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    https://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
@@ -773,6 +773,21 @@ KX.mapping = { // Mappings of game data
         document.head.appendChild(link);
     }
 
+    function LOAD_JS(url) {
+        return new Promise((resolve, reject) => {
+            if (document.querySelector(`script[src="${url}"]`)) {
+                resolve();
+                return;
+            }
+
+            const script = document.createElement("script");
+            script.src = url;
+            script.onload = resolve;
+            script.onerror = reject;
+            document.head.appendChild(script);
+        });
+    }
+
     function FORMAT_TIME(sec) {
         sec = parseInt(sec, 10);
 
@@ -916,6 +931,11 @@ KX.mapping = { // Mappings of game data
     }
 
     function CALC_SKILL_LEVEL_UP(skill, targetLevel = 0) {
+        const BLACKLISTED_CATEGORIES = [
+            'magic_gear',
+            'ranged_gear'
+        ];
+
         const actions = GET_LAST_UNLOCK_SKILL(skill);
         if (!actions || actions.length === 0) return null;
 
@@ -949,19 +969,22 @@ KX.mapping = { // Mappings of game data
             };
         };
 
-        const bestPerCategory = new Map();
-        for (const [catName, catContent] of Object.entries(config)) {
-            for (const action of actions) {
-                const e = catContent?.[action] || (catName === action ? catContent : null);
-                if (!e || !e.xp) continue;
+        const bestActions = _.chain(config)
+            .omit(BLACKLISTED_CATEGORIES)
+            .flatMap((catContent, catName) => {
+                return _.map(actions, (action) => {
+                    const e = catContent?.[action] || (catName === action ? catContent : null);
+                    if (!e || !e.xp) return null;
+                    return { action, entry: e, ratio: e.xp / Math.max(1, e.duration_ms) };
+                });
+            })
+            .compact()
+            .uniqBy('action')
+            .orderBy(['ratio'], ['desc'])
+            .take(3)
+            .value();
 
-                const ratio = e.xp / Math.max(1, e.duration_ms);
-                const currentBest = bestPerCategory.get(catName);
-                if (!currentBest || ratio > currentBest.ratio) bestPerCategory.set(catName, { action, entry: e, ratio });
-            }
-        }
-
-        return Array.from(bestPerCategory.values()).sort((a, b) => b.ratio - a.ratio).slice(0, 3).map(c => compute(c.action, c.entry));
+        return _.map(bestActions, (c) => compute(c.action, c.entry));
     }
 
     function CALC_SESSION_XP() {
@@ -1420,6 +1443,7 @@ KX.mapping = { // Mappings of game data
     LOAD_CSS("https://goldenlys.github.io/Koruxa-Enhancer/assets/css/fa-7.2.0.min.css");
     LOAD_CSS("https://goldenlys.github.io/Koruxa-Enhancer/assets/css/rpg-awesome.min.css");
     LOAD_CSS("https://goldenlys.github.io/Koruxa-Enhancer/assets/css/style.css");
+    LOAD_JS("https://goldenlys.github.io/Koruxa-Enhancer/assets/libs/lodash.min.js");
     NEH_STORAGE('load');
     REPLACE_ICONS();
     TRANSFORM_DROPS();
