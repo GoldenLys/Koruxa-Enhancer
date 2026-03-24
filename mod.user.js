@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       1.42
+// @version       1.43
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    https://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
@@ -10,10 +10,12 @@
 // @description   A script that adds QoL features and enhanced UI to Koruxa
 // @match         https://koruxa.com/*
 // @match         https://www.koruxa.com/*
+// @exclude       https://koruxa.com/testing*
 // @icon          https://www.google.com/s2/favicons?domain=https://koruxa.com
 // @license       MIT License
 // @grant         unsafeWindow
 // @run-at        document-idle
+// @require       https://goldenlys.github.io/Koruxa-Enhancer/assets/libs/lodash.min.js
 // ==/UserScript==
 
 /* TODO & Ideas List
@@ -460,6 +462,10 @@ KX.mapping = { // Mappings of game data
         alchemy: (typeof KORUXA_ALCHEMY_CONFIG !== 'undefined') ? KORUXA_ALCHEMY_CONFIG : {},
     };
 
+    const imageOverrides = {
+        "/logs/log_basic.png": "https://goldenlys.github.io/Koruxa-Enhancer/assets/images/items/log_basic.webp"
+    };
+
     //KX.KORUXA_SKILL_CONFIGS = KORUXA_CONFIGS; // DEBUG ENV ONLY
 
     // Mappings for REPLACE_ICONS()
@@ -723,6 +729,7 @@ KX.mapping = { // Mappings of game data
         SET_CURRENT_SKILL_CLASS();
         LOAD_TOOL_STATS();
         LOAD_FARM_STATS();
+        REPLACE_IMAGES(imageOverrides);
         if (KX.KORUXA_GLOBALS["current-skill"] !== "Doing") NEH();
     }
 
@@ -1387,6 +1394,17 @@ KX.mapping = { // Mappings of game data
         });
     }
 
+    function REPLACE_IMAGES(mapping) {
+        Object.entries(imageOverrides).forEach(([oldPath, newUrl]) => {
+            const images = document.querySelectorAll(`img[src$="${oldPath}"]`);
+
+            images.forEach(img => {
+                img.removeAttribute('onerror');
+                img.src = newUrl;
+            });
+        });
+    }
+
     function LOCK_SIDEBAR() {
         const sts = ['lsb-unlocked', 'lsb-locked-open', 'lsb-locked-closed'];
         const icons = { 'lsb-unlocked': 'arrows-left-right', 'lsb-locked-open': 'lock', 'lsb-locked-closed': 'lock' };
@@ -1443,7 +1461,6 @@ KX.mapping = { // Mappings of game data
     LOAD_CSS("https://goldenlys.github.io/Koruxa-Enhancer/assets/css/fa-7.2.0.min.css");
     LOAD_CSS("https://goldenlys.github.io/Koruxa-Enhancer/assets/css/rpg-awesome.min.css");
     LOAD_CSS("https://goldenlys.github.io/Koruxa-Enhancer/assets/css/style.css");
-    LOAD_JS("https://goldenlys.github.io/Koruxa-Enhancer/assets/libs/lodash.min.js");
     NEH_STORAGE('load');
     REPLACE_ICONS();
     TRANSFORM_DROPS();
