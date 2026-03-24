@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       1.43
+// @version       1.44
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    https://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
@@ -463,7 +463,17 @@ KX.mapping = { // Mappings of game data
     };
 
     const imageOverrides = {
-        "/logs/log_basic.png": "https://goldenlys.github.io/Koruxa-Enhancer/assets/images/items/log_basic.webp"
+        "/logs/log_basic.png": "https://goldenlys.github.io/Koruxa-Enhancer/assets/images/items/log_basic.webp",
+        "/logs/log_oak.png": "https://goldenlys.github.io/Koruxa-Enhancer/assets/images/items/log_oak.webp",
+        "/logs/log_ironbark.png": "https://goldenlys.github.io/Koruxa-Enhancer/assets/images/items/log_ironbark.webp",
+        "/logs/log_ancient.png": "https://goldenlys.github.io/Koruxa-Enhancer/assets/images/items/log_ancient.webp",
+        "/logs/log_frostwood.png": "https://goldenlys.github.io/Koruxa-Enhancer/assets/images/items/log_frostwood.webp",
+        "/logs/log_emberwood.png": "https://goldenlys.github.io/Koruxa-Enhancer/assets/images/items/log_emberwood.webp",
+        "/logs/log_moonwood.png": "https://goldenlys.github.io/Koruxa-Enhancer/assets/images/items/log_moonwood.webp",
+        "/logs/log_spirit.png": "https://goldenlys.github.io/Koruxa-Enhancer/assets/images/items/log_spirit.webp",
+        "/logs/log_void.png": "https://goldenlys.github.io/Koruxa-Enhancer/assets/images/items/log_void.webp",
+        "/logs/log_worldtree.png": "https://goldenlys.github.io/Koruxa-Enhancer/assets/images/items/log_worldtree.webp",
+        "/bars/dustite_bar.png": "https://goldenlys.github.io/Koruxa-Enhancer/assets/images/items/dustite_bar.webp",
     };
 
     //KX.KORUXA_SKILL_CONFIGS = KORUXA_CONFIGS; // DEBUG ENV ONLY
