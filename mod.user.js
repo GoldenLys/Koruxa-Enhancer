@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       2.0
+// @version       2.1
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    https://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
@@ -83,28 +83,25 @@ KX.mapping = { // Mappings of game data
     const iconReplacements = {
 
         // General
-        ".topbar a[href='/logout']": { // Log out
+        "a[href='/logout']": { // Log out
             icon: "fa-solid fa-right-from-bracket", text: " Logout"
         },
-        ".topbar a[href='/characters']": { // Change character
+        "a[href='/characters']": { // Change character
             icon: "fa-solid fa-person-walking-dashed-line-arrow-right", text: "Switch"
         },
-        ".topbar a[href='game.php?page=leaderboard']": { // Leaderboard
+        "a[href='game.php?page=leaderboard']": { // Leaderboard
             icon: "ra ra-trophy", text: ""
         },
-        ".topbar a[href='game.php?page=shop']": { // Buy credits
+        "a[href='game.php?page=shop']": { // Buy credits
             icon: "fa-solid fa-plus", text: "Buy"
         },
-        ".topbar #session-stop": { // Session stop
+        "session-stop[title='Stop']": { // Session stop
             icon: "fa-solid fa-xmark", text: ""
         },
-        ".topbar #session-renew": { // Session renew
+        "#session-renew-btn-row2": { // Session renew
             icon: "fa-solid fa-arrows-rotate", text: ""
         },
-        ".topbar .progress-badge-icon": { // Session XP Rate
-            icon: "ra ra-progression", text: ""
-        },
-        ".topbar a[href='game.php?page=messages']": { // Messages
+        ".notif-bell-icon[title='Messages']": { // Messages
             icon: "ra ra-speech-bubble", text: ""
         },
 
@@ -122,7 +119,7 @@ KX.mapping = { // Mappings of game data
         },
 
         // Topbar
-        ".premium-badge>.premium-icon": { // Topbar Premium Badge
+        "#topbar-premium>span:not([id])": { // Topbar Premium Badge
             icon: "ra ra-jewel-crown", text: ""
         },
 
@@ -249,7 +246,7 @@ KX.mapping = { // Mappings of game data
             else entry.value = result;
         }
         EXTRACT_SKILLS();
-        SET_CURRENT_SKILL_CLASS();
+        //SET_CURRENT_SKILL_CLASS();
         LOAD_TOOL_STATS();
         LOAD_FARM_STATS();
         AUTO_CLAN_BOSS();
@@ -263,8 +260,14 @@ KX.mapping = { // Mappings of game data
         if (isKXReady && KX.KORUXA_GLOBALS["current-skill"] !== "Doing") NEH();
         if (isKXReady && !isReadyFuncRunOnce) { isReadyFuncRunOnce = true; GET_BEST_XP_EFFICIENCY(); }
     }
-
-    function SET_CURRENT_SKILL_CLASS() {
+//
+//
+//
+// NEEDS AN UPDATE TO WORK WITH THE NEW URL STRUCTURE, CURRENTLY DISABLED
+//
+//
+//
+    /*function SET_CURRENT_SKILL_CLASS() {
         const url = window.location.href;
         const skillMatch = url.match(/[?&]skill=([^&]+)/);
         const pageMatch = url.match(/[?&]page=([^&]+)/);
@@ -285,7 +288,7 @@ KX.mapping = { // Mappings of game data
             bg.className = `bg-skill ${selected}`;
             KX.KORUXA_GLOBALS["current-skill"] = selected;
         }
-    }
+    }*/
 
     function GET_CURRENT_SKILL() {
         const url = window.location.href;
@@ -713,90 +716,6 @@ KX.mapping = { // Mappings of game data
         bC.querySelectorAll(".neh-button").forEach(b => b.classList.toggle("active", b.dataset.skill === skill));
     }
 
-    function UPDATE_SKILL_CARDS_REWARDS() {
-        const currentSkill = KX?.KORUXA_ACTIVE_SKILL;
-        if (!currentSkill) return;
-
-        const attributeMapping = {
-            "woodcutting": "data-tree",
-            "mining": "data-rock",
-            "fishing": "data-fish",
-            "thieving": "data-target",
-            "arcana": "data-recipe",
-            "cooking": "data-recipe",
-            "fletching": "data-recipe",
-            "crafting": "data-recipe",
-            "heblore": "data-potion",
-            "smithing": "data-recipe",
-            "firemaking": "data-recipe"
-        };
-
-        const dataAttribute = attributeMapping[currentSkill];
-        const config = KORUXA_CONFIGS?.[currentSkill];
-
-        if (!dataAttribute || !config) return;
-
-        const cards = document.querySelectorAll('.cow-card');
-        if (!cards.length) return;
-
-        cards.forEach(card => {
-            const actionId = card.getAttribute(dataAttribute);
-            if (!actionId) return;
-            let actionData = null;
-
-            if (config[actionId] && config[actionId].xp !== undefined) {
-                actionData = config[actionId];
-            } else {
-                for (const category of Object.values(config)) {
-                    if (category && typeof category === 'object' && category[actionId]) {
-                        actionData = category[actionId];
-                        break;
-                    }
-                }
-            }
-
-            if (actionData) {
-                const labelDiv = card.querySelector('.tree-label');
-                if (!labelDiv) return;
-
-                if (currentSkill === "thieving" && actionData.coins !== undefined) {
-                    let coinsDiv = card.querySelector('.neh-rewardcoins');
-                    if (!coinsDiv) {
-                        coinsDiv = document.createElement('div');
-                        coinsDiv.className = 'neh-rewardcoins';
-                        labelDiv.after(coinsDiv);
-                    }
-                    coinsDiv.textContent = `${actionData.coins} Coins`;
-                }
-
-                if (actionData.xp !== undefined) {
-                    let rewardDiv = card.querySelector('.neh-rewardexp');
-                    const tools = KX.KORUXA_TOOLS || {};
-                    const farms = KX.KORUXA_FARMS || {};
-                    const premiumBonus = (KX.KORUXA_IS_PREMIUM ? 20 : 0);
-
-                    const tool = tools[currentSkill] || {};
-                    const farm = farms[currentSkill] || {};
-                    const xpBonusTotal = (tool.xp || 0) + (farm.xp || 0) + premiumBonus;
-
-                    const xpPerLoop = (actionData.xp || 0) * (1 + xpBonusTotal / 100);
-                    if (!rewardDiv) {
-                        rewardDiv = document.createElement('div');
-                        rewardDiv.className = 'neh-rewardexp';
-
-                        const coinsDiv = card.querySelector('.neh-rewardcoins');
-                        if (coinsDiv) {
-                            coinsDiv.after(rewardDiv);
-                        } else {
-                            labelDiv.after(rewardDiv);
-                        }
-                    }
-                    rewardDiv.textContent = `${FORMAT_NUMBER(xpPerLoop, 0)} XP`;
-                }
-            }
-        });
-    }
-
     function GET_BEST_XP_EFFICIENCY() {
         const allSkills = Object.keys(KORUXA_CONFIGS || {});
         const rankings = [];
@@ -880,42 +799,6 @@ KX.mapping = { // Mappings of game data
         } else {
             startAfterIdle();
         }
-    }
-
-    function TRANSFORM_DROPS() {
-        const box = document.querySelector(".chatbox-messages");
-        if (!box) return;
-
-        box.querySelectorAll(".chat-drop-text").forEach(t => {
-            if (t.dataset.transformed === "1") return;
-
-            const u =
-                t.closest(".chat-drop-content")?.querySelector(".chat-username.drop") ||
-                t.closest(".chat-message")?.querySelector(".chat-username.drop");
-            if (!u) return;
-
-            const raw = t.textContent.trim();
-            const username = u.textContent.trim();
-
-            let emoji = "🌙";
-            if (raw.includes("⭐") || raw.includes("Star")) emoji = "⭐";
-            else if (raw.includes("☀️") || raw.includes("Sun")) emoji = "☀️";
-            else if (raw.includes("🌙") || raw.includes("Moon")) emoji = "🌙";
-
-            const mCombat = raw.match(/found\s+(.+?)\s+from\s+(.+?)\s+\(monster lvl\s+(\d+)\)!?$/);
-            const mSkill = raw.match(/found\s+(.+?)\s+from\s+(.+?)\s+at level\s+(\d+)!?$/);
-            const m = mCombat || mSkill;
-            if (!m) return;
-
-            let item = m[1].replace(/\s+(Star|Moon|Sun)$/, "").trim();
-            const action = m[2];
-            const level = m[3];
-
-            t.innerHTML =
-                `<div class="chat-drop-emoji">${emoji}</div> ` +
-                `${username} found a ${emoji} ${item} from ${action} at level ${level}!`;
-            t.dataset.transformed = "1";
-        });
     }
 
     function REPLACE_IMAGES(mapping) {
@@ -1018,7 +901,7 @@ KX.mapping = { // Mappings of game data
     }
 
     if (document.querySelector('#food-bar')) document.querySelector('#sidebar-hp-bar').after(document.querySelector('#food-bar'));
-    const observer = new MutationObserver(() => { REPLACE_ICONS(); TRANSFORM_DROPS(); SET_CURRENT_SKILL_CLASS(); });
+    const observer = new MutationObserver(() => { REPLACE_ICONS(); /*SET_CURRENT_SKILL_CLASS();*/ });
     observer.observe(document.body, { childList: true, subtree: true });
 
     LOAD_CSS("https://fonts.googleapis.com/css2?family=Saira:ital,wght@0,100..900;1,100..900&display=swap");
@@ -1027,10 +910,8 @@ KX.mapping = { // Mappings of game data
     LOAD_CSS("https://goldenlys.github.io/Koruxa-Enhancer/assets/css/style.css");
     NEH_STORAGE('load');
     REPLACE_ICONS();
-    TRANSFORM_DROPS();
     LOCK_SIDEBAR();
     UPDATE_DATA();
-    UPDATE_SKILL_CARDS_REWARDS();
 
     try {
         startKoruxaUpdater({ initialDelayMs: 1500, intervalMs: 2000 });

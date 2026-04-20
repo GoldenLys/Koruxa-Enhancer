@@ -5,26 +5,15 @@
 
 :root {
     /* Background colors */
-    --bg-body: radial-gradient(circle at top, #283855 0, #050816 60%);
-    --bg-panel: rgb(12 20 39 / 75%);
-    --bg-panel-solid: #0c1427;
-    --bg-card: rgba(15, 23, 42, 0.9);
-    --bg-card-hover: rgba(15, 23, 42, 0.98);
-    --bg-input: rgba(15, 23, 42, 0.9);
-    --bg-overlay: rgba(15, 23, 42, 0.85);
-    --chat-bg: rgb(0 0 0 / 25%);
-    --chat-header-bg: rgb(0 0 0 / 25%);
-    --chat-input-area-bg: rgb(0 0 0 / 25%);
+    --bg-body: radial-gradient(circle at top, #283855 0, #0f172a 60%);
 
-    /* Component specific */
-    --topbar-bg: rgb(12 20 39 / 75%);
-    --topbar-border: #3b82f6;
-    --sidebar-bg: rgb(12 20 39 / 75%);
-    --scrollbar-thumb: rgba(100, 116, 139, 0.5);
-    --scrollbar-thumb-hover: rgba(100, 116, 139, 0.7);
+    /* Go rework colors */
+    --surface: #131e31;
+    --surface2: #19212c;
 }
 
 body {
+    background: var(--bg-body);
     font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "emoji", sans-serif;
 }
 
@@ -49,72 +38,6 @@ body {
     height: 100%;
 }
 
-.topbar-center {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center !important;
-}
-
-.topbar-right {
-    max-width: 100vw;
-}
-
-.topbar-activity {
-    background: rgb(31 56 48 / 75%);
-}
-
-.user-box {
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.logo-sub {
-    color: rgb(100 116 139);
-    font-weight: 600;
-}
-
-.chatbox {
-    margin: 12px -12px 0 -12px;
-    border-radius: 0 !important;
-    border: none !important;
-    border-top: 1px solid var(--border-primary) !important;
-    height: 600px !important;
-}
-
-/* Resize some text sizes for readability */
-.menu-item {
-    font-size: 14px;
-}
-
-.tree-card .tree-label {
-    text-transform: uppercase;
-    font-size: 16px;
-}
-
-.user-name {
-    font-size: 16px;
-}
-
-
-/* GATHERING/ARTISAN SUB-TABS REWORK (linking) */
-
-div[class*="-tabs"]:not(.chatbox-tab):not(.sidebar-tab) {
-    gap: 0px;
-    overflow-x: visible;
-}
-
-button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab) {
-    border-radius: 0px;
-}
-
-button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):first-of-type {
-    border-radius: 5px 0 0 5px;
-}
-
-button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
-    border-radius: 0 5px 5px 0;
-}
-
 #session-stat.nebs-container {
     position: relative;
     z-index: 1;
@@ -129,286 +52,14 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     align-items: center;
 }
 
-#session-stat .session-main {
-    position: relative;
-    grid-column: 1 / 2;
-    grid-row: 1 / 2;
-    padding: 10px 12px;
-}
-
-#session-stat .session-time {
-    display: flex;
-    flex-wrap: wrap;
-    align-content: center;
-    align-items: center;
-    justify-content: center;
-    margin: 5px 0 0 0;
-    font-size: 14px;
-    background: rgb(78 91 121 / 50%);
-    border-radius: 6px;
-}
-
-.session-buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 0px;
-    height: 100%;
-    width: 32px;
-    overflow: hidden;
-    min-width: 36px;
-}
-
-.session-btn {
-    grid-column: 2 / 2;
-    grid-row: 1 / 2;
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    padding: 0;
-    border: none;
-    cursor: pointer;
-    color: white;
-    text-shadow: 1px 1px 4px rgb(75 75 75);
-}
-
-.session-btn-renew {
-    background: rgb(197, 255, 255);
-}
-
-.session-btn-stop {
-    background: rgb(239, 68, 68);
-}
-
-.session-btn-renew:hover {
-    background: rgb(147, 205, 205);
-}
-
-.session-btn-stop:hover {
-    background: rgb(175, 48, 48);
-}
-
-#session-stat .queue-badge {
-    order: -1;
-    display: flex !important;
-    flex: 1 1 100%;
-    border: none;
-    border-radius: 6px;
-    font-size: 12px;
-    justify-content: center;
-    align-items: center;
-    margin: 0 0 5px 0;
-}
-
-.small.xp-total {
-    display: none;
-}
-
-.user-info {
-    position: relative;
-    display: block;
-}
-
-.user-info-wrapper {
-    display: block;
-    padding: 10px;
-}
-
-.user-total-level {
-    width: 100%;
-    display: flex;
-    flex: 1 1 auto;
-    font-size: 14px;
-    text-transform: uppercase;
-    justify-content: center;
-}
-
-.skill-name {
-    overflow: visible;
-}
-
-.stat .label {
-    display: inline-flex;
-    flex-wrap: wrap;
-}
-
-/* Inventory Rework */
-
-.inv-slot-empty,
-.inv-item {
-    display: flex;
-    flex: 0 0 auto;
-    width: calc(20% - 6px);
-    padding: 0 0 12px 0px;
-    min-width: 48px;
-    min-height: 60px;
-    aspect-ratio: unset;
-    box-shadow: none;
-    box-sizing: content-box;
-}
-
-.inv-slot-empty {
-    border: 1px dashed var(--border-subtle);
-}
-
-.inv-item-qty {
-    position: absolute;
-    bottom: 0px;
-    right: 0px;
-    left: 0px;
-    font-family: "Saira", sans-serif;
-    font-size: 12px;
-    background: rgb(255 255 255 / 10%);
-    font-weight: 400;
-}
-
-.inv-item-icon {
-    height: 46px;
-    width: 46px;
-}
-
-.inv-item:hover {
-    border-color: rgb(255 255 255 / 50%);
-    box-shadow: inset 0 0 8px rgb(255 255 255 / 50%);
-}
-
-.inv-item.rarity-uncommon {
-    border-color: rgba(34, 197, 94, 1);
-}
-
-.inv-item.rarity-rare {
-    border-color: rgba(59, 130, 246, 1);
-}
-
-.inv-item.rarity-epic {
-    border-color: rgba(168, 85, 247, 1);
-}
-
-.inv-item.rarity-legendary {
-    border-color: rgba(245, 158, 11, 1);
-}
-
-.inv-item.rarity-mythic {
-    border-color: rgba(239, 68, 68, 1);
-}
-
-.inv-item.rarity-uncommon:hover {
-    border-color: #22c55e;
-    box-shadow: inset 0 0 8px rgba(34, 197, 94, 0.5);
-}
-
-.inv-item.rarity-rare:hover {
-    border-background: linear-gradient(135deg, rgb(119, 75, 77), rgb(146, 111, 9));
-    box-shadow: inset 0 0 8px rgba(59, 130, 246, 0.5);
-}
-
-.inv-item.rarity-epic:hover {
-    border-color: #a855f7;
-    box-shadow: inset 0 0 8px rgba(168, 85, 247, 0.5);
-}
-
-.inv-item.rarity-legendary:hover {
-    border-color: #f59e0b;
-    box-shadow: inset 0 0 8px rgba(245, 158, 11, 0.5);
-}
-
-.inv-item.rarity-mythic:hover {
-    border-color: #ef4444;
-    box-shadow: inset 0 0 8px rgba(239, 68, 68, 0.5);
-}
-
-.sidebar-footer {
-    background: linear-gradient(135deg, rgb(17 36 61), rgb(14 36 46));
-    border: 1px solid rgba(59, 130, 246, 0.2);
-    border-radius: 8px;
-}
-
 .neh-item>bold,
-.neh-title,
-.logo-sub,
-.user-total-level,
-.category-name {
+.neh-title {
     color: transparent;
     background: linear-gradient(90deg, #3b82f6, #22c55e);
     background-size: 500% 100%;
     animation: backgroundSlide 5s linear infinite;
     -webkit-background-clip: text;
     background-clip: text;
-}
-
-.skill-category[data-category="gathering"] .skill-category-list,
-.skill-category[data-category="artisan"] .skill-category-list,
-.skill-category[data-category="combat"] .skill-category-list {
-    display: flex;
-    flex-wrap: wrap;
-    padding: 0;
-    margin: 2px 0 0 0;
-    border-left: none;
-}
-
-.skill-category.collapsed .skill-category-list {
-    display: none;
-}
-
-.skill-category[data-category="gathering"] .menu-item,
-.skill-category[data-category="artisan"] .menu-item,
-.skill-category[data-category="combat"] .menu-item {
-    flex: 1 1 50%;
-    padding: 0;
-}
-
-.skill-category[data-category="gathering"] .menu-item>.skill-link,
-.skill-category[data-category="artisan"] .menu-item>.skill-link,
-.skill-category[data-category="combat"] .menu-item>.skill-link {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 2px 0px;
-    height: 48px;
-    justify-content: center;
-}
-
-.skill-category[data-category="gathering"] .skill-name,
-.skill-category[data-category="artisan"] .skill-name,
-.skill-category[data-category="combat"] .skill-name {
-    text-align: center;
-    margin-right: 5px;
-    flex: initial;
-    order: 1;
-}
-
-
-.skill-category[data-category="gathering"] .skill-level,
-.skill-category[data-category="artisan"] .skill-level,
-.skill-category[data-category="combat"] .skill-level {
-    order: 2;
-}
-
-.sidebar-left .skill-icon {
-    display: flex;
-    font-size: 18px;
-    width: 20px;
-    height: 20px;
-    order: 0;
-    justify-content: center;
-    align-items: center;
-}
-
-.menu-item {
-    border: 2px solid transparent;
-    color: rgb(153 161 175);
-    background: transparent;
-}
-
-.menu-item:hover {
-    color: white;
-    background: rgb(24 39 60 / 50%);
-    border-color: rgb(69 93 126 / 50%);
-}
-
-.menu-item.active {
-    max-width: 100%;
 }
 
 .neh-helper {
@@ -605,62 +256,6 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     line-height: 12px;
 }
 
-.combat-dashboard {
-    display: none !important;
-}
-
-.food-bar {
-    margin: 0 0 8px 0 !important;
-    border-radius: 10px;
-    padding: 10px 12px;
-}
-
-.sidebar-hp-bar {
-    margin-bottom: 8px;
-}
-
-.quest-tracker-header {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    text-align: center;
-    justify-content: center;
-}
-
-.quest-tracker-dots {
-    flex: 1 1 100%;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin: 0 auto 8px auto;
-    order: 0;
-}
-
-.quest-tracker-icon {
-    order: 1;
-    max-width: max-content;
-}
-
-.quest-tracker-name {
-    order: 2;
-    max-width: max-content;
-}
-
-.quest-tracker-dot {
-    width: 16px;
-    height: 16px;
-    background: rgb(73 79 89);
-}
-
-.quest-tracker-dot:hover {
-    background: rgb(148 163 184);
-}
-
-.quest-tracker-dot.active {
-    background: linear-gradient(90deg, #3b82f6, #22c55e);
-    background-size: 500% 100%;
-    animation: backgroundSlide 5s linear infinite;
-}
-
 .neh-title>i {
     font-size: 26px;
 }
@@ -679,11 +274,17 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     }
 }
 
-@media (max-width: 768px) {
-
-    .logo-sub {
-        display: block;
+@media (min-width: 1024px) and ( max-width: 1400px) {
+    .topbar-row2 {
+        top: calc(var(--topbar-h) - 31px);
     }
+
+    .topbar {
+    margin-bottom: 31px;
+    }
+}
+
+@media (max-width: 768px) {
 
     .user-info {
         flex: 1 1 100%;
@@ -703,10 +304,6 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
 @media (max-width: 480px) {
     .topbar-left .logo-text {
         display: flex;
-    }
-
-    .logo-sub {
-        display: block;
     }
 }
 
@@ -747,34 +344,6 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
         gap: 8px;
     }
 
-    .skill-category .skill-category-header .category-icon {
-        text-align: center;
-        font-size: 18px;
-        line-height: 14px;
-        flex: 1 1 100%;
-        transition: all 0.5s ease;
-    }
-
-    .game-layout.lsb-hover .skill-category .skill-category-header .category-icon,
-    .game-layout.lsb-locked-open .skill-category .skill-category-header .category-icon {
-        font-size: 14px;
-        flex: 0 0 auto;
-    }
-
-    .game-layout.lsb-hover .skill-category-header .category-name,
-    .game-layout.lsb-locked-open .skill-category-header .category-name {
-        font-size: 12px;
-        line-height: normal;
-        text-align: center;
-    }
-
-    .game-layout.lsb-hover .menu-item .skill-name,
-    .game-layout.lsb-locked-open .menu-item .skill-name {
-        font-size: 14px;
-        line-height: normal;
-        margin-right: 5px;
-    }
-
     .category-toggle {
         display: flex;
         justify-content: center;
@@ -797,221 +366,12 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
     .game-layout:not(.lsb-hover) .sidebar-left .sidebar-footer {
         flex-direction: row;
     }
-
-    .game-layout .skill-category-header .category-name,
-    .game-layout .menu-item .skill-name {
-        font-size: 0;
-        line-height: 0;
-        margin-right: 0;
-        transition: all 0.5s ease;
-    }
 }
 
 @media (min-width: 1024px) and (max-width: 1760px) {
-    .user-box {
-        flex-wrap: wrap;
-        justify-content: center;
+    .row2-user {
+        display: none !important;
     }
-}
-
-.card-row {
-    justify-content: center;
-}
-
-/* SKILLS BACKGROUNDS */
-.bg-skill {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-    background: none no-repeat center center fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-}
-
-/* Gathering skills */
-.bg-skill.mining {
-    background-image: url(https://goldenlys.github.io/Koruxa-Enhancer/images/skills/skill_mining.jpg);
-}
-
-.bg-skill.woodcutting {
-    background-image: url(https://goldenlys.github.io/Koruxa-Enhancer/images/skills/skill_woodcutting.jpg);
-}
-
-.bg-skill.fishing {
-    background-image: url(https://goldenlys.github.io/Koruxa-Enhancer/images/skills/skill_fishing.jpg);
-}
-
-.bg-skill.farming {
-    background-image: url(https://goldenlys.github.io/Koruxa-Enhancer/images/skills/skill_farming.jpg);
-}
-
-.bg-skill.thieving {
-    background-image: url(https://goldenlys.github.io/Koruxa-Enhancer/images/skills/skill_thieving.jpg);
-}
-
-.bg-skill.arcana {
-    background-image: url(https://goldenlys.github.io/Koruxa-Enhancer/images/skills/skill_arcana.jpg);
-}
-
-/* Artisan skills */
-.bg-skill.cooking {
-    background-image: url(https://goldenlys.github.io/Koruxa-Enhancer/images/skills/skill_cooking.jpg);
-}
-
-.bg-skill.fletching {
-    background-image: url(https://goldenlys.github.io/Koruxa-Enhancer/images/skills/skill_fletching.jpg);
-}
-
-.bg-skill.crafting {
-    background-image: url(https://goldenlys.github.io/Koruxa-Enhancer/images/skills/skill_crafting.jpg);
-}
-
-.bg-skill.herblore {
-    background-image: url(https://goldenlys.github.io/Koruxa-Enhancer/images/skills/skill_herblore.jpg);
-}
-
-.bg-skill.smithing {
-    background-image: url(https://goldenlys.github.io/Koruxa-Enhancer/images/skills/skill_smithing.jpg);
-}
-
-.bg-skill.firemaking {
-    background-image: url(https://goldenlys.github.io/Koruxa-Enhancer/images/skills/skill_firemaking.jpg);
-}
-
-/* Combat skills (WIP)
-.bg-skill.slayer {}
-.bg-skill.attack {}
-.bg-skill.strength {}
-.bg-skill.defence {}
-.bg-skill.hitpoints {}
-.bg-skill.magic {}
-.bg-skill.ranged {}*/
-
-/* fix custom icons colors */
-
-.progress-badge-icon {
-    color: #22c55e;
-}
-
-.premium-badge .premium-icon {
-    font-size: 22px;
-    line-height: 14px;
-    color: #ffca81;
-    text-shadow: 0 0 4px #7d5a1c;
-}
-
-.sidebar-title i {
-    font-size: 18px;
-    line-height: 20px;
-}
-
-.sidebar-title>* {
-    display: flex;
-    gap: 4px;
-    height: 100%;
-    align-items: center;
-    justify-content: center;
-}
-
-.chat-drop-emoji {
-    display: inline-flex;
-}
-
-/* Redesign Sealed Drops in chat */
-.chat-message.drop {
-    border: 1px solid rgba(168, 85, 247, 0.5);
-    padding: 12px 14px;
-    position: relative;
-    z-index: 0;
-    overflow: hidden;
-    min-height: fit-content;
-    animation: dropGlow 3s ease-in-out infinite !important;
-    background: transparent !important;
-}
-
-.chat-message.drop::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 300%;
-    z-index: -1;
-    background: linear-gradient(90deg,
-            rgba(168, 85, 247, 0.25) 0%,
-            rgba(210, 120, 150, 0.25) 16.5%,
-            rgba(245, 158, 11, 0.25) 33.3%,
-            rgba(210, 120, 150, 0.25) 50%,
-            rgba(168, 85, 247, 0.25) 66.6%,
-            rgba(210, 120, 150, 0.25) 83.3%,
-            rgba(245, 158, 11, 0.25) 100%) !important;
-    animation: dropSlide 3s linear infinite !important;
-}
-
-@keyframes dropSlide {
-    0% {
-        transform: translateX(0);
-    }
-
-    100% {
-        transform: translateX(-66.66%);
-    }
-}
-
-@keyframes dropGlow {
-
-    0%,
-    100% {
-        border-color: rgba(168, 85, 247, 0.5);
-        box-shadow: 0 0 6px rgba(168, 85, 247, 0.15);
-    }
-
-    50% {
-        border-color: rgba(245, 158, 11, 0.5);
-        box-shadow: 0 0 10px rgba(245, 158, 11, 0.2);
-    }
-}
-
-/* Fix topbar-right icons */
-
-.topbar-messages-icon {
-    color: white;
-    line-height: 28px;
-    width: 40px;
-    height: 40px;
-    margin-right: 0;
-}
-
-.notification-bell-container {
-    margin-right: 0;
-}
-
-.notification-bell-icon {
-    font-size: 18px;
-    line-height: 26px;
-    width: 40px;
-    height: 40px;
-}
-
-.prf-premium-badge>i,
-.notification-bell-icon[data-iconified]>i {
-    color: rgb(255, 54, 54);
-    animation-name: fa-beat;
-    animation-delay: var(--fa-animation-delay, 0s);
-    animation-direction: var(--fa-animation-direction, normal);
-    animation-duration: var(--fa-animation-duration, 1s);
-    animation-iteration-count: var(--fa-animation-iteration-count, infinite);
-    animation-timing-function: var(--fa-animation-timing, ease-in-out);
-}
-
-.notification-badge {
-    box-shadow: none;
-    animation: ra-beat 1s ease-in-out infinite !important;    
 }
 
 .sidebar-footer-btn {
@@ -1028,11 +388,6 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
 
 .sidebar-footer-btn.locked-closed {
     color: rgb(229 91 91);
-}
-
-.stun-indicator[style="display: none;"] {
-    display: block !important;
-    visibility: hidden;
 }
 
 .tree-card .neh-rewardcoins,
@@ -1079,21 +434,6 @@ button[class*="-tab"]:not(.chatbox-tab):not(.sidebar-tab):last-of-type {
 .ra.ra-double.small {
     font-size: 20px;
     margin-top: 3px;
-}
-
-/* Fix visibility in users profile */
-
-.prf-info span {
-    filter: drop-shadow(0 0 0.8px #0c1427)
-}
-
-/* Improve distinction between martketplace items in feed */
-.marketplace-feed .chat-message[data-view-type="listings"] {
-    background-color: rgb(59 130 246 / 20%);
-}
-
-.marketplace-feed .chat-message[data-view-type="buy_orders"] {
-    background-color: rgb(34 197 94 / 20%);
 }
 
 button[data-skill]>i,
@@ -1207,4 +547,34 @@ li[data-skill="magic"] .skill-icon>i {
 button[data-skill="ranged"]>i,
 li[data-skill="ranged"] .skill-icon>i {
     background-image: linear-gradient(135deg, rgb(255 169 76), rgb(255 92 5));
+}
+
+/* QoL resize for chat tabs buttons */
+.chat-tab {
+    font-size: 14px;
+    padding: 10px 10px;
+}
+
+/* QoL resize for session info */
+.session-info,
+.session-info span,
+#session-cycles-row2 {
+    font-size: 14px !important;
+}
+
+/* QoL resize & font + image render quality for inventory slots */
+.inv-slot img {
+    width: 55px;
+    height: 55px;
+    image-rendering: auto;
+}
+
+.inv-slot .qty {
+    position: absolute;
+    bottom: 1px;
+    right: 5px;
+    font-size: 12px;
+    text-shadow: 0px 0px 6px black;
+    font-family: "Saira", sans-serif;
+    font-weight: 600;
 }
