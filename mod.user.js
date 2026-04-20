@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       2.5
+// @version       2.51
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    https://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
@@ -144,6 +144,10 @@ KX.mapping = { // Mappings of game data
             icon: "fa-solid fa-gear", text: ""
         },
 
+        "a[onclick*='institute']": { // Institute
+            icon: "fa-solid fa-building-columns", text: ""
+        },
+
     };
 
     const xpToNext = [
@@ -174,11 +178,19 @@ KX.mapping = { // Mappings of game data
 
             case "#session-cycles-row2": {
                 const m = text.match(/(\d+)\s*\/\s*(\d+)/);
+                if (m[1] !== KORUXA_GLOBALS.cycle?.current || m[2] !== KORUXA_GLOBALS.cycle?.total) {
+                    EXTRACT_SKILLS(KX.KORUXA_GLOBALS["current-skill"]);
+                    console.log(`Koruxa Enhanced: Data refreshed (Single via session cycle).`);
+                }
                 return m ? { current: m[1], total: m[2] } : "(invalid format)";
             }
 
             case "#session-action-row2": {
                 const s = text.match(/([^:]+):\s*(.+)/);
+                if (s[1] !== KX.KORUXA_GLOBALS["current-skill"] || s[2] !== KX.KORUXA_GLOBALS["current-item"]) {
+                    EXTRACT_SKILLS();
+                    console.log(`Koruxa Enhanced: Data refreshed (Full via session action).`);
+                }
                 return s ? key === "current-skill" ? s[1] : s[2] : "(invalid format)";
             }
 
@@ -775,8 +787,9 @@ KX.mapping = { // Mappings of game data
 
         el.querySelector(".neh-item").innerHTML = phrase;
         el.querySelector(".neh-subtitle").textContent = `${skill} ${tLvl}`;
-        if (typeof session?.xpRemaining === "number" && session?.xpRemaining > 0) bT.innerHTML =
-            `<i class="ra ra-alarm-clock"></i> <b>${sessionXP_Current}</b> <span class="neh-sub-footer">${KX.KORUXA_GLOBALS["current-skill"]} ${sessionLevels} and ${sessionXP_Total} </span>`;
+        if (typeof session?.xpRemaining === "number" && session?.xpRemaining > 0) {
+            bT.innerHTML = `<i class="ra ra-alarm-clock"></i> <b>${sessionXP_Current}</b> <span class="neh-sub-footer">${KX.KORUXA_GLOBALS["current-skill"]} ${sessionLevels} and ${sessionXP_Total} </span>`;
+        }
 
         const bC = el.querySelector(".neh-btns");
         if (!bC.hasChildNodes()) {
@@ -1014,15 +1027,13 @@ KX.mapping = { // Mappings of game data
         return Math.min(95, finalChance);
     }
 
-    const targetSelectors = ['#session-action', '#session-cycles', '#tab-inventory', '#tab-equipment', '#tab-farms-sidebar'];
-    const lastValues = new Map();
+    const targetSelectors = ['#tab-inventory', '#tab-equipment', '#tab-farms-sidebar'];
     const COOLDOWN_MS = 3000;
     let lastUpdateTimestamp = 0;
 
     async function REFRESH_ENHANCED_DATA(isSingleSkillUpdate = false, triggerSelector = "unknown") {
         const now = Date.now();
         if (isUpdating || (now - lastUpdateTimestamp < COOLDOWN_MS)) return;
-
         isUpdating = true;
         lastUpdateTimestamp = now;
         observer.disconnect();
@@ -1039,9 +1050,7 @@ KX.mapping = { // Mappings of game data
 
             const mode = isSingleSkillUpdate ? `Single Skill (${skillType})` : "Full";
             console.log(`Koruxa Enhanced: Data refreshed (${mode} via ${triggerSelector}).`);
-        } catch (e) {
-            console.warn("Koruxa: functions not ready yet.");
-        }
+        } catch (e) { }
 
         observe();
         isUpdating = false;
@@ -1051,29 +1060,18 @@ KX.mapping = { // Mappings of game data
         let activeSelector = null;
         let isSingleSkillUpdate = false;
 
-        for (const m of mutations) {
-            const target = m.target;
-            if (!target.closest) continue;
-
-            for (const selector of targetSelectors) {
-                const element = target.closest(selector);
-                if (element) {
-                    const currentText = element.innerText || element.textContent;
-
-                    if (selector.startsWith('#session-')) {
-                        if (lastValues.get(selector) === currentText) continue;
-                        lastValues.set(selector, currentText);
+        if (!activeSelector) {
+            for (const m of mutations) {
+                const target = m.target;
+                for (const selector of targetSelectors) {
+                    if (target.nodeType === 1 && (target.closest(selector) || document.querySelector(selector)?.contains(target))) {
+                        activeSelector = selector;
+                        isSingleSkillUpdate = (selector === '#tab-inventory');
+                        break;
                     }
-
-                    activeSelector = selector;
-
-                    if (selector === '#session-cycles' || selector === '#tab-inventory') {
-                        isSingleSkillUpdate = true;
-                    }
-                    break;
                 }
+                if (activeSelector) break;
             }
-            if (isSingleSkillUpdate) break;
         }
 
         if (activeSelector) {
@@ -1101,19 +1099,15 @@ KX.mapping = { // Mappings of game data
 
     const init = () => {
         if (document.body) {
-            targetSelectors.forEach(s => {
-                const el = document.querySelector(s);
-                if (el) lastValues.set(s, el.innerText || el.textContent);
-            });
-
             document.addEventListener('click', handleSidebarClick);
-
             observe();
             REFRESH_ENHANCED_DATA(false, "Initial Load");
         } else {
             setTimeout(init, 100);
         }
     };
+
+    init();
     LOAD_CSS("https://fonts.googleapis.com/css2?family=Saira:ital,wght@0,100..900;1,100..900&display=swap");
     LOAD_CSS("https://goldenlys.github.io/Koruxa-Enhancer/assets/css/fa-7.2.0.min.css");
     LOAD_CSS("https://goldenlys.github.io/Koruxa-Enhancer/assets/css/rpg-awesome.min.css");
@@ -1128,5 +1122,4 @@ KX.mapping = { // Mappings of game data
     try {
         startKoruxaUpdater({ initialDelayMs: 1500, intervalMs: 2000 });
     } catch (err) { console.error('Koruxa Enhanced error', err); }
-    init();
 })();

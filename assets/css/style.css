@@ -375,10 +375,6 @@ body {
     }
 }
 
-.sidebar-footer-btn {
-    font-size: 18px;
-}
-
 .sidebar-footer-btn.unlocked {
     color: rgb(229 191 91);
 }
