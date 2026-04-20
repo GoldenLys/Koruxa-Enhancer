@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       2.1
+// @version       2.2
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    https://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
@@ -247,26 +247,42 @@ KX.mapping = { // Mappings of game data
         }
         EXTRACT_SKILLS();
         //SET_CURRENT_SKILL_CLASS();
-        LOAD_TOOL_STATS();
-        LOAD_FARM_STATS();
         AUTO_CLAN_BOSS();
         REPLACE_IMAGES(imageOverrides);
-        if (isKXReady) DISPLAY_COMBAT_LEVEL(KORUXA_STATS.attack.level,
-            KORUXA_STATS.strength.level,
-            KORUXA_STATS.defence.level,
-            KORUXA_STATS.hitpoints.level,
-            KORUXA_STATS.magic.level,
-            KORUXA_STATS.ranged.level);
-        if (isKXReady && KX.KORUXA_GLOBALS["current-skill"] !== "Doing") NEH();
-        if (isKXReady && !isReadyFuncRunOnce) { isReadyFuncRunOnce = true; GET_BEST_XP_EFFICIENCY(); }
+        if (isKXReady) {
+            DISPLAY_COMBAT_LEVEL(KORUXA_STATS.attack.level,
+                KORUXA_STATS.strength.level,
+                KORUXA_STATS.defence.level,
+                KORUXA_STATS.hitpoints.level,
+                KORUXA_STATS.magic.level,
+                KORUXA_STATS.ranged.level);
+            KX.CLAN_XP_BONUS = (() => {
+                const el = document.querySelector("#page-content>div[style]:not([class]):not([id])>div[style*='font-size:10px;']:not([class]):not([id])");
+                if (!el) return 0;
+                const xp = el.textContent.match(/Clan: XP\+(\d+(?:\.\d+)?)%/);
+                return xp ? xp[1] : 0;
+            })();
+            if (typeof KX.CLAN_XP_BONUS === 'number' && KX.CLAN_XP_BONUS !== 0 && typeof KX.KORUXA_GLOBALS["clan-xp-bonus"] !== 'number') {
+                KX.KORUXA_GLOBALS["clan-xp-bonus"] = KX.CLAN_XP_BONUS;
+                NEH_STORAGE('save');
+            }
+            if (KX.KORUXA_GLOBALS["current-skill"] !== "Doing") NEH();
+        }
+        if (isKXReady && !isReadyFuncRunOnce) {
+            isReadyFuncRunOnce = true;
+            GET_BEST_XP_EFFICIENCY();
+            LOAD_FARM_STATS();
+            LOAD_TOOL_STATS();
+            KX.KORUXA_IS_PREMIUM = document.querySelector("#topbar-premium>span:not([id])") ? true : false;
+        }
     }
-//
-//
-//
-// NEEDS AN UPDATE TO WORK WITH THE NEW URL STRUCTURE, CURRENTLY DISABLED
-//
-//
-//
+    //
+    //
+    //
+    // NEEDS AN UPDATE TO WORK WITH THE NEW URL STRUCTURE, CURRENTLY DISABLED
+    //
+    //
+    //
     /*function SET_CURRENT_SKILL_CLASS() {
         const url = window.location.href;
         const skillMatch = url.match(/[?&]skill=([^&]+)/);
@@ -369,6 +385,7 @@ KX.mapping = { // Mappings of game data
 
     const cleanName = str => str.replace(/[^\w\s]/g, "").trim(); // Remove emojis + trim
     const cleanValue = str => Number(str.replace(/[^\d.-]/g, "")); // Convert "+15%" → 15
+    const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms)); // Creates a delay for async functions
 
     function GET_XP(level, type = "ExpToNext") { // Usage : GET_XP(level, type)
         if (level < 1 || level > xpToNext.length) return null;
@@ -399,38 +416,77 @@ KX.mapping = { // Mappings of game data
 
     // Generates a globals for each farm stats
     function LOAD_FARM_STATS() {
-        const SPEED = [0, 2, 4, 6, 8, 10, 12, 14, 16], XP = [0, 1, 2, 4, 6, 8, 10, 15, 20];
-        const result = [...document.querySelectorAll('.farm-card[data-skill] .farm-level')].reduce((acc, el) => {
-            const skill = el.closest('.farm-card')?.dataset?.skill;
+        const SPEED = [0, 2, 4, 6, 8, 10, 12, 14, 16];
+        const XP = [0, 1, 2, 4, 6, 8, 10, 15, 20];
+        const targetSkills = ['woodcutting', 'mining', 'fishing', 'farming', 'cooking', 'thieving', 'fletching', 'crafting', 'herblore', 'smithing', 'firemaking', 'arcana'];
+
+        const farmElements = document.querySelectorAll('div[onclick^="openFarmModal"]');
+
+        const result = Array.from(farmElements).reduce((acc, el) => {
+            const onclickAttr = el.getAttribute('onclick') || "";
+            const skillMatch = onclickAttr.match(/'([^']+)'/);
+            const skill = skillMatch ? skillMatch[1] : null;
+
             if (!skill) return acc;
-            const m = (el.textContent || '').match(/\d+/);
-            const lvl = m ? Math.max(0, Math.min(Number(m[0]), SPEED.length - 1)) : 0;
+
+            const levelDiv = Array.from(el.querySelectorAll('div')).find(d => d.textContent.includes('Lvl'));
+            const m = levelDiv ? levelDiv.textContent.match(/Lvl\s+(\d+)/) : null;
+            const lvl = m ? Math.max(0, Math.min(Number(m[1]), SPEED.length - 1)) : 0;
+
             acc[skill] = { level: lvl, speed: SPEED[lvl] || 0, xp: XP[lvl] || 0 };
             return acc;
         }, Object.create(null));
-        ['woodcutting', 'mining', 'fishing', 'farming', 'cooking', 'thieving', 'fletching', 'crafting', 'herblore', 'smithing', 'firemaking', 'arcana']
-            .forEach(s => { if (!result[s]) result[s] = { level: 0, speed: 0, xp: 0 }; });
-        try { if (JSON.stringify(KX.KORUXA_FARMS || {}) !== JSON.stringify(result)) KX.KORUXA_FARMS = result; }
-        catch (e) { KX.KORUXA_FARMS = result; }
+
+        targetSkills.forEach(s => {
+            if (!result[s]) result[s] = { level: 0, speed: 0, xp: 0 };
+        });
+
+        window.KX = window.KX || {};
+        try {
+            if (JSON.stringify(KX.KORUXA_FARMS || {}) !== JSON.stringify(result)) {
+                KX.KORUXA_FARMS = result;
+            }
+        } catch (e) {
+            KX.KORUXA_FARMS = result;
+        }
     }
 
     // Generates a globals for each tool stats
-    function LOAD_TOOL_STATS() {
-        const KNOWN = ['woodcutting', 'mining', 'fishing', 'farming', 'cooking', 'thieving', 'fletching', 'crafting', 'herblore', 'smithing', 'firemaking', 'arcana', 'alchemy', 'slayer'];
-        const MAP = { "XP Gain": "xp", "Speed": "speed" };
-        const res = [...document.querySelectorAll('.equipment-slot[data-slot^="tool_"]')].reduce((acc, slot) => {
-            const skill = (slot.dataset.slot || '').replace(/^tool_/, '');
-            if (!skill) return acc;
-            acc[skill] = [...slot.querySelectorAll('.tooltip-stat')].reduce((s, stat) => {
-                const raw = cleanName(stat.children[0]?.textContent || '');
-                const key = MAP[raw] ?? raw;
-                s[key] = cleanValue(stat.querySelector('.tooltip-stat-value')?.textContent || '');
-                return s;
-            }, Object.create(null));
-            return acc;
-        }, Object.create(null));
-        KNOWN.forEach(k => { if (!res[k]) res[k] = {}; });
-        KX.KORUXA_TOOLS = res;
+    async function LOAD_TOOL_STATS() {
+        const skills = ['woodcutting', 'mining', 'fishing', 'farming', 'cooking', 'thieving', 'fletching', 'crafting', 'herblore', 'smithing', 'firemaking', 'arcana'/*, 'alchemy', 'slayer'*/];
+        for (const skill of skills) {
+            KX.KORUXA_TOOLS[skill] = KX.KORUXA_TOOLS[skill] || { speed: 0, xp: 0 };
+
+            try {
+                const mockEvent = { clientX: 0, clientY: 0 };
+                showToolSlotTooltip(mockEvent, `tool_${skill}`);
+                await wait(50);
+                const tooltip = document.getElementById('item-tooltip');
+
+                if (tooltip) {
+                    const statsElements = tooltip.querySelectorAll('.tooltip-stat');
+                    statsElements.forEach(statRow => {
+                        const labelSpan = statRow.querySelector('span:first-child');
+                        const valueSpan = statRow.querySelector('span:last-child');
+
+                        if (labelSpan && valueSpan) {
+                            const labelText = labelSpan.innerText.trim();
+                            const valueText = valueSpan.innerText.trim(); // Ex: "+18%"
+                            const pureNumber = parseFloat(valueText.replace(/[^\d.-]/g, '')) || 0;
+                            if (labelText.includes('Speed')) {
+                                KX.KORUXA_TOOLS[skill].speed = pureNumber;
+                            } else if (labelText.includes('XP')) {
+                                KX.KORUXA_TOOLS[skill].xp = pureNumber;
+                            }
+                        }
+                    });
+                }
+
+                if (typeof hideTooltip === 'function') hideTooltip();
+            } catch (error) {
+                console.warn(`Error loading tool stats for ${skill}:`, error);
+            }
+        }
     }
 
     function GET_LAST_UNLOCK_SKILL(skill, level = 0) {
@@ -482,7 +538,7 @@ KX.mapping = { // Mappings of game data
             const tools = KX.KORUXA_TOOLS?.[skill] || {};
             const farms = KX.KORUXA_FARMS?.[skill] || {};
             const speed = (tools.speed || 0) + (farms.speed || 0) + premiumBonus;
-            const xpBonus = (tools.xp || 0) + (farms.xp || 0) + premiumBonus;
+            const xpBonus = (tools.xp || 0) + (farms.xp || 0) + premiumBonus + (KX.CLAN_XP_BONUS || 0);
             const xpPerLoop = (e.xp || 0) * (1 + xpBonus / 100);
             const msPerLoop = (e.duration_ms || 0) * Math.max(0, 1 - speed / 100);
 
@@ -566,7 +622,7 @@ KX.mapping = { // Mappings of game data
 
         const tool = tools[skillId] || {};
         const farm = farms[skillId] || {};
-        const xpBonusTotal = (tool.xp || 0) + (farm.xp || 0) + premiumBonus;
+        const xpBonusTotal = (tool.xp || 0) + (farm.xp || 0) + premiumBonus + (KX.CLAN_XP_BONUS || 0);
 
         const xpPerLoop = (itemData.xp || 0) * (1 + xpBonusTotal / 100);
         const currentLoops = Number(cycle.current) || 0;
@@ -740,7 +796,7 @@ KX.mapping = { // Mappings of game data
 
                 if (entry) {
                     const speed = (tool.speed || 0) + (farm.speed || 0) + premiumBonus;
-                    const xpBonus = (tool.xp || 0) + (farm.xp || 0) + premiumBonus;
+                    const xpBonus = (tool.xp || 0) + (farm.xp || 0) + premiumBonus + (KX.CLAN_XP_BONUS || 0);
                     const xpPerLoop = (entry.xp || 0) * (1 + xpBonus / 100);
                     const msPerLoop = (entry.duration_ms || 0) * Math.max(0.1, 1 - speed / 100);
                     const xpPerHour = msPerLoop > 0 ? (xpPerLoop / (msPerLoop / 1000)) * 3600 : 0;
@@ -758,7 +814,7 @@ KX.mapping = { // Mappings of game data
         rankings.sort((a, b) => b.xph - a.xph);
         console.log("%c--- Best XP Efficiency Rankings (XP/h) ---", "color: #00ff00; font-weight: bold;");
         if (rankings.length === 0) {
-            console.log("Aucune donnée disponible.");
+            console.error("No data available to calculate XP efficiency.");
         } else {
             rankings.forEach((item, index) => {
                 const medal = index === 0 ? "🏆" : (index + 1) + ".";
@@ -877,8 +933,15 @@ KX.mapping = { // Mappings of game data
         if (FightRecapVisible) closeBossRecap();
     }
 
+    //
+    //
+    //
+    // NEEDS AN UPDATE TO WORK WITH THE NEW URL STRUCTURE, CURRENTLY DISABLED
+    //
+    //
+    //
     function DISPLAY_COMBAT_LEVEL(ATK, STR, DEF, HP, MAG, RNG) {
-        const base = (DEF + HP + ATK / 2) / 4;
+        /*const base = (DEF + HP + ATK / 2) / 4;
         const melee = (ATK + STR) * 0.325;
         const magic = MAG * 0.5;
         const ranged = RNG * 0.5;
@@ -897,7 +960,7 @@ KX.mapping = { // Mappings of game data
             parent.append(wrapper);
         } else {
             combatLevel.textContent = combat_level;
-        }
+        }*/
     }
 
     if (document.querySelector('#food-bar')) document.querySelector('#sidebar-hp-bar').after(document.querySelector('#food-bar'));
@@ -912,6 +975,8 @@ KX.mapping = { // Mappings of game data
     REPLACE_ICONS();
     LOCK_SIDEBAR();
     UPDATE_DATA();
+    LOAD_FARM_STATS();
+    LOAD_TOOL_STATS();
 
     try {
         startKoruxaUpdater({ initialDelayMs: 1500, intervalMs: 2000 });
