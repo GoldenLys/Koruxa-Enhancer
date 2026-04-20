@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       2.2
+// @version       2.3
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    https://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
@@ -14,7 +14,7 @@
 // @icon          https://www.google.com/s2/favicons?domain=https://koruxa.com
 // @license       MIT License
 // @grant         unsafeWindow
-// @run-at        document-idle
+// @run-at        document-end
 // @require       https://goldenlys.github.io/Koruxa-Enhancer/assets/libs/lodash.min.js
 // ==/UserScript==
 
@@ -59,6 +59,7 @@ KX.mapping = { // Mappings of game data
 
     var isKXReady = false;
     var isReadyFuncRunOnce = false;
+    var isUpdating = false;
 
     fetch('https://goldenlys.github.io/Koruxa-Enhancer/assets/js/data.json').then(response => response.json()).then(data => { KX.KORUXA_CONFIGS = data; })
         .catch(error => console.error('Error loading gamedata JSON:', error));
@@ -245,8 +246,6 @@ KX.mapping = { // Mappings of game data
             if (key === "cycle" && typeof result === "object") entry.value = result;
             else entry.value = result;
         }
-        EXTRACT_SKILLS();
-        //SET_CURRENT_SKILL_CLASS();
         AUTO_CLAN_BOSS();
         REPLACE_IMAGES(imageOverrides);
         if (isKXReady) {
@@ -276,48 +275,13 @@ KX.mapping = { // Mappings of game data
             KX.KORUXA_IS_PREMIUM = document.querySelector("#topbar-premium>span:not([id])") ? true : false;
         }
     }
-    //
-    //
-    //
-    // NEEDS AN UPDATE TO WORK WITH THE NEW URL STRUCTURE, CURRENTLY DISABLED
-    //
-    //
-    //
-    /*function SET_CURRENT_SKILL_CLASS() {
-        const url = window.location.href;
-        const skillMatch = url.match(/[?&]skill=([^&]+)/);
-        const pageMatch = url.match(/[?&]page=([^&]+)/);
-
-        const blacklist = ["slayer", "attack", "strength", "defence", "hitpoints", "magic", "ranged"];
-        let selected = "";
-        if (skillMatch) {
-            const skill = skillMatch[1];
-            if (!blacklist.includes(skill)) selected = skill;
-        } else if (pageMatch && pageMatch[1] === "clan_boss") selected = "clan-boss";
-
-        if (selected) {
-            let bg = document.getElementById("skill-background");
-            if (!bg) {
-                document.body.insertAdjacentHTML('afterbegin', '<div id="skill-background"></div>');
-                bg = document.getElementById("skill-background");
-            }
-            bg.className = `bg-skill ${selected}`;
-            KX.KORUXA_GLOBALS["current-skill"] = selected;
-        }
-    }*/
 
     function GET_CURRENT_SKILL() {
-        const url = window.location.href;
+        KX.KORUXA_GLOBALS["current-skill"] = KX.mapping["current-skill"].value || "";
         const skillBlacklist = ["slayer", "attack", "strength", "defence", "hitpoints", "magic", "ranged"];
         const defaultSkill = "woodcutting";
-        let skill = (KX.KORUXA_GLOBALS["forced-current-skill"] || KX.KORUXA_GLOBALS["current-skill"] || "").toLowerCase().trim();
-
-        if (!skill) {
-            const urlMatch = url.match(/skill=([^&]+)/);
-            if (urlMatch && urlMatch[1]) skill = urlMatch[1].toLowerCase().trim();
-        }
-
-        if (!skill || skillBlacklist.includes(skill)) return defaultSkill;
+        let skill = (KX.KORUXA_GLOBALS["forced-current-skill"] || KX.KORUXA_GLOBALS["current-skill"] || "none").toLowerCase().trim();
+        if (!skill || skill === "none" || skillBlacklist.includes(skill)) return defaultSkill;
         return skill;
     }
 
@@ -490,7 +454,7 @@ KX.mapping = { // Mappings of game data
     }
 
     function GET_LAST_UNLOCK_SKILL(skill, level = 0) {
-        const config = KORUXA_CONFIGS?.[skill];
+        const config = KX.KORUXA_CONFIGS?.[skill];
         if (!config) return [];
         const currentLvl = ((KX.KORUXA_STATS || {})[skill] || {}).level || 1;
         const lvl = level > 0 ? level : currentLvl;
@@ -526,7 +490,7 @@ KX.mapping = { // Mappings of game data
         const actions = GET_LAST_UNLOCK_SKILL(skill);
         if (!actions || actions.length === 0) return null;
 
-        const config = KORUXA_CONFIGS?.[skill] || {};
+        const config = KX.KORUXA_CONFIGS?.[skill] || {};
         const stats = KX.KORUXA_STATS?.[skill] || {};
         const premiumBonus = (KX.KORUXA_IS_PREMIUM ? 20 : 0);
         const currentXP = Number(stats.xp_total) || 0;
@@ -581,7 +545,7 @@ KX.mapping = { // Mappings of game data
 
         if (!skillId || !identifier || !cycle) return null;
 
-        const config = KORUXA_CONFIGS?.[skillId] || {};
+        const config = KX.KORUXA_CONFIGS?.[skillId] || {};
         let itemData = null;
         let finalKey = null;
 
@@ -750,7 +714,7 @@ KX.mapping = { // Mappings of game data
 
         const bC = el.querySelector(".neh-btns");
         if (!bC.hasChildNodes()) {
-            const sks = (typeof KORUXA_CONFIGS === "object") ? Object.keys(KORUXA_CONFIGS) : [skill];
+            const sks = (typeof KX.KORUXA_CONFIGS === "object") ? Object.keys(KX.KORUXA_CONFIGS) : [skill];
             bC.append(...sks.map(k => {
                 const key = k.toLowerCase();
                 const b = document.createElement("button");
@@ -773,7 +737,7 @@ KX.mapping = { // Mappings of game data
     }
 
     function GET_BEST_XP_EFFICIENCY() {
-        const allSkills = Object.keys(KORUXA_CONFIGS || {});
+        const allSkills = Object.keys(KX.KORUXA_CONFIGS || {});
         const rankings = [];
 
         allSkills.forEach(skill => {
@@ -781,7 +745,7 @@ KX.mapping = { // Mappings of game data
 
             if (results && results.length > 0) {
                 const bestAction = results[0];
-                const config = KORUXA_CONFIGS[skill];
+                const config = KX.KORUXA_CONFIGS[skill];
                 const stats = KX.KORUXA_STATS?.[skill] || {};
                 const premiumBonus = (KX.KORUXA_IS_PREMIUM ? 20 : 0);
                 const tool = KX.KORUXA_TOOLS?.[skill] || {};
@@ -933,40 +897,70 @@ KX.mapping = { // Mappings of game data
         if (FightRecapVisible) closeBossRecap();
     }
 
-    //
-    //
-    //
-    // NEEDS AN UPDATE TO WORK WITH THE NEW URL STRUCTURE, CURRENTLY DISABLED
-    //
-    //
-    //
     function DISPLAY_COMBAT_LEVEL(ATK, STR, DEF, HP, MAG, RNG) {
-        /*const base = (DEF + HP + ATK / 2) / 4;
+        const base = (DEF + HP + ATK / 2) / 4;
         const melee = (ATK + STR) * 0.325;
         const magic = MAG * 0.5;
         const ranged = RNG * 0.5;
 
-        const combat_level = base + Math.max(melee, magic, ranged);
+        const combat_level = base + Math.max(melee, magic, ranged) | 0;
 
-        const parent = document.querySelector(".equipment-stats-summary");
+        const parent = document.querySelector(".topbar-right");
         if (!parent) return;
-        let combatLevel = parent.querySelector('.stat-value[data-stat="combat-level"]');
+        let combatLevel = parent.querySelector('.topbar-badge[id="topbar-cb"]');
 
         if (!combatLevel) {
             const wrapper = document.createElement('div');
-            wrapper.className = 'stat-item';
-            wrapper.innerHTML = `<span class="stat-icon">CB</span>
-            <span class="stat-value " data-stat="combat-level">${combat_level}</span>`;
-            parent.append(wrapper);
+            wrapper.className = 'topbar-badge';
+            wrapper.id = 'topbar-cb';
+            wrapper.innerHTML = `CB ${combat_level}`;
+            parent.prepend(wrapper);
         } else {
-            combatLevel.textContent = combat_level;
-        }*/
+            combatLevel.textContent = `CB ${combat_level}`;
+        }
     }
 
-    if (document.querySelector('#food-bar')) document.querySelector('#sidebar-hp-bar').after(document.querySelector('#food-bar'));
-    const observer = new MutationObserver(() => { REPLACE_ICONS(); /*SET_CURRENT_SKILL_CLASS();*/ });
-    observer.observe(document.body, { childList: true, subtree: true });
+    const targetIds = ['session-action', 'session-cycles', 'tab-inventory', 'tab-equipment', 'tab-farms-sidebar'];
 
+    async function REFRESH_ENHANCED_DATA() {
+        if (isUpdating) return;
+        isUpdating = true;
+
+        try {
+            EXTRACT_SKILLS();
+            REPLACE_ICONS();
+            GET_CURRENT_SKILL();
+            LOAD_FARM_STATS();
+            LOAD_TOOL_STATS();
+            console.log("Koruxa Enhanced: Data refreshed.");
+        } catch (e) {
+            console.warn("Koruxa: functions not ready yet.");
+        }
+
+        await new Promise(res => setTimeout(res, 500));
+        isUpdating = false;
+    }
+
+    const observer = new MutationObserver((mutations) => {s
+        const hit = mutations.some(m => {
+            return targetIds.some(id => m.target.closest?.(`#${id}`));
+        });
+
+        if (hit) REFRESH_ENHANCED_DATA();
+    });
+
+    const init = () => {
+        if (document.body) {
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true,
+                attributes: true
+            });
+            REFRESH_ENHANCED_DATA();
+        } else {
+            setTimeout(init, 100);
+        }
+    };
     LOAD_CSS("https://fonts.googleapis.com/css2?family=Saira:ital,wght@0,100..900;1,100..900&display=swap");
     LOAD_CSS("https://goldenlys.github.io/Koruxa-Enhancer/assets/css/fa-7.2.0.min.css");
     LOAD_CSS("https://goldenlys.github.io/Koruxa-Enhancer/assets/css/rpg-awesome.min.css");
@@ -981,4 +975,5 @@ KX.mapping = { // Mappings of game data
     try {
         startKoruxaUpdater({ initialDelayMs: 1500, intervalMs: 2000 });
     } catch (err) { console.error('Koruxa Enhanced error', err); }
+    init();
 })();
