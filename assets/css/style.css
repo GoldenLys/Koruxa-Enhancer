@@ -69,9 +69,10 @@ body {
     background: rgb(68 151 156 / 10%);
     border: 1px solid rgb(82 181 187 / 35%);
     box-shadow: inset 0 0 8px rgb(82 181 187 / 30%);
-    border-radius: 10px;
+    border-radius: 0px;
+    border-left: none;
+    border-right: none;
     padding: 10px 12px;
-    margin-bottom: 8px;
     overflow: hidden;
 }
 
