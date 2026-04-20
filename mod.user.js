@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       2.4
+// @version       2.5
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    https://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
@@ -24,7 +24,6 @@
 */
 
 const KX = unsafeWindow;
-// Additional global variables for easier access, mostly based on HTML elements
 KX.KORUXA_GLOBALS = {
     "forced-current-skill": "none",
     "target-level": 0,
@@ -191,45 +190,45 @@ KX.mapping = { // Mappings of game data
         return el.value || text;
     }
 
-    async function simulateSkillHover(duration = 500) {
-        const skills = document.querySelectorAll('.skill-item[data-skill], .skill-link[data-skill]');
+    async function simulateSkillHover(type = "all", duration = 10) {
+        const selector = type === "all"
+            ? '.skill-item[data-skill], .skill-link[data-skill]'
+            : `.skill-item[data-skill="${type}"], .skill-link[data-skill="${type}"]`;
+
+        const skills = document.querySelectorAll(selector);
 
         for (const skill of skills) {
             const skillName = skill.getAttribute('data-skill') || skill.innerText.trim().toLowerCase();
 
-            if (typeof showSkillTooltip === 'function') {
-                showSkillTooltip(skill, skillName);
-            }
-
+            if (typeof showSkillTooltip === 'function') showSkillTooltip(skill, skillName);
             await new Promise(r => setTimeout(r, duration));
-            if (typeof hideSkillTooltip === 'function') { hideSkillTooltip(); }
-
+            if (typeof hideSkillTooltip === 'function') hideSkillTooltip();
         }
     }
 
-    // Extracts all skills data
-    async function EXTRACT_SKILLS() {
-        await simulateSkillHover(10);
+    function parseAndStoreSkillData(tip) {
+        let name = tip.id.replace("stt-", "").toLowerCase();
+        if (name === "alt.magic") name = "alchemy"; // ion know if this is still used but just in case lol
 
-        document.querySelectorAll(".skill-tooltip").forEach(tip => {
-            let name = tip.id.replace("stt-", "").toLowerCase();
-            if (name === "alt.magic") name = "alchemy"; // not required anymore i think, keeping it just in case
+        const level = parseInt(document.getElementById(`sl-${name}`)?.textContent) || 1;
+        const totalXP = parseInt(tip.querySelector(".skill-tt-total strong")?.textContent.replace(/,/g, "")) || 0;
+        const baseXPForLevel = GET_XP(level, "Total");
+        const currentXPInLevel = totalXP - baseXPForLevel;
+        const requiredXPForNext = xpToNext[level - 1] || 0;
 
-            const level = parseInt(document.getElementById("sl-" + name)?.textContent) || 1;
-            const totalXP = parseInt(tip.querySelector(".skill-tt-total strong")
-                ?.textContent.replace(/,/g, "")) || 0;
+        KX.KORUXA_STATS[name] = {
+            level: level,
+            xp_current: currentXPInLevel,
+            xp_needed: requiredXPForNext,
+            xp_total: totalXP
+        };
+    }
+    async function EXTRACT_SKILLS(type = "all") {
+        await simulateSkillHover(type, 10);
+        const tooltipSelector = type === "all" ? ".skill-tooltip" : `.skill-tooltip#stt-${type}`;
 
-            const baseXPForLevel = GET_XP(level, "Total");
-            const currentXPInLevel = totalXP - baseXPForLevel;
-            const requiredXPForNext = xpToNext[level - 1] || 0;
+        document.querySelectorAll(tooltipSelector).forEach(parseAndStoreSkillData);
 
-            KX.KORUXA_STATS[name] = {
-                level: level,
-                xp_current: currentXPInLevel,
-                xp_needed: requiredXPForNext,
-                xp_total: totalXP
-            };
-        });
         if (typeof hideSkillTooltip === 'function') hideSkillTooltip();
         isKXReady = true;
     }
@@ -1015,44 +1014,102 @@ KX.mapping = { // Mappings of game data
         return Math.min(95, finalChance);
     }
 
-    const targetSelectors = ['#session-action', '#session-cycles', '.sidebar-left', '#tab-inventory', '#tab-equipment', '#tab-farms-sidebar'];
+    const targetSelectors = ['#session-action', '#session-cycles', '#tab-inventory', '#tab-equipment', '#tab-farms-sidebar'];
+    const lastValues = new Map();
+    const COOLDOWN_MS = 3000;
+    let lastUpdateTimestamp = 0;
 
-    async function REFRESH_ENHANCED_DATA() {
-        if (isUpdating) return;
+    async function REFRESH_ENHANCED_DATA(isSingleSkillUpdate = false, triggerSelector = "unknown") {
+        const now = Date.now();
+        if (isUpdating || (now - lastUpdateTimestamp < COOLDOWN_MS)) return;
+
         isUpdating = true;
+        lastUpdateTimestamp = now;
+        observer.disconnect();
 
         try {
-            EXTRACT_SKILLS();
+            const skillType = isSingleSkillUpdate ? KX.mapping["current_skill"].value : "all";
+            await EXTRACT_SKILLS(skillType);
+
             REPLACE_ICONS();
             GET_CURRENT_SKILL();
             LOAD_FARM_STATS();
             LOAD_TOOL_STATS();
             HIGHLIGHT_LEADERBOARD();
-            console.log("Koruxa Enhanced: Data refreshed.");
+
+            const mode = isSingleSkillUpdate ? `Single Skill (${skillType})` : "Full";
+            console.log(`Koruxa Enhanced: Data refreshed (${mode} via ${triggerSelector}).`);
         } catch (e) {
             console.warn("Koruxa: functions not ready yet.");
         }
 
-        await new Promise(res => setTimeout(res, 500));
+        observe();
         isUpdating = false;
     }
 
     const observer = new MutationObserver((mutations) => {
-        const hit = mutations.some(m => {
-            return targetSelectors.some(selector => m.target.closest?.(selector));
-        });
+        let activeSelector = null;
+        let isSingleSkillUpdate = false;
 
-        if (hit) REFRESH_ENHANCED_DATA();
+        for (const m of mutations) {
+            const target = m.target;
+            if (!target.closest) continue;
+
+            for (const selector of targetSelectors) {
+                const element = target.closest(selector);
+                if (element) {
+                    const currentText = element.innerText || element.textContent;
+
+                    if (selector.startsWith('#session-')) {
+                        if (lastValues.get(selector) === currentText) continue;
+                        lastValues.set(selector, currentText);
+                    }
+
+                    activeSelector = selector;
+
+                    if (selector === '#session-cycles' || selector === '#tab-inventory') {
+                        isSingleSkillUpdate = true;
+                    }
+                    break;
+                }
+            }
+            if (isSingleSkillUpdate) break;
+        }
+
+        if (activeSelector) {
+            REFRESH_ENHANCED_DATA(isSingleSkillUpdate, activeSelector);
+        }
     });
 
-    const init = () => {
+    const handleSidebarClick = (e) => {
+        const sidebar = e.target.closest('.sidebar-left, .sidebar-right');
+        if (sidebar) {
+            const name = sidebar.classList.contains('sidebar-left') ? '.sidebar-left' : '.sidebar-right';
+            REFRESH_ENHANCED_DATA(false, `Click on ${name}`);
+        }
+    };
+
+    const observe = () => {
         if (document.body) {
             observer.observe(document.body, {
                 childList: true,
                 subtree: true,
-                attributes: true
+                characterData: true
             });
-            REFRESH_ENHANCED_DATA();
+        }
+    };
+
+    const init = () => {
+        if (document.body) {
+            targetSelectors.forEach(s => {
+                const el = document.querySelector(s);
+                if (el) lastValues.set(s, el.innerText || el.textContent);
+            });
+
+            document.addEventListener('click', handleSidebarClick);
+
+            observe();
+            REFRESH_ENHANCED_DATA(false, "Initial Load");
         } else {
             setTimeout(init, 100);
         }
