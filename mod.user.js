@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       2.3
+// @version       2.4
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    https://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
@@ -34,7 +34,6 @@ KX.KORUXA_CONFIGS = {};
 KX.KORUXA_STATS = {};
 KX.KORUXA_TOOLS = {};
 KX.KORUXA_FARMS = {};
-//KX.KORUXA_SKILL_CONFIGS = {}; // DEBUG ENV ONLY
 KX.__koruxa_intervals = KX.__koruxa_intervals || [];
 KX.__koruxa_updater_started = KX.__koruxa_updater_started || false;
 KX.mapping = { // Mappings of game data
@@ -77,8 +76,6 @@ KX.mapping = { // Mappings of game data
         "/logs/log_worldtree.png": "https://goldenlys.github.io/Koruxa-Enhancer/assets/images/items/log_worldtree.webp",
         "/bars/dustite_bar.png": "https://goldenlys.github.io/Koruxa-Enhancer/assets/images/items/dustite_bar.webp",
     };
-
-    //KX.KORUXA_SKILL_CONFIGS = KORUXA_CONFIGS; // DEBUG ENV ONLY
 
     // Mappings for REPLACE_ICONS()
     const iconReplacements = {
@@ -270,6 +267,8 @@ KX.mapping = { // Mappings of game data
         if (isKXReady && !isReadyFuncRunOnce) {
             isReadyFuncRunOnce = true;
             GET_BEST_XP_EFFICIENCY();
+            DISPLAY_THIEVING_GOLD_RANKING();
+            HIGHLIGHT_LEADERBOARD();
             LOAD_FARM_STATS();
             LOAD_TOOL_STATS();
             KX.KORUXA_IS_PREMIUM = document.querySelector("#topbar-premium>span:not([id])") ? true : false;
@@ -482,16 +481,14 @@ KX.mapping = { // Mappings of game data
     }
 
     function CALC_SKILL_LEVEL_UP(skill, targetLevel = 0) {
-        const BLACKLISTED_CATEGORIES = [
-            'magic_gear',
-            'ranged_gear'
-        ];
+        const BLACKLISTED_CATEGORIES = ['magic_gear', 'ranged_gear'];
 
         const actions = GET_LAST_UNLOCK_SKILL(skill);
         if (!actions || actions.length === 0) return null;
 
         const config = KX.KORUXA_CONFIGS?.[skill] || {};
         const stats = KX.KORUXA_STATS?.[skill] || {};
+        const currentLevel = Number(stats.level) || 1;
         const premiumBonus = (KX.KORUXA_IS_PREMIUM ? 20 : 0);
         const currentXP = Number(stats.xp_total) || 0;
         const targetXP = targetLevel > 0 ? GET_XP(targetLevel, "total") : (Number(stats.xp_needed) || 0);
@@ -501,18 +498,24 @@ KX.mapping = { // Mappings of game data
             const label = e.label ?? action;
             const tools = KX.KORUXA_TOOLS?.[skill] || {};
             const farms = KX.KORUXA_FARMS?.[skill] || {};
+
+            let successChance = 100;
+            if (skill === 'thieving') {
+                successChance = GET_THIEVING_CHANCE(currentLevel, e);
+            }
+
             const speed = (tools.speed || 0) + (farms.speed || 0) + premiumBonus;
             const xpBonus = (tools.xp || 0) + (farms.xp || 0) + premiumBonus + (KX.CLAN_XP_BONUS || 0);
-            const xpPerLoop = (e.xp || 0) * (1 + xpBonus / 100);
+            const effectiveXP = (e.xp || 0) * (successChance / 100);
+            const xpPerLoop = effectiveXP * (1 + xpBonus / 100);
             const msPerLoop = (e.duration_ms || 0) * Math.max(0, 1 - speed / 100);
-
             if (xpLeft <= 0 || xpPerLoop <= 0) return { skill, action, label, loops: 0, time: "0s", required: 0 };
-
             const loops = Math.ceil(xpLeft / xpPerLoop);
             const rawIng = e.ingredients || e.recipe || e.input || {};
 
             return {
                 skill, action, label,
+                success_chance: successChance,
                 required: Math.round(xpPerLoop * loops),
                 loops,
                 ingredients_list: Object.fromEntries(Object.entries(rawIng).map(([k, v]) => [k, v * loops])),
@@ -526,7 +529,16 @@ KX.mapping = { // Mappings of game data
                 return _.map(actions, (action) => {
                     const e = catContent?.[action] || (catName === action ? catContent : null);
                     if (!e || !e.xp) return null;
-                    return { action, entry: e, ratio: e.xp / Math.max(1, e.duration_ms) };
+
+                    let chance = 100;
+                    if (skill === 'thieving') {
+                        chance = GET_THIEVING_CHANCE(currentLevel, e);
+                    }
+
+                    const effectiveXP = e.xp * (chance / 100);
+                    const ratio = effectiveXP / Math.max(1, e.duration_ms);
+
+                    return { action, entry: e, ratio: ratio };
                 });
             })
             .compact()
@@ -536,6 +548,61 @@ KX.mapping = { // Mappings of game data
             .value();
 
         return _.map(bestActions, (c) => compute(c.action, c.entry));
+    }
+
+    function GET_THIEVING_PROFIT_STATS(actionId) {
+        const thievingConfig = KX.KORUXA_CONFIGS?.thieving || {};
+        const data = thievingConfig[actionId];
+        if (!data) return null;
+
+        const stats = KX.KORUXA_STATS?.thieving || {};
+        const currentLevel = Number(stats.level) || 1;
+        const tools = KX.KORUXA_TOOLS?.thieving || {};
+        const farms = KX.KORUXA_FARMS?.thieving || {};
+        const premiumBonus = (KX.KORUXA_IS_PREMIUM ? 20 : 0);
+        const speedBonus = (tools.speed || 0) + (farms.speed || 0) + premiumBonus;
+        const chance = currentLevel >= data.min_level ? GET_THIEVING_CHANCE(currentLevel, data) : 0;
+        const coinsRange = data.coins.split('-').map(Number);
+        const avgCoins = (coinsRange[0] + coinsRange[1]) / 2;
+        const realDurationMs = data.duration_ms * Math.max(0.1, 1 - speedBonus / 100);
+        const goldPerSec = (avgCoins * (chance / 100)) / (realDurationMs / 1000);
+
+        return {
+            key: actionId,
+            label: data.label,
+            level: data.min_level,
+            successChance: chance,
+            goldPerSec: goldPerSec,
+            goldPerHour: goldPerSec * 3600,
+            isUnlocked: currentLevel >= data.min_level
+        };
+    }
+
+    function DISPLAY_THIEVING_GOLD_RANKING() {
+        const thievingConfig = KX.KORUXA_CONFIGS?.thieving;
+        if (!thievingConfig) return;
+
+        const rankings = Object.keys(thievingConfig)
+            .map(id => GET_THIEVING_PROFIT_STATS(id))
+            .filter(item => item !== null)
+            .sort((a, b) => b.goldPerHour - a.goldPerHour);
+
+        console.log("%c--- Best Gold Efficiency for Thieving (Gold/h) ---", "color: #00ff00; font-weight: bold;");
+
+        if (rankings.length === 0) {
+            console.error("No data available to calculate Gold efficiency.");
+        } else {
+            rankings.forEach((item, index) => {
+                const medal = index === 0 ? "🏆" : (index + 1) + ".";
+                const formattedGPH = Math.round(item.goldPerHour).toLocaleString();
+                const color = item.isUnlocked ? "#ffffff" : "#888888";
+
+                console.log(
+                    `%c${medal} [THIEVING Lvl ${item.level}] : ${formattedGPH} Gold/h | Action: ${item.label} (${item.successChance}% success)`,
+                    `color: ${color}`
+                );
+            });
+        }
     }
 
     function CALC_SESSION_XP() {
@@ -913,6 +980,7 @@ KX.mapping = { // Mappings of game data
             const wrapper = document.createElement('div');
             wrapper.className = 'topbar-badge';
             wrapper.id = 'topbar-cb';
+            wrapper.title = 'Combat Level';
             wrapper.innerHTML = `CB ${combat_level}`;
             parent.prepend(wrapper);
         } else {
@@ -920,7 +988,34 @@ KX.mapping = { // Mappings of game data
         }
     }
 
-    const targetIds = ['session-action', 'session-cycles', 'tab-inventory', 'tab-equipment', 'tab-farms-sidebar'];
+    function HIGHLIGHT_LEADERBOARD() {
+        const isPlayerViewingLeaderboard = !!document.querySelector('.skill-link.active[onclick*="leaderboard"]');
+        if (!isPlayerViewingLeaderboard) return;
+
+        console.log("Koruxa Enhanced: Highlighting player on leaderboard.");
+        const targetName = KX.mapping.username.value;
+        const rows = document.querySelectorAll('.lb-row');
+
+        rows.forEach(row => {
+            const nameElement = row.querySelector('span[onclick*="profile/"]');
+
+            if (nameElement && nameElement.textContent.trim() === targetName) {
+                row.classList.add('active');
+            }
+        });
+    }
+
+    function GET_THIEVING_CHANCE(currentLevel, base_chance) {
+        const { min_level, success_chance } = base_chance;
+
+        if (currentLevel < min_level) return 0;
+
+        const levelDifference = currentLevel - min_level;
+        const finalChance = success_chance + levelDifference;
+        return Math.min(95, finalChance);
+    }
+
+    const targetSelectors = ['#session-action', '#session-cycles', '.sidebar-left', '#tab-inventory', '#tab-equipment', '#tab-farms-sidebar'];
 
     async function REFRESH_ENHANCED_DATA() {
         if (isUpdating) return;
@@ -932,6 +1027,7 @@ KX.mapping = { // Mappings of game data
             GET_CURRENT_SKILL();
             LOAD_FARM_STATS();
             LOAD_TOOL_STATS();
+            HIGHLIGHT_LEADERBOARD();
             console.log("Koruxa Enhanced: Data refreshed.");
         } catch (e) {
             console.warn("Koruxa: functions not ready yet.");
@@ -941,9 +1037,9 @@ KX.mapping = { // Mappings of game data
         isUpdating = false;
     }
 
-    const observer = new MutationObserver((mutations) => {s
+    const observer = new MutationObserver((mutations) => {
         const hit = mutations.some(m => {
-            return targetIds.some(id => m.target.closest?.(`#${id}`));
+            return targetSelectors.some(selector => m.target.closest?.(selector));
         });
 
         if (hit) REFRESH_ENHANCED_DATA();

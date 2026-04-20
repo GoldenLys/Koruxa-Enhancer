@@ -11644,7 +11644,7 @@
       "min_level": 1,
       "xp": 10,
       "coins": "3-10",
-      "success_chance": 95,
+      "success_chance": 80,
       "duration_ms": 4000
     },
     "market_stall": {
@@ -11653,7 +11653,7 @@
       "min_level": 10,
       "xp": 20,
       "coins": "10-20",
-      "success_chance": 95,
+      "success_chance": 75,
       "duration_ms": 6000
     },
     "citizen": {
@@ -11662,7 +11662,7 @@
       "min_level": 25,
       "xp": 25,
       "coins": "25-60",
-      "success_chance": 88,
+      "success_chance": 65,
       "duration_ms": 7000
     },
     "merchant": {
@@ -11671,7 +11671,7 @@
       "min_level": 40,
       "xp": 40,
       "coins": "50-100",
-      "success_chance": 59,
+      "success_chance": 55,
       "duration_ms": 9000
     },
     "noble": {
@@ -11680,7 +11680,7 @@
       "min_level": 55,
       "xp": 55,
       "coins": "100-200",
-      "success_chance": 0,
+      "success_chance": 40,
       "duration_ms": 16000
     },
     "treasure_chest": {
@@ -11689,7 +11689,7 @@
       "min_level": 70,
       "xp": 65,
       "coins": "100-250",
-      "success_chance": 0,
+      "success_chance": 35,
       "duration_ms": 18000
     },
     "royal_guard": {
@@ -11698,7 +11698,7 @@
       "min_level": 85,
       "xp": 80,
       "coins": "150-300",
-      "success_chance": 0,
+      "success_chance": 30,
       "duration_ms": 21000
     },
     "vault": {
@@ -11707,7 +11707,7 @@
       "min_level": 95,
       "xp": 100,
       "coins": "200-350",
-      "success_chance": 0,
+      "success_chance": 20,
       "duration_ms": 25000
     }
   },

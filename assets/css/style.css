@@ -579,3 +579,13 @@ li[data-skill="ranged"] .skill-icon>i {
     font-family: "Saira", sans-serif;
     font-weight: 600;
 }
+
+img[style="width:18px;height:18px;image-rendering:pixelated"] {
+    width: 32px !important;
+    height: 32px !important;
+    image-rendering: auto !important;
+}
+
+.lb-row.active {
+    background: rgb(3 255 146 / 10%);
+}
