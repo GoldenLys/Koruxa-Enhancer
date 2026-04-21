@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       2.51
+// @version       2.6
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    https://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
@@ -27,12 +27,14 @@ const KX = unsafeWindow;
 KX.KORUXA_GLOBALS = {
     "forced-current-skill": "none",
     "target-level": 0,
-    "sidebar-state": "lsb-locked-closed"
+    "sidebar-state": "lsb-locked-closed",
+    "clan-xp-bonus": 0,
 };
 KX.KORUXA_CONFIGS = {};
 KX.KORUXA_STATS = {};
 KX.KORUXA_TOOLS = {};
 KX.KORUXA_FARMS = {};
+KX.KORUXA_ENHANCED = { isKXLoaded: false, isKXReady: false, isReadyFuncRunOnce: false, isUpdating: false };
 KX.__koruxa_intervals = KX.__koruxa_intervals || [];
 KX.__koruxa_updater_started = KX.__koruxa_updater_started || false;
 KX.mapping = { // Mappings of game data
@@ -51,13 +53,30 @@ KX.mapping = { // Mappings of game data
     cycle: { selector: "#session-cycles-row2", value: { current: "0", total: "0" } },
     "session-xp-rate": { selector: "#topbar-xph", value: "0" },
 };
+KX.Institute = {
+    // Gathering researches - 6 available
+    WoodcuttersEdge: { name: "Woodcutter's Edge", effect: { type: "xp_bonus", value: 0.3, skill: "woodcutting" }, level: 0, maxLevel: 50, },
+    MinersEye: { name: "Miner's Eye", effect: { type: "xp_bonus", value: 0.3, skill: "mining" }, level: 0, maxLevel: 50, },
+    FishersPatience: { name: "Fisher's Patience", effect: { type: "xp_bonus", value: 0.3, skill: "fishing" }, level: 0, maxLevel: 50 },
+    GatherersTrove: { name: "Gatherer's Trove", effect: { type: "double_drop", value: 0.15, skill: "all_gathering" }, level: 0, maxLevel: 50 },
+    RareInsight: { name: "Rare Insight", effect: { type: "rare_drop_bonus", value: 0.1, skill: "all_gathering" }, level: 0, maxLevel: 50 },
+    EfficientHarvest: { name: "Efficient Harvest", effect: { type: "max_speed_cap", value: 0.06, skill: "all_gathering" }, level: 0, maxLevel: 50 }, // max base speed cap is 95%, at level 50 with this it's 98%
+
+    // Artisan researches - 6 available
+    
+
+    // Combat researches - 6 available
+
+    // Global researches - 6 available
+
+    // Meta researches - 3 available
+    ResearchVelocity: { name: "Research Velocity", effect: { type: "research_speed_bonus", value: 1.0 }, level: 0, maxLevel: 75 },
+    CostReduction: { name: "Cost Reduction", effect: { type: "research_cost_reduction", value: -0.3 }, level: 0, maxLevel: 50 },
+    ApprenticeTraining: { name: "Apprentice Training", effect: { type: "research_materials_reduction", value: -0.5 }, level: 0, maxLevel: 50 }
+}
 
 (function () {
     'use strict';
-
-    var isKXReady = false;
-    var isReadyFuncRunOnce = false;
-    var isUpdating = false;
 
     fetch('https://goldenlys.github.io/Koruxa-Enhancer/assets/js/data.json').then(response => response.json()).then(data => { KX.KORUXA_CONFIGS = data; })
         .catch(error => console.error('Error loading gamedata JSON:', error));
@@ -163,38 +182,41 @@ KX.mapping = { // Mappings of game data
     function EXTRACT_DATA(selector, key = "") {
         const el = document.querySelector(selector);
         if (!el) return "(not found)";
-        const text = el.textContent.trim();
+        let text = el.textContent.trim();
 
         switch (selector) {
             case "#topbar-total-level": {
+                if (!text) return "(no text)";
                 const num = el.childNodes[0]?.textContent.match(/\d+/);
                 return num ? num[0] : "(no number)";
             }
 
             case "#topbar-coins-text": {
+                if (!text) return "(no text)";
                 const num = text.match(/[\d.]+/);
                 return num ? num[0] : "(no number)";
             }
 
             case "#session-cycles-row2": {
+                if (!text || text == "0 ticks") text = "0/0 ticks · 0s/tick";
                 const m = text.match(/(\d+)\s*\/\s*(\d+)/);
                 if (m[1] !== KORUXA_GLOBALS.cycle?.current || m[2] !== KORUXA_GLOBALS.cycle?.total) {
                     EXTRACT_SKILLS(KX.KORUXA_GLOBALS["current-skill"]);
-                    console.log(`Koruxa Enhanced: Data refreshed (Single via session cycle).`);
                 }
                 return m ? { current: m[1], total: m[2] } : "(invalid format)";
             }
 
             case "#session-action-row2": {
+                if (!text || text == "Idle") text = "Doing: nothing";
                 const s = text.match(/([^:]+):\s*(.+)/);
-                if (s[1] !== KX.KORUXA_GLOBALS["current-skill"] || s[2] !== KX.KORUXA_GLOBALS["current-item"]) {
+                if (s[1] !== KX.KORUXA_GLOBALS?.["current-skill"] || s[2] !== KX.KORUXA_GLOBALS?.["current-item"]) {
                     EXTRACT_SKILLS();
-                    console.log(`Koruxa Enhanced: Data refreshed (Full via session action).`);
                 }
                 return s ? key === "current-skill" ? s[1] : s[2] : "(invalid format)";
             }
 
             case "#hp-text": {
+                if (!text) return "(no text)";
                 const hpv = text.match(/(\d+)\/(\d+)/);
                 return hpv ? (key === "current-hp" ? hpv[1] : hpv[2]) : "(invalid format)";
             }
@@ -242,7 +264,6 @@ KX.mapping = { // Mappings of game data
         document.querySelectorAll(tooltipSelector).forEach(parseAndStoreSkillData);
 
         if (typeof hideSkillTooltip === 'function') hideSkillTooltip();
-        isKXReady = true;
     }
 
     // Updates values and create new html elements
@@ -253,30 +274,38 @@ KX.mapping = { // Mappings of game data
             KX.KORUXA_GLOBALS[key] = entry.value;
             if (key === "cycle" && typeof result === "object") entry.value = result;
             else entry.value = result;
+            if (KX.mapping[key].value !== undefined && !KX.KORUXA_ENHANCED.isKXReady) KX.KORUXA_ENHANCED.isKXReady = true;
         }
+        if (!KX.KORUXA_ENHANCED.isKXLoaded && KX.KORUXA_ENHANCED.isKXReady) EXTRACT_SKILLS();
+        if (Object.keys(KX.KORUXA_STATS).length > 0 && Object.keys(KX.KORUXA_CONFIGS).length > 0 && KX.mapping["current-skill"].value !== "Doing" && KX.mapping["cycle"].current !== "0") KX.KORUXA_ENHANCED.isKXLoaded = true;
+
         AUTO_CLAN_BOSS();
         REPLACE_IMAGES(imageOverrides);
-        if (isKXReady) {
-            DISPLAY_COMBAT_LEVEL(KORUXA_STATS.attack.level,
-                KORUXA_STATS.strength.level,
-                KORUXA_STATS.defence.level,
-                KORUXA_STATS.hitpoints.level,
-                KORUXA_STATS.magic.level,
-                KORUXA_STATS.ranged.level);
-            KX.CLAN_XP_BONUS = (() => {
-                const el = document.querySelector("#page-content>div[style]:not([class]):not([id])>div[style*='font-size:10px;']:not([class]):not([id])");
-                if (!el) return 0;
-                const xp = el.textContent.match(/Clan: XP\+(\d+(?:\.\d+)?)%/);
-                return xp ? xp[1] : 0;
-            })();
-            if (typeof KX.CLAN_XP_BONUS === 'number' && KX.CLAN_XP_BONUS !== 0 && typeof KX.KORUXA_GLOBALS["clan-xp-bonus"] !== 'number') {
-                KX.KORUXA_GLOBALS["clan-xp-bonus"] = KX.CLAN_XP_BONUS;
-                NEH_STORAGE('save');
+        if (KX.KORUXA_ENHANCED.isKXReady && KX.KORUXA_ENHANCED.isKXLoaded) {
+            DISPLAY_COMBAT_LEVEL(KORUXA_STATS.attack?.level, KORUXA_STATS.strength?.level,
+                KORUXA_STATS.defence?.level, KORUXA_STATS.hitpoints?.level,
+                KORUXA_STATS.magic?.level, KORUXA_STATS.ranged?.level);
+            const clanEl = document.querySelector("#page-content>div[style]:not([class]):not([id])>div[style*='font-size:10px;']:not([class]):not([id])");
+            if (clanEl) {
+                const match = clanEl.textContent.match(/Clan: XP\+(\d+(?:\.\d+)?)%/);
+                const extractedXP = match ? parseFloat(match[1]) : 0;
+
+                if (extractedXP > Number(KX.CLAN_XP_BONUS || 0)) {
+                    KX.CLAN_XP_BONUS = String(extractedXP);
+                    KX.KORUXA_GLOBALS["clan-xp-bonus"] = KX.CLAN_XP_BONUS;
+                    NEH_STORAGE('save');
+                }
             }
+
+            if (!KX.CLAN_XP_BONUS || KX.CLAN_XP_BONUS === "0") {
+                KX.CLAN_XP_BONUS = KX.KORUXA_GLOBALS["clan-xp-bonus"] || "0";
+            }
+
             if (KX.KORUXA_GLOBALS["current-skill"] !== "Doing") NEH();
         }
-        if (isKXReady && !isReadyFuncRunOnce) {
-            isReadyFuncRunOnce = true;
+        if (KX.KORUXA_ENHANCED.isKXReady && KX.KORUXA_ENHANCED.isKXLoaded && !KX.KORUXA_ENHANCED.isReadyFuncRunOnce) {
+            KX.KORUXA_ENHANCED.isReadyFuncRunOnce = true;
+            ENHANCED_CHAT_LOG(`Koruxa Enhanced is enabled and ready.`, 'success');
             GET_BEST_XP_EFFICIENCY();
             DISPLAY_THIEVING_GOLD_RANKING();
             HIGHLIGHT_LEADERBOARD();
@@ -598,21 +627,20 @@ KX.mapping = { // Mappings of game data
             .filter(item => item !== null)
             .sort((a, b) => b.goldPerHour - a.goldPerHour);
 
-        console.log("%c--- Best Gold Efficiency for Thieving (Gold/h) ---", "color: #00ff00; font-weight: bold;");
+        var RANKING = "[b]Best Gold Efficiency for Thieving (Gold/h)[/b]";
 
         if (rankings.length === 0) {
-            console.error("No data available to calculate Gold efficiency.");
+            ENHANCED_CHAT_LOG("No data available to calculate Gold efficiency.", 'error');
         } else {
             rankings.forEach((item, index) => {
                 const medal = index === 0 ? "🏆" : (index + 1) + ".";
                 const formattedGPH = Math.round(item.goldPerHour).toLocaleString();
                 const color = item.isUnlocked ? "#ffffff" : "#888888";
 
-                console.log(
-                    `%c${medal} [THIEVING Lvl ${item.level}] : ${formattedGPH} Gold/h | Action: ${item.label} (${item.successChance}% success)`,
-                    `color: ${color}`
-                );
+                RANKING += `[newline][normal]${medal} [warning]${formattedGPH} Gold/h[/warning] with ${item.label} [${item.successChance}% success] [Lvl ${item.level}][/normal]`;
+                `[normal]${medal} [warning]${formattedGPH} Gold/h[/warning] with ${item.label} [${item.successChance}% success] [Lvl ${item.level}][/normal]`;
             });
+            ENHANCED_CHAT_LOG(RANKING, 'info');
         }
     }
 
@@ -855,15 +883,16 @@ KX.mapping = { // Mappings of game data
         });
 
         rankings.sort((a, b) => b.xph - a.xph);
-        console.log("%c--- Best XP Efficiency Rankings (XP/h) ---", "color: #00ff00; font-weight: bold;");
+        var RANKING = "[b]Best XP Efficiency Rankings (XP/h)[/b]";
         if (rankings.length === 0) {
-            console.error("No data available to calculate XP efficiency.");
+            ENHANCED_CHAT_LOG("No data available to calculate XP efficiency.", 'error');
         } else {
             rankings.forEach((item, index) => {
                 const medal = index === 0 ? "🏆" : (index + 1) + ".";
                 const formattedXPH = item.xph.toLocaleString(); // Ex: 1,250,000
-                console.log(`${medal} [${item.skill.toUpperCase()} Lvl ${item.level}] : ${formattedXPH} XP/h | Action: ${item.action}`);
+                RANKING += `[newline][normal]${medal} [${item.skill.toUpperCase()} Lvl ${item.level}] : ${formattedXPH} XP/h | Action: ${item.action}[/normal]`;
             });
+            ENHANCED_CHAT_LOG(RANKING, 'info');
         }
     }
 
@@ -872,9 +901,10 @@ KX.mapping = { // Mappings of game data
         KX.__koruxa_updater_started = true;
 
         const tick = () => {
-            if (!document.hidden) {
-                try { UPDATE_DATA(); }
-                catch (err) { console.error("Koruxa Enhanced UPDATE_DATA error", err); }
+            try {
+                UPDATE_DATA();
+            } catch (err) {
+                console.error("Koruxa Enhanced UPDATE_DATA error", err);
             }
         };
 
@@ -884,19 +914,10 @@ KX.mapping = { // Mappings of game data
             tick();
         };
 
-        const startAfterIdle = () => {
-            if ("requestIdleCallback" in window) requestIdleCallback(begin, { timeout: initialDelayMs });
-            else setTimeout(begin, initialDelayMs);
-        };
-
-        if (document.hidden) {
-            const onVisible = () => {
-                document.removeEventListener("visibilitychange", onVisible);
-                startAfterIdle();
-            };
-            document.addEventListener("visibilitychange", onVisible);
+        if ("requestIdleCallback" in window) {
+            requestIdleCallback(begin, { timeout: initialDelayMs });
         } else {
-            startAfterIdle();
+            setTimeout(begin, initialDelayMs);
         }
     }
 
@@ -972,8 +993,14 @@ KX.mapping = { // Mappings of game data
             return;
         }
 
-        if (active && active.textContent === "⚔️ Attack Boss" && !active.hasAttribute('disabled') && !FightRecapVisible) active.click();
-        if (FightRecapVisible) closeBossRecap();
+        if (active && active.textContent === "⚔️ Attack Boss" && !active.hasAttribute('disabled') && !FightRecapVisible) {
+            active.click();
+            ENHANCED_CHAT_LOG("Automatically starting attack on Clan Boss.", 'info');
+        }
+        if (FightRecapVisible) {
+            ENHANCED_CHAT_LOG("Automatically closing Clan Boss fight recap.", 'info');
+            closeBossRecap();
+        }
     }
 
     function DISPLAY_COMBAT_LEVEL(ATK, STR, DEF, HP, MAG, RNG) {
@@ -1004,7 +1031,7 @@ KX.mapping = { // Mappings of game data
         const isPlayerViewingLeaderboard = !!document.querySelector('.skill-link.active[onclick*="leaderboard"]');
         if (!isPlayerViewingLeaderboard) return;
 
-        console.log("Koruxa Enhanced: Highlighting player on leaderboard.");
+        ENHANCED_CHAT_LOG("Highlighting the player on the leaderboard.", 'success');
         const targetName = KX.mapping.username.value;
         const rows = document.querySelectorAll('.lb-row');
 
@@ -1027,14 +1054,101 @@ KX.mapping = { // Mappings of game data
         return Math.min(95, finalChance);
     }
 
+    function CREATE_NEW_CHAT_TAB() {
+        const chatTabsContainer = document.querySelector('#chat-tabs');
+        if (!chatTabsContainer || document.querySelector('#chat-koruxa-enhanced')) return;
+
+        const newButton = document.createElement('button');
+        newButton.className = 'chat-tab';
+        newButton.setAttribute('data-channel', 'koruxa-enhanced');
+        newButton.textContent = 'Koruxa Enhanced';
+        chatTabsContainer.appendChild(newButton);
+
+        chatTabsContainer.addEventListener('click', (e) => {
+            const btn = e.target.closest('.chat-tab');
+            if (btn) {
+                ENHANCED_CHAT_TOGGLE(btn.getAttribute('data-channel'));
+            }
+        });
+
+        const newChatContainer = document.createElement('div');
+        newChatContainer.id = 'chat-koruxa-enhanced';
+        newChatContainer.className = 'chat-messages';
+        newChatContainer.style.display = 'none';
+
+        const defaultChat = document.querySelector('#chat-messages');
+        if (defaultChat && defaultChat.parentNode) {
+            defaultChat.parentNode.insertBefore(newChatContainer, defaultChat.nextSibling);
+        }
+    }
+
+    function ENHANCED_CHAT_TOGGLE(channel) {
+        const activeTab = document.querySelector('.chat-tab.active');
+        if (channel === 'koruxa-enhanced' && activeTab?.getAttribute('data-channel') === 'koruxa-enhanced') return;
+
+        const defaultChat = document.querySelector('#chat-messages');
+        const enhancedChat = document.querySelector('#chat-koruxa-enhanced');
+        const chatMessageBar = document.querySelector('#chat-input-row');
+        if (!enhancedChat) return;
+
+        document.querySelectorAll('.chat-tab').forEach(tab => {
+            tab.classList.toggle('active', tab.getAttribute('data-channel') === channel);
+        });
+
+        if (channel === 'koruxa-enhanced') {
+            if (defaultChat) defaultChat.style.display = 'none';
+            enhancedChat.style.display = '';
+            // add class disabled
+            chatMessageBar.classList.add('disabled');
+
+        } else {
+            if (defaultChat) defaultChat.style.display = '';
+            enhancedChat.style.display = 'none';
+            chatMessageBar.classList.remove('disabled');
+        }
+    }
+
+    function ENHANCED_CHAT_LOG(message, type = 'info') {
+        const chatContainer = document.querySelector('#chat-koruxa-enhanced');
+        if (!chatContainer) return;
+
+        const now = new Date();
+        const pad = (num) => String(num).padStart(2, '0');
+        const timestamp = `${now.getHours()}:${pad(now.getMinutes())} ${now.getHours() >= 12 ? 'PM' : 'AM'}`;
+
+        let safeMessage = typeof _ !== 'undefined' ? _.escape(message) : message;
+
+        safeMessage = safeMessage
+            .replace(/\n/g, '<br>')
+            .replace(/&lt;br\s*\/?&gt;/gi, '<br>')
+            .replace(/\[b\](.*?)\[\/b\]/gi, '<b>$1</b>')
+            .replace(/\[u\](.*?)\[\/u\]/gi, '<u>$1</u>')
+            .replace(/\[success\](.*?)\[\/success\]/gi, '<span class="message-success">$1</span>')
+            .replace(/\[info\](.*?)\[\/info\]/gi, '<span class="message-info">$1</span>')
+            .replace(/\[error\](.*?)\[\/error\]/gi, '<span class="message-error">$1</span>')
+            .replace(/\[warning\](.*?)\[\/warning\]/gi, '<span class="message-warning">$1</span>')
+            .replace(/\[normal\](.*?)\[\/normal\]/gi, '<span class="message-normal">$1</span>')
+            .replace(/\[newline\]/gi, '<br>');
+
+        const messageHTML = `
+        <div class="chat-msg neh-message chat-type-${type}">
+            <span class="chat-time">${timestamp}</span>
+            <span class="chat-user chat-user-system">SYSTEM</span>
+            <span class="chat-text">${safeMessage}</span>
+        </div>`;
+
+        chatContainer.insertAdjacentHTML('beforeend', messageHTML);
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+
     const targetSelectors = ['#tab-inventory', '#tab-equipment', '#tab-farms-sidebar'];
     const COOLDOWN_MS = 3000;
     let lastUpdateTimestamp = 0;
 
     async function REFRESH_ENHANCED_DATA(isSingleSkillUpdate = false, triggerSelector = "unknown") {
         const now = Date.now();
-        if (isUpdating || (now - lastUpdateTimestamp < COOLDOWN_MS)) return;
-        isUpdating = true;
+        if (KX.KORUXA_ENHANCED.isUpdating || (now - lastUpdateTimestamp < COOLDOWN_MS)) return;
+        KX.KORUXA_ENHANCED.isUpdating = true;
         lastUpdateTimestamp = now;
         observer.disconnect();
 
@@ -1049,11 +1163,10 @@ KX.mapping = { // Mappings of game data
             HIGHLIGHT_LEADERBOARD();
 
             const mode = isSingleSkillUpdate ? `Single Skill (${skillType})` : "Full";
-            console.log(`Koruxa Enhanced: Data refreshed (${mode} via ${triggerSelector}).`);
         } catch (e) { }
 
         observe();
-        isUpdating = false;
+        KX.KORUXA_ENHANCED.isUpdating = false;
     }
 
     const observer = new MutationObserver((mutations) => {
@@ -1118,6 +1231,7 @@ KX.mapping = { // Mappings of game data
     UPDATE_DATA();
     LOAD_FARM_STATS();
     LOAD_TOOL_STATS();
+    CREATE_NEW_CHAT_TAB();
 
     try {
         startKoruxaUpdater({ initialDelayMs: 1500, intervalMs: 2000 });
