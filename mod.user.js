@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       2.7
+// @version       2.71
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    https://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
@@ -635,7 +635,7 @@ KX.mapping = { // Mappings of game data
         const speedBonus = (tools.speed || 0) + (farms.speed || 0) + premiumBonus;
         const chance = currentLevel >= data.min_level ? GET_THIEVING_CHANCE(currentLevel, data) : 0;
         const coinsRange = data.coins.split('-').map(Number);
-        const avgCoins = ((coinsRange[0] + coinsRange[1]) / 2) + (((coinsRange[0] + coinsRange[1]) / 2) * GoldFindBonus / 100);
+        const avgCoins = ((coinsRange[0] + coinsRange[1]) / 2) * (1 + GoldFindBonus / 100); 
         const realDurationMs = data.duration_ms * Math.max(0.1, 1 - speedBonus / 100);
         const goldPerSec = (avgCoins * (chance / 100)) / (realDurationMs / 1000);
         
@@ -687,7 +687,7 @@ KX.mapping = { // Mappings of game data
         let itemData = null;
         let finalKey = null;
 
-        const searchStr = identifier.toString().toLowerCase().trim();
+        const searchStr = identifier.toString().toLowerCase().trim().replace(" ", "_");
 
         for (const [key, value] of Object.entries(config)) {
             if (!value || typeof value !== 'object') continue;
