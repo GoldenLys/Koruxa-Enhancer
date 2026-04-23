@@ -12816,6 +12816,48 @@
       "output_item": "elderbloom",
       "output_amount": 1,
       "image": "assets/img/items/elderbloom.png"
+    },
+    "ashes_to_bones": {
+      "label": "Ashes to Bones",
+      "category": "utility",
+      "min_level": 5,
+      "xp": 12,
+      "duration_ms": 8000,
+      "ingredients": {
+        "ashes": 5,
+        "aetherite_rune": 1
+      },
+      "output_item": "bones",
+      "output_amount": 1,
+      "image": "assets/img/items/bones.png"
+    },
+    "mystic_ashes_to_bones": {
+      "label": "Mystic Ashes to Big Bones",
+      "category": "utility",
+      "min_level": 40,
+      "xp": 55,
+      "duration_ms": 12000,
+      "ingredients": {
+        "mystic_ashes": 3,
+        "voidstone_rune": 1
+      },
+      "output_item": "big_bones",
+      "output_amount": 1,
+      "image": "assets/img/items/big_bones.png"
+    },
+    "elder_ashes_to_dragon_bones": {
+      "label": "Elder Ashes to Dragon Bones",
+      "category": "utility",
+      "min_level": 90,
+      "xp": 140,
+      "duration_ms": 18000,
+      "ingredients": {
+        "elder_ashes": 2,
+        "prismite_rune": 1
+      },
+      "output_item": "big_bones",
+      "output_amount": 1,
+      "image": "assets/img/items/big_bones.png"
     }
   }
 }

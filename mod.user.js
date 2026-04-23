@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       2.71
+// @version       2.72
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    https://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
@@ -39,7 +39,7 @@ KX.KORUXA_GLOBALS = {
         EfficientHarvest: { name: "Efficient Harvest", effect: { category: "gathering", type: "max_speed_cap", value: 0.06, skill: "all_gathering" }, level: 0, maxLevel: 50 }, // max base speed cap is 95%, at level 50 with this it's 98%
 
         // Artisan researches - 6 available
-        MasterCrafter: { name: "Master Crafter", effect: { category: "artisan", type: "xp_bonus", value: 1.14, skills: ["cooking", "smithing", "crafting", "fletching", "herblore"] }, level: 0, maxLevel: 50 },
+        MasterCrafter: { name: "Master Crafter", effect: { category: "artisan", type: "xp_bonus", value: 1.14, skills: ["cooking", "smithing", "crafting", "fletching", "herblore", "firemaking"] }, level: 0, maxLevel: 50 },
         ResourceFrugality: { name: "Resource Frugality", effect: { category: "artisan", type: "crafting_materials_reduction", value: -0.1, skill: "all_artisan" }, level: 0, maxLevel: 50 },
         BonusYield: { name: "Bonus Yield", effect: { category: "artisan", type: "double_drop", value: 0.1, skill: "all_artisan" }, level: 0, maxLevel: 50 },
         FireControl: { name: "Fire Control", effect: { category: "artisan", type: "firemaking_success_rate_bonus", value: -0.15, skill: "firemaking" }, level: 0, maxLevel: 50 },
