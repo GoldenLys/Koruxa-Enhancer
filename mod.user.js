@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       2.72
+// @version       2.73
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    https://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
@@ -1003,6 +1003,7 @@ KX.mapping = { // Mappings of game data
             if (data) {
                 KX.KORUXA_GLOBALS["sidebar-state"] = parsed_data["sidebar-state"] || "lsb-locked-closed";
                 KX.KORUXA_GLOBALS.Institute = parsed_data.Institute;
+                KX.KORUXA_GLOBALS["clan-xp-bonus"] = parsed_data["clan-xp-bonus"] || 0;
             }
         }
     }
