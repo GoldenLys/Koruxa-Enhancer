@@ -621,3 +621,7 @@ img[style="width:18px;height:18px;image-rendering:pixelated"] {
 .lb-row.active {
     background: rgb(3 255 146 / 10%);
 }
+
+div[style*="background:#1a1a2e"] {
+    background: rgb(19 30 49) !important;
+}
