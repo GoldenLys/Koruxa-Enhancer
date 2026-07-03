@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       2.8
+// @version       2.81
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    https://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
@@ -1066,13 +1066,14 @@ KX.mapping = { // Mappings of game data
 
         const active = document.querySelector('.cb-card button');
         if (!active || !isOnClanBoss) return;
-        if (!active && isOnClanBoss) {
-            if (BossTimerStatus && /ready/i.test(BossTimerStatus)) window.location.reload();
-        };
+        
         if (active.textContent === "🚫 No Attempts Left" && !active.hasAttribute('disabled')) {
             active.setAttribute('disabled', true);
             return;
         }
+        if (active.textContent === "🚫 No Attempts Left"  && isOnClanBoss) {
+            if (BossTimerStatus && /ready/i.test(BossTimerStatus)) window.location.reload();
+        };
 
         if (active && active.textContent === "⚔️ Attack Boss" && !active.hasAttribute('disabled') && !FightRecapVisible) {
             active.click();
