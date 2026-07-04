@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       2.81
+// @version       2.82
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    https://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
@@ -21,6 +21,28 @@
 /* TODO & Ideas List
  - (Maybe) add "Stats" tab with more stats
  - Make the plus button generate a formula to reach the desired level with the less amount of time 
+
+ /find all masteries
+  const data = await api('mastery/catalog');
+  const catalog = (data && data.catalog) || [];
+
+  const available_masteries_skill = [
+    "woodcutting", "mining", "fishing", "cooking", "fletching", "crafting", "herblore", "smithing", "firemaking", "arcana", "thieving", "farming", "alchemy", "combat", "slayer",
+  ]
+
+  mastery_bonuses = {
+    50: { xp: 0.05, speed: 0.0 },
+    100: { xp: 0.10, speed: 0.0 },
+    150: { xp: 0.15, speed: 0.0 },
+    200: { xp: 0.20, speed: 0.0 },
+    250: { xp: 0.25, speed: 0.0 },
+    300: { xp: 0.30, speed: 0.0 },
+    350: { xp: 0.35, speed: 0.0 },
+    400: { xp: 0.40, speed: 0.0 },
+    450: { xp: 0.45, speed: 0.0 },
+    500: { xp: 0.50, speed: 0.0 },
+  }
+  
 */
 
 const KX = unsafeWindow;
@@ -202,9 +224,10 @@ KX.mapping = { // Mappings of game data
         28337, 31171, 34273, 37668, 41383, 45446, 49888, 54745, 60054, 65854, 72191, 79112, 86669, 94920, 103925, 113752, 124475, 136171, 148927,
         162837, 178002, 194533, 212549, 232181, 253569, 276869, 302246, 329881, 359971, 392728, 428386, 467193, 509424, 555374, 605364, 659742, 718886,
         783205, 853144, 929185, 1011850, 1101706, 1199369, 1305503, 1420833, 1546140, 1682274, 1830156, 1990782, 2165234, 2354683, 2560400, 2783760,
-        3026253, 3289495, 3575236, 3885371, 4221954, 4587210, 4983547, 5413575, 5880121, 6386245, 6935261, 7530760, 8176626, 8877068, 9636642
-    ];
-
+        3026253, 3289495, 3575236, 3885371, 4221954, 4587210, 4983547, 5413575, 5880121, 6386245, 6935261, 7530760, 8176626, 8877068, 9636642, 10480976,
+        11399762, 12399742, 13488092, 14672551, 15961503, 17364057, 18890123, 20550422, 22356539, 24320967, 26457211, 28779842, 31304618, 34048581, 
+        37030223, 40269636, 43788574, 47610643, 51761466, 56268765, 61162503, 66475012, 72241130, 78498397, 85287249, 92651202, 100637020, 109295027
+];
     // Extracts data from the given selector from .mapping {}
     function EXTRACT_DATA(selector, key = "") {
         const el = document.querySelector(selector);
@@ -354,7 +377,7 @@ KX.mapping = { // Mappings of game data
             HIGHLIGHT_LEADERBOARD();
             KX.KORUXA_ENHANCED.isReadyFuncRunOnce = true;
             ENHANCED_CHAT_LOG(`Koruxa Enhanced is enabled and ready.`, 'success');
-            
+
         }
 
         // Loop run when the script is ready and loaded
@@ -500,9 +523,13 @@ KX.mapping = { // Mappings of game data
 
     // Generates a globals for each farm stats
     function LOAD_FARM_STATS() {
-        const SPEED = [0, 2, 4, 6, 8, 10, 12, 14, 16];
-        const XP = [0, 1, 2, 4, 6, 8, 10, 15, 20];
-        const targetSkills = ['woodcutting', 'mining', 'fishing', 'farming', 'cooking', 'thieving', 'fletching', 'crafting', 'herblore', 'smithing', 'firemaking', 'arcana'];
+        const SPEED = [0, 2, 4, 6, 8, 10, 12, 14, 16, 16, 16];
+        const XP = [0, 1, 2, 4, 6, 8, 10, 15, 25, 30, 35];
+        const targetSkills = [
+            'woodcutting', 'mining', 'fishing',
+            'farming', 'cooking', 'thieving',
+            'fletching', 'crafting', 'herblore',
+            'smithing', 'firemaking', 'arcana', 'jewelry'];
 
         const farmElements = document.querySelectorAll('div[onclick^="openFarmModal"]');
 
@@ -852,7 +879,7 @@ KX.mapping = { // Mappings of game data
                 const currentLevel = Number(KX.KORUXA_STATS?.[skill]?.level ?? 0);
                 const target = Number(KX.KORUXA_GLOBALS["target-level"] || currentLevel);
 
-                if (target < 120) {
+                if (target < 150) {
                     KX.KORUXA_GLOBALS["target-level"] = target + 1;
                     NEH();
                 }
@@ -885,7 +912,7 @@ KX.mapping = { // Mappings of game data
         const sessionLevels = (KX.KORUXA_GLOBALS["current-skill"] !== "Doing" && session && typeof session?.xpRemaining === "number") ?
             `<b>${(GET_LEVEL_FROM_XP((Number(KX.KORUXA_STATS?.[KX.KORUXA_GLOBALS["current-skill"].toLowerCase()].xp_total) + session?.xpRemaining), KX.KORUXA_GLOBALS["current-skill"]))}</b>` : "";
 
-        tLvl == 120 ? bP.setAttribute("disabled", "") : bP.removeAttribute("disabled");
+        tLvl == 150 ? bP.setAttribute("disabled", "") : bP.removeAttribute("disabled");
         tLvl <= (level + 1) ? bM.setAttribute("disabled", "") : bM.removeAttribute("disabled");
 
         el.querySelector(".neh-item").innerHTML = phrase;
@@ -1066,12 +1093,12 @@ KX.mapping = { // Mappings of game data
 
         const active = document.querySelector('.cb-card button');
         if (!active || !isOnClanBoss) return;
-        
+
         if (active.textContent === "🚫 No Attempts Left" && !active.hasAttribute('disabled')) {
             active.setAttribute('disabled', true);
             return;
         }
-        if (active.textContent === "🚫 No Attempts Left"  && isOnClanBoss) {
+        if (active.textContent === "🚫 No Attempts Left" && isOnClanBoss) {
             if (BossTimerStatus && /ready/i.test(BossTimerStatus)) window.location.reload();
         };
 
@@ -1108,12 +1135,12 @@ KX.mapping = { // Mappings of game data
             "Adept": 25,
             "Initiate": 28,
             "Veteran": 30,
-            "Champion": 30, // NOT YET CONFIRMED
-            "Hero": 30, // NOT YET CONFIRMED
-            "Legend": 30, // NOT YET CONFIRMED
-            "Mythic": 30, // NOT YET CONFIRMED
-            "Ascendant": 30, // NOT YET CONFIRMED
-            "Eternal": 30, // NOT YET CONFIRMED
+            "Champion": 32, 
+            "Hero": 34,
+            "Legend": 36,
+            "Mythic": 38,
+            "Ascendant": 40,
+            "Eternal": 42,
         };
         const toolsXp = KX.KORUXA_TOOLS?.[skill]?.xp || 0;
         const farmsXp = KX.KORUXA_FARMS?.[skill]?.xp || 0;
@@ -1158,12 +1185,12 @@ KX.mapping = { // Mappings of game data
             "Adept": 20,
             "Initiate": 20,
             "Veteran": 20,
-            "Champion": 20, // NOT YET CONFIRMED
-            "Hero": 20, // NOT YET CONFIRMED
-            "Legend": 20, // NOT YET CONFIRMED
-            "Mythic": 20, // NOT YET CONFIRMED
-            "Ascendant": 20, // NOT YET CONFIRMED
-            "Eternal": 20, // NOT YET CONFIRMED
+            "Champion": 20,
+            "Hero": 20,
+            "Legend": 20,
+            "Mythic": 20, 
+            "Ascendant": 20, 
+            "Eternal": 20, 
         };
         const toolsSpeed = KX.KORUXA_TOOLS?.[skill]?.speed || 0;
         const farmsSpeed = KX.KORUXA_FARMS?.[skill]?.speed || 0;

@@ -247,3 +247,35 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     calculateResults();
 });
+
+async function cleanDataInBrowser() {
+    const response = await fetch('./assets/js/data.json');
+    const rawData = await response.json();
+
+    // Safely removes keys from objects regardless of how deep they are nested
+    function recursiveClean(obj) {
+        if (typeof obj !== 'object' || obj === null) return;
+
+        if (Array.isArray(obj)) {
+            obj.forEach(item => recursiveClean(item));
+        } else {
+            delete obj.image;
+            delete obj.reward_label;
+            delete obj.seed_drops;
+
+            for (const key in obj) {
+                recursiveClean(obj[key]);
+            }
+        }
+    }
+
+    recursiveClean(rawData);
+
+    const blob = new Blob([JSON.stringify(rawData, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'data.json';
+    a.click();
+}
+
+cleanDataInBrowser();
