@@ -215,7 +215,6 @@ KX.mapping = { // Mappings of game data
         "a[onclick*='institute']": { // Institute
             icon: "fa-solid fa-building-columns", text: ""
         },
-
     };
 
     const xpToNext = [
