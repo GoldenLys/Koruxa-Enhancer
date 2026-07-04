@@ -13,7 +13,7 @@
 | Devastation     | ×1.00 crit damage mult          | +0.15× per level    | 3.00×      | 20             | 12              | Increases critical hit damage               |
 | Rage            | +0% bonus from consecutive hits | +5% per Rage level  | 75%        | 15             | 12              | Hitting same body repeatedly builds up Rage |
  
-This table shows how each stat impacts your damage potential as you invest more points.
+This table shows how each stat impacts your damage potential as you invest more scrolls.
 ***/
 
 function FORMAT_NUMBER(num, decimals = 0) {
@@ -22,6 +22,14 @@ function FORMAT_NUMBER(num, decimals = 0) {
     let [intPart, decPart] = fixed.split(".");
     intPart = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     return decPart ? `${intPart},${decPart}` : intPart;
+}
+
+function GET_SCROLL_COST(currentLevel, baseCost) {
+    const targetLevel = currentLevel + 1;
+    if (targetLevel <= 50) return targetLevel * baseCost;
+
+    // May need to adjust this post-50 multiplier once we can verify the exact acceleration rate.
+    return targetLevel * baseCost * 2;
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -51,6 +59,14 @@ document.addEventListener('DOMContentLoaded', function () {
         const lvlPower = parseInt(inputs.lvlPower.value) || 0;
         const lvlDev = parseInt(inputs.lvlDevastation.value) || 0;
         const lvlRage = parseInt(inputs.lvlRage.value) || 0;
+
+        // Calculate costs for each stat
+        const costDamage = GET_SCROLL_COST(lvlDmg, 5);
+        const costTime = GET_SCROLL_COST(lvlTime, 8);
+        const costCrit = GET_SCROLL_COST(lvlCrit, 8);
+        const costPower = GET_SCROLL_COST(lvlPower, 12);
+        const costDev = GET_SCROLL_COST(lvlDev, 12);
+        const costRage = GET_SCROLL_COST(lvlRage, 12);
 
         // Constants & Base Stats
         const baseMaxDmg = 5 + lvlDmg;
@@ -95,6 +111,13 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('powerValue').textContent = `x${FORMAT_NUMBER(powerMult, 2)} damage multiplier`;
         document.getElementById('devastationValue').textContent = `x${FORMAT_NUMBER(critMult, 2)} critical hit damage`;
         document.getElementById('rageValue').textContent = `+${FORMAT_NUMBER(maxRageBonus * 100, 0)}% focus damage cap`;
+
+        document.getElementById('boostCost').textContent = `Cost: ${FORMAT_NUMBER(costDamage, 0)} scrolls`;
+        document.getElementById('timeCost').textContent = `Cost: ${FORMAT_NUMBER(costTime, 0)} scrolls`;
+        document.getElementById('critCost').textContent = `Cost: ${FORMAT_NUMBER(costCrit, 0)} scrolls`;
+        document.getElementById('powerCost').textContent = `Cost: ${FORMAT_NUMBER(costPower, 0)} scrolls`;
+        document.getElementById('devastationCost').textContent = `Cost: ${FORMAT_NUMBER(costDev, 0)} scrolls`;
+        document.getElementById('rageCost').textContent = `Cost: ${FORMAT_NUMBER(costRage, 0)} scrolls`;
     }
 
     Object.values(inputs).forEach(input => { input.addEventListener('input', calculateResults); });

@@ -1,29 +1,39 @@
+@font-face {
+    font-family: 'emoji';
+    src: url('https://goldenlys.github.io/Koruxa-Enhancer/assets/fonts/NotoColorEmoji.ttf') format('truetype');
+}
+
 :root {
     --primary-color: #5d6ae7;
     --secondary-color: #f0f4ff;
-    --text-color: #333;
+    --text-color: #fff;
     --background-color: #f9f9f9;
+    --surface: #131e31;
+    --surface2: rgb(13 22 39);
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, 'emoji', sans-serif;
 }
 
 body {
     background-color: var(--background-color);
+    background-image: radial-gradient(circle at top, #283855 0, #0f172a 60%);
     color: var(--text-color);
     line-height: 1.6;
     padding: 2rem;
+    width: 100vw;
+    height: 100vh;
 }
 
 .container {
     max-width: 800px;
     margin: 0 auto;
     padding: 1.5rem;
-    background-color: white;
+    background-color: var(--surface);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 12px;
 }
@@ -84,19 +94,58 @@ input[type="number"]:focus {
     box-shadow: 0 0 0 2px rgba(93, 109, 237, 0.2);
 }
 
+.labels {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.labels .label {
+    flex: 1 1 50%;
+}
+
 .label {
     display: inline-flex;
     padding: 0.25rem 0.75rem;
     border-radius: 4px;
-    margin-bottom: 0.5rem;
     background: #5d6ae7;
     box-sizing: border-box;
     font-size: .75rem;
     color: white;
+    justify-content: center;
 }
 
 .label.white {
-    background: rgb(0 0 0 / 50%);
+    background: rgb(107 107 107 / 25%);
+}
+
+.label.green {
+    background: rgb(0 111 83);
+    font-size: 0.85rem;
+    line-height: 0.85rem;
+    padding: 0.25rem 0.5rem;
+    font-weight: 600;
+    position: absolute;
+    top: -7.5px;
+    right: -7.5px;
+}
+
+.label.red {
+    background: rgb(255 51 51);
+    color: white;
+    font-size: 0.85rem;
+    line-height: 0.85rem;
+    padding: 0.25rem 0.5rem;
+    font-weight: 600;
+    text-shadow: 0 0 10px rgb(0 0 0 / 75%);
+    position: absolute;
+    top: -7.5px;
+    left: -7.5px;
+}
+
+.label.red>i {
+    line-height: 1rem;
+    margin-right: 5px;
 }
 
 .marked {
@@ -184,17 +233,19 @@ input[type="range"]::-ms-thumb {
 }
 
 .result-box {
-    background-color: #f8f9fa;
+    background-color: var(--surface2);
     border-radius: 4px;
     padding: 1.5rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgb(148 163 184 / 15%);
     flex: 1 1 300px;
 }
 
 .result-title {
     font-size: 1.2rem;
+    font-weight: 600;
     margin-bottom: 0.5rem;
-    color: #444;
+    color: var(--text-color);
 }
 
 .result-value {
@@ -211,7 +262,7 @@ input[type="range"]::-ms-thumb {
     display: inline-flex;
     gap: 0.25rem;
     font-size: 0.9rem;
-    color: #777;
+    color: var(--text-color);
     flex-direction: row;
     flex-wrap: wrap;
 }
@@ -224,13 +275,16 @@ input[type="range"]::-ms-thumb {
 }
 
 .stat-card {
-    background: #f4f4f4;
+    position: relative;
+    background: var(--surface2);
     padding: 15px;
     border-radius: 8px;
-    border: 1px solid #ddd;
+    border: 1px solid rgb(148 163 184 / 15%);
 }
 
+/*
 .tab-buttons {}
 .tab-buttons .tab-button {}
 .tab-buttons .tab-button:hover {}
 .tab-buttons .tab-button.active {}
+*/
