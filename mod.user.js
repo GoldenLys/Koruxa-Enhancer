@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       2.84
+// @version       2.85
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    https://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
@@ -753,18 +753,41 @@ KX.mapping = { // Mappings of game data
         }
     }
 
+    // Calculates session XP based on current skill progress and configuration mappings
     function CALC_SESSION_XP() {
-        const skillId = KX.KORUXA_GLOBALS['current-skill']?.trim().toLowerCase();
-        const identifier = KX.KORUXA_GLOBALS['current-item'];
+        let skillId = KX.KORUXA_GLOBALS['current-skill']?.trim().toLowerCase();
+        let identifier = KX.KORUXA_GLOBALS['current-item'];
         const cycle = KX.KORUXA_GLOBALS.cycle;
 
         if (!skillId || !identifier || !cycle) return null;
 
+        let searchStr = identifier.toString().toLowerCase().trim();
+
+        if (skillId === 'jewelery') {
+            if (searchStr.endsWith(' cut')) {
+                const gem = searchStr.replace(' cut', '').trim();
+                searchStr = `cut_${gem}`.replace(/ /g, '_');
+            } else {
+                const accessoryPatterns = [
+                    'guardian amulet', 'knowledge amulet', 'vitality amulet', 'power amulet',
+                    'wealth ring', 'warding ring', 'fury ring'
+                ];
+
+                for (const pattern of accessoryPatterns) {
+                    if (searchStr.endsWith(pattern)) {
+                        const material = searchStr.replace(pattern, '').trim();
+                        searchStr = `${material}_jewelery`.replace(/ /g, '_');
+                        break;
+                    }
+                }
+            }
+        }
+
+        searchStr = searchStr.replace(/ /g, '_');
+
         const config = KX.KORUXA_CONFIGS?.[skillId] || {};
         let itemData = null;
         let finalKey = null;
-
-        const searchStr = identifier.toString().toLowerCase().trim().replace(" ", "_");
 
         for (const [key, value] of Object.entries(config)) {
             if (!value || typeof value !== 'object') continue;
@@ -819,7 +842,7 @@ KX.mapping = { // Mappings of game data
             farming: "ra ra-wheat", thieving: "ra ra-balaclava", arcana: "ra ra-spell-book",
             cooking: "ra ra-meat", fletching: "ra ra-arrowhead", crafting: "ra ra-claw-hammer",
             herblore: "ra ra-potion-ball", smithing: "ra ra-anvil-impact", firemaking: "ra ra-campfire",
-            alchemy: "ra ra-fizzing-flask", jewelery: "ra ra-gem", default: "fa-solid fa-star"
+            alchemy: "ra ra-fizzing-flask", jewelery: "fa-solid fa-gem", default: "fa-solid fa-star"
         };
 
         const forced = (KX.KORUXA_GLOBALS?.["forced-current-skill"] || "").toLowerCase();

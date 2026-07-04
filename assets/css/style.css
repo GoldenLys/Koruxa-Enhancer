@@ -547,6 +547,11 @@ li[data-skill="ranged"] .skill-icon>i {
     background-image: linear-gradient(135deg, rgb(255 169 76), rgb(255 92 5));
 }
 
+button[data-skill="jewelery"]>i,
+li[data-skill="jewelery"] .skill-icon>i {
+    background-image: linear-gradient(135deg, rgb(113, 196, 255), rgb(35, 179, 211));
+}
+
 .chat-type-info .chat-text,
 .chat-text .message-info {
     color: #4da6ff;
