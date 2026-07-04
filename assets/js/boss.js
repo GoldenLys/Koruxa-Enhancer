@@ -16,6 +16,8 @@
 This table shows how each stat impacts your damage potential as you invest more scrolls.
 ***/
 
+const cachedKoruxaData = localStorage.getItem('koruxa_boss_upgrades');
+
 function FORMAT_NUMBER(num, decimals = 0) {
     if (typeof num !== "number" || isNaN(num)) return "0";
     return num.toLocaleString(undefined, {
@@ -85,10 +87,10 @@ function saveToLocalStorage(inputs) {
     localStorage.setItem('koruxa_boss_upgrades', JSON.stringify(data));
 }
 
-function loadFromLocalStorage(inputs) {
+function loadFromLocalStorage(inputs, rawData) {
     try {
-        const data = JSON.parse(localStorage.getItem('koruxa_boss_upgrades'));
-        if (!data) return;
+        if (!rawData) return;
+        const data = JSON.parse(rawData);
         for (const [key, element] of Object.entries(inputs)) {
             if (data[key] !== undefined) {
                 element.value = data[key];
@@ -231,7 +233,12 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('avgDpsPerScroll').textContent = "~" + FORMAT_NUMBER(avgDamagePerScroll, 1);
     }
 
-    loadFromLocalStorage(inputs);
+
+    setTimeout(() => {
+        loadFromLocalStorage(inputs, cachedKoruxaData);
+        calculateResults();
+    }, 50);
+
     Object.values(inputs).forEach(input => {
         input.addEventListener('input', function () {
             saveToLocalStorage(inputs);
