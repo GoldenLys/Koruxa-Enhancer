@@ -18,10 +18,10 @@ This table shows how each stat impacts your damage potential as you invest more 
 
 function FORMAT_NUMBER(num, decimals = 0) {
     if (typeof num !== "number" || isNaN(num)) return "0";
-    const fixed = num.toFixed(decimals);
-    let [intPart, decPart] = fixed.split(".");
-    intPart = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-    return decPart ? `${intPart},${decPart}` : intPart;
+    return num.toLocaleString(undefined, {
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals
+    });
 }
 
 function GET_SCROLL_COST(currentLevel, baseCost) {
@@ -43,6 +43,38 @@ function GET_TOTAL_SCROLLS_SPENT(currentLevel, baseCost) {
 function GET_AVG_DPS_PER_SCROLL(globalDPS, currentLevel, baseCost) {
     const totalSpent = GET_TOTAL_SCROLLS_SPENT(currentLevel, baseCost);
     return totalSpent > 0 ? globalDPS / totalSpent : 0;
+}
+
+function GET_DAMAGE_PER_LEVEL(statName, currentLevel, globalDPS, totalTime) {
+    if (currentLevel === 0) return 0;
+
+    let multiplier = 0;
+
+    if (statName === 'damage') {
+        const lvlDmg = parseInt(document.getElementById('lvlDamage').value) || 0;
+        multiplier = 1 / (5 + lvlDmg);
+    } else if (statName === 'power') {
+        multiplier = 0.28;
+    } else if (statName === 'crit') {
+        const lvlCrit = parseInt(document.getElementById('lvlCrit').value) || 0;
+        const lvlDev = parseInt(document.getElementById('lvlDevastation').value) || 0;
+        const critMult = 1.5 + (lvlDev * 0.15);
+        const currentCritFactor = 1 + (Math.min((5 + lvlCrit) / 100, 1) * (critMult - 1));
+        multiplier = (0.01 * (critMult - 1)) / currentCritFactor;
+    } else if (statName === 'devastation') {
+        const lvlCrit = parseInt(document.getElementById('lvlCrit').value) || 0;
+        const lvlDev = parseInt(document.getElementById('lvlDevastation').value) || 0;
+        const critChance = Math.min((5 + lvlCrit) / 100, 1);
+        const currentCritFactor = 1 + (critChance * (0.5 + (lvlDev * 0.15)));
+        multiplier = (critChance * 0.15) / currentCritFactor;
+    } else if (statName === 'time') {
+        const lvlTime = parseInt(document.getElementById('lvlTime').value) || 0;
+        multiplier = 1 / (30 + Math.min(lvlTime, 30));
+    } else if (statName === 'rage') {
+        multiplier = 0.05;
+    }
+
+    return (globalDPS * totalTime) * multiplier;
 }
 
 function saveToLocalStorage(inputs) {
@@ -142,6 +174,22 @@ document.addEventListener('DOMContentLoaded', function () {
         const avgAttemptDamage = globalDPS * totalTime;
         const avgDamagePerScroll = totalSpent > 0 ? avgAttemptDamage / totalSpent : 0;
 
+        // 5. Single Stat Efficiencies (Avg Damage gained per scroll spent)
+        const effDmg = GET_DAMAGE_PER_LEVEL('damage', lvlDmg, globalDPS, totalTime);
+        const effTime = GET_DAMAGE_PER_LEVEL('time', lvlTime, globalDPS, totalTime);
+        const effCrit = GET_DAMAGE_PER_LEVEL('crit', lvlCrit, globalDPS, totalTime);
+        const effPower = GET_DAMAGE_PER_LEVEL('power', lvlPower, globalDPS, totalTime);
+        const effDev = GET_DAMAGE_PER_LEVEL('devastation', lvlDev, globalDPS, totalTime);
+        const effRage = GET_DAMAGE_PER_LEVEL('rage', lvlRage, globalDPS, totalTime);
+
+        //6. Calculate the real-time efficiency (dmg gained / cost of next upgrade)
+        const scrollEffDmg = costDamage > 0 ? effDmg / costDamage : 0;
+        const scrollEffTime = costTime > 0 ? effTime / costTime : 0;
+        const scrollEffCrit = costCrit > 0 ? effCrit / costCrit : 0;
+        const scrollEffPower = costPower > 0 ? effPower / costPower : 0;
+        const scrollEffDev = costDev > 0 ? effDev / costDev : 0;
+        const scrollEffRage = costRage > 0 ? effRage / costRage : 0;
+
         // UI Updates
         rangeHitValueDisplay.innerHTML = `1 - ${FORMAT_NUMBER(baseMaxDmg * powerMult, 0)} <div class="marked small red">(${FORMAT_NUMBER(baseMaxDmg * powerMult * critMult, 0)} Crit)</div>`;
         rangeHitDescDisplay.innerHTML = `with a <div class="marked">x${FORMAT_NUMBER(powerMult, 2)}</div> damage multiplier`;
@@ -164,6 +212,20 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('powerCost').textContent = `Cost: ${FORMAT_NUMBER(costPower, 0)} scrolls`;
         document.getElementById('devastationCost').textContent = `Cost: ${FORMAT_NUMBER(costDev, 0)} scrolls`;
         document.getElementById('rageCost').textContent = `Cost: ${FORMAT_NUMBER(costRage, 0)} scrolls`;
+
+        document.getElementById('boostAvgDmgPerLevel').innerHTML = `dmg/level ${FORMAT_NUMBER(effDmg, 1)}`;
+        document.getElementById('timeAvgDmgPerLevel').innerHTML = `dmg/level ${FORMAT_NUMBER(effTime, 1)}`;
+        document.getElementById('critAvgDmgPerLevel').innerHTML = `dmg/level ${FORMAT_NUMBER(effCrit, 1)}`;
+        document.getElementById('powerAvgDmgPerLevel').innerHTML = `dmg/level ${FORMAT_NUMBER(effPower, 1)}`;
+        document.getElementById('devastationAvgDmgPerLevel').innerHTML = `dmg/level ${FORMAT_NUMBER(effDev, 1)}`;
+        document.getElementById('rageAvgDmgPerLevel').innerHTML = `dmg/level ${FORMAT_NUMBER(effRage, 1)}`;
+
+        document.getElementById('boostDmgPerScroll').innerHTML = `dmg/scroll ${FORMAT_NUMBER(scrollEffDmg, 1)}`;
+        document.getElementById('timeDmgPerScroll').innerHTML = `dmg/scroll ${FORMAT_NUMBER(scrollEffTime, 1)}`;
+        document.getElementById('critDmgPerScroll').innerHTML = `dmg/scroll ${FORMAT_NUMBER(scrollEffCrit, 1)}`;
+        document.getElementById('powerDmgPerScroll').innerHTML = `dmg/scroll ${FORMAT_NUMBER(scrollEffPower, 1)}`;
+        document.getElementById('devastationDmgPerScroll').innerHTML = `dmg/scroll ${FORMAT_NUMBER(scrollEffDev, 1)}`;
+        document.getElementById('rageDmgPerScroll').innerHTML = `dmg/scroll ${FORMAT_NUMBER(scrollEffRage, 1)}`;;
 
         document.getElementById('totalScrollsSpent').textContent = FORMAT_NUMBER(totalSpent, 0);
         document.getElementById('avgDpsPerScroll').textContent = "~" + FORMAT_NUMBER(avgDamagePerScroll, 1);

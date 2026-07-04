@@ -22,11 +22,12 @@
 body {
     background-color: var(--background-color);
     background-image: radial-gradient(circle at top, #283855 0, #0f172a 60%);
+    background-attachment: fixed;
     color: var(--text-color);
     line-height: 1.6;
     padding: 2rem;
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .container {
@@ -280,6 +281,30 @@ input[type="range"]::-ms-thumb {
     padding: 15px;
     border-radius: 8px;
     border: 1px solid rgb(148 163 184 / 15%);
+}
+
+.efficiency-row {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+    font-size: 0.85rem;
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 4px;
+    color: #a0aec0;
+    margin-top: 4px;
+}
+
+.efficiency-row .divider {
+    width: 1px;
+    height: 24px;
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.text-highlight {
+    color: #63b3ed;
+    font-weight: bold;
 }
 
 /*

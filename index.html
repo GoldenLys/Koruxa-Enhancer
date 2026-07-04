@@ -24,6 +24,12 @@
                     <div class="label white">+1 dmg / lvl</div>
                     <div class="label" id="boostValue"></div>
                     <div class="label green" id="boostCost"></div>
+
+                    <div class="efficiency-row">
+                        <span id="boostAvgDmgPerLevel"></span>
+                        <div class="divider"></div>
+                        <span id="boostDmgPerScroll" class="text-highlight"></span>
+                    </div>
                 </div>
             </div>
             <div class="stat-card">
@@ -33,25 +39,43 @@
                     <div class="label white">+1s / lvl </div>
                     <div class="label" id="timeValue"></div>
                     <div class="label green" id="timeCost"></div>
+                    
+                    <div class="efficiency-row">
+                        <span id="timeAvgDmgPerLevel"></span>
+                        <div class="divider"></div>
+                        <span id="timeDmgPerScroll" class="text-highlight"></span>
+                    </div>
                 </div>
             </div>
             <div class="stat-card">
-                <label>⚡ Critical Strike:</label>
+                <label>⚡ Critical Chance:</label>
                 <input type="number" id="lvlCrit" value="0" min="0" max="25" step="1">
                 <div class="labels">
                     <div class="label white">+1% / lvl</div>
                     <div class="label" id="critValue"></div>
                     <div class="label green" id="critCost"></div>
+                    
+                    <div class="efficiency-row">
+                        <span id="critAvgDmgPerLevel"></span>
+                        <div class="divider"></div>
+                        <span id="critDmgPerScroll" class="text-highlight"></span>
+                    </div>
                 </div>
             </div>
             <div class="stat-card">
                 <label>🔥 Power:</label>
                 <input type="number" id="lvlPower" value="0" min="0" step="1">
                 <div class="labels">
+                    <div class="label red"><i class="fas fa-crown"></i> Best</div>
                     <div class="label white">1.28 ^ lvl</div>
                     <div class="label" id="powerValue"></div>
                     <div class="label green" id="powerCost"></div>
-                    <div class="label red"><i class="fas fa-crown"></i> Best</div>
+                    
+                    <div class="efficiency-row">
+                        <span id="powerAvgDmgPerLevel"></span>
+                        <div class="divider"></div>
+                        <span id="powerDmgPerScroll" class="text-highlight"></span>
+                    </div>
                 </div>
             </div>
             <div class="stat-card">
@@ -61,6 +85,12 @@
                     <div class="label white">+0.15 crit mult / lvl</div>
                     <div class="label" id="devastationValue"></div>
                     <div class="label green" id="devastationCost"></div>
+
+                    <div class="efficiency-row">
+                        <span id="devastationAvgDmgPerLevel"></span>
+                        <div class="divider"></div>
+                        <span id="devastationDmgPerScroll" class="text-highlight"></span>
+                    </div>
                 </div>
             </div>
             <div class="stat-card">
@@ -70,6 +100,12 @@
                     <div class="label white">+5% bonus / lvl</div>
                     <div class="label" id="rageValue"></div>
                     <div class="label green" id="rageCost"></div>
+
+                    <div class="efficiency-row">
+                        <span id="rageAvgDmgPerLevel"></span>
+                        <div class="divider"></div>
+                        <span id="rageDmgPerScroll" class="text-highlight"></span>
+                    </div>
                 </div>
             </div>
         </div>
