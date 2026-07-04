@@ -32,6 +32,41 @@ function GET_SCROLL_COST(currentLevel, baseCost) {
     return targetLevel * baseCost * 2;
 }
 
+function GET_TOTAL_SCROLLS_SPENT(currentLevel, baseCost) {
+    let total = 0;
+    for (let i = 1; i <= currentLevel; i++) {
+        total += i <= 50 ? i * baseCost : i * baseCost * 2;
+    }
+    return total;
+}
+
+function GET_AVG_DPS_PER_SCROLL(globalDPS, currentLevel, baseCost) {
+    const totalSpent = GET_TOTAL_SCROLLS_SPENT(currentLevel, baseCost);
+    return totalSpent > 0 ? globalDPS / totalSpent : 0;
+}
+
+function saveToLocalStorage(inputs) {
+    const data = {};
+    for (const [key, element] of Object.entries(inputs)) {
+        data[key] = element.value;
+    }
+    localStorage.setItem('koruxa_boss_upgrades', JSON.stringify(data));
+}
+
+function loadFromLocalStorage(inputs) {
+    try {
+        const data = JSON.parse(localStorage.getItem('koruxa_boss_upgrades'));
+        if (!data) return;
+        for (const [key, element] of Object.entries(inputs)) {
+            if (data[key] !== undefined) {
+                element.value = data[key];
+            }
+        }
+    } catch (e) {
+        console.error('Error loading local storage', e);
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     const inputs = {
         lvlDamage: document.getElementById('lvlDamage'),
@@ -96,6 +131,17 @@ document.addEventListener('DOMContentLoaded', function () {
         const peakCritHit = peakNormalHit * critMult;
         const totalMaxDamage = peakCritHit * totalTime;
 
+        // 4. Average Damage per Scroll
+        const totalSpent =
+            GET_TOTAL_SCROLLS_SPENT(lvlDmg, 5) +
+            GET_TOTAL_SCROLLS_SPENT(lvlTime, 8) +
+            GET_TOTAL_SCROLLS_SPENT(lvlCrit, 8) +
+            GET_TOTAL_SCROLLS_SPENT(lvlPower, 12) +
+            GET_TOTAL_SCROLLS_SPENT(lvlDev, 12) +
+            GET_TOTAL_SCROLLS_SPENT(lvlRage, 12);
+        const avgAttemptDamage = globalDPS * totalTime;
+        const avgDamagePerScroll = totalSpent > 0 ? avgAttemptDamage / totalSpent : 0;
+
         // UI Updates
         rangeHitValueDisplay.innerHTML = `1 - ${FORMAT_NUMBER(baseMaxDmg * powerMult, 0)} <div class="marked small red">(${FORMAT_NUMBER(baseMaxDmg * powerMult * critMult, 0)} Crit)</div>`;
         rangeHitDescDisplay.innerHTML = `with a <div class="marked">x${FORMAT_NUMBER(powerMult, 2)}</div> damage multiplier`;
@@ -118,8 +164,17 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('powerCost').textContent = `Cost: ${FORMAT_NUMBER(costPower, 0)} scrolls`;
         document.getElementById('devastationCost').textContent = `Cost: ${FORMAT_NUMBER(costDev, 0)} scrolls`;
         document.getElementById('rageCost').textContent = `Cost: ${FORMAT_NUMBER(costRage, 0)} scrolls`;
+
+        document.getElementById('totalScrollsSpent').textContent = FORMAT_NUMBER(totalSpent, 0);
+        document.getElementById('avgDpsPerScroll').textContent = "~" + FORMAT_NUMBER(avgDamagePerScroll, 1);
     }
 
-    Object.values(inputs).forEach(input => { input.addEventListener('input', calculateResults); });
+    loadFromLocalStorage(inputs);
+    Object.values(inputs).forEach(input => {
+        input.addEventListener('input', function () {
+            saveToLocalStorage(inputs);
+            calculateResults();
+        });
+    });
     calculateResults();
 });
