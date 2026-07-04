@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       2.83
+// @version       2.84
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    https://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
@@ -530,7 +530,7 @@ KX.mapping = { // Mappings of game data
             'woodcutting', 'mining', 'fishing',
             'farming', 'cooking', 'thieving',
             'fletching', 'crafting', 'herblore',
-            'smithing', 'firemaking', 'arcana', 'jewelry'];
+            'smithing', 'firemaking', 'arcana', 'jewelery'];
 
         const farmElements = document.querySelectorAll('div[onclick^="openFarmModal"]');
 
@@ -565,7 +565,7 @@ KX.mapping = { // Mappings of game data
 
     // Generates a globals for each tool stats
     async function LOAD_TOOL_STATS() {
-        const skills = ['woodcutting', 'mining', 'fishing', 'farming', 'cooking', 'thieving', 'fletching', 'crafting', 'herblore', 'smithing', 'firemaking', 'arcana'/*, 'alchemy', 'slayer'*/];
+        const skills = ['woodcutting', 'mining', 'fishing', 'farming', 'cooking', 'thieving', 'fletching', 'crafting', 'herblore', 'smithing', 'firemaking', 'arcana', 'jewelery'/*, 'alchemy', 'slayer'*/];
         for (const skill of skills) {
             KX.KORUXA_TOOLS[skill] = KX.KORUXA_TOOLS[skill] || { speed: 0, xp: 0 };
 
