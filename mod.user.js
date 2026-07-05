@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       2.86
+// @version       2.87
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    https://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
@@ -650,7 +650,7 @@ KX.mapping = { // Mappings of game data
 
             let successChance = 100;
             if (skill === 'thieving') {
-                successChance = GET_THIEVING_CHANCE(currentLevel, e);
+                successChance = CALC_THIEVING_SUCCESS_RATE(action);
             }
 
             const speed = GET_SPEED_MULTIPLIER(skill);
@@ -681,7 +681,7 @@ KX.mapping = { // Mappings of game data
 
                     let chance = 100;
                     if (skill === 'thieving') {
-                        chance = GET_THIEVING_CHANCE(currentLevel, e);
+                        chance = CALC_THIEVING_SUCCESS_RATE(action);
                     }
 
                     const effectiveXP = e.xp * (chance / 100);
@@ -710,7 +710,7 @@ KX.mapping = { // Mappings of game data
         const farms = KX.KORUXA_FARMS?.thieving || {};
         const premiumBonus = (KX.KORUXA_IS_PREMIUM ? 20 : 0);
         const speedBonus = (tools.speed || 0) + (farms.speed || 0) + premiumBonus;
-        const chance = currentLevel >= data.min_level ? GET_THIEVING_CHANCE(currentLevel, data) : 0;
+        const chance = currentLevel >= data.min_level ? CALC_THIEVING_SUCCESS_RATE(actionId) : 0;
         const coinsRange = data.coins.split('-').map(Number);
         const avgCoins = ((coinsRange[0] + coinsRange[1]) / 2) * (1 + GoldFindBonus / 100);
         const realDurationMs = data.duration_ms * Math.max(0.1, 1 - speedBonus / 100);
@@ -765,7 +765,7 @@ KX.mapping = { // Mappings of game data
 
         if (skillId === 'jewelery') {
             const materialMap = {
-                'aqua': 'aqualite',
+                'aqua': 'aquastone',
                 'frost': 'frostgem',
                 'void': 'voidstone',
                 'sun': 'sunstone',
@@ -792,9 +792,7 @@ KX.mapping = { // Mappings of game data
                 }
             }
         }
-
         searchStr = searchStr.replace(/ /g, '_');
-
         const config = KX.KORUXA_CONFIGS?.[skillId] || {};
         let itemData = null;
         let finalKey = null;
@@ -979,6 +977,15 @@ KX.mapping = { // Mappings of game data
         bC.querySelectorAll(".neh-button").forEach(b => b.classList.toggle("active", b.dataset.skill === skill));
     }
 
+    function CALC_THIEVING_SUCCESS_RATE(skill) {
+        const config = KX.KORUXA_CONFIGS["thieving"][skill];
+        const currentLevel = Number(KX.KORUXA_STATS["thieving"].level || 0);
+        if (currentLevel < config.min_level) return 0;
+
+        const calculatedRate = config.success_chance + (currentLevel - config.min_level) * 1;
+        return Math.min(95, calculatedRate);
+    }
+
     function GET_BEST_XP_EFFICIENCY() {
         const allSkills = Object.keys(KX.KORUXA_CONFIGS || {});
         const rankings = [];
@@ -1003,7 +1010,13 @@ KX.mapping = { // Mappings of game data
                     const xpBonus = GET_XP_MUTLTIPLIER(skill);
                     const xpPerLoop = (entry.xp || 0) * (1 + xpBonus / 100);
                     const msPerLoop = (entry.duration_ms || 0) * Math.max(0.1, 1 - speed / 100);
-                    const xpPerHour = msPerLoop > 0 ? (xpPerLoop / (msPerLoop / 1000)) * 3600 : 0;
+                    let xpPerHour = msPerLoop > 0 ? (xpPerLoop / (msPerLoop / 1000)) * 3600 : 0;
+
+                    // Apply thieving success rate penalty if applicable
+                    if (skill === 'thieving') {
+                        const successRate = CALC_THIEVING_SUCCESS_RATE(bestAction.action);
+                        xpPerHour = xpPerHour * (successRate / 100);
+                    }
 
                     rankings.push({
                         skill: skill,
@@ -1022,7 +1035,7 @@ KX.mapping = { // Mappings of game data
         } else {
             rankings.forEach((item, index) => {
                 const medal = index === 0 ? "🏆" : (index + 1) + ".";
-                const formattedXPH = item.xph.toLocaleString(); // Ex: 1,250,000
+                const formattedXPH = item.xph.toLocaleString();
                 RANKING += `[newline][normal]${medal} [${item.skill.toUpperCase()} Lvl ${item.level}] : [info]${formattedXPH} XP/h[/info] | Action: ${item.action}[/normal]`;
             });
             ENHANCED_CHAT_LOG(RANKING, 'info');
@@ -1231,16 +1244,6 @@ KX.mapping = { // Mappings of game data
         return parseFloat((toolsSpeed + farmsSpeed + premiumBonus + globalSpeedBonus).toFixed(2));
     }
     KX.GET_SPEED_MULTIPLIER = GET_SPEED_MULTIPLIER;
-
-    function GET_THIEVING_CHANCE(currentLevel, base_chance) {
-        const { min_level, success_chance } = base_chance;
-
-        if (currentLevel < min_level) return 0;
-
-        const levelDifference = currentLevel - min_level;
-        const finalChance = success_chance + levelDifference;
-        return Math.min(95, finalChance);
-    }
 
     function CREATE_NEW_CHAT_TAB() {
         const chatTabsContainer = document.querySelector('#chat-tabs');
