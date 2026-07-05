@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       2.85
+// @version       2.86
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    https://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
@@ -764,6 +764,15 @@ KX.mapping = { // Mappings of game data
         let searchStr = identifier.toString().toLowerCase().trim();
 
         if (skillId === 'jewelery') {
+            const materialMap = {
+                'aqua': 'aqualite',
+                'frost': 'frostgem',
+                'void': 'voidstone',
+                'sun': 'sunstone',
+                'dusk': 'duskgem',
+                'storm': 'stormheart',
+                'astral': 'astralite',
+            };
             if (searchStr.endsWith(' cut')) {
                 const gem = searchStr.replace(' cut', '').trim();
                 searchStr = `cut_${gem}`.replace(/ /g, '_');
@@ -775,7 +784,8 @@ KX.mapping = { // Mappings of game data
 
                 for (const pattern of accessoryPatterns) {
                     if (searchStr.endsWith(pattern)) {
-                        const material = searchStr.replace(pattern, '').trim();
+                        let material = searchStr.replace(pattern, '').trim();
+                        if (materialMap[material]) material = materialMap[material];
                         searchStr = `${material}_jewelery`.replace(/ /g, '_');
                         break;
                     }
@@ -1114,7 +1124,6 @@ KX.mapping = { // Mappings of game data
         const recapEl = document.querySelector('.cb-recap-modal');
         const FightRecapVisible = !!recapEl;
         const BossTimerStatus = document.querySelector('#sidebar-boss-status')?.textContent.trim();
-
         const active = document.querySelector('.cb-card button');
         if (!active || !isOnClanBoss) return;
 
@@ -1122,11 +1131,10 @@ KX.mapping = { // Mappings of game data
             active.setAttribute('disabled', true);
             return;
         }
-        if (active.textContent === "🚫 No Attempts Left" && isOnClanBoss) {
+        if (active && active.textContent === "⚔️ Attack Boss" && active.hasAttribute('disabled')) {
             if (BossTimerStatus && /ready/i.test(BossTimerStatus)) window.location.reload();
         };
-
-        if (active && active.textContent === "⚔️ Attack Boss" && !active.hasAttribute('disabled') && !FightRecapVisible) {
+        if (active.textContent === "⚔️ Attack Boss" && !active.hasAttribute('disabled') && !FightRecapVisible) {
             active.click();
             ENHANCED_CHAT_LOG("Automatically starting attack on Clan Boss.", 'info');
         }
@@ -1407,7 +1415,7 @@ KX.mapping = { // Mappings of game data
         document.addEventListener('click', (e) => {
             if (e.target.closest('.sidebar-left, .sidebar-right')) REFRESH_ENHANCED_DATA(false);
             if (e.target.closest('button[onclick^="setResearchCat("]') || e.target.closest(`#sidebar-institute-btn`)) setTimeout(FIND_INSTITUTE_BONUSES, 500);
-            if (e.target.closest('div[onclick^="loadLeaderboard("]')) setTimeout(HIGHLIGHT_LEADERBOARD, 500);
+            if (e.target.closest('button[onclick^="loadLeaderboard("]') || e.target.closest('div[onclick^="loadLeaderboard("]') || e.target.closest(`a[onclick^="navigate('leaderboard')"]`)) setTimeout(HIGHLIGHT_LEADERBOARD, 500);
         });
 
         observe();
