@@ -22,12 +22,34 @@ const cachedKoruxaData = localStorage.getItem('koruxa_boss_upgrades');
 
 function FORMAT_NUMBER(num, decimals = 0) {
     if (typeof num !== "number" || isNaN(num)) return "0";
+
+    const absNum = Math.abs(num);
+    const suffixDecimals = decimals === 0 ? 2 : decimals;
+
+    if (absNum >= 1e12) {
+        return (num / 1e12).toLocaleString(undefined, {
+            minimumFractionDigits: suffixDecimals,
+            maximumFractionDigits: suffixDecimals
+        }) + "T";
+    }
+    if (absNum >= 1e9) {
+        return (num / 1e9).toLocaleString(undefined, {
+            minimumFractionDigits: suffixDecimals,
+            maximumFractionDigits: suffixDecimals
+        }) + "B";
+    }
+    if (absNum >= 1e6) {
+        return (num / 1e6).toLocaleString(undefined, {
+            minimumFractionDigits: suffixDecimals,
+            maximumFractionDigits: suffixDecimals
+        }) + "M";
+    }
+
     return num.toLocaleString(undefined, {
         minimumFractionDigits: decimals,
         maximumFractionDigits: decimals
     });
 }
-
 
 function GET_SCROLL_COST(currentLevel, baseCost) {
     const targetLevel = currentLevel + 1;
@@ -37,11 +59,17 @@ function GET_SCROLL_COST(currentLevel, baseCost) {
 }
 
 function GET_TOTAL_SCROLLS_SPENT(currentLevel, baseCost) {
-    let total = 0;
-    for (let i = 1; i <= currentLevel; i++) {
-        total += i <= 50 ? i * baseCost : i * baseCost * 2;
+    if (currentLevel <= 0) return 0;
+
+    if (currentLevel <= 50) {
+        return (currentLevel * (currentLevel + 1) / 2) * baseCost;
     }
-    return total;
+
+    const baseTotal = (50 * 51 / 2) * baseCost;
+    const extraLevels = currentLevel - 50;
+    const extraTotal = (extraLevels * (51 + currentLevel) / 2) * baseCost * 3;
+
+    return baseTotal + extraTotal;
 }
 
 function GET_AVG_DPS_PER_SCROLL(globalDPS, currentLevel, baseCost) {
