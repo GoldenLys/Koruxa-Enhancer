@@ -28,12 +28,12 @@ function FORMAT_NUMBER(num, decimals = 0) {
     });
 }
 
+
 function GET_SCROLL_COST(currentLevel, baseCost) {
     const targetLevel = currentLevel + 1;
     if (targetLevel <= 50) return targetLevel * baseCost;
 
-    // May need to adjust this post-50 multiplier once we can verify the exact acceleration rate.
-    return targetLevel * baseCost * 2;
+    return targetLevel * baseCost * 3;
 }
 
 function GET_TOTAL_SCROLLS_SPENT(currentLevel, baseCost) {
