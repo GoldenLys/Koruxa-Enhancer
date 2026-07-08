@@ -39,7 +39,7 @@
                     <div class="label white">+1s / lvl </div>
                     <div class="label" id="timeValue"></div>
                     <div class="label green" id="timeCost"></div>
-                    
+
                     <div class="efficiency-row">
                         <span id="timeAvgDmgPerLevel"></span>
                         <div class="divider"></div>
@@ -54,7 +54,7 @@
                     <div class="label white">+1% / lvl</div>
                     <div class="label" id="critValue"></div>
                     <div class="label green" id="critCost"></div>
-                    
+
                     <div class="efficiency-row">
                         <span id="critAvgDmgPerLevel"></span>
                         <div class="divider"></div>
@@ -70,7 +70,7 @@
                     <div class="label white">1.28 ^ lvl</div>
                     <div class="label" id="powerValue"></div>
                     <div class="label green" id="powerCost"></div>
-                    
+
                     <div class="efficiency-row">
                         <span id="powerAvgDmgPerLevel"></span>
                         <div class="divider"></div>
@@ -108,46 +108,78 @@
                     </div>
                 </div>
             </div>
+            <div class="stat-card">
+                <label>🎯 Precision:</label>
+                <input type="number" id="lvlPrecision" value="0" min="0" max="40" step="1">
+                <div class="labels">
+                    <div class="label white">+1% / lvl </div>
+                    <div class="label" id="precisionValue"></div>
+                    <div class="label green" id="precisionCost"></div>
+
+                    <div class="efficiency-row">
+                        <span id="precisionAvgDmgPerLevel"></span>
+                        <div class="divider"></div>
+                        <span id="precisionDmgPerScroll" class="text-highlight"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <label>🏛️ Clan Warfare:</label>
+                <input type="number" id="lvlClanWarfare" value="0" min="0" max="50" step="1">
+                <div class="labels">
+                    <div class="label white">+0.2% dmg / lvl</div>
+                    <div class="label" id="instituteWarfareValue"></div>
+                    <div class="label green" id="instituteWarfareCost"></div>
+
+                    <div class="efficiency-row">
+                        <span id="instituteWarfareAvgDmgPerLevel"></span>
+                        <div class="divider"></div>
+                        <span id="instituteWarfareDmgPerScroll" class="text-highlight"></span>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="result-container">
-            <div class="result-box">
-                <div class="result-title">Damage Range:</div>
-                <div class="result-value" id="rangeHitValue">0</div>
-                <div class="info-text" id="rangeHitDesc"></div>
-            </div>
+        <div class="stat-grid">
+            <div class="result-container">
+                <div class="result-box">
+                    <div class="result-title">Damage Range:</div>
+                    <div class="result-value" id="rangeHitValue">0</div>
+                    <div class="info-text" id="rangeHitDesc"></div>
+                </div>
 
-            <div class="result-box">
-                <div class="result-title">Damage Range per Attempt:</div>
-                <div class="result-value" id="rangeAttemptValue">0</div>
-                <div class="info-text">Total damage over <span id="combatDuration">30</span> seconds</div>
-            </div>
+                <div class="result-box">
+                    <div class="result-title">Average Total Damage per Attempt:</div>
+                    <div class="result-value" id="avgAttemptValue">0</div>
+                    <div class="info-text">Total damage over <span id="combatDuration2">30</span> seconds</div>
+                </div>
 
-            <div class="result-box">
-                <div class="result-title">Average Hit Damage per Attempt:</div>
-                <div class="result-value" id="avgHitValue">0</div>
-                <p class="info-text red">Includes Crits, Rage & Damage Boost</p>
-            </div>
+                <div class="result-box">
+                    <div class="result-title">Average Damage per Scroll:</div>
+                    <div class="result-value" id="avgDpsPerScroll">0</div>
+                    <div class="info-text">Efficiency value based on total spent scrolls</div>
+                </div>
 
-            <div class="result-box">
-                <div class="result-title">Average Total Damage per Attempt:</div>
-                <div class="result-value" id="avgAttemptValue">0</div>
-                <div class="info-text">Total damage over <span id="combatDuration2">30</span> seconds</div>
-            </div>
+                <div class="result-box">
+                    <div class="result-title">Damage Range per Attempt:</div>
+                    <div class="result-value" id="rangeAttemptValue">0</div>
+                    <div class="info-text">Total damage over <span id="combatDuration">30</span> seconds</div>
+                </div>
 
-            <div class="result-box">
-                <div class="result-title">Total Scrolls Spent:</div>
-                <div class="result-value" id="totalScrollsSpent">0</div>
-                <p class="info-text red">Total investment across all current upgrades</p>
-            </div>
+                <div class="result-box">
+                    <div class="result-title">Average Hit Damage per Attempt:</div>
+                    <div class="result-value" id="avgHitValue">0</div>
+                    <p class="info-text red">Includes Crits, Rage & Damage Boost</p>
+                </div>
 
-            <div class="result-box">
-                <div class="result-title">Average Damage per Scroll:</div>
-                <div class="result-value" id="avgDpsPerScroll">0</div>
-                <div class="info-text">Efficiency value based on total spent scrolls</div>
+                <div class="result-box">
+                    <div class="result-title">Total Scrolls Spent:</div>
+                    <div class="result-value" id="totalScrollsSpent">0</div>
+                    <p class="info-text red">Total investment across all current upgrades</p>
+                </div>
+
             </div>
         </div>
     </div>
-
     <script src="./assets/js/boss.js" type="text/javascript"></script>
 </body>
 

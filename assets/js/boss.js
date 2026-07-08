@@ -6,13 +6,15 @@
 
 | Stat Name       | Default value                   | Increase per Point  | Maximum    | Maximum points | Price per point | Notes                                       |
 |-----------------|---------------------------------|---------------------|------------|----------------|-----------------|---------------------------------------------|
-| Damage Boost    | +5 max damage                   | +1 per level        | Unlimited  | Infinite       | 5               | Increases base attack power                 |
+| Damage          | +5 max damage                   | +1 per level        | Unlimited  | Infinite       | 5               | Increases base attack power                 |
 | Time Extension  | 30s time per attempt            | +1 second per level | Unlimited  | 30             | 8               | Extends each attack attempt duration        |
-| Critical Strike | 5% chance                       | +1% per level       | 25%        | 25             | 8               | Higher crit chance means more damage procs  |
-| Power           | ×1.00 (base)                    | x1.28 per level     | Unlimited  | Infinite       | 12              | Multiplies total damage output              |
+| Critical Chance | 5% chance                       | +1% per level       | 25%        | 25             | 8               | Higher crit chance means more damage procs  |
+| Power           | ×1.00 damage                    | ^1.28 per level     | Unlimited  | Infinite       | 12              | Multiplies total damage output              |
 | Devastation     | ×1.00 crit damage mult          | +0.15× per level    | 3.00×      | 20             | 12              | Increases critical hit damage               |
 | Rage            | +0% bonus from consecutive hits | +5% per Rage level  | 75%        | 15             | 12              | Hitting same body repeatedly builds up Rage |
- 
+| Precision       | +0% bonus to min damage         | +1% per level       | 40%        | 40             | 25              | Raises minimum hit damage per level         |
+| Clan Warfare    | +0% bonus to damage             | +0.2% per level     | 25%        | 50             | 0 (no scrolls)  | global clan boss damage per level.          |
+
 This table shows how each stat impacts your damage potential as you invest more scrolls.
 ***/
 
@@ -48,7 +50,7 @@ function GET_AVG_DPS_PER_SCROLL(globalDPS, currentLevel, baseCost) {
 }
 
 function GET_DAMAGE_PER_LEVEL(statName, currentLevel, globalDPS, totalTime) {
-    if (currentLevel === 0) return 0;
+    if (currentLevel <= 0) return 0;
 
     let multiplier = 0;
 
@@ -59,21 +61,36 @@ function GET_DAMAGE_PER_LEVEL(statName, currentLevel, globalDPS, totalTime) {
         multiplier = 0.28;
     } else if (statName === 'crit') {
         const lvlCrit = parseInt(document.getElementById('lvlCrit').value) || 0;
+        if (lvlCrit > 25) return 0;
+
         const lvlDev = parseInt(document.getElementById('lvlDevastation').value) || 0;
-        const critMult = 1.5 + (lvlDev * 0.15);
-        const currentCritFactor = 1 + (Math.min((5 + lvlCrit) / 100, 1) * (critMult - 1));
+        const critMult = 1.0 + (lvlDev * 0.15);
+        const currentCritFactor = 1 + (Math.min((5 + lvlCrit) / 100, 0.25) * (critMult - 1));
         multiplier = (0.01 * (critMult - 1)) / currentCritFactor;
     } else if (statName === 'devastation') {
-        const lvlCrit = parseInt(document.getElementById('lvlCrit').value) || 0;
         const lvlDev = parseInt(document.getElementById('lvlDevastation').value) || 0;
-        const critChance = Math.min((5 + lvlCrit) / 100, 1);
-        const currentCritFactor = 1 + (critChance * (0.5 + (lvlDev * 0.15)));
+        if (lvlDev > 20) return 0;
+
+        const lvlCrit = parseInt(document.getElementById('lvlCrit').value) || 0;
+        const critChance = Math.min((5 + lvlCrit) / 100, 0.25);
+        const currentCritFactor = 1 + (critChance * (lvlDev * 0.15));
         multiplier = (critChance * 0.15) / currentCritFactor;
     } else if (statName === 'time') {
         const lvlTime = parseInt(document.getElementById('lvlTime').value) || 0;
-        multiplier = 1 / (30 + Math.min(lvlTime, 30));
+        if (lvlTime > 30) return 0;
+        multiplier = 1 / (30 + lvlTime);
     } else if (statName === 'rage') {
-        multiplier = 0.05;
+        const lvlRage = parseInt(document.getElementById('lvlRage')?.value || currentLevel) || 0;
+        if (lvlRage > 15) return 0;
+        multiplier = 0.05 / (1 + (lvlRage * 0.05));
+    } else if (statName === 'precision') {
+        const lvlPrec = parseInt(document.getElementById('lvlPrecision')?.value || currentLevel) || 0;
+        if (lvlPrec > 40) return 0;
+        multiplier = 0.01 / (1 + (lvlPrec * 0.01));
+    } else if (statName === 'warfare') {
+        const lvlWar = parseInt(document.getElementById('lvlWarfare')?.value || currentLevel) || 0;
+        if (lvlWar > 50) return 0;
+        multiplier = 0.002 / (1 + (lvlWar * 0.002));
     }
 
     return (globalDPS * totalTime) * multiplier;
@@ -108,7 +125,9 @@ document.addEventListener('DOMContentLoaded', function () {
         lvlCrit: document.getElementById('lvlCrit'),
         lvlPower: document.getElementById('lvlPower'),
         lvlDevastation: document.getElementById('lvlDevastation'),
-        lvlRage: document.getElementById('lvlRage')
+        lvlRage: document.getElementById('lvlRage'),
+        lvlPrecision: document.getElementById('lvlPrecision'),
+        lvlClanWarfare: document.getElementById('lvlClanWarfare')
     };
 
     const rangeHitValueDisplay = document.getElementById('rangeHitValue');
@@ -128,6 +147,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const lvlPower = parseInt(inputs.lvlPower.value) || 0;
         const lvlDev = parseInt(inputs.lvlDevastation.value) || 0;
         const lvlRage = parseInt(inputs.lvlRage.value) || 0;
+        const lvlPrecision = parseInt(inputs.lvlPrecision.value) || 0;
+        const lvlClanWarfare = parseInt(inputs.lvlClanWarfare.value) || 0;
 
         // Calculate costs for each stat
         const costDamage = GET_SCROLL_COST(lvlDmg, 5);
@@ -136,14 +157,18 @@ document.addEventListener('DOMContentLoaded', function () {
         const costPower = GET_SCROLL_COST(lvlPower, 12);
         const costDev = GET_SCROLL_COST(lvlDev, 12);
         const costRage = GET_SCROLL_COST(lvlRage, 12);
+        const costPrecision = GET_SCROLL_COST(lvlPrecision, 25);
 
         // Constants & Base Stats
-        const baseMaxDmg = 5 + lvlDmg;
+        const clanWarfareMult = 1 + (lvlClanWarfare * 0.002);
+        const baseMaxDmg = (5 + lvlDmg) * clanWarfareMult;
         const totalTime = 30 + Math.min(lvlTime, 30);
         const powerMult = Math.pow(1.28, lvlPower);
         const critChance = Math.min((5 + lvlCrit) / 100, 1);
         const critMult = 1.5 + (lvlDev * 0.15);
         const maxRageBonus = Math.min(lvlRage, 15) * 0.05;
+        const precisionMult = 1 + (lvlPrecision * 0.01);
+
 
         // 1. Calculate Average Rage Multiplier over time (Ramp-up: +10% per hit/sec until cap)
         let rageAvgMult = 1.0;
@@ -156,7 +181,8 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         // 2. Damage per Second (DPS) Logic
-        const avgBaseRoll = (1 + baseMaxDmg) / 2;
+        const minBaseDmg = Math.max(1, baseMaxDmg * (lvlPrecision * 0.01));
+        const avgBaseRoll = (minBaseDmg + baseMaxDmg) / 2;
         const critFactor = 1 + (critChance * (critMult - 1));
         const globalDPS = avgBaseRoll * powerMult * critFactor * rageAvgMult;
 
@@ -176,26 +202,33 @@ document.addEventListener('DOMContentLoaded', function () {
         const avgAttemptDamage = globalDPS * totalTime;
         const avgDamagePerScroll = totalSpent > 0 ? avgAttemptDamage / totalSpent : 0;
 
-        // 5. Single Stat Efficiencies (Avg Damage gained per scroll spent)
+        //5. Get minimum hit damage
+        const minHitDamage = lvlPrecision < 1 ? 1 : peakNormalHit * (lvlPrecision * 0.01);
+
+
+        // 6. Single Stat Efficiencies (Avg Damage gained per scroll spent)
         const effDmg = GET_DAMAGE_PER_LEVEL('damage', lvlDmg, globalDPS, totalTime);
         const effTime = GET_DAMAGE_PER_LEVEL('time', lvlTime, globalDPS, totalTime);
         const effCrit = GET_DAMAGE_PER_LEVEL('crit', lvlCrit, globalDPS, totalTime);
         const effPower = GET_DAMAGE_PER_LEVEL('power', lvlPower, globalDPS, totalTime);
         const effDev = GET_DAMAGE_PER_LEVEL('devastation', lvlDev, globalDPS, totalTime);
         const effRage = GET_DAMAGE_PER_LEVEL('rage', lvlRage, globalDPS, totalTime);
+        const effPrecision = GET_DAMAGE_PER_LEVEL('precision', lvlPrecision, globalDPS, totalTime);
+        const effWarfare = GET_DAMAGE_PER_LEVEL('warfare', lvlClanWarfare, globalDPS, totalTime);
 
-        //6. Calculate the real-time efficiency (dmg gained / cost of next upgrade)
+        //7. Calculate the real-time efficiency (dmg gained / cost of next upgrade)
         const scrollEffDmg = costDamage > 0 ? effDmg / costDamage : 0;
         const scrollEffTime = costTime > 0 ? effTime / costTime : 0;
         const scrollEffCrit = costCrit > 0 ? effCrit / costCrit : 0;
         const scrollEffPower = costPower > 0 ? effPower / costPower : 0;
         const scrollEffDev = costDev > 0 ? effDev / costDev : 0;
         const scrollEffRage = costRage > 0 ? effRage / costRage : 0;
+        const scrollEffPrecision = costPrecision > 0 ? effPrecision / costPrecision : 0;
 
         // UI Updates
-        rangeHitValueDisplay.innerHTML = `1 - ${FORMAT_NUMBER(baseMaxDmg * powerMult, 0)} <div class="marked small red">(${FORMAT_NUMBER(baseMaxDmg * powerMult * critMult, 0)} Crit)</div>`;
+        rangeHitValueDisplay.innerHTML = `${FORMAT_NUMBER(minHitDamage, 0)} - ${FORMAT_NUMBER(baseMaxDmg * powerMult, 0)} <div class="marked small red">(${FORMAT_NUMBER(baseMaxDmg * powerMult * critMult, 0)} Crit)</div>`;
         rangeHitDescDisplay.innerHTML = `with a <div class="marked">x${FORMAT_NUMBER(powerMult, 2)}</div> damage multiplier`;
-        rangeAttemptDisplay.textContent = `${FORMAT_NUMBER(totalTime)} - ${FORMAT_NUMBER(totalMaxDamage, 0)}`;
+        rangeAttemptDisplay.textContent = `${FORMAT_NUMBER(minHitDamage * totalTime)} - ${FORMAT_NUMBER(totalMaxDamage, 0)}`;
         avgHitDisplay.textContent = "~" + FORMAT_NUMBER(globalDPS, 0);
         avgAttemptDisplay.textContent = "~" + FORMAT_NUMBER(globalDPS * totalTime, 0);
         durationDisplay.textContent = totalTime;
@@ -207,6 +240,8 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('powerValue').textContent = `x${FORMAT_NUMBER(powerMult, 2)} damage multiplier`;
         document.getElementById('devastationValue').textContent = `x${FORMAT_NUMBER(critMult, 2)} critical hit damage`;
         document.getElementById('rageValue').textContent = `+${FORMAT_NUMBER(maxRageBonus * 100, 0)}% focus damage cap`;
+        document.getElementById('precisionValue').textContent = `${FORMAT_NUMBER(minHitDamage, 0)} min hit damage`;
+        document.getElementById('instituteWarfareValue').textContent = `+${FORMAT_NUMBER((clanWarfareMult - 1) * 10, 2)}% damage multiplier`;
 
         document.getElementById('boostCost').textContent = `Cost: ${FORMAT_NUMBER(costDamage, 0)} scrolls`;
         document.getElementById('timeCost').textContent = `Cost: ${FORMAT_NUMBER(costTime, 0)} scrolls`;
@@ -214,6 +249,8 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('powerCost').textContent = `Cost: ${FORMAT_NUMBER(costPower, 0)} scrolls`;
         document.getElementById('devastationCost').textContent = `Cost: ${FORMAT_NUMBER(costDev, 0)} scrolls`;
         document.getElementById('rageCost').textContent = `Cost: ${FORMAT_NUMBER(costRage, 0)} scrolls`;
+        document.getElementById('precisionCost').textContent = `Cost: ${FORMAT_NUMBER(costPrecision, 0)} scrolls`;
+        document.getElementById('instituteWarfareCost').textContent = `Cost: money & slayer skill loot`;
 
         document.getElementById('boostAvgDmgPerLevel').innerHTML = `dmg/level ${FORMAT_NUMBER(effDmg, 1)}`;
         document.getElementById('timeAvgDmgPerLevel').innerHTML = `dmg/level ${FORMAT_NUMBER(effTime, 1)}`;
@@ -221,13 +258,17 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('powerAvgDmgPerLevel').innerHTML = `dmg/level ${FORMAT_NUMBER(effPower, 1)}`;
         document.getElementById('devastationAvgDmgPerLevel').innerHTML = `dmg/level ${FORMAT_NUMBER(effDev, 1)}`;
         document.getElementById('rageAvgDmgPerLevel').innerHTML = `dmg/level ${FORMAT_NUMBER(effRage, 1)}`;
+        document.getElementById('precisionAvgDmgPerLevel').innerHTML = `dmg/level ${FORMAT_NUMBER(effPrecision, 2)}`;
+        document.getElementById('instituteWarfareAvgDmgPerLevel').innerHTML = `dmg/level ${FORMAT_NUMBER(effWarfare, 2)}`;
 
         document.getElementById('boostDmgPerScroll').innerHTML = `dmg/scroll ${FORMAT_NUMBER(scrollEffDmg, 1)}`;
         document.getElementById('timeDmgPerScroll').innerHTML = `dmg/scroll ${FORMAT_NUMBER(scrollEffTime, 1)}`;
         document.getElementById('critDmgPerScroll').innerHTML = `dmg/scroll ${FORMAT_NUMBER(scrollEffCrit, 1)}`;
         document.getElementById('powerDmgPerScroll').innerHTML = `dmg/scroll ${FORMAT_NUMBER(scrollEffPower, 1)}`;
         document.getElementById('devastationDmgPerScroll').innerHTML = `dmg/scroll ${FORMAT_NUMBER(scrollEffDev, 1)}`;
-        document.getElementById('rageDmgPerScroll').innerHTML = `dmg/scroll ${FORMAT_NUMBER(scrollEffRage, 1)}`;;
+        document.getElementById('rageDmgPerScroll').innerHTML = `dmg/scroll ${FORMAT_NUMBER(scrollEffRage, 1)}`;
+        document.getElementById('precisionDmgPerScroll').innerHTML = `dmg/scroll ${FORMAT_NUMBER(scrollEffPrecision, 2)}`;
+        document.getElementById('instituteWarfareDmgPerScroll').innerHTML = `no dmg/scroll`;
 
         document.getElementById('totalScrollsSpent').textContent = FORMAT_NUMBER(totalSpent, 0);
         document.getElementById('avgDpsPerScroll').textContent = "~" + FORMAT_NUMBER(avgDamagePerScroll, 1);
@@ -247,35 +288,3 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     calculateResults();
 });
-
-async function cleanDataInBrowser() {
-    const response = await fetch('./assets/js/data.json');
-    const rawData = await response.json();
-
-    // Safely removes keys from objects regardless of how deep they are nested
-    function recursiveClean(obj) {
-        if (typeof obj !== 'object' || obj === null) return;
-
-        if (Array.isArray(obj)) {
-            obj.forEach(item => recursiveClean(item));
-        } else {
-            delete obj.image;
-            delete obj.reward_label;
-            delete obj.seed_drops;
-
-            for (const key in obj) {
-                recursiveClean(obj[key]);
-            }
-        }
-    }
-
-    recursiveClean(rawData);
-
-    const blob = new Blob([JSON.stringify(rawData, null, 2)], { type: 'application/json' });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'data.json';
-    a.click();
-}
-
-cleanDataInBrowser();

@@ -4,12 +4,9 @@
 }
 
 :root {
-    /* Background colors */
-    --bg-body: radial-gradient(circle at top, #283855 0, #0f172a 60%);
-
-    /* Go rework colors */
-    --surface: #131e31;
-    --surface2: #19212c;
+    --surface: #121b33;
+    --surface2: #152245;
+    --bg-body: radial-gradient(circle at top, #1f2d45 0, #131b2f 60%);
 }
 
 body {
@@ -239,7 +236,8 @@ body {
     border-bottom: 1px solid rgb(82 181 187 / 55%);
 }
 
-#category-other {
+div#cat-other {
+
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
@@ -249,11 +247,11 @@ body {
     border-left: none;
 }
 
-.lsb-locked-open #category-other {
+.lsb-locked-open div#cat-other {
     display: grid;
 }
 
-#category-other .skill-name {
+div#cat-other .skill-name {
     font-size: 12px;
     line-height: 12px;
 }

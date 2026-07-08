@@ -31,7 +31,7 @@ body {
 }
 
 .container {
-    max-width: 800px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 1.5rem;
     background-color: var(--surface);
@@ -269,13 +269,15 @@ input[type="range"]::-ms-thumb {
 }
 
 .stat-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px 30px;
     margin: 20px 0;
 }
 
 .stat-card {
+    flex: 0 0 250px;
     position: relative;
     background: var(--surface2);
     padding: 15px;
@@ -297,6 +299,7 @@ input[type="range"]::-ms-thumb {
 }
 
 .efficiency-row .divider {
+    margin: 0 10px;
     width: 1px;
     height: 24px;
     background: rgba(255, 255, 255, 0.15);
