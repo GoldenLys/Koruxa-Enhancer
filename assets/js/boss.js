@@ -26,6 +26,20 @@ function FORMAT_NUMBER(num, decimals = 0) {
     const absNum = Math.abs(num);
     const suffixDecimals = decimals === 0 ? 2 : decimals;
 
+    if (absNum >= 1e18) {
+        return (num / 1e18).toLocaleString(undefined, {
+            minimumFractionDigits: suffixDecimals,
+            maximumFractionDigits: suffixDecimals
+        }) + "Qi";
+    }
+
+    if (absNum >= 1e15) {
+        return (num / 1e15).toLocaleString(undefined, {
+            minimumFractionDigits: suffixDecimals,
+            maximumFractionDigits: suffixDecimals
+        }) + "Qa";
+    }
+    
     if (absNum >= 1e12) {
         return (num / 1e12).toLocaleString(undefined, {
             minimumFractionDigits: suffixDecimals,
@@ -51,11 +65,17 @@ function FORMAT_NUMBER(num, decimals = 0) {
     });
 }
 
-function GET_SCROLL_COST(currentLevel, baseCost) {
+function GET_SCROLL_COST(currentLevel, baseCost, type = "any") {
     const targetLevel = currentLevel + 1;
-    if (targetLevel <= 50) return targetLevel * baseCost;
 
-    return targetLevel * baseCost * 3;
+    if (type === "power") {
+        if (targetLevel <= 50) return targetLevel * baseCost;
+        if (targetLevel <= 70) return targetLevel * baseCost * 3;
+        if (targetLevel <= 90) return targetLevel * baseCost * 8;
+        return targetLevel * baseCost * 20;
+    }
+
+    return targetLevel * baseCost;
 }
 
 function GET_TOTAL_SCROLLS_SPENT(currentLevel, baseCost) {
@@ -182,7 +202,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const costDamage = GET_SCROLL_COST(lvlDmg, 5);
         const costTime = GET_SCROLL_COST(lvlTime, 8);
         const costCrit = GET_SCROLL_COST(lvlCrit, 8);
-        const costPower = GET_SCROLL_COST(lvlPower, 12);
+        const costPower = GET_SCROLL_COST(lvlPower, 12, "power");
         const costDev = GET_SCROLL_COST(lvlDev, 12);
         const costRage = GET_SCROLL_COST(lvlRage, 12);
         const costPrecision = GET_SCROLL_COST(lvlPrecision, 25);

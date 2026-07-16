@@ -60,18 +60,17 @@ body {
     background-clip: text;
 }
 
+#session-cycles,
+#session-cycles-row2 {
+    display: none;
+}
+
 .neh-helper {
     display: flex;
     flex-direction: column;
     font-family: "Saira", sans-serif;
-    background: rgb(68 151 156 / 10%);
-    border: 1px solid rgb(82 181 187 / 35%);
-    box-shadow: inset 0 0 8px rgb(82 181 187 / 30%);
-    border-radius: 0px;
-    border-left: none;
-    border-right: none;
-    padding: 10px 12px;
     overflow: hidden;
+    font-weight: 300;
 }
 
 .neh-btns {
@@ -144,32 +143,24 @@ body {
 
 .neh-content {
     display: flex;
-    width: calc(100% + 10px);
-    gap: 5px;
-    margin: 0 -5px;
-    font-size: 12px;
-    font-weight: lighter;
+    flex-direction: column;
+    width: calc(100% + 0px);
+    color: var(--text3);
 }
 
-.neh-footer {
-    display: flex;
-    gap: 3px;
-    font-size: 12px;
-    margin: 10px -10px -10px;
-    padding: 5px 10px;
-    border-top: 1px solid rgb(82 181 187 / 35%);
-    width: calc(100% + 20px);
-    justify-content: center;
-    align-items: center;
-    background-color: rgb(0 0 0 / 25%);
+
+.neh-content b {
+    color: var(--green);
 }
 
+.neh-footer,
 .neh-sub-footer {
-    display: flex;
-    border-left: 1px solid white;
-    padding-left: 10px;
-    margin-left: 10px;
-    gap: 5px;
+    font-size: 14px;
+    padding: 0px 0px;
+    width: calc(100% + 0px);
+    align-items: center;
+    text-align: center;
+    color: var(--text3);
 }
 
 .neh-footer i {
@@ -274,13 +265,15 @@ div#cat-other .skill-name {
     }
 }
 
-@media (min-width: 1024px) and ( max-width: 1400px) {
+@media (min-width: 1024px) and (max-width: 1400px) {
     .topbar-row2 {
-        top: calc(var(--topbar-h) - 31px);
+        top: calc(var(--topbar-h) - 30px);
+        min-height: 60px;
+        z-index: 100;
     }
 
     .topbar {
-    margin-bottom: 31px;
+        padding-bottom: 70px;
     }
 }
 
@@ -340,7 +333,7 @@ div#cat-other .skill-name {
     }
 
     .game-layout.lsb-hover .skill-category .skill-category-header,
-    .game-layout.lsb-locked-open .skill-category .skill-category-header{
+    .game-layout.lsb-locked-open .skill-category .skill-category-header {
         gap: 8px;
     }
 
@@ -372,6 +365,10 @@ div#cat-other .skill-name {
     .row2-user {
         display: none !important;
     }
+}
+
+.sidebar-footer-btn>i {
+    font-size: 1.65em;
 }
 
 .sidebar-footer-btn.unlocked {
@@ -407,7 +404,7 @@ div#cat-other .skill-name {
 
 .tree-card .neh-rewardcoins {
     bottom: 54px;
-    
+
 }
 
 .ra.ra-double {
@@ -416,10 +413,7 @@ div#cat-other .skill-name {
     background: inherit;
     -webkit-background-clip: text;
     background-clip: text;
-    filter: drop-shadow(0.5px 0 0 #0c1427) 
-        drop-shadow(0.5px 0 0 #0c1427) 
-        drop-shadow(0 0.5px 0 #0c1427) 
-        drop-shadow(0 0.5px 0 #0c1427);
+    filter: drop-shadow(0.5px 0 0 #0c1427) drop-shadow(0.5px 0 0 #0c1427) drop-shadow(0 0.5px 0 #0c1427) drop-shadow(0 0.5px 0 #0c1427);
 }
 
 .ra.ra-double.smaller {
@@ -593,8 +587,7 @@ li[data-skill="jewelery"] .skill-icon>i {
 
 /* QoL resize for session info */
 .session-info,
-.session-info span,
-#session-cycles-row2 {
+.session-info span {
     font-size: 14px !important;
 }
 

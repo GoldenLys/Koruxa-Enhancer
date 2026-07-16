@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       2.87
+// @version       3.0
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    https://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
@@ -20,11 +20,10 @@
 
 /* TODO & Ideas List
  - (Maybe) add "Stats" tab with more stats
- - Make the plus button generate a formula to reach the desired level with the less amount of time 
+ - Make the script check for Masteries and potions XP/Speed Buffs
 
  /find all masteries
   const data = await api('mastery/catalog');
-  const catalog = (data && data.catalog) || [];
 
   const available_masteries_skill = [
     "woodcutting", "mining", "fishing", "cooking", "fletching", "crafting", "herblore", "smithing", "firemaking", "arcana", "thieving", "farming", "alchemy", "combat", "slayer",
@@ -48,23 +47,24 @@
 const KX = unsafeWindow;
 KX.KORUXA_GLOBALS = {
     "forced-current-skill": "none",
-    "target-level": 0,
     "sidebar-state": "lsb-locked-closed",
     "clan-xp-bonus": 0,
     "amulet-xp-bonus": 0,
-    "global-speed": 0,
+    "global-speed-bonus": 0,
+    "global-xp-bonus": 0,
     "patron-level": "",
     Institute: {
-        // Gathering researches - 6 available
-        WoodcuttersEdge: { name: "Woodcutter's Edge", effect: { category: "gathering", type: "xp_bonus", value: 1.14, skill: "woodcutting" }, level: 0, maxLevel: 50, },
-        MinersEye: { name: "Miner's Eye", effect: { category: "gathering", type: "xp_bonus", value: 1.14, skill: "mining" }, level: 0, maxLevel: 50, },
-        FishersPatience: { name: "Fisher's Patience", effect: { category: "gathering", type: "xp_bonus", value: 1.14, skill: "fishing" }, level: 0, maxLevel: 50 },
+        // Gathering researches - 7 available
+        ThiefInstinct: { name: "Thief's Instinct", effect: { category: "gathering", type: "xp_bonus", value: 1.143, skill: "thieving" }, level: 0, maxLevel: 50, },
+        WoodcuttersEdge: { name: "Woodcutter's Edge", effect: { category: "gathering", type: "xp_bonus", value: 1.143, skill: "woodcutting" }, level: 0, maxLevel: 50, },
+        MinersEye: { name: "Miner's Eye", effect: { category: "gathering", type: "xp_bonus", value: 1.143, skill: "mining" }, level: 0, maxLevel: 50, },
+        FishersPatience: { name: "Fisher's Patience", effect: { category: "gathering", type: "xp_bonus", value: 1.143, skill: "fishing" }, level: 0, maxLevel: 50 },
         GatherersTrove: { name: "Gatherer's Trove", effect: { category: "gathering", type: "double_drop", value: 0.15, skill: "all_gathering" }, level: 0, maxLevel: 50 },
         RareInsight: { name: "Rare Insight", effect: { category: "gathering", type: "rare_drop_bonus", value: 0.1, skill: "all_gathering" }, level: 0, maxLevel: 50 },
         EfficientHarvest: { name: "Efficient Harvest", effect: { category: "gathering", type: "max_speed_cap", value: 0.06, skill: "all_gathering" }, level: 0, maxLevel: 50 }, // max base speed cap is 95%, at level 50 with this it's 98%
 
         // Artisan researches - 6 available
-        MasterCrafter: { name: "Master Crafter", effect: { category: "artisan", type: "xp_bonus", value: 1.14, skills: ["cooking", "smithing", "crafting", "fletching", "herblore", "firemaking"] }, level: 0, maxLevel: 50 },
+        MasterCrafter: { name: "Master Crafter", effect: { category: "artisan", type: "xp_bonus", value: 1.143, skills: ["cooking", "smithing", "crafting", "fletching", "herblore", "firemaking"] }, level: 0, maxLevel: 50 },
         ResourceFrugality: { name: "Resource Frugality", effect: { category: "artisan", type: "crafting_materials_reduction", value: -0.1, skill: "all_artisan" }, level: 0, maxLevel: 50 },
         BonusYield: { name: "Bonus Yield", effect: { category: "artisan", type: "double_drop", value: 0.1, skill: "all_artisan" }, level: 0, maxLevel: 50 },
         FireControl: { name: "Fire Control", effect: { category: "artisan", type: "firemaking_success_rate_bonus", value: -0.15, skill: "firemaking" }, level: 0, maxLevel: 50 },
@@ -120,7 +120,7 @@ KX.mapping = { // Mappings of game data
     "current-hp": { selector: "#hp-text", value: "0" },
     "max-hp": { selector: "#hp-text", value: "0" },
     "session-time-left": { selector: "#session-time-row2", value: "" },
-    cycle: { selector: "#session-cycles-row2", value: { current: "0", total: "0" } },
+    cycle: { selector: "#session-cycles-row2", value: { current: "0", total: "0", time: "0" } },
     "session-xp-rate": { selector: "#topbar-xph", value: "0" },
 };
 
@@ -204,7 +204,7 @@ KX.mapping = { // Mappings of game data
             icon: "ra ra-strongbox", text: " Bank"
         },
 
-        "a[onclick*='news']": { // Footer news
+        "a[onclick*='showNewsModal']": { // Footer news
             icon: "fa-solid fa-newspaper", text: ""
         },
 
@@ -237,12 +237,12 @@ KX.mapping = { // Mappings of game data
             }
 
             case "#session-cycles-row2": {
-                if (!text || text == "0 ticks") text = "0/0 ticks · 0s/tick";
-                const m = text.replace("~", "").match(/(\d+)\s*\/\s*(\d+)/);
-                if (m[1] !== KORUXA_GLOBALS.cycle?.current || m[2] !== KORUXA_GLOBALS.cycle?.total) {
+                if (!text || text === "0 ticks") text = "0/0 ticks · 0s/tick";
+                const m = text.replace("~", "").match(/(\d+)\s*\/\s*(\d+).*?([\d.]+s)/);
+                if (m && (m[1] !== KORUXA_GLOBALS.cycle?.current || m[2] !== KORUXA_GLOBALS.cycle?.total)) {
                     EXTRACT_SKILLS(KX.KORUXA_GLOBALS["current-skill"]);
                 }
-                return m ? { current: m[1], total: m[2] } : "(invalid format)";
+                return m ? { current: m[1], total: m[2], time: m[3] } : "(invalid format)";
             }
 
             case "#session-action-row2": {
@@ -363,7 +363,6 @@ KX.mapping = { // Mappings of game data
             setTimeout(() => { LOAD_FARM_STATS(); LOAD_TOOL_STATS(); EXTRACT_AMULET(); EXTRACT_SKILLS(); }, 1000);
             GET_BEST_XP_EFFICIENCY();
             DISPLAY_THIEVING_GOLD_RANKING();
-            HIGHLIGHT_LEADERBOARD();
             KX.KORUXA_ENHANCED.isReadyFuncRunOnce = true;
             ENHANCED_CHAT_LOG(`Koruxa Enhanced is enabled and ready.`, 'success');
 
@@ -371,28 +370,55 @@ KX.mapping = { // Mappings of game data
 
         // Loop run when the script is ready and loaded
         if (KX.KORUXA_ENHANCED.isKXReady && KX.KORUXA_ENHANCED.isKXLoaded) {
-            const XPBonusEl = document.querySelector("#page-content>div[style]:not([class]):not([id])>div[style*='font-size:10px;']:not([class]):not([id])");
+            const XPBonusEl = document.querySelector("#bonus-breakdown");
             if (XPBonusEl) {
                 const text = XPBonusEl.textContent;
-                const matchXp = text.match(/Clan: [^|]*?XP\+(\d+(?:\.\d+)?)%/);
-                const extractedXP = matchXp ? parseFloat(matchXp[1]) : 0;
 
-                const matchSpd = text.match(/Global: [^|]*?Spd\+(\d+(?:\.\d+)?)%/);
-                const extractedSpd = matchSpd ? parseFloat(matchSpd[1]) : 0;
+                const isValidStatsBar = text.includes('XP+') || text.includes('Spd+') || text.includes('|');
 
-                if (extractedXP > Number(KX.CLAN_XP_BONUS || 0)) {
-                    KX.CLAN_XP_BONUS = String(extractedXP);
-                    KX.KORUXA_GLOBALS["clan-xp-bonus"] = KX.CLAN_XP_BONUS;
-                    KX.KORUXA_GLOBALS["global-speed-bonus"] = String(extractedSpd);
-                    NEH_STORAGE('save');
+                if (isValidStatsBar) {
+                    //Clan XP bonus
+                    const matchXp = text.match(/Clan: [^|]*?XP\+(\d+(?:\.\d+)?)%/);
+                    const extractedXP = matchXp ? parseFloat(matchXp[1]) : 0;
+
+                    //Global Speed bonus
+                    const matchSpd = text.match(/Global: [^|]*?Spd\+(\d+(?:\.\d+)?)%/);
+                    const extractedSpd = matchSpd ? parseFloat(matchSpd[1]) : 0;
+
+                    //Global XP bonus
+                    const matchGXP = text.match(/Global: [^|]*?XP\+(\d+(?:\.\d+)?)%/);
+                    const extractedGlobalXP = matchGXP ? parseFloat(matchGXP[1]) : 0;
+
+                    const currentSavedXP = Number(KX.CLAN_XP_BONUS || 0);
+                    const currentSavedSpd = Number(KX.KORUXA_GLOBALS["global-speed-bonus"] || 0);
+                    const currentSavedGlobalXP = Number(KX.KORUXA_GLOBALS["global-xp-bonus"] || 0);
+
+                    // If the values are different (higher, lower, or reset to 0), update them.
+                    if (extractedXP !== currentSavedXP || extractedSpd !== currentSavedSpd || extractedGlobalXP !== currentSavedGlobalXP) {
+                        KX.CLAN_XP_BONUS = extractedXP;
+                        KX.KORUXA_GLOBALS["clan-xp-bonus"] = extractedXP;
+
+                        KX.GLOBAL_SPEED_BONUS = extractedSpd;
+                        KX.KORUXA_GLOBALS["global-speed-bonus"] = extractedSpd;
+
+                        KX.GLOBAL_XP_BONUS = extractedGlobalXP;
+                        KX.KORUXA_GLOBALS["global-xp-bonus"] = extractedGlobalXP;
+
+                        NEH_STORAGE('save');
+                    }
                 }
 
-                if (!KX.CLAN_XP_BONUS || KX.CLAN_XP_BONUS === "0") {
-                    KX.CLAN_XP_BONUS = KX.KORUXA_GLOBALS["clan-xp-bonus"] || "0";
+                // Fallbacks in case they are empty strings
+                if (!KX.CLAN_XP_BONUS || KX.CLAN_XP_BONUS === "") {
+                    KX.CLAN_XP_BONUS = KX.KORUXA_GLOBALS["clan-xp-bonus"] || 0;
                 }
 
-                if (!KX.GLOBAL_SPEED_BONUS || KX.GLOBAL_SPEED_BONUS === "0") {
-                    KX.GLOBAL_SPEED_BONUS = KX.KORUXA_GLOBALS["global-speed-bonus"] || "0";
+                if (!KX.GLOBAL_SPEED_BONUS || KX.GLOBAL_SPEED_BONUS === "") {
+                    KX.GLOBAL_SPEED_BONUS = KX.KORUXA_GLOBALS["global-speed-bonus"] || 0;
+                }
+
+                if (!KX.GLOBAL_XP_BONUS || KX.GLOBAL_XP_BONUS === "") {
+                    KX.GLOBAL_XP_BONUS = KX.KORUXA_GLOBALS["global-xp-bonus"] || 0;
                 }
             }
 
@@ -565,13 +591,22 @@ KX.mapping = { // Mappings of game data
 
     // Generates a globals for each tool stats
     async function LOAD_TOOL_STATS() {
-        const skills = ['woodcutting', 'mining', 'fishing', 'farming', 'cooking', 'thieving', 'fletching', 'crafting', 'herblore', 'smithing', 'firemaking', 'arcana', 'jewelery'/*, 'alchemy', 'slayer'*/];
+        const skills = ['woodcutting', 'mining', 'fishing', 'farming', 'cooking', 'thieving', 'fletching', 'crafting', 'herblore', 'smithing', 'firemaking', 'arcana', 'jewelery'];
+
         for (const skill of skills) {
-            KX.KORUXA_TOOLS[skill] = KX.KORUXA_TOOLS[skill] || { speed: 0, xp: 0 };
+            const slotElement = document.querySelector(`div[data-slot="tool_${skill}"]`);
+
+            if (!slotElement || !slotElement.hasAttribute('onclick')) {
+                KX.KORUXA_TOOLS[skill] = { speed: 0, xp: 0 };
+                continue;
+            }
+
+            KX.KORUXA_TOOLS[skill] = { speed: 0, xp: 0 };
 
             try {
                 const mockEvent = { clientX: 0, clientY: 0 };
                 showToolSlotTooltip(mockEvent, `tool_${skill}`);
+
                 await wait(50);
                 const tooltip = document.getElementById('item-tooltip');
 
@@ -583,8 +618,8 @@ KX.mapping = { // Mappings of game data
 
                         if (labelSpan && valueSpan) {
                             const labelText = labelSpan.innerText.trim();
-                            const valueText = valueSpan.innerText.trim(); // Ex: "+18%"
-                            const pureNumber = parseFloat(valueText.replace(/[^\d.-]/g, '')) || 0;
+                            const pureNumber = parseFloat(valueSpan.innerText.replace(/[^\d.-]/g, '')) || 0;
+
                             if (labelText.includes('Speed')) {
                                 KX.KORUXA_TOOLS[skill].speed = pureNumber;
                             } else if (labelText.includes('XP')) {
@@ -600,6 +635,36 @@ KX.mapping = { // Mappings of game data
             }
         }
     }
+
+    function LOAD_CAPE_STATS() {
+        const capeData = { name: null, type: null, skill: null, speed: 0, xp: 0 };
+        const name = document.querySelector('#equip-grid div[data-slot="cape"]:not(.empty) .item-name')?.textContent.trim();
+
+        if (!name) return (KX.KORUXA_CAPE = capeData);
+
+        const configs = [
+            [/^Master Quest Cape$/i, { type: "global", speed: 0, xp: 20 }],
+            [/^Quest Cape$/i, { type: "global", speed: 0, xp: 15 }],
+            [/^Completionist Cape$/i, { type: "global", speed: 0, xp: 25 }],
+            [/^Max Cape$/i, { type: "global", speed: 10, xp: 30 }],
+            [/^(.+?) Master Cape$/i, { type: "skill", speed: 0, xp: 50 }],
+            [/^(.+?) Skillcape$/i, { type: "skill", speed: 0, xp: 20 }]
+        ];
+
+        capeData.name = name;
+
+        for (const [regex, cfg] of configs) {
+            const match = name.match(regex);
+            if (match) {
+                Object.assign(capeData, cfg);
+                if (cfg.type === "skill") capeData.skill = match[1].toLowerCase();
+                break;
+            }
+        }
+
+        return capeData;
+    }
+    KX.LOAD_CAPE_STATS = LOAD_CAPE_STATS;
 
     function GET_LAST_UNLOCK_SKILL(skill, level = 0) {
         const config = KX.KORUXA_CONFIGS?.[skill];
@@ -654,7 +719,7 @@ KX.mapping = { // Mappings of game data
             }
 
             const speed = GET_SPEED_MULTIPLIER(skill);
-            const xpBonus = GET_XP_MUTLTIPLIER(skill);
+            const xpBonus = GET_XP_MULTIPLIER(skill);
             const effectiveXP = (e.xp || 0) * (successChance / 100);
             const xpPerLoop = effectiveXP * (1 + xpBonus / 100);
             const msPerLoop = (e.duration_ms || 0) * Math.max(0, 1 - speed / 100);
@@ -825,7 +890,7 @@ KX.mapping = { // Mappings of game data
         }
 
         if (!itemData) return null;
-        const xpBonusTotal = GET_XP_MUTLTIPLIER(skillId);
+        const xpBonusTotal = GET_XP_MULTIPLIER(skillId);
 
         const xpPerLoop = (itemData.xp || 0) * (1 + xpBonusTotal / 100);
         const currentLoops = Number(cycle.current) || 0;
@@ -843,138 +908,51 @@ KX.mapping = { // Mappings of game data
         };
     }
 
-    // Displays a helper for the current skill or forced skill
+    // Displays a tool for the current action that tells how much XP you will get
     function NEH() {
-        const SKILL_ICONS = {
-            woodcutting: "ra ra-fire-axe", mining: "ra ra-war-pick", fishing: "ra ra-fishing-pole",
-            farming: "ra ra-wheat", thieving: "ra ra-balaclava", arcana: "ra ra-spell-book",
-            cooking: "ra ra-meat", fletching: "ra ra-arrowhead", crafting: "ra ra-claw-hammer",
-            herblore: "ra ra-potion-ball", smithing: "ra ra-anvil-impact", firemaking: "ra ra-campfire",
-            alchemy: "ra ra-fizzing-flask", jewelery: "fa-solid fa-gem", default: "fa-solid fa-star"
-        };
+        let skill = (KX.KORUXA_GLOBALS?.["current-skill"] || "").toLowerCase();
+        const combatSkills = ["attack", "strength", "defence", "hitpoints", "magic", "ranged"];
 
-        const forced = (KX.KORUXA_GLOBALS?.["forced-current-skill"] || "").toLowerCase();
-        const current = (KX.KORUXA_GLOBALS?.["current-skill"] || "").toLowerCase();
-        var skill = (forced && forced !== "none") ? forced : (current || null);
-        if (skill === "attack" || skill === "strength" || skill === "defence" || skill === "hitpoints" || skill === "magic" || skill === "ranged") skill = "woodcutting"; // skip combat skills
+        if (combatSkills.includes(skill)) skill = "combat";
         if (!skill) return;
 
-        const level = Number(KX.KORUXA_STATS?.[skill]?.level ?? 0);
-        let tLvl = Number(KX.KORUXA_GLOBALS["target-level"] ?? level);
-        if (tLvl < level) tLvl = (level + 1);
-        KX.KORUXA_GLOBALS["target-level"] = tLvl;
-
-        const result = tLvl > level ? CALC_SKILL_LEVEL_UP(skill, tLvl) : CALC_SKILL_LEVEL_UP(skill);
-        if (!result?.length) return;
-
-        const [first, second, third] = result;
-        const approx = skill === "thieving" ? "~" : "";
-
-        const formatIng = (item) => {
-            if (!item || !item.ingredients_list) return "";
-            const list = Object.entries(item.ingredients_list)
-                .map(([name, qty]) => `${FORMAT_NUMBER(qty, 0)} ${name}`)
-                .join(", ");
-            return list ? `<br><div class="neh-req">Requires: ${list}</div>` : "";
-        };
-
-        const phrase = [
-            `<div class="neh-summary">Reach ${first.skill} level <b>${tLvl}</b> with <b>${FORMAT_NUMBER(first.required)}</b> XP</div>`,
-            `<div class="neh-option-item">1. <b>${first.label} ${approx}x${FORMAT_NUMBER(first.loops, 0)}</b> — <b>${first.time}</b>${formatIng(first)}</div>`,
-            second ? `<div class="neh-option-item">2. <b>${second.label} ${approx}x${FORMAT_NUMBER(second.loops, 0)}</b> — <b>${second.time}</b>${formatIng(second)}</div>` : null,
-            third ? `<div class="neh-option-item">3. <b>${third.label} ${approx}x${FORMAT_NUMBER(third.loops, 0)}</b> — <b>${third.time}</b>${formatIng(third)}</div>` : null
-        ].filter(Boolean).join("");
-        let el = document.querySelector("#neh-helper");
-        if (!el) {
-            el = document.createElement("div");
-            el.id = "neh-helper";
-            el.className = "neh-helper";
-            el.innerHTML = `
-            <div class="neh-btns"></div>
-            <div class="neh-content">
-                <div class="neh-text">
-                    <div class="neh-title"><i class="ra ra-crown-coin"></i> Koruxa Helper <span class="neh-subtitle"></span></div>
-                    <div class="neh-item"></div>
+        ['#session-cycles', '#session-cycles-row2'].forEach(id => {
+            const target = document.querySelector(id);
+            if (target && !target.nextElementSibling?.classList.contains('neh-helper')) {
+                target.insertAdjacentHTML('afterend', `
+                <div class="neh-helper">
+                    <div class="neh-content">
+                    </div>
                 </div>
-                <div class="neh-right-buttons">
-                    <div id="NEH-Plus" class="neh-button"><i class="fa-solid fa-plus"></i></div>
-                    <div id="NEH-Minus" class="neh-button"><i class="fa-solid fa-minus"></i></div>
-                </div>
-            </div><div class="neh-content">
-                <div id="neh-footer" class="neh-footer"></div>
-            </div>`;
-            document.querySelector(".sidebar-right")?.prepend(el);
+            `);
+            }
+        });
 
-            el.querySelector("#NEH-Plus").addEventListener('click', function () {
-                if (this.hasAttribute("disabled")) return;
-                const skill = GET_CURRENT_SKILL();
-                const currentLevel = Number(KX.KORUXA_STATS?.[skill]?.level ?? 0);
-                const target = Number(KX.KORUXA_GLOBALS["target-level"] || currentLevel);
+        const footers = document.querySelectorAll('.neh-content');
+        if (!footers.length) return;
 
-                if (target < 150) {
-                    KX.KORUXA_GLOBALS["target-level"] = target + 1;
-                    NEH();
-                }
-            });
-
-            el.querySelector("#NEH-Minus").addEventListener('click', function () {
-                if (this.hasAttribute("disabled")) return;
-                const skill = GET_CURRENT_SKILL();
-                const currentLevel = Number(KX.KORUXA_STATS?.[skill]?.level ?? 0);
-                const target = Number(KX.KORUXA_GLOBALS["target-level"] || currentLevel);
-
-                if (target > currentLevel + 1) {
-                    KX.KORUXA_GLOBALS["target-level"] = target - 1;
-                    NEH();
-                }
-            });
+        if (skill === "combat") {
+            footers.forEach(f => f.innerHTML = "Combat action in progress.");
+            return;
         }
-
-        const bP = el.querySelector("#NEH-Plus");
-        const bM = el.querySelector("#NEH-Minus");
-        const bT = el.querySelector("#neh-footer");
 
         const session = CALC_SESSION_XP();
-        const sessionXP_Current = (KX.KORUXA_GLOBALS["current-skill"] !== "Doing" && session && typeof session?.xpRemaining === "number") ?
-            `<b>${FORMAT_NUMBER(session?.xpPerLoop, 0)}</b> XP x<b>${FORMAT_NUMBER(session?.loops, 0)}</b>` : "";
+        const isDoing = KX.KORUXA_GLOBALS["current-skill"] === "Doing";
 
-        const sessionXP_Total = (KX.KORUXA_GLOBALS["current-skill"] !== "Doing" && session && typeof session?.xpRemaining === "number") ?
-            `<b>${FORMAT_NUMBER(session?.xpRemaining, 0)}</b> XP` : "";
+        if (!isDoing && session && typeof session.xpRemaining === "number" && session.xpRemaining > 0) {
+            const cycleTime = KX.KORUXA_GLOBALS["cycle"]?.time || "0s";
+            const currentSkill = KX.KORUXA_GLOBALS["current-skill"];
 
-        const sessionLevels = (KX.KORUXA_GLOBALS["current-skill"] !== "Doing" && session && typeof session?.xpRemaining === "number") ?
-            `<b>${(GET_LEVEL_FROM_XP(Number(KX.KORUXA_STATS?.[KX.KORUXA_GLOBALS["current-skill"].toLowerCase()].xp_total) + session?.xpRemaining))}</b>` : "";
+            const currentXP = Number(KX.KORUXA_STATS?.[skill]?.xp_total || 0);
+            const targetXP = currentXP + session.xpRemaining;
 
-        tLvl == 150 ? bP.setAttribute("disabled", "") : bP.removeAttribute("disabled");
-        tLvl <= (level + 1) ? bM.setAttribute("disabled", "") : bM.removeAttribute("disabled");
+            const sessionXP_Current = `<b>${FORMAT_NUMBER(session.loops, 0)}</b> actions left for <b>${FORMAT_NUMBER(session.xpPerLoop, 0)}</b> XP every <b>${cycleTime}</b>`;
+            const sessionXP_Total = `${FORMAT_NUMBER(session.xpRemaining, 0)} XP`;
+            const sessionLevels = GET_LEVEL_FROM_XP(targetXP);
 
-        el.querySelector(".neh-item").innerHTML = phrase;
-        el.querySelector(".neh-subtitle").textContent = `${skill} ${tLvl}`;
-        if (typeof session?.xpRemaining === "number" && session?.xpRemaining > 0) {
-            bT.innerHTML = `<i class="ra ra-alarm-clock"></i> <b>${sessionXP_Current}</b> <span class="neh-sub-footer">${KX.KORUXA_GLOBALS["current-skill"]} ${sessionLevels} and ${sessionXP_Total} </span>`;
+            const html = `<div class="neh-footer">${sessionXP_Current}</div><div class="neh-sub-footer">for level <b>${sessionLevels}</b> and <b>${sessionXP_Total}</b></div>`;
+            footers.forEach(f => f.innerHTML = html);
         }
-
-        const bC = el.querySelector(".neh-btns");
-        if (!bC.hasChildNodes()) {
-            const sks = (typeof KX.KORUXA_CONFIGS === "object") ? Object.keys(KX.KORUXA_CONFIGS) : [skill];
-            bC.append(...sks.map(k => {
-                const key = k.toLowerCase();
-                const b = document.createElement("button");
-                b.className = "neh-button";
-                b.dataset.skill = key;
-                b.innerHTML = `<i class="${SKILL_ICONS[key] || SKILL_ICONS.default}"></i>`;
-                return b;
-            }));
-            bC.onclick = (e) => {
-                const b = e.target.closest(".neh-button");
-                if (!b) return;
-                const ns = b.dataset.skill;
-                KX.KORUXA_GLOBALS["forced-current-skill"] = ns;
-                KX.KORUXA_GLOBALS["target-level"] = (Number(KX.KORUXA_STATS?.[ns]?.level || 0) + 1);
-                NEH();
-            };
-        }
-
-        bC.querySelectorAll(".neh-button").forEach(b => b.classList.toggle("active", b.dataset.skill === skill));
     }
 
     function CALC_THIEVING_SUCCESS_RATE(skill) {
@@ -1007,7 +985,7 @@ KX.mapping = { // Mappings of game data
 
                 if (entry) {
                     const speed = GET_SPEED_MULTIPLIER(skill);
-                    const xpBonus = GET_XP_MUTLTIPLIER(skill);
+                    const xpBonus = GET_XP_MULTIPLIER(skill);
                     const xpPerLoop = (entry.xp || 0) * (1 + xpBonus / 100);
                     const msPerLoop = (entry.duration_ms || 0) * Math.max(0.1, 1 - speed / 100);
                     let xpPerHour = msPerLoop > 0 ? (xpPerLoop / (msPerLoop / 1000)) * 3600 : 0;
@@ -1123,10 +1101,11 @@ KX.mapping = { // Mappings of game data
             if (data) {
                 KX.KORUXA_GLOBALS["sidebar-state"] = parsed_data["sidebar-state"] || "lsb-locked-closed";
                 KX.KORUXA_GLOBALS.Institute = parsed_data.Institute;
-                KX.KORUXA_GLOBALS["clan-xp-bonus"] = parsed_data["clan-xp-bonus"] || 0;
-                KX.KORUXA_GLOBALS["global-speed"] = parsed_data["global-speed"] || 0;
+                KX.KORUXA_GLOBALS["clan-xp-bonus"] = Number(parsed_data["clan-xp-bonus"]) || 0;
+                KX.KORUXA_GLOBALS["global-speed-bonus"] = Number(parsed_data["global-speed_bonus"]) || 0;
+                KX.KORUXA_GLOBALS["global-xp-bonus"] = Number(parsed_data["global-xp-bonus"]) || 0;
                 KX.KORUXA_GLOBALS["patron-level"] = parsed_data["patron-level"] || "none";
-                KX.KORUXA_GLOBALS["amulet-xp-bonus"] = parsed_data["amulet-xp-bonus"] || 0;
+                KX.KORUXA_GLOBALS["amulet-xp-bonus"] = Number(parsed_data["amulet-xp-bonus"]) || 0;
             }
         }
     }
@@ -1157,23 +1136,7 @@ KX.mapping = { // Mappings of game data
         }
     }
 
-    function HIGHLIGHT_LEADERBOARD() {
-        const isPlayerViewingLeaderboard = !!document.querySelector('.skill-link.active[onclick*="leaderboard"]');
-        if (!isPlayerViewingLeaderboard) return;
-
-        const targetName = KX.mapping.username.value;
-        const rows = document.querySelectorAll('.lb-row');
-
-        rows.forEach(row => {
-            const nameElement = row.querySelector('span[onclick*="profile/"]');
-
-            if (nameElement && nameElement.textContent.trim() === targetName) {
-                row.classList.add('active');
-            }
-        });
-    }
-
-    function GET_XP_MUTLTIPLIER(skill) {
+    function GET_XP_MULTIPLIER(skill, debug = false) {
         skill = skill.toLowerCase();
         const premiumLevels = {
             "Apprentice": 20,
@@ -1192,6 +1155,7 @@ KX.mapping = { // Mappings of game data
         const premiumBonus = KX.KORUXA_IS_PREMIUM ? premiumLevels[KX.KORUXA_GLOBALS["patron-level"]] : 0;
         const clanBonus = Number(KX.KORUXA_GLOBALS["clan-xp-bonus"]) || 0;
         let instituteBonus = 0;
+        let capeXp = 0;
 
         for (const item of Object.values(KX.KORUXA_GLOBALS.Institute || {})) {
             if (item?.effect?.type === "xp_bonus" && item.effect.skill === skill) {
@@ -1206,22 +1170,28 @@ KX.mapping = { // Mappings of game data
                 instituteBonus += (item.effect.value * item.level);
             }
         }
-        /*
-        if (skill == "mining") {
+        //{name: 'Mining Skillcape', type: 'skill', skill: 'mining', speed: 0, xp: 20}
+        const capeData = LOAD_CAPE_STATS();
+        if (capeData.xp > 0 && capeData.type === "skill" && capeData.skill === skill) {
+            capeXp = capeData.xp;
+        }
+
+        if (skill == "mining" && debug) {
             console.log("Calculating XP Multiplier for skill:", skill);
             console.log("Tools XP Bonus:", toolsXp);
-            console.log("Farms XP Bonus:", farmsXp);
             console.log("Premium Bonus:", premiumBonus);
-            console.log("Clan XP Bonus:", clanBonus);
+            console.log("Farms XP Bonus:", farmsXp);
             console.log("Institute Bonus:", instituteBonus);
+            console.log("Clan XP Bonus:", clanBonus);
             console.log("Amulet XP Bonus:", KX.KORUXA_GLOBALS?.["amulet-xp-bonus"]);
-            console.log("Final XP Multiplier (rounded):", parseFloat((toolsXp + farmsXp + premiumBonus + clanBonus + instituteBonus + KX.KORUXA_GLOBALS?.["amulet-xp-bonus"]).toFixed(2)));
+            console.log("Cape XP Bonus:", capeXp);
+            console.log("Global XP Bonus:", KX.KORUXA_GLOBALS?.["global-xp-bonus"]);
+            console.log("Final XP Multiplier (rounded):", parseFloat((toolsXp + farmsXp + premiumBonus + clanBonus + instituteBonus + KX.KORUXA_GLOBALS?.["amulet-xp-bonus"] + capeXp + KX.KORUXA_GLOBALS?.["global-xp-bonus"]).toFixed(2)));
             console.log("------------------------------------")
-        }*/
-        return parseFloat((toolsXp + farmsXp + premiumBonus + clanBonus + instituteBonus + KX.KORUXA_GLOBALS?.["amulet-xp-bonus"]).toFixed(2));
+        }
+        return parseFloat((toolsXp + premiumBonus + farmsXp + instituteBonus + clanBonus + KX.KORUXA_GLOBALS?.["amulet-xp-bonus"] + capeXp + KX.KORUXA_GLOBALS?.["global-xp-bonus"]).toFixed(2));
     }
-    KX.GET_XP_MUTLTIPLIER = GET_XP_MUTLTIPLIER;
-
+    KX.GET_XP_MULTIPLIER = GET_XP_MULTIPLIER;
 
     function GET_SPEED_MULTIPLIER(skill) {
         skill = skill.toLowerCase();
@@ -1350,11 +1320,9 @@ KX.mapping = { // Mappings of game data
             const skill = s || (["all_gathering", "all_combat", "all_artisan"].includes(res?.effect?.category) ? res.effect.category : "global");
 
             if (res) {
-                res.level = lv;
                 if (res.effect?.type === "xp_bonus") {
-                    // ✅ Mathematical formula but the game isn't using it right now, so we will just use the level * raw % instead of this formula
-                    //res.currentBonus = parseFloat((lv * res.effect.value).toFixed(10));
-                    res.currentBonus = parseFloat((lv * (8 / 7)).toFixed(2));
+                    if (res.effect.value === 1.14) res.effect.value = 1.143;
+                    res.currentBonus = parseFloat((lv * res.effect.value).toFixed(2));
                     console.log(`[Sync] Found ${res.name} level ${res.level}: +${res.currentBonus}% XP in ${skill}`);
                 }
             }
@@ -1393,7 +1361,7 @@ KX.mapping = { // Mappings of game data
             INJECT_SYNC_BUTTON();
             const skill = isSingle ? KX.mapping["current_skill"].value : "all";
             await EXTRACT_SKILLS(skill);
-            [REPLACE_ICONS, GET_CURRENT_SKILL, LOAD_FARM_STATS, LOAD_TOOL_STATS, HIGHLIGHT_LEADERBOARD].forEach(f => f());
+            [REPLACE_ICONS, GET_CURRENT_SKILL, LOAD_FARM_STATS, LOAD_TOOL_STATS].forEach(f => f());
         } catch (e) { }
 
         observe();
@@ -1418,7 +1386,6 @@ KX.mapping = { // Mappings of game data
         document.addEventListener('click', (e) => {
             if (e.target.closest('.sidebar-left, .sidebar-right')) REFRESH_ENHANCED_DATA(false);
             if (e.target.closest('button[onclick^="setResearchCat("]') || e.target.closest(`#sidebar-institute-btn`)) setTimeout(FIND_INSTITUTE_BONUSES, 500);
-            if (e.target.closest('button[onclick^="loadLeaderboard("]') || e.target.closest('div[onclick^="loadLeaderboard("]') || e.target.closest(`a[onclick^="navigate('leaderboard')"]`)) setTimeout(HIGHLIGHT_LEADERBOARD, 500);
         });
 
         observe();
