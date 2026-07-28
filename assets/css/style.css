@@ -27,7 +27,6 @@ body {
     min-width: 300px;
     width: 300px;
     transition: all 0.5s ease;
-    z-index: 2;
 }
 
 .sidebar-right {
@@ -155,17 +154,13 @@ body {
 
 .neh-footer,
 .neh-sub-footer {
-    font-size: 14px;
+    font-size: .65rem;
+    line-height: 1.25rem;
     padding: 0px 0px;
     width: calc(100% + 0px);
     align-items: center;
     text-align: center;
     color: var(--text3);
-}
-
-.neh-footer i {
-    font-size: 1.05rem;
-    line-height: 1.25rem;
 }
 
 .neh-text {

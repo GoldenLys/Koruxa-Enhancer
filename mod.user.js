@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       3.0
+// @version       3.1
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    https://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
@@ -946,11 +946,13 @@ KX.mapping = { // Mappings of game data
             const currentXP = Number(KX.KORUXA_STATS?.[skill]?.xp_total || 0);
             const targetXP = currentXP + session.xpRemaining;
 
-            const sessionXP_Current = `<b>${FORMAT_NUMBER(session.loops, 0)}</b> actions left for <b>${FORMAT_NUMBER(session.xpPerLoop, 0)}</b> XP every <b>${cycleTime}</b>`;
+            const sessionXP_Current = `<b>${FORMAT_NUMBER(session.loops, 0)}</b> x <b>${FORMAT_NUMBER(session.xpPerLoop, 0)}</b> XP`; /* / <b>${cycleTime}</b> */
             const sessionXP_Total = `${FORMAT_NUMBER(session.xpRemaining, 0)} XP`;
             const sessionLevels = GET_LEVEL_FROM_XP(targetXP);
+            const levelDiff = sessionLevels - GET_LEVEL_FROM_XP(currentXP);
 
-            const html = `<div class="neh-footer">${sessionXP_Current}</div><div class="neh-sub-footer">for level <b>${sessionLevels}</b> and <b>${sessionXP_Total}</b></div>`;
+            const html = `<div class="neh-footer">${sessionXP_Current}<div class="neh-sub-footer">(+<b>${levelDiff}</b> levels)</div></div>`; 
+            /* <b>${sessionLevels}</b> and <b>${sessionXP_Total}</b> */
             footers.forEach(f => f.innerHTML = html);
         }
     }
