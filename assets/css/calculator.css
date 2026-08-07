@@ -61,17 +61,6 @@ h1 {
     margin: 0 auto;
 }
 
-.input-group {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin-bottom: 2rem;
-}
-
-.input-container {
-    flex: 1 1 300px;
-    position: relative;
-}
 
 label {
     display: block;
@@ -79,20 +68,91 @@ label {
     font-weight: 600;
 }
 
-input[type="number"] {
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
     width: 100%;
-    padding: 0.75rem;
+    height: 5px;
     border-radius: 4px;
-    margin-bottom: 0.5rem;
-    border: 1px solid #ddd;
+    background-color: var(--primary-color);
     box-sizing: border-box;
-    font-size: 1rem;
+    outline: none;
 }
 
-input[type="number"]:focus {
-    outline: none;
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #ffffff;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    border: none;
+    border-radius: 50%;
+    background-color: #ffffff;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+}
+
+.max-limit {
+    position: absolute;
+    right: 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--primary-color, #64748b);
+    pointer-events: none;
+    user-select: none;
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #ffffff;
+    box-sizing: border-box;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input-wrapper:focus-within {
     border-color: var(--primary-color);
     box-shadow: 0 0 0 2px rgba(93, 109, 237, 0.2);
+}
+
+.input-wrapper input[type="number"] {
+    width: 100%;
+    padding: 0.75rem 3.5rem 0.75rem 0.75rem;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 1rem;
+    box-sizing: border-box;
+    -moz-appearance: textfield;
+}
+
+.input-wrapper input[type="number"]::-webkit-outer-spin-button,
+.input-wrapper input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.max-limit {
+    position: absolute;
+    right: 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #888888;
+    pointer-events: none;
+    user-select: none;
 }
 
 .labels {
@@ -131,8 +191,7 @@ input[type="number"]:focus {
     right: -7.5px;
 }
 
-.label.red {
-    background: rgb(255 51 51);
+.label.rank {
     color: white;
     font-size: 0.85rem;
     line-height: 0.85rem;
@@ -144,7 +203,14 @@ input[type="number"]:focus {
     left: -7.5px;
 }
 
-.label.red>i {
+.rank-1 { background-color: #f59e0b; color: #0f172a; }
+.rank-2 { background-color: #a855f7; color: #ffffff; }
+.rank-3 { background-color: #3b82f6; color: #ffffff; }
+.rank-4, .rank-5 { background-color: #6a6fa9; color: #ffffff; }
+.rank-6, .rank-7 { background-color: #475569; color: #cbd5e1; }
+.rank-8 { background-color: #1e293b; color: #64748b; border: 1px solid #334155; }
+
+.label.rank>i {
     line-height: 1rem;
     margin-right: 5px;
 }
@@ -174,56 +240,6 @@ input[type="number"]:focus {
 .slider-value {
     font-size: 0.9rem;
     color: #777;
-}
-
-input[type="range"] {
-    width: 100%;
-    height: 5px;
-    border-radius: 4px;
-    background-color: var(--primary-color);
-    box-sizing: border-box;
-    position: relative;
-    outline: none;
-}
-
-input[type="range"]::-webkit-slider-thumb {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background-color: white;
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
-    cursor: pointer;
-    position: relative;
-}
-
-input[type="range"]::-webkit-slider-thumb::after {
-    content: '';
-    position: absolute;
-    top: -5px;
-    left: -5px;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background-color: var(--primary-color);
-    box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.2);
-}
-
-input[type="range"]::-moz-range-thumb {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background-color: white;
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
-    cursor: pointer;
-}
-
-input[type="range"]::-ms-thumb {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background-color: white;
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
-    cursor: pointer;
 }
 
 .result-container {

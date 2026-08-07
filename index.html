@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -19,8 +19,12 @@
         <div class="stat-grid">
             <div class="stat-card">
                 <label>⚔️ Damage Boost:</label>
-                <input type="number" id="lvlDamage" value="0" min="0" step="1">
+                <div class="input-wrapper">
+                    <input type="number" id="lvlDamage" value="0" min="0" step="1">
+                    <span class="max-limit">Infinite</span>
+                </div>
                 <div class="labels">
+                    <div class="label rank rank-2"> #2</div>
                     <div class="label white">+1 dmg / lvl</div>
                     <div class="label" id="boostValue"></div>
                     <div class="label green" id="boostCost"></div>
@@ -34,8 +38,12 @@
             </div>
             <div class="stat-card">
                 <label>⏱️ Time Extension:</label>
-                <input type="number" id="lvlTime" value="0" min="0" max="30" step="1">
+                <div class="input-wrapper">
+                    <input type="number" id="lvlTime" value="0" min="0" max="30" step="1">
+                    <span class="max-limit">/ 30</span>
+                </div>
                 <div class="labels">
+                    <div class="label rank rank-3"> #3</div>
                     <div class="label white">+1s / lvl </div>
                     <div class="label" id="timeValue"></div>
                     <div class="label green" id="timeCost"></div>
@@ -49,8 +57,12 @@
             </div>
             <div class="stat-card">
                 <label>⚡ Critical Chance:</label>
-                <input type="number" id="lvlCrit" value="0" min="0" max="25" step="1">
+                <div class="input-wrapper">
+                    <input type="number" id="lvlCrit" value="0" min="0" max="25" step="1">
+                    <span class="max-limit">/ 25</span>
+                </div>
                 <div class="labels">
+                    <div class="label rank rank-6"> #6</div>
                     <div class="label white">+1% / lvl</div>
                     <div class="label" id="critValue"></div>
                     <div class="label green" id="critCost"></div>
@@ -64,9 +76,12 @@
             </div>
             <div class="stat-card">
                 <label>🔥 Power:</label>
-                <input type="number" id="lvlPower" value="0" min="0" step="1">
+                <div class="input-wrapper">
+                    <input type="number" id="lvlPower" value="0" min="0" step="1">
+                    <span class="max-limit">Infinite</span>
+                </div>
                 <div class="labels">
-                    <div class="label red"><i class="fas fa-crown"></i> Best</div>
+                    <div class="label rank rank-1"><i class="fas fa-crown yellow"></i> #1</div>
                     <div class="label white">1.28 ^ lvl</div>
                     <div class="label" id="powerValue"></div>
                     <div class="label green" id="powerCost"></div>
@@ -80,8 +95,12 @@
             </div>
             <div class="stat-card">
                 <label>💀 Devastation:</label>
-                <input type="number" id="lvlDevastation" value="0" min="0" max="20" step="1">
+                <div class="input-wrapper">
+                    <input type="number" id="lvlDevastation" value="0" min="0" max="20" step="1">
+                    <span class="max-limit">/ 20</span>
+                </div>
                 <div class="labels">
+                    <div class="label rank rank-5"> #5</div>
                     <div class="label white">+0.15 crit mult / lvl</div>
                     <div class="label" id="devastationValue"></div>
                     <div class="label green" id="devastationCost"></div>
@@ -95,8 +114,12 @@
             </div>
             <div class="stat-card">
                 <label>🌊 Rage:</label>
-                <input type="number" id="lvlRage" value="0" min="0" max="15" step="1">
+                <div class="input-wrapper">
+                    <input type="number" id="lvlRage" value="0" min="0" max="15" step="1">
+                    <span class="max-limit">/ 15</span>
+                </div>
                 <div class="labels">
+                    <div class="label rank rank-4"> #4</div>
                     <div class="label white">+5% bonus / lvl</div>
                     <div class="label" id="rageValue"></div>
                     <div class="label green" id="rageCost"></div>
@@ -110,8 +133,12 @@
             </div>
             <div class="stat-card">
                 <label>🎯 Precision:</label>
-                <input type="number" id="lvlPrecision" value="0" min="0" max="40" step="1">
+                <div class="input-wrapper">
+                    <input type="number" id="lvlPrecision" value="0" min="0" max="40" step="1">
+                    <span class="max-limit">/ 40</span>
+                </div>
                 <div class="labels">
+                    <div class="label rank rank-7"> #7</div>
                     <div class="label white">+1% / lvl </div>
                     <div class="label" id="precisionValue"></div>
                     <div class="label green" id="precisionCost"></div>
@@ -125,8 +152,12 @@
             </div>
             <div class="stat-card">
                 <label>🏛️ Clan Warfare:</label>
-                <input type="number" id="lvlClanWarfare" value="0" min="0" max="50" step="1">
+                <div class="input-wrapper">
+                    <input type="number" id="lvlClanWarfare" value="0" min="0" max="50" step="1">
+                    <span class="max-limit">/ 50</span>
+                </div>
                 <div class="labels">
+                    <div class="label rank rank-8"> #8</div>
                     <div class="label white">+0.2% dmg / lvl</div>
                     <div class="label" id="instituteWarfareValue"></div>
                     <div class="label green" id="instituteWarfareCost"></div>
