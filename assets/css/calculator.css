@@ -68,59 +68,17 @@ label {
     font-weight: 600;
 }
 
-input[type="range"] {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 100%;
-    height: 5px;
-    border-radius: 4px;
-    background-color: var(--primary-color);
-    box-sizing: border-box;
-    outline: none;
-}
-
-input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background-color: #ffffff;
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
-    cursor: pointer;
-}
-
-input[type="range"]::-moz-range-thumb {
-    width: 12px;
-    height: 12px;
-    border: none;
-    border-radius: 50%;
-    background-color: #ffffff;
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
-    cursor: pointer;
-}
-
-.max-limit {
-    position: absolute;
-    right: 12px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--primary-color, #64748b);
-    pointer-events: none;
-    user-select: none;
-}
-
 .input-wrapper {
     position: relative;
     display: flex;
-    align-items: center;
     width: 100%;
     margin-bottom: 0.5rem;
+    background-color: #080d16;
+    border-radius: 5px;
     border: 1px solid #ddd;
-    border-radius: 4px;
-    background-color: #ffffff;
     box-sizing: border-box;
     transition: border-color 0.2s, box-shadow 0.2s;
+    flex-direction: row;
 }
 
 .input-wrapper:focus-within {
@@ -130,29 +88,26 @@ input[type="range"]::-moz-range-thumb {
 
 .input-wrapper input[type="number"] {
     width: 100%;
-    padding: 0.75rem 3.5rem 0.75rem 0.75rem;
-    border: none;
+    flex: 1 1 100%;
+    padding: 0.75rem .75rem 0.75rem 0.75rem;
     outline: none;
-    background: transparent;
+    text-align: center;
+    background: #ffffff;
+    border-radius: 5px;
+    border: none;
     font-size: 1rem;
     box-sizing: border-box;
     -moz-appearance: textfield;
 }
 
-.input-wrapper input[type="number"]::-webkit-outer-spin-button,
-.input-wrapper input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
 .max-limit {
-    position: absolute;
-    right: 0.75rem;
+    flex: 1 0 auto;
     font-size: 0.875rem;
     font-weight: 600;
     color: #888888;
     pointer-events: none;
     user-select: none;
+    padding: 0.75rem 0.75rem 0.75rem 0.75rem;
 }
 
 .labels {
@@ -325,10 +280,3 @@ input[type="range"]::-moz-range-thumb {
     color: #63b3ed;
     font-weight: bold;
 }
-
-/*
-.tab-buttons {}
-.tab-buttons .tab-button {}
-.tab-buttons .tab-button:hover {}
-.tab-buttons .tab-button.active {}
-*/
