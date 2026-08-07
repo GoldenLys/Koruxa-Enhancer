@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       3.1
+// @version       3.2
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    https://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
@@ -63,7 +63,8 @@ KX.KORUXA_GLOBALS = {
         RareInsight: { name: "Rare Insight", effect: { category: "gathering", type: "rare_drop_bonus", value: 0.1, skill: "all_gathering" }, level: 0, maxLevel: 50 },
         EfficientHarvest: { name: "Efficient Harvest", effect: { category: "gathering", type: "max_speed_cap", value: 0.06, skill: "all_gathering" }, level: 0, maxLevel: 50 }, // max base speed cap is 95%, at level 50 with this it's 98%
 
-        // Artisan researches - 6 available
+        // Artisan researches - 7 available
+        RunecraftersFocus: { name: "Runecrafter's Focus", effect: { category: "artisan", type: "xp_bonus", value: 1.143, skill: "arcana" }, level: 0, maxLevel: 50, },
         MasterCrafter: { name: "Master Crafter", effect: { category: "artisan", type: "xp_bonus", value: 1.143, skills: ["cooking", "smithing", "crafting", "fletching", "herblore", "firemaking"] }, level: 0, maxLevel: 50 },
         ResourceFrugality: { name: "Resource Frugality", effect: { category: "artisan", type: "crafting_materials_reduction", value: -0.1, skill: "all_artisan" }, level: 0, maxLevel: 50 },
         BonusYield: { name: "Bonus Yield", effect: { category: "artisan", type: "double_drop", value: 0.1, skill: "all_artisan" }, level: 0, maxLevel: 50 },
@@ -71,7 +72,8 @@ KX.KORUXA_GLOBALS = {
         EnchantersLuck: { name: "Enchanter's Luck", effect: { category: "artisan", type: "enchanting_success_rate_bonus", value: 0.1, skill: "enchanting" }, level: 0, maxLevel: 50 },
         StableBonds: { name: "Stable Bonds", effect: { category: "artisan", type: "enchanting_destroy_rate_bonus", value: -0.1, skill: "enchanting" }, level: 0, maxLevel: 50 },
 
-        // Combat researches - 6 available
+        // Combat researches - 7 available
+        Conservation: { name: "Conservation", effect: { category: "combat", type: "ammo_conservation", value: 1.0 }, level: 0, maxLevel: 20 },
         StrikeTraining: { name: "Strike Training", effect: { category: "combat", type: "melee_power_bonus", value: 0.2 }, level: 0, maxLevel: 50 },
         Marksmanship: { name: "Marksmanship", effect: { category: "combat", type: "ranged_power_bonus", value: 0.2 }, level: 0, maxLevel: 50 },
         ArcaneFocus: { name: "Arcane Focus", effect: { category: "combat", type: "magic_power_bonus", value: 0.2 }, level: 0, maxLevel: 50 },
@@ -133,13 +135,14 @@ KX.mapping = { // Mappings of game data
     const imageOverrides = {
         "/logs/log_basic.png": "https://goldenlys.github.io/Koruxa-Enhancer/assets/images/items/log_basic.webp",
         "/logs/log_oak.png": "https://goldenlys.github.io/Koruxa-Enhancer/assets/images/items/log_oak.webp",
-        "/logs/log_ironbark.png": "https://goldenlys.github.io/Koruxa-Enhancer/assets/images/items/log_ironbark.webp",
         "/logs/log_ancient.png": "https://goldenlys.github.io/Koruxa-Enhancer/assets/images/items/log_ancient.webp",
+        "/logs/log_ironbark.png": "https://goldenlys.github.io/Koruxa-Enhancer/assets/images/items/log_ironbark.webp",
         "/logs/log_frostwood.png": "https://goldenlys.github.io/Koruxa-Enhancer/assets/images/items/log_frostwood.webp",
         "/logs/log_emberwood.png": "https://goldenlys.github.io/Koruxa-Enhancer/assets/images/items/log_emberwood.webp",
         "/logs/log_moonwood.png": "https://goldenlys.github.io/Koruxa-Enhancer/assets/images/items/log_moonwood.webp",
         "/logs/log_spirit.png": "https://goldenlys.github.io/Koruxa-Enhancer/assets/images/items/log_spirit.webp",
         "/logs/log_void.png": "https://goldenlys.github.io/Koruxa-Enhancer/assets/images/items/log_void.webp",
+        "/logs/log_elder.png": "https://goldenlys.github.io/Koruxa-Enhancer/assets/images/items/log_elder.webp",
         "/logs/log_worldtree.png": "https://goldenlys.github.io/Koruxa-Enhancer/assets/images/items/log_worldtree.webp",
         "/bars/dustite_bar.png": "https://goldenlys.github.io/Koruxa-Enhancer/assets/images/items/dustite_bar.webp",
     };
