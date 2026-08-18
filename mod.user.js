@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       3.2
+// @version       3.3
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    https://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
@@ -842,8 +842,9 @@ KX.mapping = { // Mappings of game data
                 'astral': 'astralite',
             };
             if (searchStr.endsWith(' cut')) {
-                const gem = searchStr.replace(' cut', '').trim();
-                searchStr = `cut_${gem}`.replace(/ /g, '_');
+                let material = searchStr.replace(' cut', '').trim();
+                if (materialMap[material]) material = materialMap[material];
+                searchStr = `cut_${material}`.replace(/ /g, '_');
             } else {
                 const accessoryPatterns = [
                     'guardian amulet', 'knowledge amulet', 'vitality amulet', 'power amulet',
@@ -1116,12 +1117,12 @@ KX.mapping = { // Mappings of game data
     }
 
     function AUTO_CLAN_BOSS() {
-        const header = document.querySelector('.page-header>h1');
+        const header = document.querySelector('#page-content .page-header>h1');
         const isOnClanBoss = header ? header.textContent.trim() === '👻 Clan Boss' : false;
         const recapEl = document.querySelector('.cb-recap-modal');
         const FightRecapVisible = !!recapEl;
         const BossTimerStatus = document.querySelector('#sidebar-boss-status')?.textContent.trim();
-        const active = document.querySelector('.cb-card button');
+        const active = document.querySelector('#cb-attack-btn');
         if (!active || !isOnClanBoss) return;
 
         if (active.textContent === "🚫 No Attempts Left" && !active.hasAttribute('disabled')) {
@@ -1137,6 +1138,7 @@ KX.mapping = { // Mappings of game data
         }
         if (FightRecapVisible) {
             ENHANCED_CHAT_LOG("Automatically closing Clan Boss fight recap.", 'info');
+            bossAttackAgain();
             closeBossRecap();
         }
     }
