@@ -147,7 +147,6 @@ body {
     color: var(--text3);
 }
 
-
 .neh-content b {
     color: var(--green);
 }
@@ -269,6 +268,12 @@ div#cat-other .skill-name {
 
     .topbar {
         padding-bottom: 70px;
+    }
+
+
+    /* BUG REPORT #1539914314318745620 */
+    .cb-layout {
+        grid-template-columns: 1fr !important;
     }
 }
 

@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       3.4
+// @version       3.5
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    https://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
@@ -1399,7 +1399,7 @@ KX.mapping = {
     }
 
     if (active.textContent === "⚔️ Attack Boss" && active.hasAttribute("disabled")) {
-      if (BossTimerStatus && /ready/i.test(BossTimerStatus)) window.location.reload();
+      if (BossTimerStatus && /Ready/i.test(BossTimerStatus)) window.location.reload();
     }
 
     if (active.textContent === "⚔️ Attack Boss" && !active.hasAttribute("disabled")) {
