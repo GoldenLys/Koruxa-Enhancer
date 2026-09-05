@@ -364,7 +364,6 @@
       "reward_item_key": "raw_lavafin",
       "amount": 1
     },
-
     "magmajaw": {
       "label": "Magmajaw",
       "min_level": 132,
@@ -373,7 +372,6 @@
       "reward_item_key": "raw_magmajaw",
       "amount": 1
     },
-
     "pyrescale": {
       "label": "Pyrescale",
       "min_level": 150,
@@ -5543,151 +5541,149 @@
     }
   },
   "thieving": {
-    "default_category": {
-      "farmer": {
-        "key": "farmer",
-        "label": "Farmer",
-        "min_level": 1,
-        "xp": 10,
-        "coins": "3-10",
-        "success_chance": 80,
-        "duration_ms": 6000
-      },
-      "market_stall": {
-        "key": "market_stall",
-        "label": "Market Stall",
-        "min_level": 10,
-        "xp": 20,
-        "coins": "10-20",
-        "success_chance": 75,
-        "duration_ms": 8000
-      },
-      "citizen": {
-        "key": "citizen",
-        "label": "Wealthy Citizen",
-        "min_level": 25,
-        "xp": 25,
-        "coins": "25-60",
-        "success_chance": 65,
-        "duration_ms": 10000
-      },
-      "fisherman_hut": {
-        "key": "fisherman_hut",
-        "label": "Fisherman's Hut",
-        "min_level": 30,
-        "xp": 30,
-        "coins": "30-80",
-        "success_chance": 62,
-        "duration_ms": 11000
-      },
-      "merchant": {
-        "key": "merchant",
-        "label": "Traveling Merchant",
-        "min_level": 40,
-        "xp": 40,
-        "coins": "50-100",
-        "success_chance": 55,
-        "duration_ms": 13000
-      },
-      "lumberyard": {
-        "key": "lumberyard",
-        "label": "Lumberyard",
-        "min_level": 45,
-        "xp": 42,
-        "coins": "45-110",
-        "success_chance": 50,
-        "duration_ms": 13000
-      },
-      "noble": {
-        "key": "noble",
-        "label": "Noble",
-        "min_level": 55,
-        "xp": 55,
-        "coins": "100-200",
-        "success_chance": 40,
-        "duration_ms": 16000
-      },
-      "prospectors_camp": {
-        "key": "prospectors_camp",
-        "label": "Prospector's Camp",
-        "min_level": 60,
-        "xp": 56,
-        "coins": "60-150",
-        "success_chance": 38,
-        "duration_ms": 15000
-      },
-      "treasure_chest": {
-        "key": "treasure_chest",
-        "label": "Treasure Chest",
-        "min_level": 70,
-        "xp": 65,
-        "coins": "100-250",
-        "success_chance": 35,
-        "duration_ms": 18000
-      },
-      "herbalists_stall": {
-        "key": "herbalists_stall",
-        "label": "Herbalist's Stall",
-        "min_level": 75,
-        "xp": 72,
-        "coins": "80-200",
-        "success_chance": 33,
-        "duration_ms": 17000
-      },
-      "royal_guard": {
-        "key": "royal_guard",
-        "label": "Royal Guard",
-        "min_level": 85,
-        "xp": 80,
-        "coins": "150-300",
-        "success_chance": 30,
-        "duration_ms": 21000
-      },
-      "vault": {
-        "key": "vault",
-        "label": "Bank Vault",
-        "min_level": 95,
-        "xp": 100,
-        "coins": "200-350",
-        "success_chance": 20,
-        "duration_ms": 25000
-      },
-      "runescribes_satchel": {
-        "key": "runescribes_satchel",
-        "label": "Runescribe's Satchel",
-        "min_level": 100,
-        "xp": 100,
-        "coins": "130-300",
-        "success_chance": 18,
-        "duration_ms": 21000
-      },
-      "drake_hoard": {
-        "key": "drake_hoard",
-        "label": "Drake Hoard",
-        "min_level": 120,
-        "xp": 140,
-        "coins": "300-550",
-        "success_chance": 28,
-        "duration_ms": 28000
-      },
-      "ember_vault": {
-        "key": "ember_vault",
-        "label": "Ember Vault",
-        "min_level": 135,
-        "xp": 185,
-        "coins": "400-700",
-        "success_chance": 24,
-        "duration_ms": 31000
-      },
-      "infernal_treasury": {
-        "key": "infernal_treasury",
-        "label": "Infernal Treasury",
-        "min_level": 150,
-        "xp": 240,
-        "coins": "550-900",
-        "success_chance": 20,
-        "duration_ms": 35000
-      }
+    "farmer": {
+      "key": "farmer",
+      "label": "Farmer",
+      "min_level": 1,
+      "xp": 10,
+      "coins": "3-10",
+      "success_chance": 80,
+      "duration_ms": 6000
+    },
+    "market_stall": {
+      "key": "market_stall",
+      "label": "Market Stall",
+      "min_level": 10,
+      "xp": 20,
+      "coins": "10-20",
+      "success_chance": 75,
+      "duration_ms": 8000
+    },
+    "citizen": {
+      "key": "citizen",
+      "label": "Wealthy Citizen",
+      "min_level": 25,
+      "xp": 25,
+      "coins": "25-60",
+      "success_chance": 65,
+      "duration_ms": 10000
+    },
+    "fisherman_hut": {
+      "key": "fisherman_hut",
+      "label": "Fisherman's Hut",
+      "min_level": 30,
+      "xp": 30,
+      "coins": "30-80",
+      "success_chance": 62,
+      "duration_ms": 11000
+    },
+    "merchant": {
+      "key": "merchant",
+      "label": "Traveling Merchant",
+      "min_level": 40,
+      "xp": 40,
+      "coins": "50-100",
+      "success_chance": 55,
+      "duration_ms": 13000
+    },
+    "lumberyard": {
+      "key": "lumberyard",
+      "label": "Lumberyard",
+      "min_level": 45,
+      "xp": 42,
+      "coins": "45-110",
+      "success_chance": 50,
+      "duration_ms": 13000
+    },
+    "noble": {
+      "key": "noble",
+      "label": "Noble",
+      "min_level": 55,
+      "xp": 55,
+      "coins": "100-200",
+      "success_chance": 40,
+      "duration_ms": 16000
+    },
+    "prospectors_camp": {
+      "key": "prospectors_camp",
+      "label": "Prospector's Camp",
+      "min_level": 60,
+      "xp": 56,
+      "coins": "60-150",
+      "success_chance": 38,
+      "duration_ms": 15000
+    },
+    "treasure_chest": {
+      "key": "treasure_chest",
+      "label": "Treasure Chest",
+      "min_level": 70,
+      "xp": 65,
+      "coins": "100-250",
+      "success_chance": 35,
+      "duration_ms": 18000
+    },
+    "herbalists_stall": {
+      "key": "herbalists_stall",
+      "label": "Herbalist's Stall",
+      "min_level": 75,
+      "xp": 72,
+      "coins": "80-200",
+      "success_chance": 33,
+      "duration_ms": 17000
+    },
+    "royal_guard": {
+      "key": "royal_guard",
+      "label": "Royal Guard",
+      "min_level": 85,
+      "xp": 80,
+      "coins": "150-300",
+      "success_chance": 30,
+      "duration_ms": 21000
+    },
+    "vault": {
+      "key": "vault",
+      "label": "Bank Vault",
+      "min_level": 95,
+      "xp": 100,
+      "coins": "200-350",
+      "success_chance": 20,
+      "duration_ms": 25000
+    },
+    "runescribes_satchel": {
+      "key": "runescribes_satchel",
+      "label": "Runescribe's Satchel",
+      "min_level": 100,
+      "xp": 100,
+      "coins": "130-300",
+      "success_chance": 18,
+      "duration_ms": 21000
+    },
+    "drake_hoard": {
+      "key": "drake_hoard",
+      "label": "Drake Hoard",
+      "min_level": 120,
+      "xp": 140,
+      "coins": "300-550",
+      "success_chance": 28,
+      "duration_ms": 28000
+    },
+    "ember_vault": {
+      "key": "ember_vault",
+      "label": "Ember Vault",
+      "min_level": 135,
+      "xp": 185,
+      "coins": "400-700",
+      "success_chance": 24,
+      "duration_ms": 31000
+    },
+    "infernal_treasury": {
+      "key": "infernal_treasury",
+      "label": "Infernal Treasury",
+      "min_level": 150,
+      "xp": 240,
+      "coins": "550-900",
+      "success_chance": 20,
+      "duration_ms": 35000
     }
   },
   "farming": {
