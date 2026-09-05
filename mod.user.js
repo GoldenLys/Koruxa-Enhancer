@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       3.6
+// @version       3.61
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    https://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
@@ -837,6 +837,8 @@ KX.mapping = {
       "firemaking",
       "arcana",
       "jewelery",
+      "construction",
+      "tinkering"
     ];
 
     for (const skill of skills) {
