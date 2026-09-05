@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       3.61
+// @version       3.62
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    https://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
@@ -950,21 +950,13 @@ KX.mapping = {
 
     const config = KX.KORUXA_CONFIGS?.[skill] || {};
     const stats = KX.KORUXA_STATS?.[skill] || {};
-    const currentLevel = Number(stats.level) || 1;
-    const premiumBonus = KX.KORUXA_IS_PREMIUM ? 20 : 0;
     const currentXP = Number(stats.xp_total) || 0;
     const targetXP = targetLevel > 0 ? GET_XP(targetLevel, "total") : Number(stats.xp_needed) || 0;
     const xpLeft = Math.max(0, targetXP - currentXP);
 
     const compute = (action, e) => {
       const label = e.label ?? action;
-      const tools = KX.KORUXA_TOOLS?.[skill] || {};
-      const farms = KX.KORUXA_FARMS?.[skill] || {};
-
-      let successChance = 100;
-      if (skill === "thieving") {
-        successChance = CALC_THIEVING_SUCCESS_RATE(action);
-      }
+      let successChance = skill === "thieving" ? CALC_THIEVING_SUCCESS_RATE(action) : 100;
 
       const speed = GET_SPEED_MULTIPLIER(skill);
       const xpBonus = GET_XP_MULTIPLIER(skill);
@@ -1093,6 +1085,11 @@ KX.mapping = {
         let material = searchStr.replace(" cut", "").trim();
         if (materialMap[material]) material = materialMap[material];
         searchStr = `cut_${material}`.replace(/ /g, "_");
+      } else if (skillId === "construction") { 
+        if (searchStr.startsWith("plank") || searchStr.startsWith("nails") || searchStr.startsWith("fixture")) {
+          let material = searchStr.split(" ").slice(1).join(" ");
+          searchStr = `${material}_${searchStr.split(" ")[0]}`.replace(/ /g, "_");
+        }
       } else {
         const accessoryPatterns = [
           "guardian amulet",
