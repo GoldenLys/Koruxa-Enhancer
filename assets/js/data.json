@@ -355,6 +355,32 @@
       "duration_ms": 140000,
       "reward_item_key": "raw_leviathan_scale",
       "amount": 1
+    },
+    "lavafin": {
+      "label": "Lavafin",
+      "min_level": 120,
+      "xp": 420,
+      "duration_ms": 155000,
+      "reward_item_key": "raw_lavafin",
+      "amount": 1
+    },
+
+    "magmajaw": {
+      "label": "Magmajaw",
+      "min_level": 132,
+      "xp": 560,
+      "duration_ms": 180000,
+      "reward_item_key": "raw_magmajaw",
+      "amount": 1
+    },
+
+    "pyrescale": {
+      "label": "Pyrescale",
+      "min_level": 150,
+      "xp": 720,
+      "duration_ms": 210000,
+      "reward_item_key": "raw_pyrescale",
+      "amount": 1
     }
   },
   "cooking": {
@@ -5517,104 +5543,151 @@
     }
   },
   "thieving": {
-    "farmer": {
-      "key": "farmer",
-      "label": "Farmer",
-      "min_level": 1,
-      "xp": 10,
-      "coins": "3-10",
-      "success_chance": 80,
-      "duration_ms": 4000
-    },
-    "market_stall": {
-      "key": "market_stall",
-      "label": "Market Stall",
-      "min_level": 10,
-      "xp": 20,
-      "coins": "10-20",
-      "success_chance": 75,
-      "duration_ms": 6000
-    },
-    "citizen": {
-      "key": "citizen",
-      "label": "Wealthy Citizen",
-      "min_level": 25,
-      "xp": 25,
-      "coins": "25-60",
-      "success_chance": 65,
-      "duration_ms": 7000
-    },
-    "merchant": {
-      "key": "merchant",
-      "label": "Traveling Merchant",
-      "min_level": 40,
-      "xp": 40,
-      "coins": "50-100",
-      "success_chance": 55,
-      "duration_ms": 9000
-    },
-    "noble": {
-      "key": "noble",
-      "label": "Noble",
-      "min_level": 55,
-      "xp": 55,
-      "coins": "100-200",
-      "success_chance": 40,
-      "duration_ms": 16000
-    },
-    "treasure_chest": {
-      "key": "treasure_chest",
-      "label": "Treasure Chest",
-      "min_level": 70,
-      "xp": 65,
-      "coins": "100-250",
-      "success_chance": 35,
-      "duration_ms": 18000
-    },
-    "royal_guard": {
-      "key": "royal_guard",
-      "label": "Royal Guard",
-      "min_level": 85,
-      "xp": 80,
-      "coins": "150-300",
-      "success_chance": 30,
-      "duration_ms": 21000
-    },
-    "vault": {
-      "key": "vault",
-      "label": "Bank Vault",
-      "min_level": 95,
-      "xp": 100,
-      "coins": "200-350",
-      "success_chance": 20,
-      "duration_ms": 25000
-    },
-    "drake_hoard": {
-      "key": "drake_hoard",
-      "label": "Drake Hoard",
-      "min_level": 120,
-      "xp": 140,
-      "coins": "300-550",
-      "success_chance": 28,
-      "duration_ms": 28000
-    },
-    "ember_vault": {
-      "key": "ember_vault",
-      "label": "Ember Vault",
-      "min_level": 135,
-      "xp": 185,
-      "coins": "400-700",
-      "success_chance": 24,
-      "duration_ms": 31000
-    },
-    "infernal_treasury": {
-      "key": "infernal_treasury",
-      "label": "Infernal Treasury",
-      "min_level": 150,
-      "xp": 240,
-      "coins": "550-900",
-      "success_chance": 20,
-      "duration_ms": 35000
+    "default_category": {
+      "farmer": {
+        "key": "farmer",
+        "label": "Farmer",
+        "min_level": 1,
+        "xp": 10,
+        "coins": "3-10",
+        "success_chance": 80,
+        "duration_ms": 6000
+      },
+      "market_stall": {
+        "key": "market_stall",
+        "label": "Market Stall",
+        "min_level": 10,
+        "xp": 20,
+        "coins": "10-20",
+        "success_chance": 75,
+        "duration_ms": 8000
+      },
+      "citizen": {
+        "key": "citizen",
+        "label": "Wealthy Citizen",
+        "min_level": 25,
+        "xp": 25,
+        "coins": "25-60",
+        "success_chance": 65,
+        "duration_ms": 10000
+      },
+      "fisherman_hut": {
+        "key": "fisherman_hut",
+        "label": "Fisherman's Hut",
+        "min_level": 30,
+        "xp": 30,
+        "coins": "30-80",
+        "success_chance": 62,
+        "duration_ms": 11000
+      },
+      "merchant": {
+        "key": "merchant",
+        "label": "Traveling Merchant",
+        "min_level": 40,
+        "xp": 40,
+        "coins": "50-100",
+        "success_chance": 55,
+        "duration_ms": 13000
+      },
+      "lumberyard": {
+        "key": "lumberyard",
+        "label": "Lumberyard",
+        "min_level": 45,
+        "xp": 42,
+        "coins": "45-110",
+        "success_chance": 50,
+        "duration_ms": 13000
+      },
+      "noble": {
+        "key": "noble",
+        "label": "Noble",
+        "min_level": 55,
+        "xp": 55,
+        "coins": "100-200",
+        "success_chance": 40,
+        "duration_ms": 16000
+      },
+      "prospectors_camp": {
+        "key": "prospectors_camp",
+        "label": "Prospector's Camp",
+        "min_level": 60,
+        "xp": 56,
+        "coins": "60-150",
+        "success_chance": 38,
+        "duration_ms": 15000
+      },
+      "treasure_chest": {
+        "key": "treasure_chest",
+        "label": "Treasure Chest",
+        "min_level": 70,
+        "xp": 65,
+        "coins": "100-250",
+        "success_chance": 35,
+        "duration_ms": 18000
+      },
+      "herbalists_stall": {
+        "key": "herbalists_stall",
+        "label": "Herbalist's Stall",
+        "min_level": 75,
+        "xp": 72,
+        "coins": "80-200",
+        "success_chance": 33,
+        "duration_ms": 17000
+      },
+      "royal_guard": {
+        "key": "royal_guard",
+        "label": "Royal Guard",
+        "min_level": 85,
+        "xp": 80,
+        "coins": "150-300",
+        "success_chance": 30,
+        "duration_ms": 21000
+      },
+      "vault": {
+        "key": "vault",
+        "label": "Bank Vault",
+        "min_level": 95,
+        "xp": 100,
+        "coins": "200-350",
+        "success_chance": 20,
+        "duration_ms": 25000
+      },
+      "runescribes_satchel": {
+        "key": "runescribes_satchel",
+        "label": "Runescribe's Satchel",
+        "min_level": 100,
+        "xp": 100,
+        "coins": "130-300",
+        "success_chance": 18,
+        "duration_ms": 21000
+      },
+      "drake_hoard": {
+        "key": "drake_hoard",
+        "label": "Drake Hoard",
+        "min_level": 120,
+        "xp": 140,
+        "coins": "300-550",
+        "success_chance": 28,
+        "duration_ms": 28000
+      },
+      "ember_vault": {
+        "key": "ember_vault",
+        "label": "Ember Vault",
+        "min_level": 135,
+        "xp": 185,
+        "coins": "400-700",
+        "success_chance": 24,
+        "duration_ms": 31000
+      },
+      "infernal_treasury": {
+        "key": "infernal_treasury",
+        "label": "Infernal Treasury",
+        "min_level": 150,
+        "xp": 240,
+        "coins": "550-900",
+        "success_chance": 20,
+        "duration_ms": 35000
+      }
     }
   },
   "farming": {
@@ -7001,6 +7074,936 @@
           "pyreshard": 2
         },
         "output_item": "pyreshard jewelery",
+        "output_amount": 1
+      }
+    }
+  },
+  "construction": {
+    "sawmill": {
+      "plank_basic": {
+        "label": "Basic Plank",
+        "min_level": 1,
+        "xp": 26,
+        "duration_ms": 60000,
+        "ingredients": {
+          "log_basic": 2
+        },
+        "output_item": "plank_basic",
+        "output_amount": 1
+      },
+      "plank_oak": {
+        "label": "Oak Plank",
+        "min_level": 5,
+        "xp": 39,
+        "duration_ms": 73000,
+        "ingredients": {
+          "log_oak": 2
+        },
+        "output_item": "plank_oak",
+        "output_amount": 1
+      },
+      "plank_ancient": {
+        "label": "Ancient Plank",
+        "min_level": 10,
+        "xp": 56,
+        "duration_ms": 86000,
+        "ingredients": {
+          "log_ancient": 2,
+          "log_basic": 1
+        },
+        "output_item": "plank_ancient",
+        "output_amount": 1
+      },
+      "plank_ironbark": {
+        "label": "Ironbark Plank",
+        "min_level": 15,
+        "xp": 73,
+        "duration_ms": 99000,
+        "ingredients": {
+          "log_ironbark": 3
+        },
+        "output_item": "plank_ironbark",
+        "output_amount": 1
+      },
+      "plank_frostwood": {
+        "label": "Frostwood Plank",
+        "min_level": 22,
+        "xp": 99,
+        "duration_ms": 116000,
+        "ingredients": {
+          "log_frostwood": 3,
+          "log_ironbark": 1
+        },
+        "output_item": "plank_frostwood",
+        "output_amount": 1
+      },
+      "plank_emberwood": {
+        "label": "Emberwood Plank",
+        "min_level": 30,
+        "xp": 124,
+        "duration_ms": 133000,
+        "ingredients": {
+          "log_emberwood": 4
+        },
+        "output_item": "plank_emberwood",
+        "output_amount": 1
+      },
+      "plank_moonwood": {
+        "label": "Moonwood Plank",
+        "min_level": 40,
+        "xp": 163,
+        "duration_ms": 154000,
+        "ingredients": {
+          "log_moonwood": 4,
+          "log_emberwood": 2
+        },
+        "output_item": "plank_moonwood",
+        "output_amount": 1
+      },
+      "plank_spirit": {
+        "label": "Spirit Plank",
+        "min_level": 50,
+        "xp": 206,
+        "duration_ms": 176000,
+        "ingredients": {
+          "log_spirit": 5
+        },
+        "output_item": "plank_spirit",
+        "output_amount": 1
+      },
+      "plank_void": {
+        "label": "Void Plank",
+        "min_level": 65,
+        "xp": 283,
+        "duration_ms": 206000,
+        "ingredients": {
+          "log_void": 5,
+          "log_spirit": 2
+        },
+        "output_item": "plank_void",
+        "output_amount": 1
+      },
+      "plank_elder": {
+        "label": "Elder Plank",
+        "min_level": 80,
+        "xp": 386,
+        "duration_ms": 240000,
+        "ingredients": {
+          "log_elder": 6
+        },
+        "output_item": "plank_elder",
+        "output_amount": 1
+      },
+      "plank_worldtree": {
+        "label": "Worldtree Plank",
+        "min_level": 95,
+        "xp": 514,
+        "duration_ms": 283000,
+        "ingredients": {
+          "log_worldtree": 6,
+          "log_elder": 3
+        },
+        "output_item": "plank_worldtree",
+        "output_amount": 1
+      },
+      "plank_scorchwood": {
+        "label": "Scorchwood Plank",
+        "min_level": 120,
+        "xp": 879,
+        "duration_ms": 394000,
+        "ingredients": {
+          "log_scorchwood": 7
+        },
+        "output_item": "plank_scorchwood",
+        "output_amount": 1
+      },
+      "plank_cinderpine": {
+        "label": "Cinderpine Plank",
+        "min_level": 135,
+        "xp": 1149,
+        "duration_ms": 493000,
+        "ingredients": {
+          "log_cinderpine": 8,
+          "log_scorchwood": 3
+        },
+        "output_item": "plank_cinderpine",
+        "output_amount": 1
+      },
+      "plank_ashroot": {
+        "label": "Ashroot Plank",
+        "min_level": 150,
+        "xp": 1521,
+        "duration_ms": 600000,
+        "ingredients": {
+          "log_ashroot": 9,
+          "log_cinderpine": 4
+        },
+        "output_item": "plank_ashroot",
+        "output_amount": 1
+      }
+    },
+    "nails": {
+      "nails_dustite": {
+        "label": "Dustite Nails",
+        "min_level": 1,
+        "xp": 25,
+        "duration_ms": 60000,
+        "ingredients": {
+          "dustite_bar": 1
+        },
+        "output_item": "nails",
+        "output_amount": 12
+      },
+      "nails_velorite": {
+        "label": "Velorite Nails",
+        "min_level": 18,
+        "xp": 90,
+        "duration_ms": 100000,
+        "ingredients": {
+          "velorite_bar": 1
+        },
+        "output_item": "nails",
+        "output_amount": 30
+      },
+      "nails_noctite": {
+        "label": "Noctite Nails",
+        "min_level": 58,
+        "xp": 275,
+        "duration_ms": 170000,
+        "ingredients": {
+          "noctite_bar": 1
+        },
+        "output_item": "nails",
+        "output_amount": 80
+      },
+      "nails_korunite": {
+        "label": "Korunite Nails",
+        "min_level": 112,
+        "xp": 825,
+        "duration_ms": 300000,
+        "ingredients": {
+          "korunite_bar": 1
+        },
+        "output_item": "nails",
+        "output_amount": 200
+      }
+    },
+    "fixtures": {
+      "fixture_wooden": {
+        "label": "Wooden Fixture",
+        "min_level": 8,
+        "xp": 60,
+        "duration_ms": 60000,
+        "ingredients": {
+          "plank_basic": 3,
+          "plank_oak": 2,
+          "nails": 20
+        },
+        "output_item": "fixture_wooden",
+        "output_amount": 1
+      },
+      "fixture_carved": {
+        "label": "Carved Fixture",
+        "min_level": 25,
+        "xp": 130,
+        "duration_ms": 80000,
+        "ingredients": {
+          "plank_ironbark": 3,
+          "plank_ancient": 2,
+          "nails": 40
+        },
+        "output_item": "fixture_carved",
+        "output_amount": 1
+      },
+      "fixture_reinforced": {
+        "label": "Reinforced Fixture",
+        "min_level": 48,
+        "xp": 260,
+        "duration_ms": 104000,
+        "ingredients": {
+          "plank_moonwood": 3,
+          "plank_emberwood": 2,
+          "crimsrite_bar": 2,
+          "nails": 60
+        },
+        "output_item": "fixture_reinforced",
+        "output_amount": 1
+      },
+      "fixture_refined": {
+        "label": "Refined Fixture",
+        "min_level": 72,
+        "xp": 480,
+        "duration_ms": 132000,
+        "ingredients": {
+          "plank_void": 3,
+          "plank_spirit": 2,
+          "auorite_bar": 2,
+          "nails": 90
+        },
+        "output_item": "fixture_refined",
+        "output_amount": 1
+      },
+      "fixture_majestic": {
+        "label": "Majestic Fixture",
+        "min_level": 98,
+        "xp": 840,
+        "duration_ms": 168000,
+        "ingredients": {
+          "plank_worldtree": 3,
+          "plank_elder": 2,
+          "korunite_bar": 2,
+          "nails": 130
+        },
+        "output_item": "fixture_majestic",
+        "output_amount": 1
+      },
+      "fixture_infernal": {
+        "label": "Infernal Fixture",
+        "min_level": 126,
+        "xp": 1400,
+        "duration_ms": 220000,
+        "ingredients": {
+          "plank_scorchwood": 5,
+          "pyrethium_bar": 2,
+          "nails": 180
+        },
+        "output_item": "fixture_infernal",
+        "output_amount": 1
+      }
+    }
+  },
+  "tinkering": {
+    "cells": {
+      "cell_basic": {
+        "label": "Charge Cell",
+        "min_level": 5,
+        "xp": 21,
+        "duration_ms": 40000,
+        "ingredients": {
+          "part_frame": 3
+        },
+        "output_item": "charge_cell",
+        "output_amount": 1
+      },
+      "cell_batch": {
+        "label": "Cell Batch",
+        "min_level": 35,
+        "xp": 59,
+        "duration_ms": 64000,
+        "ingredients": {
+          "part_frame": 4,
+          "part_alloy": 2,
+          "charcoal": 2
+        },
+        "output_item": "charge_cell",
+        "output_amount": 3
+      },
+      "cell_crate": {
+        "label": "Cell Crate",
+        "min_level": 75,
+        "xp": 133,
+        "duration_ms": 96000,
+        "ingredients": {
+          "part_frame": 8,
+          "part_alloy": 5,
+          "part_precision": 2,
+          "charcoal": 5
+        },
+        "output_item": "charge_cell",
+        "output_amount": 8
+      },
+      "cell_reactor": {
+        "label": "Reactor Pack",
+        "min_level": 115,
+        "xp": 320,
+        "duration_ms": 139000,
+        "ingredients": {
+          "part_frame": 14,
+          "part_alloy": 10,
+          "part_arcane": 4,
+          "charcoal": 10
+        },
+        "output_item": "charge_cell",
+        "output_amount": 20
+      }
+    },
+    "commponents": {
+      "power_core_basic": {
+        "label": "Basic Power Core",
+        "min_level": 10,
+        "xp": 150,
+        "duration_ms": 100000,
+        "ingredients": {
+          "part_frame": 4,
+          "part_alloy": 4
+        },
+        "output_item": "power_core_basic",
+        "output_amount": 1
+      },
+      "extraction_coil": {
+        "label": "Extraction Coil",
+        "min_level": 40,
+        "xp": 317,
+        "duration_ms": 133000,
+        "ingredients": {
+          "part_precision": 6,
+          "part_arcane": 4,
+          "part_rune": 2
+        },
+        "output_item": "extraction_coil",
+        "output_amount": 1
+      },
+      "power_core_advanced": {
+        "label": "Advanced Power Core",
+        "min_level": 60,
+        "xp": 633,
+        "duration_ms": 173000,
+        "ingredients": {
+          "part_alloy": 10,
+          "part_precision": 8,
+          "part_plate": 3,
+          "part_flux": 1
+        },
+        "output_item": "power_core_advanced",
+        "output_amount": 1
+      },
+      "power_core_master": {
+        "label": "Master Power Core",
+        "min_level": 110,
+        "xp": 1400,
+        "duration_ms": 233000,
+        "ingredients": {
+          "part_precision": 15,
+          "part_arcane": 12,
+          "part_blade": 3,
+          "part_rune": 3,
+          "part_flux": 3
+        },
+        "output_item": "power_core_master",
+        "output_amount": 1
+      }
+    },
+    "mod_kits": {
+      "mod_kit_gather": {
+        "label": "Gathering Mod Kit",
+        "min_level": 25,
+        "xp": 153,
+        "duration_ms": 80000,
+        "ingredients": {
+          "part_frame": 6,
+          "part_precision": 3,
+          "part_tool": 2
+        },
+        "output_item": "mod_kit_gather",
+        "output_amount": 1
+      },
+      "mod_kit_artisan": {
+        "label": "Artisan Mod Kit",
+        "min_level": 45,
+        "xp": 259,
+        "duration_ms": 94000,
+        "ingredients": {
+          "part_alloy": 6,
+          "part_precision": 3,
+          "part_cloth": 2
+        },
+        "output_item": "mod_kit_artisan",
+        "output_amount": 1
+      },
+      "mod_kit_combat": {
+        "label": "Combat Mod Kit",
+        "min_level": 65,
+        "xp": 376,
+        "duration_ms": 108000,
+        "ingredients": {
+          "part_alloy": 6,
+          "part_arcane": 3,
+          "part_blade": 2,
+          "part_fletch": 2
+        },
+        "output_item": "mod_kit_combat",
+        "output_amount": 1
+      },
+      "mod_kit_universal": {
+        "label": "Universal Mod Kit",
+        "min_level": 85,
+        "xp": 612,
+        "duration_ms": 127000,
+        "ingredients": {
+          "part_frame": 4,
+          "part_alloy": 4,
+          "part_precision": 4,
+          "part_arcane": 4,
+          "part_blade": 1,
+          "part_tool": 1,
+          "part_rune": 1,
+          "part_flux": 1
+        },
+        "output_item": "mod_kit_universal",
+        "output_amount": 1
+      }
+    },
+    "default_category": {
+      "salvage:aetherite_rune": {
+        "label": "Salvage Aetherite Rune",
+        "min_level": 1,
+        "xp": 15,
+        "duration_ms": 40400,
+        "ingredients": {
+          "aetherite_rune": 5
+        },
+        "output_item": "scrap_metal",
+        "output_amount": 1
+      },
+      "salvage:aqua": {
+        "label": "Salvage Aquastone",
+        "min_level": 1,
+        "xp": 31,
+        "duration_ms": 48000,
+        "ingredients": {
+          "aqua": 5
+        },
+        "output_item": "scrap_metal",
+        "output_amount": 1
+      },
+      "salvage:ashes": {
+        "label": "Salvage Ashes",
+        "min_level": 1,
+        "xp": 15,
+        "duration_ms": 40400,
+        "ingredients": {
+          "ashes": 5
+        },
+        "output_item": "scrap_metal",
+        "output_amount": 1
+      },
+      "salvage:astral_uncut": {
+        "label": "Salvage Uncut Astralite",
+        "min_level": 1,
+        "xp": 15,
+        "duration_ms": 40400,
+        "ingredients": {
+          "astral_uncut": 5
+        },
+        "output_item": "scrap_metal",
+        "output_amount": 1
+      },
+      "salvage:auorite_bar": {
+        "label": "Salvage Auorite Bar",
+        "min_level": 1,
+        "xp": 43,
+        "duration_ms": 68000,
+        "ingredients": {
+          "auorite_bar": 5
+        },
+        "output_item": "scrap_metal",
+        "output_amount": 1
+      },
+      "salvage:auorite_staff_e2": {
+        "label": "Salvage Auorite Staff +2",
+        "min_level": 1,
+        "xp": 45,
+        "duration_ms": 70000,
+        "ingredients": {
+          "auorite_staff_e2": 1
+        },
+        "output_item": "scrap_metal",
+        "output_amount": 1
+      },
+      "salvage:celestite_rune": {
+        "label": "Salvage Celestite Rune",
+        "min_level": 1,
+        "xp": 40,
+        "duration_ms": 62000,
+        "ingredients": {
+          "celestite_rune": 5
+        },
+        "output_item": "scrap_metal",
+        "output_amount": 1
+      },
+      "salvage:cooked_abyssal_eel": {
+        "label": "Salvage Cooked Abyssal Eel",
+        "min_level": 1,
+        "xp": 45,
+        "duration_ms": 71200,
+        "ingredients": {
+          "cooked_abyssal_eel": 5
+        },
+        "output_item": "scrap_metal",
+        "output_amount": 1
+      },
+      "salvage:cooked_emberfin": {
+        "label": "Salvage Cooked Emberfin",
+        "min_level": 1,
+        "xp": 47,
+        "duration_ms": 74000,
+        "ingredients": {
+          "cooked_emberfin": 5
+        },
+        "output_item": "scrap_metal",
+        "output_amount": 1
+      },
+      "salvage:cooked_silverscale": {
+        "label": "Salvage Cooked Silverscale",
+        "min_level": 1,
+        "xp": 20,
+        "duration_ms": 42000,
+        "ingredients": {
+          "cooked_silverscale": 5
+        },
+        "output_item": "scrap_metal",
+        "output_amount": 1
+      },
+      "salvage:copite_bar": {
+        "label": "Salvage Copite Bar",
+        "min_level": 1,
+        "xp": 20,
+        "duration_ms": 42000,
+        "ingredients": {
+          "copite_bar": 5
+        },
+        "output_item": "scrap_metal",
+        "output_amount": 1
+      },
+      "salvage:crimsrite_bar": {
+        "label": "Salvage Crimsrite Bar",
+        "min_level": 1,
+        "xp": 32,
+        "duration_ms": 50000,
+        "ingredients": {
+          "crimsrite_bar": 5
+        },
+        "output_item": "scrap_metal",
+        "output_amount": 1
+      },
+      "salvage:crystalbark_preserve": {
+        "label": "Salvage Crystalbark Preserve",
+        "min_level": 1,
+        "xp": 40,
+        "duration_ms": 63200,
+        "ingredients": {
+          "crystalbark_preserve": 5
+        },
+        "output_item": "scrap_metal",
+        "output_amount": 1
+      },
+      "salvage:defence_potion": {
+        "label": "Salvage Defence Potion",
+        "min_level": 1,
+        "xp": 20,
+        "duration_ms": 42000,
+        "ingredients": {
+          "defence_potion": 5
+        },
+        "output_item": "scrap_metal",
+        "output_amount": 1
+      },
+      "salvage:dusk_uncut": {
+        "label": "Salvage Uncut Duskgem",
+        "min_level": 1,
+        "xp": 15,
+        "duration_ms": 40400,
+        "ingredients": {
+          "dusk_uncut": 5
+        },
+        "output_item": "scrap_metal",
+        "output_amount": 1
+      },
+      "salvage:dustite_bar": {
+        "label": "Salvage Dustite Bar",
+        "min_level": 1,
+        "xp": 15,
+        "duration_ms": 40400,
+        "ingredients": {
+          "dustite_bar": 5
+        },
+        "output_item": "scrap_metal",
+        "output_amount": 1
+      },
+      "salvage:dustite_staff": {
+        "label": "Salvage Dustite Staff",
+        "min_level": 1,
+        "xp": 15,
+        "duration_ms": 40400,
+        "ingredients": {
+          "dustite_staff": 1
+        },
+        "output_item": "scrap_metal",
+        "output_amount": 1
+      },
+      "salvage:elder_ashes": {
+        "label": "Salvage Elder Ashes",
+        "min_level": 1,
+        "xp": 46,
+        "duration_ms": 72000,
+        "ingredients": {
+          "elder_ashes": 5
+        },
+        "output_item": "scrap_metal",
+        "output_amount": 1
+      },
+      "salvage:fine_ashes": {
+        "label": "Salvage Fine Ashes",
+        "min_level": 1,
+        "xp": 29,
+        "duration_ms": 46000,
+        "ingredients": {
+          "fine_ashes": 5
+        },
+        "output_item": "scrap_metal",
+        "output_amount": 1
+      },
+      "salvage:fluxite_rune": {
+        "label": "Salvage Fluxite Rune",
+        "min_level": 1,
+        "xp": 32,
+        "duration_ms": 50000,
+        "ingredients": {
+          "fluxite_rune": 5
+        },
+        "output_item": "scrap_metal",
+        "output_amount": 1
+      },
+      "salvage:fortune_potion": {
+        "label": "Salvage Fortune Potion",
+        "min_level": 1,
+        "xp": 38,
+        "duration_ms": 59200,
+        "ingredients": {
+          "fortune_potion": 5
+        },
+        "output_item": "scrap_metal",
+        "output_amount": 1
+      },
+      "salvage:frost": {
+        "label": "Salvage Frostgem",
+        "min_level": 1,
+        "xp": 37,
+        "duration_ms": 57600,
+        "ingredients": {
+          "frost": 5
+        },
+        "output_item": "scrap_metal",
+        "output_amount": 1
+      },
+      "salvage:garnet": {
+        "label": "Salvage Garnet",
+        "min_level": 1,
+        "xp": 34,
+        "duration_ms": 52800,
+        "ingredients": {
+          "garnet": 5
+        },
+        "output_item": "scrap_metal",
+        "output_amount": 1
+      },
+      "salvage:health_potion": {
+        "label": "Salvage Health Potion",
+        "min_level": 1,
+        "xp": 29,
+        "duration_ms": 44800,
+        "ingredients": {
+          "health_potion": 5
+        },
+        "output_item": "scrap_metal",
+        "output_amount": 1
+      },
+      "salvage:mystic_ashes": {
+        "label": "Salvage Mystic Ashes",
+        "min_level": 1,
+        "xp": 36,
+        "duration_ms": 56000,
+        "ingredients": {
+          "mystic_ashes": 5
+        },
+        "output_item": "scrap_metal",
+        "output_amount": 1
+      },
+      "salvage:noctite_bar": {
+        "label": "Salvage Noctite Bar",
+        "min_level": 1,
+        "xp": 40,
+        "duration_ms": 62000,
+        "ingredients": {
+          "noctite_bar": 5
+        },
+        "output_item": "scrap_metal",
+        "output_amount": 1
+      },
+      "salvage:opal": {
+        "label": "Salvage Opal",
+        "min_level": 1,
+        "xp": 15,
+        "duration_ms": 40400,
+        "ingredients": {
+          "opal": 5
+        },
+        "output_item": "scrap_metal",
+        "output_amount": 1
+      },
+      "salvage:prismite_rune": {
+        "label": "Salvage Prismite Rune",
+        "min_level": 1,
+        "xp": 36,
+        "duration_ms": 56000,
+        "ingredients": {
+          "prismite_rune": 5
+        },
+        "output_item": "scrap_metal",
+        "output_amount": 1
+      },
+      "salvage:shadowrite_rune": {
+        "label": "Salvage Shadowrite Rune",
+        "min_level": 1,
+        "xp": 43,
+        "duration_ms": 68000,
+        "ingredients": {
+          "shadowrite_rune": 5
+        },
+        "output_item": "scrap_metal",
+        "output_amount": 1
+      },
+      "salvage:shalore_bar": {
+        "label": "Salvage Shalore Bar",
+        "min_level": 1,
+        "xp": 36,
+        "duration_ms": 56000,
+        "ingredients": {
+          "shalore_bar": 5
+        },
+        "output_item": "scrap_metal",
+        "output_amount": 1
+      },
+      "salvage:soulgrape_pie": {
+        "label": "Salvage Soulgrape Pie",
+        "min_level": 1,
+        "xp": 45,
+        "duration_ms": 71200,
+        "ingredients": {
+          "soulgrape_pie": 5
+        },
+        "output_item": "scrap_metal",
+        "output_amount": 1
+      },
+      "salvage:spiritoak_nectar": {
+        "label": "Salvage Spiritoak Nectar",
+        "min_level": 1,
+        "xp": 44,
+        "duration_ms": 68800,
+        "ingredients": {
+          "spiritoak_nectar": 5
+        },
+        "output_item": "scrap_metal",
+        "output_amount": 1
+      },
+      "salvage:storm_uncut": {
+        "label": "Salvage Uncut Stormheart",
+        "min_level": 1,
+        "xp": 15,
+        "duration_ms": 40400,
+        "ingredients": {
+          "storm_uncut": 5
+        },
+        "output_item": "scrap_metal",
+        "output_amount": 1
+      },
+      "salvage:sun": {
+        "label": "Salvage Sunstone",
+        "min_level": 1,
+        "xp": 43,
+        "duration_ms": 67200,
+        "ingredients": {
+          "sun": 5
+        },
+        "output_item": "scrap_metal",
+        "output_amount": 1
+      },
+      "salvage:super_attack_potion": {
+        "label": "Salvage Super Attack Potion",
+        "min_level": 1,
+        "xp": 35,
+        "duration_ms": 55200,
+        "ingredients": {
+          "super_attack_potion": 5
+        },
+        "output_item": "scrap_metal",
+        "output_amount": 1
+      },
+      "salvage:velorite_wrench": {
+        "label": "Salvage Velorite Wrench",
+        "min_level": 1,
+        "xp": 30,
+        "duration_ms": 47200,
+        "ingredients": {
+          "velorite_wrench": 1
+        },
+        "output_item": "scrap_metal",
+        "output_amount": 1
+      },
+      "salvage:vexite_arrow": {
+        "label": "Salvage Vexite Arrow",
+        "min_level": 1,
+        "xp": 47,
+        "duration_ms": 74000,
+        "ingredients": {
+          "vexite_arrow": 5
+        },
+        "output_item": "scrap_metal",
+        "output_amount": 1
+      },
+      "salvage:vexite_bar": {
+        "label": "Salvage Vexite Bar",
+        "min_level": 1,
+        "xp": 47,
+        "duration_ms": 74000,
+        "ingredients": {
+          "vexite_bar": 5
+        },
+        "output_item": "scrap_metal",
+        "output_amount": 1
+      },
+      "salvage:void": {
+        "label": "Salvage Voidopal",
+        "min_level": 1,
+        "xp": 40,
+        "duration_ms": 62400,
+        "ingredients": {
+          "void": 5
+        },
+        "output_item": "scrap_metal",
+        "output_amount": 1
+      },
+      "salvage:voidberry_tart": {
+        "label": "Salvage Voidberry Tart",
+        "min_level": 1,
+        "xp": 41,
+        "duration_ms": 64800,
+        "ingredients": {
+          "voidberry_tart": 5
+        },
+        "output_item": "scrap_metal",
+        "output_amount": 1
+      },
+      "salvage:voidstone_rune": {
+        "label": "Salvage Voidstone Rune",
+        "min_level": 1,
+        "xp": 27,
+        "duration_ms": 44000,
+        "ingredients": {
+          "voidstone_rune": 5
+        },
+        "output_item": "scrap_metal",
+        "output_amount": 1
+      },
+      "salvage:zephyne_chisel": {
+        "label": "Salvage Zephyne Chisel",
+        "min_level": 1,
+        "xp": 51,
+        "duration_ms": 79200,
+        "ingredients": {
+          "zephyne_chisel": 1
+        },
+        "output_item": "scrap_metal",
         "output_amount": 1
       }
     }

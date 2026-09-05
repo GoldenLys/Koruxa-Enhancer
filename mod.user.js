@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       3.5
+// @version       3.6
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    https://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
@@ -1376,7 +1376,7 @@ KX.mapping = {
   // Auto-attacks Clan Boss and handles target selection + recap closing even if attack button is hidden.
   function AUTO_CLAN_BOSS() {
     const header = document.querySelector("#page-content .page-header>h1");
-    const isOnClanBoss = header ? header.textContent.trim() === "👻 Clan Boss" : false;
+    const isOnClanBoss = header ? header.textContent.includes("Clan Boss") : false;
     const recapEl = document.querySelector(".cb-recap-modal");
     const FightRecapVisible = !!recapEl;
     const BossTimerStatus = document.querySelector("#sidebar-boss-status")?.textContent.trim();
