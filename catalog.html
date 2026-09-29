@@ -7,6 +7,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
+  @font-face {
+    font-family: 'emoji';
+    src: url('https://goldenlys.github.io/Koruxa-Enhancer/assets/fonts/NotoColorEmoji.ttf') format('truetype');
+  }
   :root {
     --bg: #0a0b10;
     --panel: #12141c;
@@ -23,7 +27,7 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
     background: var(--bg); color: var(--text);
-    font-family: 'JetBrains Mono', monospace; font-size: 13px;
+    font-family: 'JetBrains Mono', monospace, 'emoji'; font-size: 13px;
     min-height: 100vh;
     background-image:
       radial-gradient(ellipse 80% 50% at 50% -10%, rgba(245,197,66,.07), transparent),
@@ -42,6 +46,7 @@
     white-space: nowrap;
   }
   h1 small { display: block; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text3); margin-top: 6px; letter-spacing: 2px; text-shadow: none; }
+  button { font-family: 'JetBrains Mono', monospace, 'emoji'; }
   .stats { display: flex; gap: 18px; margin-left: auto; font-size: 11px; color: var(--text2); }
   .stats b { color: var(--gold); font-size: 14px; display: block; margin-bottom: 2px; }
   .controls { display: flex; gap: 10px; align-items: center; max-width: 1500px; margin: 12px auto 0; flex-wrap: wrap; }
@@ -61,6 +66,7 @@
   .chip:hover { border-color: var(--text2); color: var(--text); }
   .chip.on { background: rgba(245,197,66,.12); border-color: var(--gold); color: var(--gold); font-weight: 600; }
   .chip .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: 1px; }
+  .chip.cat { text-transform: capitalize; }
   main { max-width: 1500px; margin: 24px auto; padding: 0 20px 60px; }
   .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(178px, 1fr)); gap: 12px; }
   .card {
@@ -126,7 +132,7 @@
 <body>
 <header>
   <div class="head-row">
-    <h1>KORUXA ITEMS<small>ITEMS LIST</small></h1>
+    <h1>KORUXA ITEMS LIST<small>SELL PRICES &amp; RARITIES</small></h1>
     <div class="stats">
       <div><b id="st-shown">0</b>shown</div>
       <div><b id="st-total">0</b>items</div>
@@ -136,21 +142,26 @@
     <input type="search" id="q" placeholder="Search items… (name or key)">
     <select id="sort">
       <option value="name-asc">Name A→Z</option>
-      <option value="price-desc">Price high→low</option>
+      <option value="price-desc" selected>Price high→low</option>
       <option value="price-asc">Price low→high</option>
-      <option value="rarity-desc" selected>Rarity high→low</option>
+      <option value="rarity-desc">Rarity high→low</option>
       <option value="rarity-asc">Rarity low→high</option>
       <option value="category-asc">Category A→Z</option>
     </select>
-    <button id="alch-btn" class="icon-btn" title="Alchemy conversion — click to set bonuses">&#9881;</button>
+    <button id="alch-btn" class="icon-btn" title="Alchemy conversion — click to set bonuses">&#9879;</button>
+  </div>
+  <div class="chip-row" id="sealed-chips"><span class="chip-label">Sealed</span>
+    <button id="sealed-star" class="chip" title="Sealed gear — star (⭐) variants: off by default, click to show">&#11088;</button>
+    <button id="sealed-moon" class="chip" title="Sealed gear — lunar (🌙) variants: off by default, click to show">&#127769;</button>
+    <button id="sealed-sun" class="chip" title="Sealed gear — solar (☀️) variants: off by default, click to show">&#9728;&#65039;</button>
   </div>
   <div class="chip-row" id="cat-chips"><span class="chip-label">categories</span></div>
   <div class="chip-row" id="rar-chips"><span class="chip-label">rarity</span></div>
 </header>
 <div id="alch-overlay" class="overlay hidden">
   <div class="modal">
-    <h2>&#9879; ALCHEMY CONVERSION</h2>
-    <p class="modal-sub">Prices become your transmute payout, using the engine's exact math:<br><b style="color:var(--text2)">ceil(base &times; (1 + level bonus) &times; (1 + Golden Touch))</b><br>Level bonus = the "+X% level bonus" shown in the Alchemy UI · Golden Touch = Research Institute perk.</p>
+    <h2>ALCHEMY PRICE BONUSES</h2>
+    <p class="modal-sub">Level bonus = the "+X% level bonus" shown in the Alchemy UI · Golden Touch = Research Institute perk.</p>
     <label>Alchemy level bonus (%)
       <input type="number" id="alch-level" min="0" step="0.1" placeholder="e.g. 35">
     </label>
@@ -164,12 +175,22 @@
   </div>
 </div>
 <main><div class="grid" id="grid"></div></main>
-<footer>Koruxa Items List by Nebulys (help needed, feel free to contribute on discord!)</footer>
+<footer>KORUXA ITEMS LIST · by Nebulys</footer>
 <script>
 let ITEMS = []; // loaded from all_items.json
 const RARITY_ORDER = { common: 0, uncommon: 1, rare: 2, epic: 3, legendary: 4, mythic: 5 };
 const RARITY_COLORS = { common: '#9ca3af', uncommon: '#22c55e', rare: '#3b82f6', epic: '#a855f7', legendary: '#f59e0b', mythic: '#ef4444' };
-const ICON_BASE = 'https://koruxa.com/assets/img/items/';
+// wiki-sourced icons are category-prefixed paths (e.g. bars/gold_bar.png);
+// bare filenames from game dumps fall back to the shared placeholder
+const ICON_BASE = 'https://koruxa.com/assets/img/';
+
+// Sealed gear: names carrying a ☀ / ⭐ / 🌙 marker (e.g. "Abyssweave Hat ☀️", "Drakonite Saw ⭐ +8")
+const SEALED = { star: '⭐', moon: '🌙', sun: '☀' };
+function sealedHidden(it) {
+  const n = it.name || '';
+  for (const k in SEALED) if (!sealedOn[k] && n.includes(SEALED[k])) return true;
+  return false;
+}
 
 // Alchemy conversion — same math as the engine (game.js transmute modal):
 // gold_output already includes the level bonus; Golden Touch is multiplied on top, ceil'd.
@@ -181,15 +202,24 @@ function alchPrice(base) {
   return Math.ceil(base * (1 + ALCH.level / 100) * (1 + ALCH.touch / 100));
 }
 
-const state = { q: '', sort: 'rarity-desc', cats: new Set(), rars: new Set() };
+// categories enabled on load — every other chip is still built, just starts off
+const DEFAULT_CATS = ['bars', 'ore', 'gem'];
+// these categories are hidden entirely (no chip, items never shown)
+const HIDDEN_CATS = ['event', 'premium token'];
+const state = { q: '', sort: 'price-desc', cats: new Set(), rars: new Set() };
+// Sealed gear (☀️ ⭐ 🌙) hidden by default; each variant has its own toggle, choice persisted
+let sealedOn = { sun: false, star: false, moon: false };
+try { Object.assign(sealedOn, JSON.parse(localStorage.getItem('kx_vault_sealed') || '{}')); } catch (e) {}
 
 function fmt(n) { return n == null ? '' : Number(n).toLocaleString('en-US'); }
 
-function buildChips(el, keys, set, colorOf) {
+function buildChips(el, keys, set, colorOf, labelOf, extraClass) {
   keys.forEach(k => {
     const c = document.createElement('button');
-    c.className = 'chip on'; c.textContent = k;
-    if (colorOf) c.innerHTML = '<span class="dot" style="background:' + colorOf(k) + '"></span>' + k;
+    c.className = (set.has(k) ? 'chip on' : 'chip') + (extraClass ? ' ' + extraClass : '');
+    const label = labelOf ? labelOf(k) : k;
+    if (colorOf) c.innerHTML = '<span class="dot" style="background:' + colorOf(k) + '"></span>' + label;
+    else c.textContent = label;
     c.onclick = () => {
       if (set.has(k)) { set.delete(k); c.classList.remove('on'); }
       else { set.add(k); c.classList.add('on'); }
@@ -205,20 +235,18 @@ function visible() {
   let out = ITEMS.filter(it => {
     const cat = it.category || 'uncategorized';
     const rar = it.rarity || 'common';
+    if (HIDDEN_CATS.includes(cat)) return false; // event / premium token are never shown
     if (!state.cats.has(cat) || !state.rars.has(rar)) return false;
-    
+    if (sealedHidden(it)) return false;
     if (state.q) {
       const terms = state.q.split(' ');
       const searchTarget = (it.name + ' ' + (it.item_key || '')).toLowerCase();
       if (!terms.every(t => searchTarget.includes(t))) return false;
     }
-    
     return true;
   });
-  
   const [field, dir] = state.sort.split('-');
   const mul = dir === 'asc' ? 1 : -1;
-  
   out.sort((a, b) => {
     if (field === 'name') return a.name.localeCompare(b.name) * mul;
     if (field === 'category') return (a.category || '').localeCompare(b.category || '') * mul || a.name.localeCompare(b.name);
@@ -226,7 +254,6 @@ function visible() {
     if (field === 'rarity') return ((RARITY_ORDER[a.rarity] ?? 0) - (RARITY_ORDER[b.rarity] ?? 0)) * mul || a.name.localeCompare(b.name);
     return 0;
   });
-  
   return out;
 }
 
@@ -270,7 +297,7 @@ function alchBtnState() {
   const on = alchActive();
   alchBtn.classList.toggle('active', on);
   alchBtn.title = on
-    ? 'Alchemy conversion active: +' + (((Math.pow(1 + ALCH.level / 100) * (1 + ALCH.touch / 100)) - 1) * 100).toFixed(1) + '% total'
+    ? 'Alchemy conversion active: +' + ((((1 + ALCH.level / 100) * (1 + ALCH.touch / 100)) - 1) * 100).toFixed(1) + '% total'
     : 'Alchemy conversion — click to set bonuses';
 }
 alchBtn.onclick = () => {
@@ -291,12 +318,28 @@ document.getElementById('alch-reset').onclick = () => {
   try { localStorage.removeItem('kx_vault_alch'); } catch (e) {}
   alchBtnState(); alchOverlay.classList.add('hidden'); render();
 };
+// Sealed gear toggles — one per variant, persisted so the choice survives reloads
+function saveSealed() { try { localStorage.setItem('kx_vault_sealed', JSON.stringify(sealedOn)); } catch (e) {} }
+Object.keys(SEALED).forEach(k => {
+  const b = document.getElementById('sealed-' + k);
+  b.onclick = () => { sealedOn[k] = !sealedOn[k]; b.classList.toggle('on', sealedOn[k]); saveSealed(); render(); };
+});
+function sealedBtnsState() { Object.keys(SEALED).forEach(k => document.getElementById('sealed-' + k).classList.toggle('on', !!sealedOn[k])); }
 function boot(loaded) {
   ITEMS = loaded;
-  ITEMS.forEach(it => state.cats.add(it.category || 'uncategorized'));
+  const allCats = new Set();
+  const catCounts = {};
+  ITEMS.forEach(it => {
+    const c = it.category || 'uncategorized';
+    if (HIDDEN_CATS.includes(c)) return; // no chip for hidden categories
+    allCats.add(c);
+    catCounts[c] = (catCounts[c] || 0) + 1;
+  });
+  state.cats = new Set([...allCats].filter(c => DEFAULT_CATS.includes(c)));
   Object.keys(RARITY_ORDER).forEach(r => state.rars.add(r));
-  buildChips(document.getElementById('cat-chips'), [...state.cats].sort(), state.cats, null);
+  buildChips(document.getElementById('cat-chips'), [...allCats].sort(), state.cats, null, k => k + ' (' + (catCounts[k] || 0) + ')', 'cat'); // ALL categories as chips; only DEFAULT_CATS start on
   buildChips(document.getElementById('rar-chips'), Object.keys(RARITY_ORDER), state.rars, k => RARITY_COLORS[k]);
+  sealedBtnsState();
   alchBtnState();
   render();
 }
