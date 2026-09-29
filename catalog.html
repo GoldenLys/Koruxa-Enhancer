@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Koruxa Vault — Item Catalog</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0b10;
+    --panel: #12141c;
+    --panel2: #181b26;
+    --line: #232736;
+    --text: #e8eaf2;
+    --text2: #9aa1b5;
+    --text3: #5d6478;
+    --gold: #f5c542;
+    --green: #22c55e;
+    --common: #9ca3af; --uncommon: #22c55e; --rare: #3b82f6;
+    --epic: #a855f7; --legendary: #f59e0b; --mythic: #ef4444;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: 'JetBrains Mono', monospace; font-size: 13px;
+    min-height: 100vh;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(245,197,66,.07), transparent),
+      repeating-linear-gradient(0deg, transparent 0 3px, rgba(255,255,255,.012) 3px 4px);
+  }
+  header {
+    position: sticky; top: 0; z-index: 10;
+    background: rgba(10,11,16,.92); backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+    padding: 14px 20px;
+  }
+  .head-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; max-width: 1500px; margin: 0 auto; }
+  h1 {
+    font-family: 'Press Start 2P', monospace; font-size: 14px; letter-spacing: 1px;
+    color: var(--gold); text-shadow: 0 0 18px rgba(245,197,66,.35);
+    white-space: nowrap;
+  }
+  h1 small { display: block; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text3); margin-top: 6px; letter-spacing: 2px; text-shadow: none; }
+  .stats { display: flex; gap: 18px; margin-left: auto; font-size: 11px; color: var(--text2); }
+  .stats b { color: var(--gold); font-size: 14px; display: block; margin-bottom: 2px; }
+  .controls { display: flex; gap: 10px; align-items: center; max-width: 1500px; margin: 12px auto 0; flex-wrap: wrap; }
+  input[type=search], select {
+    background: var(--panel2); border: 1px solid var(--line); color: var(--text);
+    font-family: inherit; font-size: 12px; padding: 8px 12px; border-radius: 6px; outline: none;
+  }
+  input[type=search] { flex: 1; min-width: 180px; }
+  input[type=search]:focus, select:focus { border-color: var(--gold); box-shadow: 0 0 0 2px rgba(245,197,66,.15); }
+  .chip-row { display: flex; gap: 6px; flex-wrap: wrap; max-width: 1500px; margin-top: 10px; align-items: center; }
+  .chip-label { font-size: 9px; text-transform: uppercase; letter-spacing: 2px; color: var(--text3); margin-right: 4px; }
+  .chip {
+    background: var(--panel2); border: 1px solid var(--line); color: var(--text2);
+    font-family: inherit; font-size: 11px; padding: 5px 10px; border-radius: 999px;
+    cursor: pointer; transition: all .15s; user-select: none;
+  }
+  .chip:hover { border-color: var(--text2); color: var(--text); }
+  .chip.on { background: rgba(245,197,66,.12); border-color: var(--gold); color: var(--gold); font-weight: 600; }
+  .chip .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: 1px; }
+  main { max-width: 1500px; margin: 24px auto; padding: 0 20px 60px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(178px, 1fr)); gap: 12px; }
+  .card {
+    position: relative; background: var(--panel); border: 1px solid var(--line);
+    border-top: 3px solid var(--rc, var(--common)); border-radius: 10px;
+    padding: 14px 12px 12px; text-align: center;
+    transition: transform .15s, box-shadow .15s, border-color .15s;
+    animation: pop .3s backwards;
+  }
+  @keyframes pop { from { opacity: 0; transform: translateY(8px) scale(.97); } }
+  .card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,.5), 0 0 16px color-mix(in srgb, var(--rc) 30%, transparent); border-color: var(--rc); }
+  .card img { width: 56px; height: 56px; image-rendering: pixelated; margin-bottom: 8px; filter: drop-shadow(0 4px 8px rgba(0,0,0,.5)); }
+  .card .noicon { font-size: 34px; line-height: 56px; }
+  .card .name { font-weight: 700; font-size: 12px; line-height: 1.35; min-height: 32px; display: flex; align-items: center; justify-content: center; word-break: break-word; }
+  .card .rarity {
+    font-size: 9px; text-transform: uppercase; letter-spacing: 1.5px;
+    color: var(--rc); margin-top: 4px;
+  }
+  .card .price { margin-top: 8px; font-weight: 700; color: var(--gold); font-size: 13px; }
+  .card .price.none { color: var(--text3); font-weight: 400; font-size: 11px; }
+  .empty { text-align: center; padding: 80px 20px; color: var(--text3); font-size: 13px; grid-column: 1/-1; }
+  .empty .big { font-size: 40px; margin-bottom: 12px; }
+  footer { text-align: center; padding: 20px; color: var(--text3); font-size: 10px; letter-spacing: 1px; border-top: 1px solid var(--line); }
+  .icon-btn {
+    background: var(--panel2); border: 1px solid var(--line); color: var(--text2);
+    width: 34px; height: 34px; border-radius: 8px; font-size: 16px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; position: relative;
+    transition: all .15s;
+  }
+  .icon-btn:hover { border-color: var(--gold); color: var(--gold); transform: rotate(45deg); }
+  .icon-btn.active { border-color: var(--gold); color: var(--gold); background: rgba(245,197,66,.1); }
+  .icon-btn.active::after { content: ''; position: absolute; top: -3px; right: -3px; width: 8px; height: 8px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 6px var(--gold); }
+  .overlay {
+    position: fixed; inset: 0; z-index: 100; background: rgba(5,6,10,.7); backdrop-filter: blur(4px);
+    display: flex; align-items: center; justify-content: center; animation: fadein .15s;
+  }
+  @keyframes fadein { from { opacity: 0; } }
+  .overlay.hidden { display: none; }
+  .modal {
+    width: min(420px, calc(100vw - 32px)); background: var(--panel); border: 1px solid var(--line);
+    border-top: 3px solid var(--gold); border-radius: 12px; padding: 22px;
+    animation: pop .2s backwards; box-shadow: 0 24px 60px rgba(0,0,0,.6);
+  }
+  .modal h2 { font-family: 'Press Start 2P', monospace; font-size: 12px; color: var(--gold); margin-bottom: 8px; letter-spacing: 1px; }
+  .modal-sub { font-size: 11px; color: var(--text3); line-height: 1.6; margin-bottom: 18px; }
+  .modal label { display: block; font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text2); margin-bottom: 14px; }
+  .modal input[type=number] {
+    width: 100%; margin-top: 6px; background: var(--panel2); border: 1px solid var(--line);
+    color: var(--text); font-family: inherit; font-size: 14px; font-weight: 700; padding: 9px 12px; border-radius: 6px; outline: none;
+  }
+  .modal input[type=number]:focus { border-color: var(--gold); box-shadow: 0 0 0 2px rgba(245,197,66,.15); }
+  .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 6px; }
+  .modal-actions button {
+    font-family: inherit; font-size: 11px; font-weight: 700; padding: 8px 16px; border-radius: 6px;
+    cursor: pointer; background: var(--panel2); color: var(--text2); border: 1px solid var(--line); transition: all .15s;
+  }
+  .modal-actions button:hover { border-color: var(--text2); color: var(--text); }
+  .modal-actions .primary { background: rgba(245,197,66,.12); border-color: var(--gold); color: var(--gold); }
+  .modal-actions .primary:hover { background: rgba(245,197,66,.22); }
+  .price-alch { font-size: 9px; color: #c084fc; margin-top: 2px; font-weight: 600; }
+</style>
+</head>
+<body>
+<header>
+  <div class="head-row">
+    <h1>&#128703; KORUXA VAULT<small>ITEM CATALOG</small></h1>
+    <div class="stats">
+      <div><b id="st-shown">0</b>shown</div>
+      <div><b id="st-total">0</b>items</div>
+    </div>
+  </div>
+  <div class="controls">
+    <input type="search" id="q" placeholder="Search items… (name or key)">
+    <select id="sort">
+      <option value="name-asc">Name A→Z</option>
+      <option value="price-desc">Price high→low</option>
+      <option value="price-asc">Price low→high</option>
+      <option value="rarity-desc" selected>Rarity high→low</option>
+      <option value="rarity-asc">Rarity low→high</option>
+      <option value="category-asc">Category A→Z</option>
+    </select>
+    <button id="alch-btn" class="icon-btn" title="Alchemy conversion — click to set bonuses">&#9881;</button>
+  </div>
+  <div class="chip-row" id="cat-chips"><span class="chip-label">categories</span></div>
+  <div class="chip-row" id="rar-chips"><span class="chip-label">rarity</span></div>
+</header>
+<div id="alch-overlay" class="overlay hidden">
+  <div class="modal">
+    <h2>&#9879; ALCHEMY CONVERSION</h2>
+    <p class="modal-sub">Prices become your transmute payout, using the engine's exact math:<br><b style="color:var(--text2)">ceil(base &times; (1 + level bonus) &times; (1 + Golden Touch))</b><br>Level bonus = the "+X% level bonus" shown in the Alchemy UI · Golden Touch = Research Institute perk.</p>
+    <label>Alchemy level bonus (%)
+      <input type="number" id="alch-level" min="0" step="0.1" placeholder="e.g. 35">
+    </label>
+    <label>Golden Touch — Research Institute (%)
+      <input type="number" id="alch-touch" min="0" step="0.1" placeholder="e.g. 3.3">
+    </label>
+    <div class="modal-actions">
+      <button id="alch-reset">Reset</button>
+      <button id="alch-save" class="primary">Save</button>
+    </div>
+  </div>
+</div>
+<main><div class="grid" id="grid"></div></main>
+<footer>KORUXA ITEM CATALOG · generated by items_collector.py · open with open.bat (serves the folder locally)</footer>
+<script>
+let ITEMS = []; // loaded from all_items.json
+const RARITY_ORDER = { common: 0, uncommon: 1, rare: 2, epic: 3, legendary: 4, mythic: 5 };
+const RARITY_COLORS = { common: '#9ca3af', uncommon: '#22c55e', rare: '#3b82f6', epic: '#a855f7', legendary: '#f59e0b', mythic: '#ef4444' };
+const ICON_BASE = 'https://koruxa.com/assets/img/items/';
+
+// Alchemy conversion — same math as the engine (game.js transmute modal):
+// gold_output already includes the level bonus; Golden Touch is multiplied on top, ceil'd.
+let ALCH = { level: 0, touch: 0 };
+try { const _s = JSON.parse(localStorage.getItem('kx_vault_alch') || 'null'); if (_s && typeof _s === 'object') ALCH = { level: +_s.level || 0, touch: +_s.touch || 0 }; } catch (e) {}
+function alchActive() { return ALCH.level > 0 || ALCH.touch > 0; }
+function alchPrice(base) {
+  if (!base || !alchActive()) return base;
+  return Math.ceil(base * (1 + ALCH.level / 100) * (1 + ALCH.touch / 100));
+}
+
+const state = { q: '', sort: 'rarity-desc', cats: new Set(), rars: new Set() };
+
+function fmt(n) { return n == null ? '' : Number(n).toLocaleString('en-US'); }
+
+function buildChips(el, keys, set, colorOf) {
+  keys.forEach(k => {
+    const c = document.createElement('button');
+    c.className = 'chip on'; c.textContent = k;
+    if (colorOf) c.innerHTML = '<span class="dot" style="background:' + colorOf(k) + '"></span>' + k;
+    c.onclick = () => {
+      if (set.has(k)) { set.delete(k); c.classList.remove('on'); }
+      else { set.add(k); c.classList.add('on'); }
+      render();
+    };
+    el.appendChild(c);
+  });
+}
+document.getElementById('q').oninput = e => { state.q = e.target.value.toLowerCase(); render(); };
+document.getElementById('sort').onchange = e => { state.sort = e.target.value; render(); };
+
+function visible() {
+  let out = ITEMS.filter(it => {
+    const cat = it.category || 'uncategorized';
+    const rar = it.rarity || 'common';
+    if (!state.cats.has(cat) || !state.rars.has(rar)) return false;
+    
+    if (state.q) {
+      const terms = state.q.split(' ');
+      const searchTarget = (it.name + ' ' + (it.item_key || '')).toLowerCase();
+      if (!terms.every(t => searchTarget.includes(t))) return false;
+    }
+    
+    return true;
+  });
+  
+  const [field, dir] = state.sort.split('-');
+  const mul = dir === 'asc' ? 1 : -1;
+  
+  out.sort((a, b) => {
+    if (field === 'name') return a.name.localeCompare(b.name) * mul;
+    if (field === 'category') return (a.category || '').localeCompare(b.category || '') * mul || a.name.localeCompare(b.name);
+    if (field === 'price') return ((alchPrice(a.sell_price) || 0) - (alchPrice(b.sell_price) || 0)) * mul;
+    if (field === 'rarity') return ((RARITY_ORDER[a.rarity] ?? 0) - (RARITY_ORDER[b.rarity] ?? 0)) * mul || a.name.localeCompare(b.name);
+    return 0;
+  });
+  
+  return out;
+}
+
+function render() {
+  const grid = document.getElementById('grid');
+  const items = visible();
+  grid.innerHTML = '';
+  if (items.length === 0) {
+    grid.innerHTML = '<div class="empty"><div class="big">&#129528;</div>No items match — try clearing a filter.</div>';
+  }
+  items.forEach((it, i) => {
+    const rar = it.rarity || 'common';
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.style.setProperty('--rc', RARITY_COLORS[rar] || RARITY_COLORS.common);
+    card.style.animationDelay = Math.min(i * 12, 400) + 'ms';
+    const icon = it.icon
+      ? '<img src="' + ICON_BASE + it.icon.replace(/"/g, '') + '" alt="" loading="lazy" onerror="this.outerHTML=\'<div class=noicon>&#129528;</div>\'">'
+      : '<div class="noicon">&#129528;</div>';
+    let price;
+    if (it.sell_price) {
+      const conv = alchPrice(it.sell_price);
+      price = '<div class="price">&#129689; ' + fmt(it.sell_price) + '</div>'
+        + (alchActive() && conv !== it.sell_price ? '<div class="price-alch">&#10024;&#129689; ' + fmt(conv) + '</div>' : '');
+    } else {
+      price = '<div class="price none">— no value —</div>';
+    }
+    card.innerHTML = icon
+      + '<div class="name">' + it.name.replace(/</g, '&lt;') + '</div>'
+      + '<div class="rarity">' + rar + '</div>' + price;
+    grid.appendChild(card);
+  });
+  document.getElementById('st-shown').textContent = fmt(items.length);
+  document.getElementById('st-total').textContent = fmt(ITEMS.length);
+}
+
+// Alchemy modal wiring
+const alchOverlay = document.getElementById('alch-overlay');
+const alchBtn = document.getElementById('alch-btn');
+function alchBtnState() {
+  const on = alchActive();
+  alchBtn.classList.toggle('active', on);
+  alchBtn.title = on
+    ? 'Alchemy conversion active: +' + (((Math.pow(1 + ALCH.level / 100) * (1 + ALCH.touch / 100)) - 1) * 100).toFixed(1) + '% total'
+    : 'Alchemy conversion — click to set bonuses';
+}
+alchBtn.onclick = () => {
+  document.getElementById('alch-level').value = ALCH.level || '';
+  document.getElementById('alch-touch').value = ALCH.touch || '';
+  alchOverlay.classList.remove('hidden');
+};
+alchOverlay.onclick = e => { if (e.target === alchOverlay) alchOverlay.classList.add('hidden'); };
+document.addEventListener('keydown', e => { if (e.key === 'Escape') alchOverlay.classList.add('hidden'); });
+document.getElementById('alch-save').onclick = () => {
+  ALCH.level = Math.max(0, parseFloat(document.getElementById('alch-level').value) || 0);
+  ALCH.touch = Math.max(0, parseFloat(document.getElementById('alch-touch').value) || 0);
+  try { localStorage.setItem('kx_vault_alch', JSON.stringify(ALCH)); } catch (e) {}
+  alchBtnState(); alchOverlay.classList.add('hidden'); render();
+};
+document.getElementById('alch-reset').onclick = () => {
+  ALCH = { level: 0, touch: 0 };
+  try { localStorage.removeItem('kx_vault_alch'); } catch (e) {}
+  alchBtnState(); alchOverlay.classList.add('hidden'); render();
+};
+function boot(loaded) {
+  ITEMS = loaded;
+  ITEMS.forEach(it => state.cats.add(it.category || 'uncategorized'));
+  Object.keys(RARITY_ORDER).forEach(r => state.rars.add(r));
+  buildChips(document.getElementById('cat-chips'), [...state.cats].sort(), state.cats, null);
+  buildChips(document.getElementById('rar-chips'), Object.keys(RARITY_ORDER), state.rars, k => RARITY_COLORS[k]);
+  alchBtnState();
+  render();
+}
+
+fetch('all_items.json')
+  .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+  .then(boot)
+  .catch(err => {
+    document.getElementById('grid').innerHTML =
+      '<div class="empty"><div class="big">&#128274;</div>Could not load all_items.json (' + err.message + ').<br><br>' +
+      'Browsers block a double-clicked page from reading local files — run <b style="color:var(--gold)">open.bat</b> instead, which serves this folder locally and opens the catalog.</div>';
+  });
+</script>
+</body>
+</html>

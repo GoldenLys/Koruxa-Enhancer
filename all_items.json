@@ -1,0 +1,3562 @@
+[
+  {
+    "item_key": "abyssal_longbow",
+    "name": "Abyssal Longbow",
+    "sell_price": 20000,
+    "rarity": "epic",
+    "category": "slayer_weapon",
+    "icon": "slayer/abyssal_longbow.png"
+  },
+  {
+    "item_key": "abysslash",
+    "name": "Abysslash",
+    "sell_price": 20000,
+    "rarity": "epic",
+    "category": "slayer_weapon",
+    "icon": "slayer/abysslash.png"
+  },
+  {
+    "item_key": "abyssweave_hat",
+    "name": "Abyssweave Hat",
+    "sell_price": 10080,
+    "rarity": "epic",
+    "category": "equipment",
+    "icon": "armor/abyssweave_hat.png"
+  },
+  {
+    "item_key": "abyssweave_robe",
+    "name": "Abyssweave Robe",
+    "sell_price": 15120,
+    "rarity": "epic",
+    "category": "equipment",
+    "icon": "armor/abyssweave_robe.png"
+  },
+  {
+    "item_key": "aetherite_rune",
+    "name": "Aetherite Rune",
+    "sell_price": 5,
+    "rarity": "common",
+    "category": "runes",
+    "icon": "runes/aetherite_rune.png"
+  },
+  {
+    "item_key": "aetherite_wand_star",
+    "name": "Aetherite Wand ⭐",
+    "sell_price": 45,
+    "rarity": "common",
+    "category": "tools",
+    "icon": "tools/aetherite_wand.png"
+  },
+  {
+    "item_key": "amber",
+    "name": "Amber",
+    "sell_price": 100,
+    "rarity": "common",
+    "category": "gem",
+    "icon": "gems/amber.png"
+  },
+  {
+    "item_key": "amber_fury_ring",
+    "name": "Amber Fury Ring",
+    "sell_price": 300,
+    "rarity": "common",
+    "category": "equipment",
+    "icon": "jewelery/fury_ring.png"
+  },
+  {
+    "item_key": "amber_knowledge_amulet",
+    "name": "Amber Knowledge Amulet",
+    "sell_price": 300,
+    "rarity": "common",
+    "category": "equipment",
+    "icon": "jewelery/knowledge_amulet.png"
+  },
+  {
+    "item_key": "amber_power_amulet",
+    "name": "Amber Power Amulet",
+    "sell_price": 300,
+    "rarity": "common",
+    "category": "equipment",
+    "icon": "jewelery/power_amulet.png"
+  },
+  {
+    "item_key": "amber_uncut",
+    "name": "Uncut Amber",
+    "sell_price": 40,
+    "rarity": "common",
+    "category": "gem",
+    "icon": "gems/amber_uncut.png"
+  },
+  {
+    "item_key": "amber_wealth_ring",
+    "name": "Amber Wealth Ring",
+    "sell_price": 300,
+    "rarity": "common",
+    "category": "equipment",
+    "icon": "jewelery/wealth_ring.png"
+  },
+  {
+    "item_key": "ancient_bow",
+    "name": "Ancient Bow",
+    "sell_price": 180,
+    "rarity": "uncommon",
+    "category": "weapons",
+    "icon": "weapons/ancient_bow.png"
+  },
+  {
+    "item_key": "aqua",
+    "name": "Aquastone",
+    "sell_price": 200,
+    "rarity": "uncommon",
+    "category": "gem",
+    "icon": "gems/aqua.png"
+  },
+  {
+    "item_key": "aqua_fury_ring",
+    "name": "Aquastone Fury Ring",
+    "sell_price": 700,
+    "rarity": "uncommon",
+    "category": "equipment",
+    "icon": "jewelery/fury_ring.png"
+  },
+  {
+    "item_key": "aqua_guardian_amulet",
+    "name": "Aquastone Guardian Amulet",
+    "sell_price": 700,
+    "rarity": "uncommon",
+    "category": "equipment",
+    "icon": "jewelery/guardian_amulet.png"
+  },
+  {
+    "item_key": "aqua_knowledge_amulet",
+    "name": "Aquastone Knowledge Amulet",
+    "sell_price": 700,
+    "rarity": "uncommon",
+    "category": "equipment",
+    "icon": "jewelery/knowledge_amulet.png"
+  },
+  {
+    "item_key": "aqua_power_amulet",
+    "name": "Aquastone Power Amulet",
+    "sell_price": 700,
+    "rarity": "uncommon",
+    "category": "equipment",
+    "icon": "jewelery/power_amulet.png"
+  },
+  {
+    "item_key": "aqua_vitality_amulet",
+    "name": "Aquastone Vitality Amulet",
+    "sell_price": 700,
+    "rarity": "uncommon",
+    "category": "equipment",
+    "icon": "jewelery/vitality_amulet.png"
+  },
+  {
+    "item_key": "aqua_wealth_ring",
+    "name": "Aquastone Wealth Ring",
+    "sell_price": 700,
+    "rarity": "uncommon",
+    "category": "equipment",
+    "icon": "jewelery/wealth_ring.png"
+  },
+  {
+    "item_key": "ashes",
+    "name": "Ashes",
+    "sell_price": 2,
+    "rarity": "common",
+    "category": "material",
+    "icon": "items/ashes.png"
+  },
+  {
+    "item_key": "ashling_sapling",
+    "name": "Ashling Sapling",
+    "sell_price": 50,
+    "rarity": "common",
+    "category": "farming",
+    "icon": "farming/ashling_sapling.png"
+  },
+  {
+    "item_key": "astral_uncut",
+    "name": "Uncut Astralite",
+    "sell_price": 3000,
+    "rarity": "legendary",
+    "category": "gem",
+    "icon": "gems/astral_uncut.png"
+  },
+  {
+    "item_key": "attack_potion",
+    "name": "Attack Potion",
+    "sell_price": 100,
+    "rarity": "common",
+    "category": "potion",
+    "icon": "herblore/attack_potion.png"
+  },
+  {
+    "item_key": "auorite_arrow",
+    "name": "Auorite Arrow",
+    "sell_price": 150,
+    "rarity": "epic",
+    "category": "ammo",
+    "icon": "ammo/auorite_arrow.png"
+  },
+  {
+    "item_key": "auorite_bar",
+    "name": "Auorite Bar",
+    "sell_price": 350,
+    "rarity": "epic",
+    "category": "bars",
+    "icon": "bars/auorite_bar.png"
+  },
+  {
+    "item_key": "auorite_boots",
+    "name": "Auorite Boots",
+    "sell_price": 5240,
+    "rarity": "epic",
+    "category": "equipment",
+    "icon": "armor/auorite_boots.png"
+  },
+  {
+    "item_key": "auorite_chestplate",
+    "name": "Auorite Chestplate",
+    "sell_price": 9000,
+    "rarity": "epic",
+    "category": "equipment",
+    "icon": "armor/auorite_chestplate.png"
+  },
+  {
+    "item_key": "auorite_gloves",
+    "name": "Auorite Gloves",
+    "sell_price": 4480,
+    "rarity": "epic",
+    "category": "equipment",
+    "icon": "armor/auorite_gloves.png"
+  },
+  {
+    "item_key": "auorite_hammer",
+    "name": "Auorite Hammer",
+    "sell_price": 5000,
+    "rarity": "epic",
+    "category": "tools",
+    "icon": "tools/auorite_hammer.png"
+  },
+  {
+    "item_key": "auorite_hatchet",
+    "name": "Auorite Hatchet",
+    "sell_price": 5000,
+    "rarity": "epic",
+    "category": "tools",
+    "icon": "tools/auorite_hatchet.png"
+  },
+  {
+    "item_key": "auorite_hatchet_e3",
+    "name": "Auorite Hatchet +3",
+    "sell_price": 7250,
+    "rarity": "epic",
+    "category": "tools",
+    "icon": "tools/auorite_hatchet.png"
+  },
+  {
+    "item_key": "auorite_helmet",
+    "name": "Auorite Helmet",
+    "sell_price": 6000,
+    "rarity": "epic",
+    "category": "equipment",
+    "icon": "armor/auorite_helmet.png"
+  },
+  {
+    "item_key": "auorite_knife",
+    "name": "Auorite Knife",
+    "sell_price": 5000,
+    "rarity": "epic",
+    "category": "tools",
+    "icon": "tools/auorite_knife.png"
+  },
+  {
+    "item_key": "auorite_leggings",
+    "name": "Auorite Leggings",
+    "sell_price": 6720,
+    "rarity": "epic",
+    "category": "equipment",
+    "icon": "armor/auorite_leggings.png"
+  },
+  {
+    "item_key": "auorite_lockpick",
+    "name": "Auorite Lockpick",
+    "sell_price": 5000,
+    "rarity": "epic",
+    "category": "tools",
+    "icon": "tools/auorite_lockpick.png"
+  },
+  {
+    "item_key": "auorite_longsword",
+    "name": "Auorite Longsword",
+    "sell_price": 9000,
+    "rarity": "epic",
+    "category": "weapons",
+    "icon": "weapons/auorite_longsword.png"
+  },
+  {
+    "item_key": "auorite_ore",
+    "name": "Auorite Ore",
+    "sell_price": 125,
+    "rarity": "common",
+    "category": "ore",
+    "icon": "ores/auorite_ore.png"
+  },
+  {
+    "item_key": "auorite_pestle",
+    "name": "Auorite Pestle",
+    "sell_price": 5000,
+    "rarity": "epic",
+    "category": "tools",
+    "icon": "tools/auorite_pestle.png"
+  },
+  {
+    "item_key": "auorite_pickaxe",
+    "name": "Auorite Pickaxe",
+    "sell_price": 5000,
+    "rarity": "epic",
+    "category": "tools",
+    "icon": "tools/auorite_pickaxe.png"
+  },
+  {
+    "item_key": "auorite_rod",
+    "name": "Auorite Fishing Rod",
+    "sell_price": 5000,
+    "rarity": "epic",
+    "category": "tools",
+    "icon": "tools/auorite_rod.png"
+  },
+  {
+    "item_key": "auorite_saw",
+    "name": "Auorite Saw",
+    "sell_price": 5000,
+    "rarity": "epic",
+    "category": "tools",
+    "icon": "tools/auorite_saw.png"
+  },
+  {
+    "item_key": "auorite_shield",
+    "name": "Auorite Shield",
+    "sell_price": 7500,
+    "rarity": "epic",
+    "category": "weapons",
+    "icon": "weapons/auorite_shield.png"
+  },
+  {
+    "item_key": "auorite_skillet",
+    "name": "Auorite Skillet",
+    "sell_price": 5000,
+    "rarity": "epic",
+    "category": "tools",
+    "icon": "tools/auorite_skillet.png"
+  },
+  {
+    "item_key": "auorite_staff",
+    "name": "Auorite Staff",
+    "sell_price": 7000,
+    "rarity": "epic",
+    "category": "weapons",
+    "icon": "weapons/auorite_staff.png"
+  },
+  {
+    "item_key": "auorite_staff_e3",
+    "name": "Auorite Staff +3",
+    "sell_price": 10150,
+    "rarity": "epic",
+    "category": "weapons",
+    "icon": "weapons/auorite_staff.png"
+  },
+  {
+    "item_key": "auorite_sword",
+    "name": "Auorite Sword",
+    "sell_price": 6000,
+    "rarity": "epic",
+    "category": "weapons",
+    "icon": "weapons/auorite_sword.png"
+  },
+  {
+    "item_key": "auorite_tinderbox",
+    "name": "Auorite Tinderbox",
+    "sell_price": 5000,
+    "rarity": "epic",
+    "category": "tools",
+    "icon": "tools/auorite_tinderbox.png"
+  },
+  {
+    "item_key": "auorite_trowel",
+    "name": "Auorite Trowel",
+    "sell_price": 5000,
+    "rarity": "epic",
+    "category": "tools",
+    "icon": "tools/auorite_trowel.png"
+  },
+  {
+    "item_key": "auorite_wrench",
+    "name": "Auorite Wrench",
+    "sell_price": 5000,
+    "rarity": "epic",
+    "category": "tools",
+    "icon": "tools/auorite_wrench.png"
+  },
+  {
+    "item_key": "basic_bow",
+    "name": "Basic Bow",
+    "sell_price": 30,
+    "rarity": "common",
+    "category": "weapons",
+    "icon": "weapons/basic_bow.png"
+  },
+  {
+    "item_key": "basic_compost",
+    "name": "Basic Compost",
+    "sell_price": 25,
+    "rarity": "common",
+    "category": "farming",
+    "icon": "farming/basic_compost.png"
+  },
+  {
+    "item_key": "big_bones",
+    "name": "Big Bones",
+    "sell_price": 25,
+    "rarity": "uncommon",
+    "category": "monster_drops",
+    "icon": "items/big_bones.png"
+  },
+  {
+    "item_key": "bone_hide",
+    "name": "Bone Hide",
+    "sell_price": 80,
+    "rarity": "uncommon",
+    "category": "monster_drops",
+    "icon": "items/bone_hide.png"
+  },
+  {
+    "item_key": "celestine_herb",
+    "name": "Celestine Herb",
+    "sell_price": 1200,
+    "rarity": "epic",
+    "category": "herb",
+    "icon": "farming/celestine_herb.png"
+  },
+  {
+    "item_key": "celestite_athame",
+    "name": "Celestite Athame",
+    "sell_price": 4000,
+    "rarity": "rare",
+    "category": "tools",
+    "icon": "tools/celestite_athame.png"
+  },
+  {
+    "item_key": "celestite_athame_e2",
+    "name": "Celestite Athame +2",
+    "sell_price": 5200,
+    "rarity": "rare",
+    "category": "tools",
+    "icon": "tools/celestite_athame.png"
+  },
+  {
+    "item_key": "celestite_rune",
+    "name": "Celestite Rune",
+    "sell_price": 50,
+    "rarity": "rare",
+    "category": "runes",
+    "icon": "runes/celestite_rune.png"
+  },
+  {
+    "item_key": "celestite_wand",
+    "name": "Celestite Wand",
+    "sell_price": 4000,
+    "rarity": "rare",
+    "category": "tools",
+    "icon": "tools/celestite_wand.png"
+  },
+  {
+    "item_key": "celestite_wand_e4",
+    "name": "Celestite Wand +4",
+    "sell_price": 6400,
+    "rarity": "rare",
+    "category": "tools",
+    "icon": "tools/celestite_wand.png"
+  },
+  {
+    "item_key": "celestweft_robe",
+    "name": "Celestweft Robe",
+    "sell_price": 3780,
+    "rarity": "rare",
+    "category": "equipment",
+    "icon": "armor/celestweft_robe.png"
+  },
+  {
+    "item_key": "charge_cell",
+    "name": "Charge Cell",
+    "sell_price": 20,
+    "rarity": "common",
+    "category": "tinkering",
+    "icon": "tinkering/charge_cell.png"
+  },
+  {
+    "item_key": "cinderbloom_seed",
+    "name": "Cinderbloom Seed",
+    "sell_price": 1400,
+    "rarity": "mythic",
+    "category": "farming",
+    "icon": "farming/cinderbloom_seed.png"
+  },
+  {
+    "item_key": "cooked_abyssal_eel",
+    "name": "Cooked Abyssal Eel",
+    "sell_price": 420,
+    "rarity": "epic",
+    "category": "food",
+    "icon": "food/cooked_abyssal_eel.png"
+  },
+  {
+    "item_key": "cooked_crimson_carp",
+    "name": "Cooked Crimson Carp",
+    "sell_price": 55,
+    "rarity": "uncommon",
+    "category": "food",
+    "icon": "food/cooked_crimson_carp.png"
+  },
+  {
+    "item_key": "cooked_emberfin",
+    "name": "Cooked Emberfin",
+    "sell_price": 520,
+    "rarity": "epic",
+    "category": "food",
+    "icon": "food/cooked_emberfin.png"
+  },
+  {
+    "item_key": "cooked_mudfish",
+    "name": "Cooked Mudfish",
+    "sell_price": 8,
+    "rarity": "common",
+    "category": "food",
+    "icon": "food/cooked_mudfish.png"
+  },
+  {
+    "item_key": "cooked_silverscale",
+    "name": "Cooked Silverscale",
+    "sell_price": 18,
+    "rarity": "common",
+    "category": "food",
+    "icon": "food/cooked_silverscale.png"
+  },
+  {
+    "item_key": "cooked_stoneback",
+    "name": "Cooked Stoneback",
+    "sell_price": 150,
+    "rarity": "rare",
+    "category": "food",
+    "icon": "food/cooked_stoneback.png"
+  },
+  {
+    "item_key": "copite_arrow",
+    "name": "Copite Arrow",
+    "sell_price": 5,
+    "rarity": "common",
+    "category": "ammo",
+    "icon": "ammo/copite_arrow.png"
+  },
+  {
+    "item_key": "copite_bar",
+    "name": "Copite Bar",
+    "sell_price": 20,
+    "rarity": "common",
+    "category": "bars",
+    "icon": "bars/copite_bar.png"
+  },
+  {
+    "item_key": "copite_boots",
+    "name": "Copite Boots",
+    "sell_price": 105,
+    "rarity": "common",
+    "category": "equipment",
+    "icon": "armor/copite_boots.png"
+  },
+  {
+    "item_key": "copite_chestplate",
+    "name": "Copite Chestplate",
+    "sell_price": 180,
+    "rarity": "common",
+    "category": "equipment",
+    "icon": "armor/copite_chestplate.png"
+  },
+  {
+    "item_key": "copite_helmet",
+    "name": "Copite Helmet",
+    "sell_price": 120,
+    "rarity": "common",
+    "category": "equipment",
+    "icon": "armor/copite_helmet.png"
+  },
+  {
+    "item_key": "copite_ore",
+    "name": "Copite Ore",
+    "sell_price": 8,
+    "rarity": "common",
+    "category": "ore",
+    "icon": "ores/copite_ore.png"
+  },
+  {
+    "item_key": "copite_staff",
+    "name": "Copite Staff",
+    "sell_price": 150,
+    "rarity": "common",
+    "category": "weapons",
+    "icon": "weapons/copite_staff.png"
+  },
+  {
+    "item_key": "copite_staff_e1",
+    "name": "Copite Staff +1",
+    "sell_price": 172,
+    "rarity": "common",
+    "category": "weapons",
+    "icon": "weapons/copite_staff.png"
+  },
+  {
+    "item_key": "copite_sword",
+    "name": "Copite Sword",
+    "sell_price": 120,
+    "rarity": "common",
+    "category": "weapons",
+    "icon": "weapons/copite_sword.png"
+  },
+  {
+    "item_key": "crimson_corn",
+    "name": "Crimson Corn",
+    "sell_price": 25,
+    "rarity": "common",
+    "category": "crop",
+    "icon": "farming/crimson_corn.png"
+  },
+  {
+    "item_key": "crimson_corn_seed",
+    "name": "Crimson Corn Seed",
+    "sell_price": 8,
+    "rarity": "common",
+    "category": "farming",
+    "icon": "farming/crimson_corn_seed.png"
+  },
+  {
+    "item_key": "crimsrite_arrow",
+    "name": "Crimsrite Arrow",
+    "sell_price": 25,
+    "rarity": "uncommon",
+    "category": "ammo",
+    "icon": "ammo/crimsrite_arrow.png"
+  },
+  {
+    "item_key": "crimsrite_bar",
+    "name": "Crimsrite Bar",
+    "sell_price": 85,
+    "rarity": "uncommon",
+    "category": "bars",
+    "icon": "bars/crimsrite_bar.png"
+  },
+  {
+    "item_key": "crimsrite_boots",
+    "name": "Crimsrite Boots",
+    "sell_price": 655,
+    "rarity": "uncommon",
+    "category": "equipment",
+    "icon": "armor/crimsrite_boots.png"
+  },
+  {
+    "item_key": "crimsrite_chestplate",
+    "name": "Crimsrite Chestplate",
+    "sell_price": 1125,
+    "rarity": "uncommon",
+    "category": "equipment",
+    "icon": "armor/crimsrite_chestplate.png"
+  },
+  {
+    "item_key": "crimsrite_chisel",
+    "name": "Crimsrite Chisel",
+    "sell_price": 500,
+    "rarity": "uncommon",
+    "category": "tools",
+    "icon": "tools/crimsrite_chisel.png"
+  },
+  {
+    "item_key": "crimsrite_crossbow",
+    "name": "Crimsrite Crossbow",
+    "sell_price": 280,
+    "rarity": "uncommon",
+    "category": "weapons",
+    "icon": "weapons/crimsrite_crossbow.png"
+  },
+  {
+    "item_key": "crimsrite_gloves",
+    "name": "Crimsrite Gloves",
+    "sell_price": 560,
+    "rarity": "uncommon",
+    "category": "equipment",
+    "icon": "armor/crimsrite_gloves.png"
+  },
+  {
+    "item_key": "crimsrite_hammer",
+    "name": "Crimsrite Hammer",
+    "sell_price": 500,
+    "rarity": "uncommon",
+    "category": "tools",
+    "icon": "tools/crimsrite_hammer.png"
+  },
+  {
+    "item_key": "crimsrite_hatchet",
+    "name": "Crimsrite Hatchet",
+    "sell_price": 500,
+    "rarity": "uncommon",
+    "category": "tools",
+    "icon": "tools/crimsrite_hatchet.png"
+  },
+  {
+    "item_key": "crimsrite_helmet",
+    "name": "Crimsrite Helmet",
+    "sell_price": 750,
+    "rarity": "uncommon",
+    "category": "equipment",
+    "icon": "armor/crimsrite_helmet.png"
+  },
+  {
+    "item_key": "crimsrite_knife",
+    "name": "Crimsrite Knife",
+    "sell_price": 500,
+    "rarity": "uncommon",
+    "category": "tools",
+    "icon": "tools/crimsrite_knife.png"
+  },
+  {
+    "item_key": "crimsrite_leggings",
+    "name": "Crimsrite Leggings",
+    "sell_price": 840,
+    "rarity": "uncommon",
+    "category": "equipment",
+    "icon": "armor/crimsrite_leggings.png"
+  },
+  {
+    "item_key": "crimsrite_lockpick",
+    "name": "Crimsrite Lockpick",
+    "sell_price": 500,
+    "rarity": "uncommon",
+    "category": "tools",
+    "icon": "tools/crimsrite_lockpick.png"
+  },
+  {
+    "item_key": "crimsrite_longsword",
+    "name": "Crimsrite Longsword",
+    "sell_price": 1125,
+    "rarity": "uncommon",
+    "category": "weapons",
+    "icon": "weapons/crimsrite_longsword.png"
+  },
+  {
+    "item_key": "crimsrite_longsword_e3",
+    "name": "Crimsrite Longsword +3",
+    "sell_price": 1631,
+    "rarity": "uncommon",
+    "category": "weapons",
+    "icon": "weapons/crimsrite_longsword.png"
+  },
+  {
+    "item_key": "crimsrite_mould",
+    "name": "Crimsrite Mould",
+    "sell_price": 600,
+    "rarity": "uncommon",
+    "category": "tools",
+    "icon": "tools/crimsrite_mould.png"
+  },
+  {
+    "item_key": "crimsrite_ore",
+    "name": "Crimsrite Ore",
+    "sell_price": 32,
+    "rarity": "common",
+    "category": "ore",
+    "icon": "ores/crimsrite_ore.png"
+  },
+  {
+    "item_key": "crimsrite_pestle",
+    "name": "Crimsrite Pestle",
+    "sell_price": 500,
+    "rarity": "uncommon",
+    "category": "tools",
+    "icon": "tools/crimsrite_pestle.png"
+  },
+  {
+    "item_key": "crimsrite_pickaxe",
+    "name": "Crimsrite Pickaxe",
+    "sell_price": 500,
+    "rarity": "uncommon",
+    "category": "tools",
+    "icon": "tools/crimsrite_pickaxe.png"
+  },
+  {
+    "item_key": "crimsrite_rod",
+    "name": "Crimsrite Fishing Rod",
+    "sell_price": 500,
+    "rarity": "uncommon",
+    "category": "tools",
+    "icon": "tools/crimsrite_rod.png"
+  },
+  {
+    "item_key": "crimsrite_saw",
+    "name": "Crimsrite Saw",
+    "sell_price": 500,
+    "rarity": "uncommon",
+    "category": "tools",
+    "icon": "tools/crimsrite_saw.png"
+  },
+  {
+    "item_key": "crimsrite_saw_e3",
+    "name": "Crimsrite Saw +3",
+    "sell_price": 725,
+    "rarity": "uncommon",
+    "category": "tools",
+    "icon": "tools/crimsrite_saw.png"
+  },
+  {
+    "item_key": "crimsrite_shield",
+    "name": "Crimsrite Shield",
+    "sell_price": 940,
+    "rarity": "uncommon",
+    "category": "weapons",
+    "icon": "weapons/crimsrite_shield.png"
+  },
+  {
+    "item_key": "crimsrite_skillet",
+    "name": "Crimsrite Skillet",
+    "sell_price": 500,
+    "rarity": "uncommon",
+    "category": "tools",
+    "icon": "tools/crimsrite_skillet.png"
+  },
+  {
+    "item_key": "crimsrite_staff",
+    "name": "Crimsrite Staff",
+    "sell_price": 900,
+    "rarity": "uncommon",
+    "category": "weapons",
+    "icon": "weapons/crimsrite_staff.png"
+  },
+  {
+    "item_key": "crimsrite_sword",
+    "name": "Crimsrite Sword",
+    "sell_price": 750,
+    "rarity": "uncommon",
+    "category": "weapons",
+    "icon": "weapons/crimsrite_sword.png"
+  },
+  {
+    "item_key": "crimsrite_tinderbox",
+    "name": "Crimsrite Tinderbox",
+    "sell_price": 500,
+    "rarity": "uncommon",
+    "category": "tools",
+    "icon": "tools/crimsrite_tinderbox.png"
+  },
+  {
+    "item_key": "crimsrite_trowel",
+    "name": "Crimsrite Trowel",
+    "sell_price": 500,
+    "rarity": "uncommon",
+    "category": "tools",
+    "icon": "tools/crimsrite_trowel.png"
+  },
+  {
+    "item_key": "crimsrite_wrench_e3",
+    "name": "Crimsrite Wrench +3",
+    "sell_price": 725,
+    "rarity": "uncommon",
+    "category": "tools",
+    "icon": "tools/crimsrite_wrench.png"
+  },
+  {
+    "item_key": "crystal_dust",
+    "name": "Crystal Dust",
+    "sell_price": 50,
+    "rarity": "common",
+    "category": "herblore_ingredient",
+    "icon": "herblore/crystal_dust.png"
+  },
+  {
+    "item_key": "crystalbark_fruit",
+    "name": "Crystalbark Fruit",
+    "sell_price": 600,
+    "rarity": "rare",
+    "category": "fruit",
+    "icon": "farming/crystalbark_fruit.png"
+  },
+  {
+    "item_key": "crystalbark_preserve",
+    "name": "Crystalbark Preserve",
+    "sell_price": 1450,
+    "rarity": "common",
+    "category": "food",
+    "icon": "food/crystalbark_preserve.png"
+  },
+  {
+    "item_key": "crystalbark_sapling",
+    "name": "Crystalbark Sapling",
+    "sell_price": 400,
+    "rarity": "rare",
+    "category": "farming",
+    "icon": "farming/crystalbark_sapling.png"
+  },
+  {
+    "item_key": "defence_potion",
+    "name": "Defence Potion",
+    "sell_price": 100,
+    "rarity": "common",
+    "category": "potion",
+    "icon": "herblore/defence_potion.png"
+  },
+  {
+    "item_key": "draconic_leather",
+    "name": "Draconic Leather",
+    "sell_price": 1200,
+    "rarity": "epic",
+    "category": "monster_drops",
+    "icon": "items/draconic_leather.png"
+  },
+  {
+    "item_key": "dragon_bones",
+    "name": "Dragon Bones",
+    "sell_price": 150,
+    "rarity": "epic",
+    "category": "monster_drops",
+    "icon": "items/dragon_bones.png"
+  },
+  {
+    "item_key": "dragon_hide",
+    "name": "Dragon Hide",
+    "sell_price": 200,
+    "rarity": "epic",
+    "category": "monster_drops",
+    "icon": "items/dragon_hide.png"
+  },
+  {
+    "item_key": "drakeflower_seed",
+    "name": "Drakeflower Seed",
+    "sell_price": 1000,
+    "rarity": "mythic",
+    "category": "farming",
+    "icon": "farming/drakeflower_seed.png"
+  },
+  {
+    "item_key": "drakonite_ore",
+    "name": "Drakonite Ore",
+    "sell_price": 840,
+    "rarity": "mythic",
+    "category": "ore",
+    "icon": "rocks/drakonite.png"
+  },
+  {
+    "item_key": "dusk_uncut",
+    "name": "Uncut Duskgem",
+    "sell_price": 1300,
+    "rarity": "epic",
+    "category": "gem",
+    "icon": "gems/dusk_uncut.png"
+  },
+  {
+    "item_key": "duskveil_tunic",
+    "name": "Duskveil Tunic",
+    "sell_price": 150,
+    "rarity": "common",
+    "category": "equipment",
+    "icon": "armor/duskveil_tunic.png"
+  },
+  {
+    "item_key": "duskwood_fruit",
+    "name": "Duskwood Fruit",
+    "sell_price": 225,
+    "rarity": "uncommon",
+    "category": "fruit",
+    "icon": "farming/duskwood_fruit.png"
+  },
+  {
+    "item_key": "duskwood_sapling",
+    "name": "Duskwood Sapling",
+    "sell_price": 150,
+    "rarity": "uncommon",
+    "category": "farming",
+    "icon": "farming/duskwood_sapling.png"
+  },
+  {
+    "item_key": "dustite_arrow",
+    "name": "Dustite Arrow",
+    "sell_price": 2,
+    "rarity": "common",
+    "category": "ammo",
+    "icon": "ammo/dustite_arrow.png"
+  },
+  {
+    "item_key": "dustite_bar",
+    "name": "Dustite Bar",
+    "sell_price": 8,
+    "rarity": "common",
+    "category": "bars",
+    "icon": "bars/dustite_bar.png"
+  },
+  {
+    "item_key": "dustite_chestplate",
+    "name": "Dustite Chestplate",
+    "sell_price": 60,
+    "rarity": "common",
+    "category": "equipment",
+    "icon": "armor/dustite_chestplate.png"
+  },
+  {
+    "item_key": "dustite_gloves",
+    "name": "Dustite Gloves",
+    "sell_price": 30,
+    "rarity": "common",
+    "category": "equipment",
+    "icon": "armor/dustite_gloves.png"
+  },
+  {
+    "item_key": "dustite_leggings",
+    "name": "Dustite Leggings",
+    "sell_price": 45,
+    "rarity": "common",
+    "category": "equipment",
+    "icon": "armor/dustite_leggings.png"
+  },
+  {
+    "item_key": "dustite_longsword",
+    "name": "Dustite Longsword",
+    "sell_price": 60,
+    "rarity": "common",
+    "category": "weapons",
+    "icon": "weapons/dustite_longsword.png"
+  },
+  {
+    "item_key": "dustite_ore",
+    "name": "Dustite Ore",
+    "sell_price": 3,
+    "rarity": "common",
+    "category": "ore",
+    "icon": "ores/dustite_ore.png"
+  },
+  {
+    "item_key": "dustite_staff",
+    "name": "Dustite Staff",
+    "sell_price": 50,
+    "rarity": "common",
+    "category": "weapons",
+    "icon": "weapons/dustite_staff.png"
+  },
+  {
+    "item_key": "dustite_sword",
+    "name": "Dustite Sword",
+    "sell_price": 40,
+    "rarity": "common",
+    "category": "weapons",
+    "icon": "weapons/dustite_sword.png"
+  },
+  {
+    "item_key": "dustwheat",
+    "name": "Dustwheat",
+    "sell_price": 10,
+    "rarity": "common",
+    "category": "crop",
+    "icon": "farming/dustwheat.png"
+  },
+  {
+    "item_key": "dustwheat_seed",
+    "name": "Dustwheat Seed",
+    "sell_price": 3,
+    "rarity": "common",
+    "category": "farming",
+    "icon": "farming/dustwheat_seed.png"
+  },
+  {
+    "item_key": "elder_ashes",
+    "name": "Elder Ashes",
+    "sell_price": 150,
+    "rarity": "epic",
+    "category": "material",
+    "icon": "items/elder_ashes.png"
+  },
+  {
+    "item_key": "elder_bow",
+    "name": "Elder Bow",
+    "sell_price": 15000,
+    "rarity": "mythic",
+    "category": "weapons",
+    "icon": "weapons/elder_bow.png"
+  },
+  {
+    "item_key": "elemental_hide",
+    "name": "Elemental Hide",
+    "sell_price": 500,
+    "rarity": "rare",
+    "category": "monster_drops",
+    "icon": "items/elemental_hide.png"
+  },
+  {
+    "item_key": "emberstem_seed",
+    "name": "Emberstem Seed",
+    "sell_price": 12,
+    "rarity": "common",
+    "category": "farming",
+    "icon": "farming/emberstem_seed.png"
+  },
+  {
+    "item_key": "emberstone_uncut",
+    "name": "Uncut Emberstone",
+    "sell_price": 4500,
+    "rarity": "legendary",
+    "category": "gem",
+    "icon": "gems/emberstone_uncut.png"
+  },
+  {
+    "item_key": "emberwood_bow",
+    "name": "Emberwood Bow",
+    "sell_price": 1000,
+    "rarity": "rare",
+    "category": "weapons",
+    "icon": "weapons/emberwood_bow.png"
+  },
+  {
+    "item_key": "enriched_compost",
+    "name": "Enriched Compost",
+    "sell_price": 100,
+    "rarity": "uncommon",
+    "category": "farming",
+    "icon": "farming/enriched_compost.png"
+  },
+  {
+    "item_key": "fine_ashes",
+    "name": "Fine Ashes",
+    "sell_price": 8,
+    "rarity": "uncommon",
+    "category": "material",
+    "icon": "items/fine_ashes.png"
+  },
+  {
+    "item_key": "fluxite_athame",
+    "name": "Fluxite Athame",
+    "sell_price": 500,
+    "rarity": "uncommon",
+    "category": "tools",
+    "icon": "tools/fluxite_athame.png"
+  },
+  {
+    "item_key": "fluxite_rune",
+    "name": "Fluxite Rune",
+    "sell_price": 15,
+    "rarity": "uncommon",
+    "category": "runes",
+    "icon": "runes/fluxite_rune.png"
+  },
+  {
+    "item_key": "fluxite_wand",
+    "name": "Fluxite Wand",
+    "sell_price": 500,
+    "rarity": "uncommon",
+    "category": "tools",
+    "icon": "tools/fluxite_wand.png"
+  },
+  {
+    "item_key": "fluxweave_hat_e3",
+    "name": "Fluxweave Hat +3",
+    "sell_price": 391,
+    "rarity": "uncommon",
+    "category": "equipment",
+    "icon": "armor/fluxweave_hat.png"
+  },
+  {
+    "item_key": "fluxweave_robe",
+    "name": "Fluxweave Robe",
+    "sell_price": 400,
+    "rarity": "uncommon",
+    "category": "equipment",
+    "icon": "armor/fluxweave_robe.png"
+  },
+  {
+    "item_key": "fluxweave_shoes",
+    "name": "Fluxweave Shoes",
+    "sell_price": 200,
+    "rarity": "uncommon",
+    "category": "equipment",
+    "icon": "armor/fluxweave_shoes.png"
+  },
+  {
+    "item_key": "fluxweave_skirt",
+    "name": "Fluxweave Skirt",
+    "sell_price": 320,
+    "rarity": "uncommon",
+    "category": "equipment",
+    "icon": "armor/fluxweave_skirt.png"
+  },
+  {
+    "item_key": "fluxweave_wraps_e1",
+    "name": "Fluxweave Wraps +1",
+    "sell_price": 230,
+    "rarity": "uncommon",
+    "category": "equipment",
+    "icon": "armor/fluxweave_wraps.png"
+  },
+  {
+    "item_key": "fortune_potion",
+    "name": "Fortune Potion",
+    "sell_price": 500,
+    "rarity": "common",
+    "category": "potion",
+    "icon": "herblore/fortune_potion.png"
+  },
+  {
+    "item_key": "frost",
+    "name": "Frostgem",
+    "sell_price": 700,
+    "rarity": "rare",
+    "category": "gem",
+    "icon": "gems/frost.png"
+  },
+  {
+    "item_key": "frost_fury_ring",
+    "name": "Frostgem Fury Ring",
+    "sell_price": 2800,
+    "rarity": "rare",
+    "category": "equipment",
+    "icon": "jewelery/fury_ring.png"
+  },
+  {
+    "item_key": "frost_knowledge_amulet",
+    "name": "Frostgem Knowledge Amulet",
+    "sell_price": 2800,
+    "rarity": "rare",
+    "category": "equipment",
+    "icon": "jewelery/knowledge_amulet.png"
+  },
+  {
+    "item_key": "frost_power_amulet",
+    "name": "Frostgem Power Amulet",
+    "sell_price": 2800,
+    "rarity": "rare",
+    "category": "equipment",
+    "icon": "jewelery/power_amulet.png"
+  },
+  {
+    "item_key": "frost_uncut",
+    "name": "Uncut Frostgem",
+    "sell_price": 280,
+    "rarity": "rare",
+    "category": "gem",
+    "icon": "gems/frost_uncut.png"
+  },
+  {
+    "item_key": "frost_vitality_amulet",
+    "name": "Frostgem Vitality Amulet",
+    "sell_price": 2800,
+    "rarity": "rare",
+    "category": "equipment",
+    "icon": "jewelery/vitality_amulet.png"
+  },
+  {
+    "item_key": "frost_warding_ring",
+    "name": "Frostgem Warding Ring",
+    "sell_price": 2800,
+    "rarity": "rare",
+    "category": "equipment",
+    "icon": "jewelery/warding_ring.png"
+  },
+  {
+    "item_key": "frost_wealth_ring",
+    "name": "Frostgem Wealth Ring",
+    "sell_price": 2800,
+    "rarity": "rare",
+    "category": "equipment",
+    "icon": "jewelery/wealth_ring.png"
+  },
+  {
+    "item_key": "frost_wealth_ring_e3",
+    "name": "Frostgem Wealth Ring +3",
+    "sell_price": 3220,
+    "rarity": "rare",
+    "category": "equipment",
+    "icon": "jewelery/wealth_ring.png"
+  },
+  {
+    "item_key": "frostleaf",
+    "name": "Frostleaf",
+    "sell_price": 75,
+    "rarity": "uncommon",
+    "category": "herb",
+    "icon": "farming/frostleaf.png"
+  },
+  {
+    "item_key": "frostleaf_seed",
+    "name": "Frostleaf Seed",
+    "sell_price": 25,
+    "rarity": "uncommon",
+    "category": "farming",
+    "icon": "farming/frostleaf_seed.png"
+  },
+  {
+    "item_key": "frostwood_bow",
+    "name": "Frostwood Bow",
+    "sell_price": 600,
+    "rarity": "rare",
+    "category": "weapons",
+    "icon": "weapons/frostwood_bow.png"
+  },
+  {
+    "item_key": "garnet",
+    "name": "Garnet",
+    "sell_price": 380,
+    "rarity": "uncommon",
+    "category": "gem",
+    "icon": "gems/garnet.png"
+  },
+  {
+    "item_key": "garnet_fury_ring",
+    "name": "Garnet Fury Ring",
+    "sell_price": 1400,
+    "rarity": "uncommon",
+    "category": "equipment",
+    "icon": "jewelery/fury_ring.png"
+  },
+  {
+    "item_key": "garnet_knowledge_amulet",
+    "name": "Garnet Knowledge Amulet",
+    "sell_price": 1400,
+    "rarity": "uncommon",
+    "category": "equipment",
+    "icon": "jewelery/knowledge_amulet.png"
+  },
+  {
+    "item_key": "garnet_knowledge_amulet_e3",
+    "name": "Garnet Knowledge Amulet +3",
+    "sell_price": 1610,
+    "rarity": "uncommon",
+    "category": "equipment",
+    "icon": "jewelery/knowledge_amulet.png"
+  },
+  {
+    "item_key": "garnet_uncut",
+    "name": "Uncut Garnet",
+    "sell_price": 150,
+    "rarity": "uncommon",
+    "category": "gem",
+    "icon": "gems/garnet_uncut.png"
+  },
+  {
+    "item_key": "garnet_wealth_ring",
+    "name": "Garnet Wealth Ring",
+    "sell_price": 1400,
+    "rarity": "uncommon",
+    "category": "equipment",
+    "icon": "jewelery/wealth_ring.png"
+  },
+  {
+    "item_key": "garnet_wealth_ring_e3",
+    "name": "Garnet Wealth Ring +3",
+    "sell_price": 1610,
+    "rarity": "uncommon",
+    "category": "equipment",
+    "icon": "jewelery/wealth_ring.png"
+  },
+  {
+    "item_key": "glowroot",
+    "name": "Glowroot",
+    "sell_price": 15,
+    "rarity": "common",
+    "category": "herb",
+    "icon": "farming/glowroot.png"
+  },
+  {
+    "item_key": "glowroot_seed",
+    "name": "Glowroot Seed",
+    "sell_price": 5,
+    "rarity": "common",
+    "category": "farming",
+    "icon": "farming/glowroot_seed.png"
+  },
+  {
+    "item_key": "goblin_leather",
+    "name": "Goblin Leather",
+    "sell_price": 35,
+    "rarity": "uncommon",
+    "category": "monster_drops",
+    "icon": "items/goblin_leather.png"
+  },
+  {
+    "item_key": "gold_bar",
+    "name": "Gold Bar",
+    "sell_price": 35,
+    "rarity": "common",
+    "category": "bars",
+    "icon": "bars/gold_bar.png"
+  },
+  {
+    "item_key": "gold_ore",
+    "name": "Gold Ore",
+    "sell_price": 12,
+    "rarity": "common",
+    "category": "ore",
+    "icon": "ores/gold_ore.png"
+  },
+  {
+    "item_key": "haste_potion",
+    "name": "Haste Potion",
+    "sell_price": 350,
+    "rarity": "common",
+    "category": "potion",
+    "icon": "herblore/haste_potion.png"
+  },
+  {
+    "item_key": "health_potion",
+    "name": "Health Potion",
+    "sell_price": 150,
+    "rarity": "common",
+    "category": "potion",
+    "icon": "herblore/health_potion.png"
+  },
+  {
+    "item_key": "infernroot_seed",
+    "name": "Infernroot Seed",
+    "sell_price": 2000,
+    "rarity": "mythic",
+    "category": "farming",
+    "icon": "farming/infernroot_seed.png"
+  },
+  {
+    "item_key": "ironbark_bow",
+    "name": "Ironbark Bow",
+    "sell_price": 350,
+    "rarity": "uncommon",
+    "category": "weapons",
+    "icon": "weapons/ironbark_bow.png"
+  },
+  {
+    "item_key": "ironbark_bow_e3",
+    "name": "Ironbark Bow +3",
+    "sell_price": 507,
+    "rarity": "uncommon",
+    "category": "weapons",
+    "icon": "weapons/ironbark_bow.png"
+  },
+  {
+    "item_key": "korunite_arrow",
+    "name": "Korunite Arrow",
+    "sell_price": 500,
+    "rarity": "mythic",
+    "category": "ammo",
+    "icon": "ammo/korunite_arrow.png"
+  },
+  {
+    "item_key": "korunite_hatchet",
+    "name": "Korunite Hatchet",
+    "sell_price": 50000,
+    "rarity": "mythic",
+    "category": "tools",
+    "icon": "tools/korunite_hatchet.png"
+  },
+  {
+    "item_key": "korunite_ore",
+    "name": "Korunite Ore",
+    "sell_price": 420,
+    "rarity": "common",
+    "category": "ore",
+    "icon": "ores/korunite_ore.png"
+  },
+  {
+    "item_key": "korunite_pickaxe_star",
+    "name": "Korunite Pickaxe ⭐",
+    "sell_price": 75000,
+    "rarity": "mythic",
+    "category": "tools",
+    "icon": "tools/korunite_pickaxe.png"
+  },
+  {
+    "item_key": "korunite_pickaxe_sun",
+    "name": "Korunite Pickaxe ☀️",
+    "sell_price": 150000,
+    "rarity": "mythic",
+    "category": "tools",
+    "icon": "tools/korunite_pickaxe.png"
+  },
+  {
+    "item_key": "korunite_rod",
+    "name": "Korunite Fishing Rod",
+    "sell_price": 50000,
+    "rarity": "mythic",
+    "category": "tools",
+    "icon": "tools/korunite_rod.png"
+  },
+  {
+    "item_key": "korunite_tinderbox",
+    "name": "Korunite Tinderbox",
+    "sell_price": 50000,
+    "rarity": "mythic",
+    "category": "tools",
+    "icon": "tools/korunite_tinderbox.png"
+  },
+  {
+    "item_key": "log_ancient",
+    "name": "Ancient Log",
+    "sell_price": 12,
+    "rarity": "common",
+    "category": "wood",
+    "icon": "logs/log_ancient.png"
+  },
+  {
+    "item_key": "log_basic",
+    "name": "Basic Log",
+    "sell_price": 2,
+    "rarity": "common",
+    "category": "wood",
+    "icon": "logs/log_basic.png"
+  },
+  {
+    "item_key": "log_elder",
+    "name": "Elder Log",
+    "sell_price": 320,
+    "rarity": "common",
+    "category": "wood",
+    "icon": "logs/log_elder.png"
+  },
+  {
+    "item_key": "log_emberwood",
+    "name": "Emberwood Log",
+    "sell_price": 55,
+    "rarity": "common",
+    "category": "wood",
+    "icon": "logs/log_emberwood.png"
+  },
+  {
+    "item_key": "log_frostwood",
+    "name": "Frostwood Log",
+    "sell_price": 35,
+    "rarity": "common",
+    "category": "wood",
+    "icon": "logs/log_frostwood.png"
+  },
+  {
+    "item_key": "log_ironbark",
+    "name": "Ironbark Log",
+    "sell_price": 22,
+    "rarity": "common",
+    "category": "wood",
+    "icon": "logs/log_ironbark.png"
+  },
+  {
+    "item_key": "log_moonwood",
+    "name": "Moonwood Log",
+    "sell_price": 85,
+    "rarity": "common",
+    "category": "wood",
+    "icon": "logs/log_moonwood.png"
+  },
+  {
+    "item_key": "log_oak",
+    "name": "Oak Log",
+    "sell_price": 5,
+    "rarity": "common",
+    "category": "wood",
+    "icon": "logs/log_oak.png"
+  },
+  {
+    "item_key": "log_spirit",
+    "name": "Spirit Log",
+    "sell_price": 130,
+    "rarity": "common",
+    "category": "wood",
+    "icon": "logs/log_spirit.png"
+  },
+  {
+    "item_key": "log_void",
+    "name": "Void Log",
+    "sell_price": 200,
+    "rarity": "common",
+    "category": "wood",
+    "icon": "logs/log_void.png"
+  },
+  {
+    "item_key": "log_worldtree",
+    "name": "Worldtree Log",
+    "sell_price": 500,
+    "rarity": "common",
+    "category": "wood",
+    "icon": "logs/log_worldtree.png"
+  },
+  {
+    "item_key": "magical_compost",
+    "name": "Magical Compost",
+    "sell_price": 400,
+    "rarity": "rare",
+    "category": "farming",
+    "icon": "farming/magical_compost.png"
+  },
+  {
+    "item_key": "moonpotato",
+    "name": "Moonpotato",
+    "sell_price": 60,
+    "rarity": "uncommon",
+    "category": "crop",
+    "icon": "farming/moonpotato.png"
+  },
+  {
+    "item_key": "moonpotato_seed",
+    "name": "Moonpotato Seed",
+    "sell_price": 20,
+    "rarity": "uncommon",
+    "category": "farming",
+    "icon": "farming/moonpotato_seed.png"
+  },
+  {
+    "item_key": "moonwood_bow",
+    "name": "Moonwood Bow",
+    "sell_price": 1800,
+    "rarity": "epic",
+    "category": "weapons",
+    "icon": "weapons/moonwood_bow.png"
+  },
+  {
+    "item_key": "mystic_ashes",
+    "name": "Mystic Ashes",
+    "sell_price": 25,
+    "rarity": "rare",
+    "category": "material",
+    "icon": "items/mystic_ashes.png"
+  },
+  {
+    "item_key": "nails",
+    "name": "Nails",
+    "sell_price": 2,
+    "rarity": "common",
+    "category": "construction",
+    "icon": "construction/nails.png"
+  },
+  {
+    "item_key": "nether_athame",
+    "name": "Nether Athame",
+    "sell_price": 70000,
+    "rarity": "legendary",
+    "category": "tools",
+    "icon": "tools/nether_athame.png"
+  },
+  {
+    "item_key": "nether_wand",
+    "name": "Nether Wand",
+    "sell_price": 70000,
+    "rarity": "legendary",
+    "category": "tools",
+    "icon": "tools/nether_wand.png"
+  },
+  {
+    "item_key": "nexus_athame",
+    "name": "Nexus Athame",
+    "sell_price": 40000,
+    "rarity": "legendary",
+    "category": "tools",
+    "icon": "tools/nexus_athame.png"
+  },
+  {
+    "item_key": "nexus_rune",
+    "name": "Nexus Rune",
+    "sell_price": 200,
+    "rarity": "mythic",
+    "category": "runes",
+    "icon": "runes/nexus_rune.png"
+  },
+  {
+    "item_key": "nexus_wand",
+    "name": "Nexus Wand",
+    "sell_price": 40000,
+    "rarity": "legendary",
+    "category": "tools",
+    "icon": "tools/nexus_wand.png"
+  },
+  {
+    "item_key": "nexuscloth_hat",
+    "name": "Nexuscloth Hat",
+    "sell_price": 25200,
+    "rarity": "legendary",
+    "category": "equipment",
+    "icon": "armor/nexuscloth_hat.png"
+  },
+  {
+    "item_key": "nexuscloth_robe",
+    "name": "Nexuscloth Robe",
+    "sell_price": 37800,
+    "rarity": "legendary",
+    "category": "equipment",
+    "icon": "armor/nexuscloth_robe.png"
+  },
+  {
+    "item_key": "nexuscloth_skirt",
+    "name": "Nexuscloth Skirt",
+    "sell_price": 30200,
+    "rarity": "legendary",
+    "category": "equipment",
+    "icon": "armor/nexuscloth_skirt.png"
+  },
+  {
+    "item_key": "nightshade_flower",
+    "name": "Nightshade Flower",
+    "sell_price": 90,
+    "rarity": "uncommon",
+    "category": "flower",
+    "icon": "farming/nightshade_flower.png"
+  },
+  {
+    "item_key": "nightshade_seed",
+    "name": "Nightshade Seed",
+    "sell_price": 30,
+    "rarity": "uncommon",
+    "category": "farming",
+    "icon": "farming/nightshade_seed.png"
+  },
+  {
+    "item_key": "noctiskin_boots",
+    "name": "Noctiskin Boots",
+    "sell_price": 1880,
+    "rarity": "rare",
+    "category": "equipment",
+    "icon": "armor/noctiskin_boots.png"
+  },
+  {
+    "item_key": "noctiskin_bracers",
+    "name": "Noctiskin Bracers",
+    "sell_price": 1880,
+    "rarity": "rare",
+    "category": "equipment",
+    "icon": "armor/noctiskin_bracers.png"
+  },
+  {
+    "item_key": "noctiskin_chaps",
+    "name": "Noctiskin Chaps",
+    "sell_price": 3020,
+    "rarity": "rare",
+    "category": "equipment",
+    "icon": "armor/noctiskin_chaps.png"
+  },
+  {
+    "item_key": "noctiskin_hood",
+    "name": "Noctiskin Hood",
+    "sell_price": 2520,
+    "rarity": "rare",
+    "category": "equipment",
+    "icon": "armor/noctiskin_hood.png"
+  },
+  {
+    "item_key": "noctiskin_tunic",
+    "name": "Noctiskin Tunic",
+    "sell_price": 3780,
+    "rarity": "rare",
+    "category": "equipment",
+    "icon": "armor/noctiskin_tunic.png"
+  },
+  {
+    "item_key": "noctite_bar",
+    "name": "Noctite Bar",
+    "sell_price": 220,
+    "rarity": "rare",
+    "category": "bars",
+    "icon": "bars/noctite_bar.png"
+  },
+  {
+    "item_key": "noctite_boots",
+    "name": "Noctite Boots",
+    "sell_price": 2620,
+    "rarity": "rare",
+    "category": "equipment",
+    "icon": "armor/noctite_boots.png"
+  },
+  {
+    "item_key": "noctite_chestplate",
+    "name": "Noctite Chestplate",
+    "sell_price": 4500,
+    "rarity": "rare",
+    "category": "equipment",
+    "icon": "armor/noctite_chestplate.png"
+  },
+  {
+    "item_key": "noctite_chisel",
+    "name": "Noctite Chisel",
+    "sell_price": 2500,
+    "rarity": "rare",
+    "category": "tools",
+    "icon": "tools/noctite_chisel.png"
+  },
+  {
+    "item_key": "noctite_gloves",
+    "name": "Noctite Gloves",
+    "sell_price": 2240,
+    "rarity": "rare",
+    "category": "equipment",
+    "icon": "armor/noctite_gloves.png"
+  },
+  {
+    "item_key": "noctite_hammer",
+    "name": "Noctite Hammer",
+    "sell_price": 2500,
+    "rarity": "rare",
+    "category": "tools",
+    "icon": "tools/noctite_hammer.png"
+  },
+  {
+    "item_key": "noctite_hammer_e4",
+    "name": "Noctite Hammer +4",
+    "sell_price": 4000,
+    "rarity": "rare",
+    "category": "tools",
+    "icon": "tools/noctite_hammer.png"
+  },
+  {
+    "item_key": "noctite_hatchet",
+    "name": "Noctite Hatchet",
+    "sell_price": 2500,
+    "rarity": "rare",
+    "category": "tools",
+    "icon": "tools/noctite_hatchet.png"
+  },
+  {
+    "item_key": "noctite_hatchet_e1",
+    "name": "Noctite Hatchet +1",
+    "sell_price": 2875,
+    "rarity": "rare",
+    "category": "tools",
+    "icon": "tools/noctite_hatchet.png"
+  },
+  {
+    "item_key": "noctite_knife",
+    "name": "Noctite Knife",
+    "sell_price": 2500,
+    "rarity": "rare",
+    "category": "tools",
+    "icon": "tools/noctite_knife.png"
+  },
+  {
+    "item_key": "noctite_knife_e3",
+    "name": "Noctite Knife +3",
+    "sell_price": 3625,
+    "rarity": "rare",
+    "category": "tools",
+    "icon": "tools/noctite_knife.png"
+  },
+  {
+    "item_key": "noctite_leggings",
+    "name": "Noctite Leggings",
+    "sell_price": 3360,
+    "rarity": "rare",
+    "category": "equipment",
+    "icon": "armor/noctite_leggings.png"
+  },
+  {
+    "item_key": "noctite_lockpick",
+    "name": "Noctite Lockpick",
+    "sell_price": 2500,
+    "rarity": "rare",
+    "category": "tools",
+    "icon": "tools/noctite_lockpick.png"
+  },
+  {
+    "item_key": "noctite_lockpick_e2",
+    "name": "Noctite Lockpick +2",
+    "sell_price": 3250,
+    "rarity": "rare",
+    "category": "tools",
+    "icon": "tools/noctite_lockpick.png"
+  },
+  {
+    "item_key": "noctite_longsword",
+    "name": "Noctite Longsword",
+    "sell_price": 4500,
+    "rarity": "rare",
+    "category": "weapons",
+    "icon": "weapons/noctite_longsword.png"
+  },
+  {
+    "item_key": "noctite_mould",
+    "name": "Noctite Mould",
+    "sell_price": 2400,
+    "rarity": "rare",
+    "category": "tools",
+    "icon": "tools/noctite_mould.png"
+  },
+  {
+    "item_key": "noctite_ore",
+    "name": "Noctite Ore",
+    "sell_price": 80,
+    "rarity": "common",
+    "category": "ore",
+    "icon": "ores/noctite_ore.png"
+  },
+  {
+    "item_key": "noctite_pickaxe",
+    "name": "Noctite Pickaxe",
+    "sell_price": 2500,
+    "rarity": "rare",
+    "category": "tools",
+    "icon": "tools/noctite_pickaxe.png"
+  },
+  {
+    "item_key": "noctite_rod",
+    "name": "Noctite Fishing Rod",
+    "sell_price": 2500,
+    "rarity": "rare",
+    "category": "tools",
+    "icon": "tools/noctite_rod.png"
+  },
+  {
+    "item_key": "noctite_shield",
+    "name": "Noctite Shield",
+    "sell_price": 3750,
+    "rarity": "rare",
+    "category": "weapons",
+    "icon": "weapons/noctite_shield.png"
+  },
+  {
+    "item_key": "noctite_skillet",
+    "name": "Noctite Skillet",
+    "sell_price": 2500,
+    "rarity": "rare",
+    "category": "tools",
+    "icon": "tools/noctite_skillet.png"
+  },
+  {
+    "item_key": "noctite_skillet_e2",
+    "name": "Noctite Skillet +2",
+    "sell_price": 3250,
+    "rarity": "rare",
+    "category": "tools",
+    "icon": "tools/noctite_skillet.png"
+  },
+  {
+    "item_key": "noctite_staff",
+    "name": "Noctite Staff",
+    "sell_price": 3500,
+    "rarity": "rare",
+    "category": "weapons",
+    "icon": "weapons/noctite_staff.png"
+  },
+  {
+    "item_key": "noctite_sword",
+    "name": "Noctite Sword",
+    "sell_price": 3000,
+    "rarity": "rare",
+    "category": "weapons",
+    "icon": "weapons/noctite_sword.png"
+  },
+  {
+    "item_key": "noctite_sword_e2",
+    "name": "Noctite Sword +2",
+    "sell_price": 3900,
+    "rarity": "rare",
+    "category": "weapons",
+    "icon": "weapons/noctite_sword.png"
+  },
+  {
+    "item_key": "noctite_tinderbox",
+    "name": "Noctite Tinderbox",
+    "sell_price": 2500,
+    "rarity": "rare",
+    "category": "tools",
+    "icon": "tools/noctite_tinderbox.png"
+  },
+  {
+    "item_key": "noctite_tinderbox_e5",
+    "name": "Noctite Tinderbox +5",
+    "sell_price": 4375,
+    "rarity": "rare",
+    "category": "tools",
+    "icon": "tools/noctite_tinderbox.png"
+  },
+  {
+    "item_key": "noctite_trowel",
+    "name": "Noctite Trowel",
+    "sell_price": 2500,
+    "rarity": "rare",
+    "category": "tools",
+    "icon": "tools/noctite_trowel.png"
+  },
+  {
+    "item_key": "oak_bow",
+    "name": "Oak Bow",
+    "sell_price": 80,
+    "rarity": "common",
+    "category": "weapons",
+    "icon": "weapons/oak_bow.png"
+  },
+  {
+    "item_key": "opal",
+    "name": "Opal",
+    "sell_price": 50,
+    "rarity": "common",
+    "category": "gem",
+    "icon": "gems/opal.png"
+  },
+  {
+    "item_key": "opal_knowledge_amulet",
+    "name": "Opal Knowledge Amulet",
+    "sell_price": 120,
+    "rarity": "common",
+    "category": "equipment",
+    "icon": "jewelery/knowledge_amulet.png"
+  },
+  {
+    "item_key": "opal_power_amulet",
+    "name": "Opal Power Amulet",
+    "sell_price": 120,
+    "rarity": "common",
+    "category": "equipment",
+    "icon": "jewelery/power_amulet.png"
+  },
+  {
+    "item_key": "opal_uncut",
+    "name": "Uncut Opal",
+    "sell_price": 20,
+    "rarity": "common",
+    "category": "gem",
+    "icon": "gems/opal_uncut.png"
+  },
+  {
+    "item_key": "orc_hide",
+    "name": "Orc Hide",
+    "sell_price": 250,
+    "rarity": "rare",
+    "category": "monster_drops",
+    "icon": "items/orc_hide.png"
+  },
+  {
+    "item_key": "part_alloy",
+    "name": "Alloy Parts",
+    "sell_price": 5,
+    "rarity": "common",
+    "category": "tinkering",
+    "icon": "tinkering/part_alloy.png"
+  },
+  {
+    "item_key": "part_blade",
+    "name": "Blade Parts",
+    "sell_price": 10,
+    "rarity": "uncommon",
+    "category": "tinkering",
+    "icon": "tinkering/part_blade.png"
+  },
+  {
+    "item_key": "part_flux",
+    "name": "Flux",
+    "sell_price": 100,
+    "rarity": "rare",
+    "category": "tinkering",
+    "icon": "tinkering/part_flux.png"
+  },
+  {
+    "item_key": "part_frame",
+    "name": "Frame Parts",
+    "sell_price": 3,
+    "rarity": "common",
+    "category": "tinkering",
+    "icon": "tinkering/part_frame.png"
+  },
+  {
+    "item_key": "part_vial",
+    "name": "Vial Parts",
+    "sell_price": 8,
+    "rarity": "uncommon",
+    "category": "tinkering",
+    "icon": "tinkering/part_vial.png"
+  },
+  {
+    "item_key": "plank_ancient",
+    "name": "Ancient Plank",
+    "sell_price": 28,
+    "rarity": "common",
+    "category": "construction",
+    "icon": "construction/plank_ancient.png"
+  },
+  {
+    "item_key": "plank_basic",
+    "name": "Basic Plank",
+    "sell_price": 12,
+    "rarity": "common",
+    "category": "construction",
+    "icon": "construction/plank_basic.png"
+  },
+  {
+    "item_key": "plank_ironbark",
+    "name": "Ironbark Plank",
+    "sell_price": 40,
+    "rarity": "common",
+    "category": "construction",
+    "icon": "construction/plank_ironbark.png"
+  },
+  {
+    "item_key": "plank_oak",
+    "name": "Oak Plank",
+    "sell_price": 18,
+    "rarity": "common",
+    "category": "construction",
+    "icon": "construction/plank_oak.png"
+  },
+  {
+    "item_key": "prismite_athame",
+    "name": "Prismite Athame",
+    "sell_price": 1500,
+    "rarity": "rare",
+    "category": "tools",
+    "icon": "tools/prismite_athame.png"
+  },
+  {
+    "item_key": "prismite_athame_e3",
+    "name": "Prismite Athame +3",
+    "sell_price": 2175,
+    "rarity": "rare",
+    "category": "tools",
+    "icon": "tools/prismite_athame.png"
+  },
+  {
+    "item_key": "prismite_rune",
+    "name": "Prismite Rune",
+    "sell_price": 25,
+    "rarity": "uncommon",
+    "category": "runes",
+    "icon": "runes/prismite_rune.png"
+  },
+  {
+    "item_key": "prismite_wand",
+    "name": "Prismite Wand",
+    "sell_price": 1500,
+    "rarity": "rare",
+    "category": "tools",
+    "icon": "tools/prismite_wand.png"
+  },
+  {
+    "item_key": "prismite_wand_e3",
+    "name": "Prismite Wand +3",
+    "sell_price": 2175,
+    "rarity": "rare",
+    "category": "tools",
+    "icon": "tools/prismite_wand.png"
+  },
+  {
+    "item_key": "pyreblossom_seed",
+    "name": "Pyreblossom Seed",
+    "sell_price": 1300,
+    "rarity": "epic",
+    "category": "farming",
+    "icon": "farming/pyreblossom_seed.png"
+  },
+  {
+    "item_key": "ragged_hide",
+    "name": "Ragged Hide",
+    "sell_price": 5,
+    "rarity": "common",
+    "category": "monster_drops",
+    "icon": "items/ragged_hide.png"
+  },
+  {
+    "item_key": "raw_abyssal_eel",
+    "name": "Raw Abyssal Eel",
+    "sell_price": 250,
+    "rarity": "epic",
+    "category": "fish",
+    "icon": "fish/raw_abyssal_eel.png"
+  },
+  {
+    "item_key": "raw_emberfin",
+    "name": "Raw Emberfin",
+    "sell_price": 310,
+    "rarity": "epic",
+    "category": "fish",
+    "icon": "fish/raw_emberfin.png"
+  },
+  {
+    "item_key": "raw_goldstream",
+    "name": "Raw Goldstream",
+    "sell_price": 50,
+    "rarity": "uncommon",
+    "category": "fish",
+    "icon": "fish/raw_goldstream.png"
+  },
+  {
+    "item_key": "raw_mudfish",
+    "name": "Raw Mudfish",
+    "sell_price": 5,
+    "rarity": "common",
+    "category": "fish",
+    "icon": "fish/raw_mudfish.png"
+  },
+  {
+    "item_key": "raw_riverfin",
+    "name": "Raw Riverfin",
+    "sell_price": 22,
+    "rarity": "common",
+    "category": "fish",
+    "icon": "fish/raw_riverfin.png"
+  },
+  {
+    "item_key": "raw_thunderfin",
+    "name": "Raw Thunderfin",
+    "sell_price": 70,
+    "rarity": "uncommon",
+    "category": "fish",
+    "icon": "fish/raw_thunderfin.png"
+  },
+  {
+    "item_key": "scorchwood_sapling",
+    "name": "Scorchwood Sapling",
+    "sell_price": 2500,
+    "rarity": "legendary",
+    "category": "farming",
+    "icon": "farming/scorchwood_sapling.png"
+  },
+  {
+    "item_key": "scrap_metal",
+    "name": "Scrap Metal",
+    "sell_price": 1,
+    "rarity": "common",
+    "category": "tinkering",
+    "icon": "tinkering/scrap_metal.png"
+  },
+  {
+    "item_key": "scraphide_bracers",
+    "name": "Scraphide Bracers",
+    "sell_price": 25,
+    "rarity": "common",
+    "category": "equipment",
+    "icon": "armor/scraphide_bracers.png"
+  },
+  {
+    "item_key": "shade_echo",
+    "name": "Shade Echo",
+    "sell_price": 150,
+    "rarity": "uncommon",
+    "category": "slayer_drop",
+    "icon": "slayer/shade_echo.png"
+  },
+  {
+    "item_key": "shadow_hide",
+    "name": "Shadow Hide",
+    "sell_price": 2500,
+    "rarity": "epic",
+    "category": "monster_drops",
+    "icon": "items/shadow_hide.png"
+  },
+  {
+    "item_key": "shadowmoss",
+    "name": "Shadowmoss",
+    "sell_price": 150,
+    "rarity": "uncommon",
+    "category": "herb",
+    "icon": "farming/shadowmoss.png"
+  },
+  {
+    "item_key": "shadowmoss_seed",
+    "name": "Shadowmoss Seed",
+    "sell_price": 50,
+    "rarity": "uncommon",
+    "category": "farming",
+    "icon": "farming/shadowmoss_seed.png"
+  },
+  {
+    "item_key": "shadowrite_athame",
+    "name": "Shadowrite Athame",
+    "sell_price": 10000,
+    "rarity": "epic",
+    "category": "tools",
+    "icon": "tools/shadowrite_athame.png"
+  },
+  {
+    "item_key": "shadowrite_rune",
+    "name": "Shadowrite Rune",
+    "sell_price": 100,
+    "rarity": "epic",
+    "category": "runes",
+    "icon": "runes/shadowrite_rune.png"
+  },
+  {
+    "item_key": "shalecloth_hat",
+    "name": "Shalecloth Hat",
+    "sell_price": 1260,
+    "rarity": "rare",
+    "category": "equipment",
+    "icon": "armor/shalecloth_hat.png"
+  },
+  {
+    "item_key": "shalecloth_robe",
+    "name": "Shalecloth Robe",
+    "sell_price": 1880,
+    "rarity": "rare",
+    "category": "equipment",
+    "icon": "armor/shalecloth_robe.png"
+  },
+  {
+    "item_key": "shalecloth_shoes",
+    "name": "Shalecloth Shoes",
+    "sell_price": 940,
+    "rarity": "rare",
+    "category": "equipment",
+    "icon": "armor/shalecloth_shoes.png"
+  },
+  {
+    "item_key": "shalecloth_skirt",
+    "name": "Shalecloth Skirt",
+    "sell_price": 1500,
+    "rarity": "rare",
+    "category": "equipment",
+    "icon": "armor/shalecloth_skirt.png"
+  },
+  {
+    "item_key": "shalecloth_wraps",
+    "name": "Shalecloth Wraps",
+    "sell_price": 940,
+    "rarity": "rare",
+    "category": "equipment",
+    "icon": "armor/shalecloth_wraps.png"
+  },
+  {
+    "item_key": "shaleveil_bracers",
+    "name": "Shaleveil Bracers",
+    "sell_price": 940,
+    "rarity": "rare",
+    "category": "equipment",
+    "icon": "armor/shaleveil_bracers.png"
+  },
+  {
+    "item_key": "shaleveil_chaps",
+    "name": "Shaleveil Chaps",
+    "sell_price": 1500,
+    "rarity": "rare",
+    "category": "equipment",
+    "icon": "armor/shaleveil_chaps.png"
+  },
+  {
+    "item_key": "shaleveil_hood",
+    "name": "Shaleveil Hood",
+    "sell_price": 1260,
+    "rarity": "rare",
+    "category": "equipment",
+    "icon": "armor/shaleveil_hood.png"
+  },
+  {
+    "item_key": "shaleveil_tunic",
+    "name": "Shaleveil Tunic",
+    "sell_price": 1880,
+    "rarity": "rare",
+    "category": "equipment",
+    "icon": "armor/shaleveil_tunic.png"
+  },
+  {
+    "item_key": "shalore_arrow",
+    "name": "Shalore Arrow",
+    "sell_price": 50,
+    "rarity": "rare",
+    "category": "ammo",
+    "icon": "ammo/shalore_arrow.png"
+  },
+  {
+    "item_key": "shalore_bar",
+    "name": "Shalore Bar",
+    "sell_price": 140,
+    "rarity": "rare",
+    "category": "bars",
+    "icon": "bars/shalore_bar.png"
+  },
+  {
+    "item_key": "shalore_boots",
+    "name": "Shalore Boots",
+    "sell_price": 1310,
+    "rarity": "rare",
+    "category": "equipment",
+    "icon": "armor/shalore_boots.png"
+  },
+  {
+    "item_key": "shalore_chestplate",
+    "name": "Shalore Chestplate",
+    "sell_price": 2250,
+    "rarity": "rare",
+    "category": "equipment",
+    "icon": "armor/shalore_chestplate.png"
+  },
+  {
+    "item_key": "shalore_chisel",
+    "name": "Shalore Chisel",
+    "sell_price": 1200,
+    "rarity": "rare",
+    "category": "tools",
+    "icon": "tools/shalore_chisel.png"
+  },
+  {
+    "item_key": "shalore_gloves",
+    "name": "Shalore Gloves",
+    "sell_price": 1120,
+    "rarity": "rare",
+    "category": "equipment",
+    "icon": "armor/shalore_gloves.png"
+  },
+  {
+    "item_key": "shalore_hammer",
+    "name": "Shalore Hammer",
+    "sell_price": 1200,
+    "rarity": "rare",
+    "category": "tools",
+    "icon": "tools/shalore_hammer.png"
+  },
+  {
+    "item_key": "shalore_hammer_e1",
+    "name": "Shalore Hammer +1",
+    "sell_price": 1380,
+    "rarity": "rare",
+    "category": "tools",
+    "icon": "tools/shalore_hammer.png"
+  },
+  {
+    "item_key": "shalore_hammer_star",
+    "name": "Shalore Hammer ⭐",
+    "sell_price": 1800,
+    "rarity": "rare",
+    "category": "tools",
+    "icon": "tools/shalore_hammer.png"
+  },
+  {
+    "item_key": "shalore_hatchet",
+    "name": "Shalore Hatchet",
+    "sell_price": 1200,
+    "rarity": "rare",
+    "category": "tools",
+    "icon": "tools/shalore_hatchet.png"
+  },
+  {
+    "item_key": "shalore_helmet",
+    "name": "Shalore Helmet",
+    "sell_price": 1500,
+    "rarity": "rare",
+    "category": "equipment",
+    "icon": "armor/shalore_helmet.png"
+  },
+  {
+    "item_key": "shalore_helmet_e2",
+    "name": "Shalore Helmet +2",
+    "sell_price": 1950,
+    "rarity": "rare",
+    "category": "equipment",
+    "icon": "armor/shalore_helmet.png"
+  },
+  {
+    "item_key": "shalore_knife_e2",
+    "name": "Shalore Knife +2",
+    "sell_price": 1560,
+    "rarity": "rare",
+    "category": "tools",
+    "icon": "tools/shalore_knife.png"
+  },
+  {
+    "item_key": "shalore_leggings",
+    "name": "Shalore Leggings",
+    "sell_price": 1680,
+    "rarity": "rare",
+    "category": "equipment",
+    "icon": "armor/shalore_leggings.png"
+  },
+  {
+    "item_key": "shalore_lockpick",
+    "name": "Shalore Lockpick",
+    "sell_price": 1200,
+    "rarity": "rare",
+    "category": "tools",
+    "icon": "tools/shalore_lockpick.png"
+  },
+  {
+    "item_key": "shalore_lockpick_star_e3",
+    "name": "Shalore Lockpick ⭐ +3",
+    "sell_price": 2610,
+    "rarity": "rare",
+    "category": "tools",
+    "icon": "tools/shalore_lockpick.png"
+  },
+  {
+    "item_key": "shalore_longsword",
+    "name": "Shalore Longsword",
+    "sell_price": 2250,
+    "rarity": "rare",
+    "category": "weapons",
+    "icon": "weapons/shalore_longsword.png"
+  },
+  {
+    "item_key": "shalore_longsword_e1",
+    "name": "Shalore Longsword +1",
+    "sell_price": 2587,
+    "rarity": "rare",
+    "category": "weapons",
+    "icon": "weapons/shalore_longsword.png"
+  },
+  {
+    "item_key": "shalore_longsword_e2",
+    "name": "Shalore Longsword +2",
+    "sell_price": 2925,
+    "rarity": "rare",
+    "category": "weapons",
+    "icon": "weapons/shalore_longsword.png"
+  },
+  {
+    "item_key": "shalore_ore",
+    "name": "Shalore Ore",
+    "sell_price": 50,
+    "rarity": "common",
+    "category": "ore",
+    "icon": "ores/shalore_ore.png"
+  },
+  {
+    "item_key": "shalore_pickaxe",
+    "name": "Shalore Pickaxe",
+    "sell_price": 1200,
+    "rarity": "rare",
+    "category": "tools",
+    "icon": "tools/shalore_pickaxe.png"
+  },
+  {
+    "item_key": "shalore_rod",
+    "name": "Shalore Fishing Rod",
+    "sell_price": 1200,
+    "rarity": "rare",
+    "category": "tools",
+    "icon": "tools/shalore_rod.png"
+  },
+  {
+    "item_key": "shalore_saw",
+    "name": "Shalore Saw",
+    "sell_price": 1200,
+    "rarity": "rare",
+    "category": "tools",
+    "icon": "tools/shalore_saw.png"
+  },
+  {
+    "item_key": "shalore_shield",
+    "name": "Shalore Shield",
+    "sell_price": 1875,
+    "rarity": "rare",
+    "category": "weapons",
+    "icon": "weapons/shalore_shield.png"
+  },
+  {
+    "item_key": "shalore_skillet",
+    "name": "Shalore Skillet",
+    "sell_price": 1200,
+    "rarity": "rare",
+    "category": "tools",
+    "icon": "tools/shalore_skillet.png"
+  },
+  {
+    "item_key": "shalore_skillet_e2",
+    "name": "Shalore Skillet +2",
+    "sell_price": 1560,
+    "rarity": "rare",
+    "category": "tools",
+    "icon": "tools/shalore_skillet.png"
+  },
+  {
+    "item_key": "shalore_staff",
+    "name": "Shalore Staff",
+    "sell_price": 1500,
+    "rarity": "rare",
+    "category": "weapons",
+    "icon": "weapons/shalore_staff.png"
+  },
+  {
+    "item_key": "shalore_sword_e1",
+    "name": "Shalore Sword +1",
+    "sell_price": 1725,
+    "rarity": "rare",
+    "category": "weapons",
+    "icon": "weapons/shalore_sword.png"
+  },
+  {
+    "item_key": "shalore_tinderbox",
+    "name": "Shalore Tinderbox",
+    "sell_price": 1200,
+    "rarity": "rare",
+    "category": "tools",
+    "icon": "tools/shalore_tinderbox.png"
+  },
+  {
+    "item_key": "shalore_trowel",
+    "name": "Shalore Trowel",
+    "sell_price": 1200,
+    "rarity": "rare",
+    "category": "tools",
+    "icon": "tools/shalore_trowel.png"
+  },
+  {
+    "item_key": "shalore_trowel_e3",
+    "name": "Shalore Trowel +3",
+    "sell_price": 1740,
+    "rarity": "rare",
+    "category": "tools",
+    "icon": "tools/shalore_trowel.png"
+  },
+  {
+    "item_key": "skillcape_120_mining",
+    "name": "Mining Master Cape",
+    "sell_price": 400000,
+    "rarity": "legendary",
+    "category": "cape",
+    "icon": "capes/skillcape_120_mining.png"
+  },
+  {
+    "item_key": "skillcape_80_attack",
+    "name": "Attack Adept Cape",
+    "sell_price": 40000,
+    "rarity": "rare",
+    "category": "cape",
+    "icon": "capes/skillcape_80_attack.png"
+  },
+  {
+    "item_key": "skillcape_80_defence",
+    "name": "Defence Adept Cape",
+    "sell_price": 40000,
+    "rarity": "rare",
+    "category": "cape",
+    "icon": "capes/skillcape_80_defence.png"
+  },
+  {
+    "item_key": "skillcape_80_hitpoints",
+    "name": "Hitpoints Adept Cape",
+    "sell_price": 40000,
+    "rarity": "rare",
+    "category": "cape",
+    "icon": "capes/skillcape_80_hitpoints.png"
+  },
+  {
+    "item_key": "skillcape_80_woodcutting",
+    "name": "Woodcutting Adept Cape",
+    "sell_price": 40000,
+    "rarity": "rare",
+    "category": "cape",
+    "icon": "capes/skillcape_80_woodcutting.png"
+  },
+  {
+    "item_key": "soulgrape",
+    "name": "Soulgrape",
+    "sell_price": 540,
+    "rarity": "rare",
+    "category": "crop",
+    "icon": "farming/soulgrape.png"
+  },
+  {
+    "item_key": "soulgrape_pie",
+    "name": "Soulgrape Pie",
+    "sell_price": 1350,
+    "rarity": "common",
+    "category": "food",
+    "icon": "food/soulgrape_pie.png"
+  },
+  {
+    "item_key": "soulgrape_seed",
+    "name": "Soulgrape Seed",
+    "sell_price": 180,
+    "rarity": "rare",
+    "category": "farming",
+    "icon": "farming/soulgrape_seed.png"
+  },
+  {
+    "item_key": "spider_silk",
+    "name": "Spider Silk",
+    "sell_price": 35,
+    "rarity": "uncommon",
+    "category": "monster_drops",
+    "icon": "items/spider_silk.png"
+  },
+  {
+    "item_key": "spirit_bow",
+    "name": "Spirit Bow",
+    "sell_price": 3500,
+    "rarity": "epic",
+    "category": "weapons",
+    "icon": "weapons/spirit_bow.png"
+  },
+  {
+    "item_key": "spirit_bow_e2",
+    "name": "Spirit Bow +2",
+    "sell_price": 4550,
+    "rarity": "epic",
+    "category": "weapons",
+    "icon": "weapons/spirit_bow.png"
+  },
+  {
+    "item_key": "spiritbloom",
+    "name": "Spiritbloom",
+    "sell_price": 300,
+    "rarity": "rare",
+    "category": "herb",
+    "icon": "farming/spiritbloom.png"
+  },
+  {
+    "item_key": "spiritoak_fruit",
+    "name": "Spiritoak Fruit",
+    "sell_price": 1500,
+    "rarity": "epic",
+    "category": "fruit",
+    "icon": "farming/spiritoak_fruit.png"
+  },
+  {
+    "item_key": "spiritoak_nectar",
+    "name": "Spiritoak Nectar",
+    "sell_price": 3600,
+    "rarity": "common",
+    "category": "food",
+    "icon": "food/spiritoak_nectar.png"
+  },
+  {
+    "item_key": "stardust_rose",
+    "name": "Stardust Rose",
+    "sell_price": 360,
+    "rarity": "rare",
+    "category": "flower",
+    "icon": "farming/stardust_rose.png"
+  },
+  {
+    "item_key": "stardust_rose_seed",
+    "name": "Stardust Rose Seed",
+    "sell_price": 120,
+    "rarity": "rare",
+    "category": "farming",
+    "icon": "farming/stardust_rose_seed.png"
+  },
+  {
+    "item_key": "starmelon",
+    "name": "Starmelon",
+    "sell_price": 135,
+    "rarity": "uncommon",
+    "category": "crop",
+    "icon": "farming/starmelon.png"
+  },
+  {
+    "item_key": "starmelon_seed",
+    "name": "Starmelon Seed",
+    "sell_price": 45,
+    "rarity": "uncommon",
+    "category": "farming",
+    "icon": "farming/starmelon_seed.png"
+  },
+  {
+    "item_key": "storm_uncut",
+    "name": "Uncut Stormheart",
+    "sell_price": 2000,
+    "rarity": "legendary",
+    "category": "gem",
+    "icon": "gems/storm_uncut.png"
+  },
+  {
+    "item_key": "sun",
+    "name": "Sunstone",
+    "sell_price": 2000,
+    "rarity": "epic",
+    "category": "gem",
+    "icon": "gems/sun.png"
+  },
+  {
+    "item_key": "sun_fury_ring",
+    "name": "Sunstone Fury Ring",
+    "sell_price": 8500,
+    "rarity": "epic",
+    "category": "equipment",
+    "icon": "jewelery/fury_ring.png"
+  },
+  {
+    "item_key": "sun_guardian_amulet",
+    "name": "Sunstone Guardian Amulet",
+    "sell_price": 8500,
+    "rarity": "epic",
+    "category": "equipment",
+    "icon": "jewelery/guardian_amulet.png"
+  },
+  {
+    "item_key": "sun_knowledge_amulet",
+    "name": "Sunstone Knowledge Amulet",
+    "sell_price": 8500,
+    "rarity": "epic",
+    "category": "equipment",
+    "icon": "jewelery/knowledge_amulet.png"
+  },
+  {
+    "item_key": "sun_power_amulet",
+    "name": "Sunstone Power Amulet",
+    "sell_price": 8500,
+    "rarity": "epic",
+    "category": "equipment",
+    "icon": "jewelery/power_amulet.png"
+  },
+  {
+    "item_key": "sun_uncut",
+    "name": "Uncut Sunstone",
+    "sell_price": 800,
+    "rarity": "epic",
+    "category": "gem",
+    "icon": "gems/sun_uncut.png"
+  },
+  {
+    "item_key": "sun_vitality_amulet",
+    "name": "Sunstone Vitality Amulet",
+    "sell_price": 8500,
+    "rarity": "epic",
+    "category": "equipment",
+    "icon": "jewelery/vitality_amulet.png"
+  },
+  {
+    "item_key": "sun_warding_ring",
+    "name": "Sunstone Warding Ring",
+    "sell_price": 8500,
+    "rarity": "epic",
+    "category": "equipment",
+    "icon": "jewelery/warding_ring.png"
+  },
+  {
+    "item_key": "sun_wealth_ring",
+    "name": "Sunstone Wealth Ring",
+    "sell_price": 8500,
+    "rarity": "epic",
+    "category": "equipment",
+    "icon": "jewelery/wealth_ring.png"
+  },
+  {
+    "item_key": "sunpetal",
+    "name": "Sunpetal",
+    "sell_price": 25,
+    "rarity": "common",
+    "category": "flower",
+    "icon": "farming/sunpetal.png"
+  },
+  {
+    "item_key": "sunpetal_seed",
+    "name": "Sunpetal Seed",
+    "sell_price": 8,
+    "rarity": "common",
+    "category": "farming",
+    "icon": "farming/sunpetal_seed.png"
+  },
+  {
+    "item_key": "super_attack_potion",
+    "name": "Super Attack Potion",
+    "sell_price": 400,
+    "rarity": "common",
+    "category": "potion",
+    "icon": "herblore/super_attack_potion.png"
+  },
+  {
+    "item_key": "super_defence_potion",
+    "name": "Super Defence Potion",
+    "sell_price": 400,
+    "rarity": "common",
+    "category": "potion",
+    "icon": "herblore/super_defence_potion.png"
+  },
+  {
+    "item_key": "super_thieving_potion",
+    "name": "Super Thieving Potion",
+    "sell_price": 700,
+    "rarity": "common",
+    "category": "potion",
+    "icon": "herblore/super_thieving_potion.png"
+  },
+  {
+    "item_key": "thieving_potion",
+    "name": "Thieving Potion",
+    "sell_price": 200,
+    "rarity": "common",
+    "category": "potion",
+    "icon": "herblore/thieving_potion.png"
+  },
+  {
+    "item_key": "velorite_arrow",
+    "name": "Velorite Arrow",
+    "sell_price": 12,
+    "rarity": "uncommon",
+    "category": "ammo",
+    "icon": "ammo/velorite_arrow.png"
+  },
+  {
+    "item_key": "velorite_bar",
+    "name": "Velorite Bar",
+    "sell_price": 45,
+    "rarity": "uncommon",
+    "category": "bars",
+    "icon": "bars/velorite_bar.png"
+  },
+  {
+    "item_key": "velorite_bolt",
+    "name": "Velorite Bolt",
+    "sell_price": 12,
+    "rarity": "uncommon",
+    "category": "ammo",
+    "icon": "ammo/velorite_bolt.png"
+  },
+  {
+    "item_key": "velorite_boots",
+    "name": "Velorite Boots",
+    "sell_price": 280,
+    "rarity": "uncommon",
+    "category": "equipment",
+    "icon": "armor/velorite_boots.png"
+  },
+  {
+    "item_key": "velorite_chestplate",
+    "name": "Velorite Chestplate",
+    "sell_price": 480,
+    "rarity": "uncommon",
+    "category": "equipment",
+    "icon": "armor/velorite_chestplate.png"
+  },
+  {
+    "item_key": "velorite_crossbow",
+    "name": "Velorite Crossbow",
+    "sell_price": 150,
+    "rarity": "uncommon",
+    "category": "weapons",
+    "icon": "weapons/velorite_crossbow.png"
+  },
+  {
+    "item_key": "velorite_gloves",
+    "name": "Velorite Gloves",
+    "sell_price": 240,
+    "rarity": "uncommon",
+    "category": "equipment",
+    "icon": "armor/velorite_gloves.png"
+  },
+  {
+    "item_key": "velorite_hammer",
+    "name": "Velorite Hammer",
+    "sell_price": 200,
+    "rarity": "uncommon",
+    "category": "tools",
+    "icon": "tools/velorite_hammer.png"
+  },
+  {
+    "item_key": "velorite_helmet",
+    "name": "Velorite Helmet",
+    "sell_price": 320,
+    "rarity": "uncommon",
+    "category": "equipment",
+    "icon": "armor/velorite_helmet.png"
+  },
+  {
+    "item_key": "velorite_knife",
+    "name": "Velorite Knife",
+    "sell_price": 200,
+    "rarity": "uncommon",
+    "category": "tools",
+    "icon": "tools/velorite_knife.png"
+  },
+  {
+    "item_key": "velorite_lockpick",
+    "name": "Velorite Lockpick",
+    "sell_price": 200,
+    "rarity": "uncommon",
+    "category": "tools",
+    "icon": "tools/velorite_lockpick.png"
+  },
+  {
+    "item_key": "velorite_longsword",
+    "name": "Velorite Longsword",
+    "sell_price": 480,
+    "rarity": "uncommon",
+    "category": "weapons",
+    "icon": "weapons/velorite_longsword.png"
+  },
+  {
+    "item_key": "velorite_mould",
+    "name": "Velorite Mould",
+    "sell_price": 300,
+    "rarity": "uncommon",
+    "category": "tools",
+    "icon": "tools/velorite_mould.png"
+  },
+  {
+    "item_key": "velorite_ore",
+    "name": "Velorite Ore",
+    "sell_price": 18,
+    "rarity": "common",
+    "category": "ore",
+    "icon": "ores/velorite_ore.png"
+  },
+  {
+    "item_key": "velorite_pestle",
+    "name": "Velorite Pestle",
+    "sell_price": 200,
+    "rarity": "uncommon",
+    "category": "tools",
+    "icon": "tools/velorite_pestle.png"
+  },
+  {
+    "item_key": "velorite_pickaxe",
+    "name": "Velorite Pickaxe",
+    "sell_price": 200,
+    "rarity": "uncommon",
+    "category": "tools",
+    "icon": "tools/velorite_pickaxe.png"
+  },
+  {
+    "item_key": "velorite_pickaxe_moon",
+    "name": "Velorite Pickaxe 🌙",
+    "sell_price": 400,
+    "rarity": "uncommon",
+    "category": "tools",
+    "icon": "tools/velorite_pickaxe.png"
+  },
+  {
+    "item_key": "velorite_saw",
+    "name": "Velorite Saw",
+    "sell_price": 200,
+    "rarity": "uncommon",
+    "category": "tools",
+    "icon": "tools/velorite_saw.png"
+  },
+  {
+    "item_key": "velorite_shield",
+    "name": "Velorite Shield",
+    "sell_price": 400,
+    "rarity": "uncommon",
+    "category": "weapons",
+    "icon": "weapons/velorite_shield_v2.png"
+  },
+  {
+    "item_key": "velorite_staff",
+    "name": "Velorite Staff",
+    "sell_price": 400,
+    "rarity": "uncommon",
+    "category": "weapons",
+    "icon": "weapons/velorite_staff.png"
+  },
+  {
+    "item_key": "velorite_sword",
+    "name": "Velorite Sword",
+    "sell_price": 320,
+    "rarity": "uncommon",
+    "category": "weapons",
+    "icon": "weapons/velorite_sword.png"
+  },
+  {
+    "item_key": "velorite_tinderbox",
+    "name": "Velorite Tinderbox",
+    "sell_price": 200,
+    "rarity": "uncommon",
+    "category": "tools",
+    "icon": "tools/velorite_tinderbox.png"
+  },
+  {
+    "item_key": "velorite_trowel",
+    "name": "Velorite Trowel",
+    "sell_price": 200,
+    "rarity": "uncommon",
+    "category": "tools",
+    "icon": "tools/velorite_trowel.png"
+  },
+  {
+    "item_key": "vexhide_tunic",
+    "name": "Vexhide Tunic",
+    "sell_price": 15120,
+    "rarity": "epic",
+    "category": "equipment",
+    "icon": "armor/vexhide_tunic.png"
+  },
+  {
+    "item_key": "vexite_arrow",
+    "name": "Vexite Arrow",
+    "sell_price": 350,
+    "rarity": "mythic",
+    "category": "ammo",
+    "icon": "ammo/vexite_arrow.png"
+  },
+  {
+    "item_key": "vexite_bar",
+    "name": "Vexite Bar",
+    "sell_price": 520,
+    "rarity": "epic",
+    "category": "bars",
+    "icon": "bars/vexite_bar.png"
+  },
+  {
+    "item_key": "vexite_boots",
+    "name": "Vexite Boots",
+    "sell_price": 10480,
+    "rarity": "epic",
+    "category": "equipment",
+    "icon": "armor/vexite_boots.png"
+  },
+  {
+    "item_key": "vexite_chestplate",
+    "name": "Vexite Chestplate",
+    "sell_price": 18000,
+    "rarity": "epic",
+    "category": "equipment",
+    "icon": "armor/vexite_chestplate.png"
+  },
+  {
+    "item_key": "vexite_chisel",
+    "name": "Vexite Chisel",
+    "sell_price": 10000,
+    "rarity": "epic",
+    "category": "tools",
+    "icon": "tools/vexite_chisel.png"
+  },
+  {
+    "item_key": "vexite_gloves",
+    "name": "Vexite Gloves",
+    "sell_price": 8960,
+    "rarity": "epic",
+    "category": "equipment",
+    "icon": "armor/vexite_gloves.png"
+  },
+  {
+    "item_key": "vexite_hammer",
+    "name": "Vexite Hammer",
+    "sell_price": 10000,
+    "rarity": "epic",
+    "category": "tools",
+    "icon": "tools/vexite_hammer.png"
+  },
+  {
+    "item_key": "vexite_hatchet",
+    "name": "Vexite Hatchet",
+    "sell_price": 10000,
+    "rarity": "epic",
+    "category": "tools",
+    "icon": "tools/vexite_hatchet.png"
+  },
+  {
+    "item_key": "vexite_helmet",
+    "name": "Vexite Helmet",
+    "sell_price": 12000,
+    "rarity": "epic",
+    "category": "equipment",
+    "icon": "armor/vexite_helmet.png"
+  },
+  {
+    "item_key": "vexite_knife",
+    "name": "Vexite Knife",
+    "sell_price": 10000,
+    "rarity": "epic",
+    "category": "tools",
+    "icon": "tools/vexite_knife.png"
+  },
+  {
+    "item_key": "vexite_knife_e1",
+    "name": "Vexite Knife +1",
+    "sell_price": 11500,
+    "rarity": "epic",
+    "category": "tools",
+    "icon": "tools/vexite_knife.png"
+  },
+  {
+    "item_key": "vexite_leggings",
+    "name": "Vexite Leggings",
+    "sell_price": 13440,
+    "rarity": "epic",
+    "category": "equipment",
+    "icon": "armor/vexite_leggings.png"
+  },
+  {
+    "item_key": "vexite_longsword",
+    "name": "Vexite Longsword",
+    "sell_price": 18000,
+    "rarity": "epic",
+    "category": "weapons",
+    "icon": "weapons/vexite_longsword.png"
+  },
+  {
+    "item_key": "vexite_mould",
+    "name": "Vexite Mould",
+    "sell_price": 8000,
+    "rarity": "epic",
+    "category": "tools",
+    "icon": "tools/vexite_mould.png"
+  },
+  {
+    "item_key": "vexite_ore",
+    "name": "Vexite Ore",
+    "sell_price": 190,
+    "rarity": "common",
+    "category": "ore",
+    "icon": "ores/vexite_ore.png"
+  },
+  {
+    "item_key": "vexite_pickaxe",
+    "name": "Vexite Pickaxe",
+    "sell_price": 10000,
+    "rarity": "epic",
+    "category": "tools",
+    "icon": "tools/vexite_pickaxe.png"
+  },
+  {
+    "item_key": "vexite_rod",
+    "name": "Vexite Fishing Rod",
+    "sell_price": 10000,
+    "rarity": "epic",
+    "category": "tools",
+    "icon": "tools/vexite_rod.png"
+  },
+  {
+    "item_key": "vexite_skillet",
+    "name": "Vexite Skillet",
+    "sell_price": 10000,
+    "rarity": "epic",
+    "category": "tools",
+    "icon": "tools/vexite_skillet.png"
+  },
+  {
+    "item_key": "vexite_staff",
+    "name": "Vexite Staff",
+    "sell_price": 35000,
+    "rarity": "epic",
+    "category": "weapons",
+    "icon": "weapons/vexite_staff.png"
+  },
+  {
+    "item_key": "vexite_sword",
+    "name": "Vexite Sword",
+    "sell_price": 30000,
+    "rarity": "epic",
+    "category": "weapons",
+    "icon": "weapons/vexite_sword.png"
+  },
+  {
+    "item_key": "vexite_trowel",
+    "name": "Vexite Trowel",
+    "sell_price": 10000,
+    "rarity": "epic",
+    "category": "tools",
+    "icon": "tools/vexite_trowel.png"
+  },
+  {
+    "item_key": "vial_of_water",
+    "name": "Vial of Water",
+    "sell_price": 5,
+    "rarity": "common",
+    "category": "herblore_ingredient",
+    "icon": "herblore/vial_of_water.png"
+  },
+  {
+    "item_key": "void",
+    "name": "Voidopal",
+    "sell_price": 1200,
+    "rarity": "rare",
+    "category": "gem",
+    "icon": "gems/void.png"
+  },
+  {
+    "item_key": "void_ashes",
+    "name": "Void Ashes",
+    "sell_price": 75,
+    "rarity": "epic",
+    "category": "material",
+    "icon": "items/void_ashes.png"
+  },
+  {
+    "item_key": "void_bow",
+    "name": "Void Bow",
+    "sell_price": 7000,
+    "rarity": "mythic",
+    "category": "weapons",
+    "icon": "weapons/void_bow.png"
+  },
+  {
+    "item_key": "void_essence",
+    "name": "Void Essence",
+    "sell_price": 2,
+    "rarity": "legendary",
+    "category": "essence",
+    "icon": "items/void_essence.png"
+  },
+  {
+    "item_key": "void_knowledge_amulet_e3",
+    "name": "Voidopal Knowledge Amulet +3",
+    "sell_price": 5750,
+    "rarity": "rare",
+    "category": "equipment",
+    "icon": "jewelery/knowledge_amulet.png"
+  },
+  {
+    "item_key": "void_uncut",
+    "name": "Uncut Voidopal",
+    "sell_price": 480,
+    "rarity": "rare",
+    "category": "gem",
+    "icon": "gems/void_uncut.png"
+  },
+  {
+    "item_key": "void_wealth_ring",
+    "name": "Voidopal Wealth Ring",
+    "sell_price": 5000,
+    "rarity": "rare",
+    "category": "equipment",
+    "icon": "jewelery/wealth_ring.png"
+  },
+  {
+    "item_key": "voidberry",
+    "name": "Voidberry",
+    "sell_price": 270,
+    "rarity": "rare",
+    "category": "crop",
+    "icon": "farming/voidberry.png"
+  },
+  {
+    "item_key": "voidberry_seed",
+    "name": "Voidberry Seed",
+    "sell_price": 90,
+    "rarity": "rare",
+    "category": "farming",
+    "icon": "farming/voidberry_seed.png"
+  },
+  {
+    "item_key": "voidberry_tart",
+    "name": "Voidberry Tart",
+    "sell_price": 680,
+    "rarity": "common",
+    "category": "food",
+    "icon": "food/voidberry_tart.png"
+  },
+  {
+    "item_key": "voidorchid",
+    "name": "Voidorchid",
+    "sell_price": 1500,
+    "rarity": "epic",
+    "category": "flower",
+    "icon": "farming/voidorchid.png"
+  },
+  {
+    "item_key": "voidpetal",
+    "name": "Voidpetal",
+    "sell_price": 600,
+    "rarity": "rare",
+    "category": "herb",
+    "icon": "farming/voidpetal.png"
+  },
+  {
+    "item_key": "voidpetal_seed",
+    "name": "Voidpetal Seed",
+    "sell_price": 200,
+    "rarity": "rare",
+    "category": "farming",
+    "icon": "farming/voidpetal_seed.png"
+  },
+  {
+    "item_key": "voidspun_shoes",
+    "name": "Voidspun Shoes",
+    "sell_price": 75,
+    "rarity": "common",
+    "category": "equipment",
+    "icon": "armor/voidspun_shoes.png"
+  },
+  {
+    "item_key": "voidstone_rune",
+    "name": "Voidstone Rune",
+    "sell_price": 10,
+    "rarity": "common",
+    "category": "runes",
+    "icon": "runes/voidstone_rune.png"
+  },
+  {
+    "item_key": "wisdom_potion",
+    "name": "Wisdom Potion",
+    "sell_price": 300,
+    "rarity": "common",
+    "category": "potion",
+    "icon": "herblore/wisdom_potion.png"
+  },
+  {
+    "item_key": "worldtree_bow",
+    "name": "Worldtree Bow",
+    "sell_price": 27500,
+    "rarity": "mythic",
+    "category": "weapons",
+    "icon": "weapons/worldtree_bow.png"
+  },
+  {
+    "item_key": "worldtree_crossbow",
+    "name": "Worldtree Crossbow",
+    "sell_price": 12000,
+    "rarity": "mythic",
+    "category": "weapons",
+    "icon": "weapons/worldtree_crossbow_v2.png"
+  },
+  {
+    "item_key": "zephyne_arrow",
+    "name": "Zephyne Arrow",
+    "sell_price": 400,
+    "rarity": "mythic",
+    "category": "ammo",
+    "icon": "ammo/zephyne_arrow.png"
+  },
+  {
+    "item_key": "zephyne_bar",
+    "name": "Zephyne Bar",
+    "sell_price": 750,
+    "rarity": "legendary",
+    "category": "bars",
+    "icon": "bars/zephyne_bar.png"
+  },
+  {
+    "item_key": "zephyne_boots",
+    "name": "Zephyne Boots",
+    "sell_price": 26200,
+    "rarity": "legendary",
+    "category": "equipment",
+    "icon": "armor/zephyne_boots.png"
+  },
+  {
+    "item_key": "zephyne_chestplate",
+    "name": "Zephyne Chestplate",
+    "sell_price": 45000,
+    "rarity": "legendary",
+    "category": "equipment",
+    "icon": "armor/zephyne_chestplate.png"
+  },
+  {
+    "item_key": "zephyne_chisel",
+    "name": "Zephyne Chisel",
+    "sell_price": 20000,
+    "rarity": "legendary",
+    "category": "tools",
+    "icon": "tools/zephyne_chisel.png"
+  },
+  {
+    "item_key": "zephyne_gloves",
+    "name": "Zephyne Gloves",
+    "sell_price": 22400,
+    "rarity": "legendary",
+    "category": "equipment",
+    "icon": "armor/zephyne_gloves.png"
+  },
+  {
+    "item_key": "zephyne_hammer_sun_e3",
+    "name": "Zephyne Hammer ☀️ +3",
+    "sell_price": 87000,
+    "rarity": "legendary",
+    "category": "tools",
+    "icon": "tools/zephyne_hammer.png"
+  },
+  {
+    "item_key": "zephyne_hatchet",
+    "name": "Zephyne Hatchet",
+    "sell_price": 20000,
+    "rarity": "legendary",
+    "category": "tools",
+    "icon": "tools/zephyne_hatchet.png"
+  },
+  {
+    "item_key": "zephyne_knife",
+    "name": "Zephyne Knife",
+    "sell_price": 20000,
+    "rarity": "legendary",
+    "category": "tools",
+    "icon": "tools/zephyne_knife.png"
+  },
+  {
+    "item_key": "zephyne_longsword",
+    "name": "Zephyne Longsword",
+    "sell_price": 45000,
+    "rarity": "legendary",
+    "category": "weapons",
+    "icon": "weapons/zephyne_longsword.png"
+  },
+  {
+    "item_key": "zephyne_ore",
+    "name": "Zephyne Ore",
+    "sell_price": 280,
+    "rarity": "common",
+    "category": "ore",
+    "icon": "ores/zephyne_ore.png"
+  },
+  {
+    "item_key": "zephyne_pestle",
+    "name": "Zephyne Pestle",
+    "sell_price": 20000,
+    "rarity": "legendary",
+    "category": "tools",
+    "icon": "tools/zephyne_pestle.png"
+  },
+  {
+    "item_key": "zephyne_pickaxe",
+    "name": "Zephyne Pickaxe",
+    "sell_price": 20000,
+    "rarity": "legendary",
+    "category": "tools",
+    "icon": "tools/zephyne_pickaxe.png"
+  },
+  {
+    "item_key": "zephyne_pickaxe_e5",
+    "name": "Zephyne Pickaxe +5",
+    "sell_price": 35000,
+    "rarity": "legendary",
+    "category": "tools",
+    "icon": "tools/zephyne_pickaxe.png"
+  },
+  {
+    "item_key": "zephyne_rod",
+    "name": "Zephyne Fishing Rod",
+    "sell_price": 20000,
+    "rarity": "legendary",
+    "category": "tools",
+    "icon": "tools/zephyne_rod.png"
+  },
+  {
+    "item_key": "zephyne_shield",
+    "name": "Zephyne Shield",
+    "sell_price": 37500,
+    "rarity": "legendary",
+    "category": "weapons",
+    "icon": "weapons/zephyne_shield.png"
+  },
+  {
+    "item_key": "zephyne_skillet",
+    "name": "Zephyne Skillet",
+    "sell_price": 20000,
+    "rarity": "legendary",
+    "category": "tools",
+    "icon": "tools/zephyne_skillet.png"
+  },
+  {
+    "item_key": "zephyne_tinderbox",
+    "name": "Zephyne Tinderbox",
+    "sell_price": 20000,
+    "rarity": "legendary",
+    "category": "tools",
+    "icon": "tools/zephyne_tinderbox.png"
+  },
+  {
+    "item_key": "zephyne_trowel",
+    "name": "Zephyne Trowel",
+    "sell_price": 20000,
+    "rarity": "legendary",
+    "category": "tools",
+    "icon": "tools/zephyne_trowel.png"
+  },
+  {
+    "item_key": "zephyrshroud_boots",
+    "name": "Zephyrshroud Boots",
+    "sell_price": 18900,
+    "rarity": "legendary",
+    "category": "equipment",
+    "icon": "armor/zephyrshroud_boots.png"
+  },
+  {
+    "item_key": "zephyrshroud_bracers",
+    "name": "Zephyrshroud Bracers",
+    "sell_price": 18900,
+    "rarity": "legendary",
+    "category": "equipment",
+    "icon": "armor/zephyrshroud_bracers.png"
+  },
+  {
+    "item_key": "zephyrshroud_chaps",
+    "name": "Zephyrshroud Chaps",
+    "sell_price": 30200,
+    "rarity": "legendary",
+    "category": "equipment",
+    "icon": "armor/zephyrshroud_chaps.png"
+  },
+  {
+    "item_key": "zephyrshroud_hood",
+    "name": "Zephyrshroud Hood",
+    "sell_price": 25200,
+    "rarity": "legendary",
+    "category": "equipment",
+    "icon": "armor/zephyrshroud_hood.png"
+  }
+]
