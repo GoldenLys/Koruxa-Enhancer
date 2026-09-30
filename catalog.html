@@ -1,363 +1,434 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dracula">
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Koruxa Items List</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
-<style>
-  @font-face {
-    font-family: 'emoji';
-    src: url('https://goldenlys.github.io/Koruxa-Enhancer/assets/fonts/NotoColorEmoji.ttf') format('truetype');
-  }
-  :root {
-    --bg: #0a0b10;
-    --panel: #12141c;
-    --panel2: #181b26;
-    --line: #232736;
-    --text: #e8eaf2;
-    --text2: #9aa1b5;
-    --text3: #5d6478;
-    --gold: #f5c542;
-    --green: #22c55e;
-    --common: #9ca3af; --uncommon: #22c55e; --rare: #3b82f6;
-    --epic: #a855f7; --legendary: #f59e0b; --mythic: #ef4444;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    background: var(--bg); color: var(--text);
-    font-family: 'JetBrains Mono', monospace, 'emoji'; font-size: 13px;
-    min-height: 100vh;
-    background-image:
-      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(245,197,66,.07), transparent),
-      repeating-linear-gradient(0deg, transparent 0 3px, rgba(255,255,255,.012) 3px 4px);
-  }
-  header {
-    position: sticky; top: 0; z-index: 10;
-    background: rgba(10,11,16,.92); backdrop-filter: blur(8px);
-    border-bottom: 1px solid var(--line);
-    padding: 14px 20px;
-  }
-  .head-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; max-width: 1500px; margin: 0 auto; }
-  h1 {
-    font-family: 'Press Start 2P', monospace; font-size: 14px; letter-spacing: 1px;
-    color: var(--gold); text-shadow: 0 0 18px rgba(245,197,66,.35);
-    white-space: nowrap;
-  }
-  h1 small { display: block; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text3); margin-top: 6px; letter-spacing: 2px; text-shadow: none; }
-  button { font-family: 'JetBrains Mono', monospace, 'emoji'; }
-  .stats { display: flex; gap: 18px; margin-left: auto; font-size: 11px; color: var(--text2); }
-  .stats b { color: var(--gold); font-size: 14px; display: block; margin-bottom: 2px; }
-  .controls { display: flex; gap: 10px; align-items: center; max-width: 1500px; margin: 12px auto 0; flex-wrap: wrap; }
-  input[type=search], select {
-    background: var(--panel2); border: 1px solid var(--line); color: var(--text);
-    font-family: inherit; font-size: 12px; padding: 8px 12px; border-radius: 6px; outline: none;
-  }
-  input[type=search] { flex: 1; min-width: 180px; }
-  input[type=search]:focus, select:focus { border-color: var(--gold); box-shadow: 0 0 0 2px rgba(245,197,66,.15); }
-  .chip-row { display: flex; gap: 6px; flex-wrap: wrap; max-width: 1500px; margin-top: 10px; align-items: center; }
-  .chip-label { font-size: 9px; text-transform: uppercase; letter-spacing: 2px; color: var(--text3); margin-right: 4px; }
-  .chip {
-    background: var(--panel2); border: 1px solid var(--line); color: var(--text2);
-    font-family: inherit; font-size: 11px; padding: 5px 10px; border-radius: 999px;
-    cursor: pointer; transition: all .15s; user-select: none;
-  }
-  .chip:hover { border-color: var(--text2); color: var(--text); }
-  .chip.on { background: rgba(245,197,66,.12); border-color: var(--gold); color: var(--gold); font-weight: 600; }
-  .chip .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: 1px; }
-  .chip.cat { text-transform: capitalize; }
-  main { max-width: 1500px; margin: 24px auto; padding: 0 20px 60px; }
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(178px, 1fr)); gap: 12px; }
-  .card {
-    position: relative; background: var(--panel); border: 1px solid var(--line);
-    border-top: 3px solid var(--rc, var(--common)); border-radius: 10px;
-    padding: 14px 12px 12px; text-align: center;
-    transition: transform .15s, box-shadow .15s, border-color .15s;
-    animation: pop .3s backwards;
-  }
-  @keyframes pop { from { opacity: 0; transform: translateY(8px) scale(.97); } }
-  .card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,.5), 0 0 16px color-mix(in srgb, var(--rc) 30%, transparent); border-color: var(--rc); }
-  .card img { width: 56px; height: 56px; image-rendering: pixelated; margin-bottom: 8px; filter: drop-shadow(0 4px 8px rgba(0,0,0,.5)); }
-  .card .noicon { font-size: 34px; line-height: 56px; }
-  .card .name { font-weight: 700; font-size: 12px; line-height: 1.35; min-height: 32px; display: flex; align-items: center; justify-content: center; word-break: break-word; }
-  .card .rarity {
-    font-size: 9px; text-transform: uppercase; letter-spacing: 1.5px;
-    color: var(--rc); margin-top: 4px;
-  }
-  .card .price { margin-top: 8px; font-weight: 700; color: var(--gold); font-size: 13px; }
-  .card .price.none { color: var(--text3); font-weight: 400; font-size: 11px; }
-  .empty { text-align: center; padding: 80px 20px; color: var(--text3); font-size: 13px; grid-column: 1/-1; }
-  .empty .big { font-size: 40px; margin-bottom: 12px; }
-  footer { text-align: center; padding: 20px; color: var(--text3); font-size: 10px; letter-spacing: 1px; border-top: 1px solid var(--line); }
-  .icon-btn {
-    background: var(--panel2); border: 1px solid var(--line); color: var(--text2);
-    width: 34px; height: 34px; border-radius: 8px; font-size: 16px; cursor: pointer;
-    display: flex; align-items: center; justify-content: center; position: relative;
-    transition: all .15s;
-  }
-  .icon-btn:hover { border-color: var(--gold); color: var(--gold); transform: rotate(45deg); }
-  .icon-btn.active { border-color: var(--gold); color: var(--gold); background: rgba(245,197,66,.1); }
-  .icon-btn.active::after { content: ''; position: absolute; top: -3px; right: -3px; width: 8px; height: 8px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 6px var(--gold); }
-  .overlay {
-    position: fixed; inset: 0; z-index: 100; background: rgba(5,6,10,.7); backdrop-filter: blur(4px);
-    display: flex; align-items: center; justify-content: center; animation: fadein .15s;
-  }
-  @keyframes fadein { from { opacity: 0; } }
-  .overlay.hidden { display: none; }
-  .modal {
-    width: min(420px, calc(100vw - 32px)); background: var(--panel); border: 1px solid var(--line);
-    border-top: 3px solid var(--gold); border-radius: 12px; padding: 22px;
-    animation: pop .2s backwards; box-shadow: 0 24px 60px rgba(0,0,0,.6);
-  }
-  .modal h2 { font-family: 'Press Start 2P', monospace; font-size: 12px; color: var(--gold); margin-bottom: 8px; letter-spacing: 1px; }
-  .modal-sub { font-size: 11px; color: var(--text3); line-height: 1.6; margin-bottom: 18px; }
-  .modal label { display: block; font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text2); margin-bottom: 14px; }
-  .modal input[type=number] {
-    width: 100%; margin-top: 6px; background: var(--panel2); border: 1px solid var(--line);
-    color: var(--text); font-family: inherit; font-size: 14px; font-weight: 700; padding: 9px 12px; border-radius: 6px; outline: none;
-  }
-  .modal input[type=number]:focus { border-color: var(--gold); box-shadow: 0 0 0 2px rgba(245,197,66,.15); }
-  .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 6px; }
-  .modal-actions button {
-    font-family: inherit; font-size: 11px; font-weight: 700; padding: 8px 16px; border-radius: 6px;
-    cursor: pointer; background: var(--panel2); color: var(--text2); border: 1px solid var(--line); transition: all .15s;
-  }
-  .modal-actions button:hover { border-color: var(--text2); color: var(--text); }
-  .modal-actions .primary { background: rgba(245,197,66,.12); border-color: var(--gold); color: var(--gold); }
-  .modal-actions .primary:hover { background: rgba(245,197,66,.22); }
-  .price-alch { font-size: 9px; color: #c084fc; margin-top: 2px; font-weight: 600; }
-  .price-cph { font-size: 9px; color: var(--green); margin-top: 2px; font-weight: 600; }
-</style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Koruxa Items List</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@latest/dist/full.min.css" rel="stylesheet" type="text/css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        @font-face {
+            font-family: 'emoji';
+            src: url('https://goldenlys.github.io/Koruxa-Enhancer/assets/fonts/NotoColorEmoji.ttf') format('truetype');
+        }
+
+        body {
+            font-family: 'JetBrains Mono', monospace, 'emoji';
+        }
+
+        .font-pixel {
+            font-family: 'Press Start 2P', monospace;
+        }
+
+        @keyframes pop {
+            from {
+                opacity: 0;
+                transform: translateY(8px) scale(.97);
+            }
+        }
+
+        .card-pop {
+            animation: pop .3s backwards;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .scroll-arrow {
+            flex-shrink: 0;
+            width: 22px;
+            height: 22px;
+            border-radius: 9999px;
+            background-color: var(--fallback-b2, oklch(var(--b2) / 0.95));
+            border: 1px solid var(--fallback-bc, oklch(var(--bc) / 0.2));
+            color: var(--fallback-bc, oklch(var(--bc)));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            line-height: 1;
+            cursor: pointer;
+            transition: opacity 0.2s, background-color 0.15s;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+        }
+
+        .scroll-arrow:hover {
+            background-color: var(--fallback-b1, oklch(var(--b1)));
+            border-color: var(--fallback-wa, oklch(var(--wa)));
+            color: var(--fallback-wa, oklch(var(--wa)));
+        }
+
+        .scroll-arrow:disabled {
+            opacity: 0 !important;
+            pointer-events: none;
+        }
+
+        #cat-chips>button,
+        #rar-chips>button {
+            text-transform: capitalize;
+        }
+
+        @media (min-width: 640px) {
+            .scroll-arrow {
+                display: none !important;
+            }
+        }
+    </style>
 </head>
-<body>
-<header>
-  <div class="head-row">
-    <h1>KORUXA ITEMS LIST<small>SELL PRICES &amp; RARITIES</small></h1>
-    <div class="stats">
-      <div><b id="st-shown">0</b>shown</div>
-      <div><b id="st-total">0</b>items</div>
-    </div>
-  </div>
-  <div class="controls">
-    <input type="search" id="q" placeholder="Search items… (name or key)">
-    <select id="sort">
-      <option value="name-asc">Name A→Z</option>
-      <option value="price-desc" selected>Price high→low</option>
-      <option value="price-asc">Price low→high</option>
-      <option value="rarity-desc">Rarity high→low</option>
-      <option value="rarity-asc">Rarity low→high</option>
-      <option value="category-asc">Category A→Z</option>
-    </select>
-    <button id="alch-btn" class="icon-btn" title="Alchemy conversion — click to set bonuses">&#9879;</button>
-  </div>
-  <div class="chip-row" id="sealed-chips"><span class="chip-label">Sealed</span>
-    <button id="sealed-star" class="chip" title="Sealed gear — star (⭐) variants: off by default, click to show">&#11088;</button>
-    <button id="sealed-moon" class="chip" title="Sealed gear — lunar (🌙) variants: off by default, click to show">&#127769;</button>
-    <button id="sealed-sun" class="chip" title="Sealed gear — solar (☀️) variants: off by default, click to show">&#9728;&#65039;</button>
-  </div>
-  <div class="chip-row" id="cat-chips"><span class="chip-label">categories</span></div>
-  <div class="chip-row" id="rar-chips"><span class="chip-label">rarity</span></div>
-</header>
-<div id="alch-overlay" class="overlay hidden">
-  <div class="modal">
-    <h2>ALCHEMY PRICE BONUSES</h2>
-    <p class="modal-sub">Level bonus = the "+X% level bonus" shown in the Alchemy UI · Golden Touch = Research Institute perk.</p>
-    <label>Alchemy level bonus (%)
-      <input type="number" id="alch-level" min="0" step="0.1" placeholder="e.g. 35">
-    </label>
-    <label>Golden Touch — Research Institute (%)
-      <input type="number" id="alch-touch" min="0" step="0.1" placeholder="e.g. 3.3">
-    </label>
-    <div class="modal-actions">
-      <button id="alch-reset">Reset</button>
-      <button id="alch-save" class="primary">Save</button>
-    </div>
-  </div>
-</div>
-<main><div class="grid" id="grid"></div></main>
-<footer>KORUXA ITEMS LIST · by Nebulys</footer>
-<script>
-let ITEMS = []; // loaded from all_items.json
-const RARITY_ORDER = { common: 0, uncommon: 1, rare: 2, epic: 3, legendary: 4, mythic: 5 };
-const RARITY_COLORS = { common: '#9ca3af', uncommon: '#22c55e', rare: '#3b82f6', epic: '#a855f7', legendary: '#f59e0b', mythic: '#ef4444' };
-// wiki-sourced icons are category-prefixed paths (e.g. bars/gold_bar.png);
-// bare filenames from game dumps fall back to the shared placeholder
-const ICON_BASE = 'https://koruxa.com/assets/img/';
 
-// Sealed gear: names carrying a ☀ / ⭐ / 🌙 marker (e.g. "Abyssweave Hat ☀️", "Drakonite Saw ⭐ +8")
-const SEALED = { star: '⭐', moon: '🌙', sun: '☀' };
-function sealedHidden(it) {
-  const n = it.name || '';
-  for (const k in SEALED) if (!sealedOn[k] && n.includes(SEALED[k])) return true;
-  return false;
-}
+<body class="bg-base-300 text-base-content min-h-screen">
 
-// Alchemy conversion — same math as the engine (game.js transmute modal):
-// gold_output already includes the level bonus; Golden Touch is multiplied on top, ceil'd.
-let ALCH = { level: 0, touch: 0 };
-try { const _s = JSON.parse(localStorage.getItem('kx_vault_alch') || 'null'); if (_s && typeof _s === 'object') ALCH = { level: +_s.level || 0, touch: +_s.touch || 0 }; } catch (e) {}
-function alchActive() { return ALCH.level > 0 || ALCH.touch > 0; }
-function alchPrice(base) {
-  if (!base || !alchActive()) return base;
-  return Math.ceil(base * (1 + ALCH.level / 100) * (1 + ALCH.touch / 100));
-}
+    <header class="sticky top-0 z-10 bg-base-100/95 backdrop-blur border-b border-base-200 px-3 sm:px-5 py-3 shadow-md">
+        <div class="max-w-[1500px] mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-4">
+            <div>
+                <h1 class="font-pixel text-secondary text-xs sm:text-sm tracking-widest drop-shadow">
+                    KORUXA ITEMS LIST
+                    <small class="block font-sans text-[9px] sm:text-[10px] text-base-content/60 tracking-widest mt-1">SELL PRICES &amp; RARITIES</small>
+                </h1>
+            </div>
+            <div class="flex gap-4 text-xs text-base-content/70">
+                <div><b id="st-shown" class="text-secondary text-sm sm:text-base inline sm:block mr-1">0</b>shown</div>
+                <div><b id="st-total" class="text-secondary text-sm sm:text-base inline sm:block mr-1">0</b>items</div>
+            </div>
+        </div>
 
-// categories enabled on load — every other chip is still built, just starts off
-const DEFAULT_CATS = ['bars', 'ore', 'gem'];
-// these categories are hidden entirely (no chip, items never shown)
-const HIDDEN_CATS = ['event', 'premium token'];
-const state = { q: '', sort: 'price-desc', cats: new Set(), rars: new Set() };
-// Sealed gear (☀️ ⭐ 🌙) hidden by default; each variant has its own toggle, choice persisted
-let sealedOn = { sun: false, star: false, moon: false };
-try { Object.assign(sealedOn, JSON.parse(localStorage.getItem('kx_vault_sealed') || '{}')); } catch (e) {}
+        <div class="max-w-[1500px] mx-auto flex items-center gap-2 mt-3">
+            <input type="search" id="q" placeholder="Search items…" class="input input-sm input-bordered flex-1 text-xs" />
 
-function fmt(n) { return n == null ? '' : Number(n).toLocaleString('en-US'); }
+            <select id="sort" class="select select-sm select-bordered text-xs max-w-[130px] sm:max-w-none">
+                <option value="name-asc">Name A→Z</option>
+                <option value="price-desc" selected>Price high→low</option>
+                <option value="price-asc">Price low→high</option>
+                <option value="rarity-desc">Rarity high→low</option>
+                <option value="rarity-asc">Rarity low→high</option>
+                <option value="category-asc">Category A→Z</option>
+            </select>
 
-function buildChips(el, keys, set, colorOf, labelOf, extraClass) {
-  keys.forEach(k => {
-    const c = document.createElement('button');
-    c.className = (set.has(k) ? 'chip on' : 'chip') + (extraClass ? ' ' + extraClass : '');
-    const label = labelOf ? labelOf(k) : k;
-    if (colorOf) c.innerHTML = '<span class="dot" style="background:' + colorOf(k) + '"></span>' + label;
-    else c.textContent = label;
-    c.onclick = () => {
-      if (set.has(k)) { set.delete(k); c.classList.remove('on'); }
-      else { set.add(k); c.classList.add('on'); }
-      render();
-    };
-    el.appendChild(c);
-  });
-}
-document.getElementById('q').oninput = e => { state.q = e.target.value.toLowerCase(); render(); };
-document.getElementById('sort').onchange = e => { state.sort = e.target.value; render(); };
+            <button id="alch-btn" class="btn btn-sm btn-square btn-outline btn-secondary shrink-0" title="Alchemy conversion">
+                &#9879;
+            </button>
+        </div>
 
-function visible() {
-  let out = ITEMS.filter(it => {
-    const cat = it.category || 'uncategorized';
-    const rar = it.rarity || 'common';
-    if (HIDDEN_CATS.includes(cat)) return false; // event / premium token are never shown
-    if (!state.cats.has(cat) || !state.rars.has(rar)) return false;
-    if (sealedHidden(it)) return false;
-    if (state.q) {
-      const terms = state.q.split(' ');
-      const searchTarget = (it.name + ' ' + (it.item_key || '')).toLowerCase();
-      if (!terms.every(t => searchTarget.includes(t))) return false;
-    }
-    return true;
-  });
-  const [field, dir] = state.sort.split('-');
-  const mul = dir === 'asc' ? 1 : -1;
-  out.sort((a, b) => {
-    if (field === 'name') return a.name.localeCompare(b.name) * mul;
-    if (field === 'category') return (a.category || '').localeCompare(b.category || '') * mul || a.name.localeCompare(b.name);
-    if (field === 'price') return ((alchPrice(a.sell_price) || 0) - (alchPrice(b.sell_price) || 0)) * mul;
-    if (field === 'rarity') return ((RARITY_ORDER[a.rarity] ?? 0) - (RARITY_ORDER[b.rarity] ?? 0)) * mul || a.name.localeCompare(b.name);
-    return 0;
-  });
-  return out;
-}
+        <div class="max-w-[1500px] mx-auto space-y-1.5 mt-3">
 
-function render() {
-  const grid = document.getElementById('grid');
-  const items = visible();
-  grid.innerHTML = '';
-  if (items.length === 0) {
-    grid.innerHTML = '<div class="empty"><div class="big">&#129528;</div>No items match — try clearing a filter.</div>';
-  }
-  items.forEach((it, i) => {
-    const rar = it.rarity || 'common';
-    const card = document.createElement('div');
-    card.className = 'card';
-    card.style.setProperty('--rc', RARITY_COLORS[rar] || RARITY_COLORS.common);
-    card.style.animationDelay = Math.min(i * 12, 400) + 'ms';
-    const icon = it.icon
-      ? '<img src="' + ICON_BASE + it.icon.replace(/"/g, '') + '" alt="" loading="lazy" onerror="this.outerHTML=\'<div class=noicon>&#129528;</div>\'">'
-      : '<div class="noicon">&#129528;</div>';
-    let price;
-    if (it.sell_price) {
-      const conv = alchPrice(it.sell_price);
-      const showAlch = alchActive() && conv !== it.sell_price;
-      price = '<div class="price">&#129689; ' + fmt(it.sell_price) + '</div>'
-        + (showAlch ? '<div class="price-alch">&#10024;&#129689; ' + fmt(conv) + '</div>' : '');
-      if (showAlch) {
-        const cph = Math.round(conv * 3600 / 5.2); // 5.2s per transmute, all items
-        price += '<div class="price-cph">&#128337; ' + fmt(cph) + '/h</div>';
-      }
-    } else {
-      price = '<div class="price none">— no value —</div>';
-    }
-    card.innerHTML = icon
-      + '<div class="name">' + it.name.replace(/</g, '&lt;') + '</div>'
-      + '<div class="rarity">' + rar + '</div>' + price;
-    grid.appendChild(card);
-  });
-  document.getElementById('st-shown').textContent = fmt(items.length);
-  document.getElementById('st-total').textContent = fmt(ITEMS.length);
-}
+            <div class="flex items-start sm:items-center gap-1.5">
+                <span class="text-[9px] uppercase tracking-widest text-base-content/50 shrink-0 w-16 pt-1 sm:pt-0">Sealed</span>
+                <div class="flex-1 min-w-0 flex items-center gap-1">
+                    <button onclick="scrollRow(this, -1)" class="scroll-arrow left-btn">&#8249;</button>
+                    <div class="scroll-row flex items-center gap-2 overflow-x-auto sm:overflow-visible sm:flex-wrap no-scrollbar py-0.5 scroll-smooth flex-1" id="sealed-chips">
+                        <button id="sealed-star" class="btn btn-xs btn-outline rounded-full shrink-0">&#11088;</button>
+                        <button id="sealed-moon" class="btn btn-xs btn-outline rounded-full shrink-0">&#127769;</button>
+                        <button id="sealed-sun" class="btn btn-xs btn-outline rounded-full shrink-0">&#9728;&#65039;</button>
+                    </div>
+                    <button onclick="scrollRow(this, 1)" class="scroll-arrow right-btn">&#8250;</button>
+                </div>
+            </div>
 
-// Alchemy modal wiring
-const alchOverlay = document.getElementById('alch-overlay');
-const alchBtn = document.getElementById('alch-btn');
-function alchBtnState() {
-  const on = alchActive();
-  alchBtn.classList.toggle('active', on);
-  alchBtn.title = on
-    ? 'Alchemy conversion active: +' + ((((1 + ALCH.level / 100) * (1 + ALCH.touch / 100)) - 1) * 100).toFixed(1) + '% total'
-    : 'Alchemy conversion — click to set bonuses';
-}
-alchBtn.onclick = () => {
-  document.getElementById('alch-level').value = ALCH.level || '';
-  document.getElementById('alch-touch').value = ALCH.touch || '';
-  alchOverlay.classList.remove('hidden');
-};
-alchOverlay.onclick = e => { if (e.target === alchOverlay) alchOverlay.classList.add('hidden'); };
-document.addEventListener('keydown', e => { if (e.key === 'Escape') alchOverlay.classList.add('hidden'); });
-document.getElementById('alch-save').onclick = () => {
-  ALCH.level = Math.max(0, parseFloat(document.getElementById('alch-level').value) || 0);
-  ALCH.touch = Math.max(0, parseFloat(document.getElementById('alch-touch').value) || 0);
-  try { localStorage.setItem('kx_vault_alch', JSON.stringify(ALCH)); } catch (e) {}
-  alchBtnState(); alchOverlay.classList.add('hidden'); render();
-};
-document.getElementById('alch-reset').onclick = () => {
-  ALCH = { level: 0, touch: 0 };
-  try { localStorage.removeItem('kx_vault_alch'); } catch (e) {}
-  alchBtnState(); alchOverlay.classList.add('hidden'); render();
-};
-// Sealed gear toggles — one per variant, persisted so the choice survives reloads
-function saveSealed() { try { localStorage.setItem('kx_vault_sealed', JSON.stringify(sealedOn)); } catch (e) {} }
-Object.keys(SEALED).forEach(k => {
-  const b = document.getElementById('sealed-' + k);
-  b.onclick = () => { sealedOn[k] = !sealedOn[k]; b.classList.toggle('on', sealedOn[k]); saveSealed(); render(); };
-});
-function sealedBtnsState() { Object.keys(SEALED).forEach(k => document.getElementById('sealed-' + k).classList.toggle('on', !!sealedOn[k])); }
-function boot(loaded) {
-  ITEMS = loaded;
-  const allCats = new Set();
-  const catCounts = {};
-  ITEMS.forEach(it => {
-    const c = it.category || 'uncategorized';
-    if (HIDDEN_CATS.includes(c)) return; // no chip for hidden categories
-    allCats.add(c);
-    catCounts[c] = (catCounts[c] || 0) + 1;
-  });
-  state.cats = new Set([...allCats].filter(c => DEFAULT_CATS.includes(c)));
-  Object.keys(RARITY_ORDER).forEach(r => state.rars.add(r));
-  buildChips(document.getElementById('cat-chips'), [...allCats].sort(), state.cats, null, k => k + ' (' + (catCounts[k] || 0) + ')', 'cat'); // ALL categories as chips; only DEFAULT_CATS start on
-  buildChips(document.getElementById('rar-chips'), Object.keys(RARITY_ORDER), state.rars, k => RARITY_COLORS[k]);
-  sealedBtnsState();
-  alchBtnState();
-  render();
-}
+            <div class="flex items-start sm:items-center gap-1.5">
+                <span class="text-[9px] uppercase tracking-widest text-base-content/50 shrink-0 w-16 pt-1 sm:pt-0">Category</span>
+                <div class="flex-1 min-w-0 flex items-center gap-1">
+                    <button onclick="scrollRow(this, -1)" class="scroll-arrow left-btn">&#8249;</button>
+                    <div class="scroll-row flex items-center gap-2 overflow-x-auto sm:overflow-visible sm:flex-wrap no-scrollbar py-0.5 scroll-smooth flex-1" id="cat-chips"></div>
+                    <button onclick="scrollRow(this, 1)" class="scroll-arrow right-btn">&#8250;</button>
+                </div>
+            </div>
 
-fetch('all_items.json')
-  .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
-  .then(boot)
-  .catch(err => {
-    document.getElementById('grid').innerHTML =
-      '<div class="empty"><div class="big">&#128274;</div>Could not load all_items.json (' + err.message + ').<br><br>' +
-      'Browsers block a double-clicked page from reading local files — run <b style="color:var(--gold)">open.bat</b> instead, which serves this folder locally and opens the catalog.</div>';
-  });
-</script>
+            <div class="flex items-start sm:items-center gap-1.5">
+                <span class="text-[9px] uppercase tracking-widest text-base-content/50 shrink-0 w-16 pt-1 sm:pt-0">Rarity</span>
+                <div class="flex-1 min-w-0 flex items-center gap-1">
+                    <button onclick="scrollRow(this, -1)" class="scroll-arrow left-btn">&#8249;</button>
+                    <div class="scroll-row flex items-center gap-2 overflow-x-auto sm:overflow-visible sm:flex-wrap no-scrollbar py-0.5 scroll-smooth flex-1" id="rar-chips"></div>
+                    <button onclick="scrollRow(this, 1)" class="scroll-arrow right-btn">&#8250;</button>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    <dialog id="alch-modal" class="modal modal-bottom sm:modal-middle">
+        <div class="modal-box border border-warning/30 bg-base-200 p-5">
+            <h3 class="font-pixel text-secondary text-xs mb-2">ALCHEMY PRICE BONUSES</h3>
+            <p class="text-xs text-base-content/70 mb-4">
+                Level bonus = "+X% level bonus" · Golden Touch = Research Institute perk.
+            </p>
+
+            <div class="form-control w-full mb-3">
+                <label class="label p-1"><span class="label-text text-xs uppercase tracking-wider">Alchemy level bonus (%)</span></label>
+                <input type="number" id="alch-level" min="0" step="0.1" placeholder="e.g. 35" class="input input-sm input-bordered w-full" />
+            </div>
+
+            <div class="form-control w-full mb-4">
+                <label class="label p-1"><span class="label-text text-xs uppercase tracking-wider">Golden Touch (%)</span></label>
+                <input type="number" id="alch-touch" min="0" step="0.1" placeholder="e.g. 3.3" class="input input-sm input-bordered w-full" />
+            </div>
+
+            <div class="modal-action">
+                <button id="alch-reset" class="btn btn-sm btn-ghost">Reset</button>
+                <button id="alch-save" class="btn btn-sm btn-secondary">Save</button>
+            </div>
+        </div>
+        <form method="dialog" class="modal-backdrop">
+            <button>close</button>
+        </form>
+    </dialog>
+
+    <main class="max-w-[1500px] mx-auto p-3 sm:p-5 pb-16">
+        <div class="grid grid-cols-[repeat(auto-fill,minmax(140px,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(178px,1fr))] gap-2 sm:gap-3" id="grid"></div>
+    </main>
+
+    <footer class="footer footer-center p-4 bg-base-100 text-base-content/60 text-[10px] border-t border-base-200">
+        <aside>
+            <p>KORUXA ITEMS LIST · by Nebulys</p>
+        </aside>
+    </footer>
+
+    <script>
+        let ITEMS = [];
+        const RARITY_ORDER = { common: 0, uncommon: 1, rare: 2, epic: 3, legendary: 4, mythic: 5 };
+        const RARITY_COLORS = { common: '#9ca3af', uncommon: '#50fa7b', rare: '#8be9fd', epic: '#bd93f9', legendary: '#ffb86c', mythic: '#ff5555' };
+        const ICON_BASE = 'https://koruxa.com/assets/img/';
+
+        const SEALED = { star: '⭐', moon: '🌙', sun: '☀' };
+        function sealedHidden(it) {
+            const n = it.name || '';
+            for (const k in SEALED) if (!sealedOn[k] && n.includes(SEALED[k])) return true;
+            return false;
+        }
+
+        let ALCH = { level: 0, touch: 0 };
+        try { const _s = JSON.parse(localStorage.getItem('kx_vault_alch') || 'null'); if (_s && typeof _s === 'object') ALCH = { level: +_s.level || 0, touch: +_s.touch || 0 }; } catch (e) { }
+        function alchActive() { return ALCH.level > 0 || ALCH.touch > 0; }
+        function alchPrice(base) {
+            if (!base || !alchActive()) return base;
+            return Math.ceil(base * (1 + ALCH.level / 100) * (1 + ALCH.touch / 100));
+        }
+
+        const DEFAULT_CATS = ['bars', 'ore', 'gem'];
+        const HIDDEN_CATS = ['event', 'premium token'];
+        const state = { q: '', sort: 'price-desc', cats: new Set(), rars: new Set() };
+        let sealedOn = { sun: false, star: false, moon: false };
+        try { Object.assign(sealedOn, JSON.parse(localStorage.getItem('kx_vault_sealed') || '{}')); } catch (e) { }
+
+        function fmt(n) { return n == null ? '' : Number(n).toLocaleString('en-US'); }
+
+        function buildChips(el, keys, set, colorOf, labelOf) {
+            keys.forEach(k => {
+                const c = document.createElement('button');
+                const updateStyle = () => {
+                    c.className = set.has(k)
+                        ? 'btn btn-xs rounded-full btn-secondary shrink-0'
+                        : 'btn btn-xs rounded-full btn-outline border-base-content/20 shrink-0';
+                };
+                updateStyle();
+
+                const label = labelOf ? labelOf(k) : k;
+                if (colorOf) {
+                    c.innerHTML = `<span class="w-1.5 h-1.5 rounded-full inline-block mr-1" style="background:${colorOf(k)}"></span>${label}`;
+                } else {
+                    c.textContent = label;
+                }
+
+                c.onclick = () => {
+                    if (set.has(k)) set.delete(k);
+                    else set.add(k);
+                    updateStyle();
+                    render();
+                };
+                el.appendChild(c);
+            });
+        }
+
+        document.getElementById('q').oninput = e => { state.q = e.target.value.toLowerCase(); render(); };
+        document.getElementById('sort').onchange = e => { state.sort = e.target.value; render(); };
+
+        function visible() {
+            let out = ITEMS.filter(it => {
+                const cat = it.category || 'uncategorized';
+                const rar = it.rarity || 'common';
+                if (HIDDEN_CATS.includes(cat)) return false;
+                if (!state.cats.has(cat) || !state.rars.has(rar)) return false;
+                if (sealedHidden(it)) return false;
+                if (state.q) {
+                    const terms = state.q.split(' ');
+                    const searchTarget = (it.name + ' ' + (it.item_key || '')).toLowerCase();
+                    if (!terms.every(t => searchTarget.includes(t))) return false;
+                }
+                return true;
+            });
+            const [field, dir] = state.sort.split('-');
+            const mul = dir === 'asc' ? 1 : -1;
+            out.sort((a, b) => {
+                if (field === 'name') return a.name.localeCompare(b.name) * mul;
+                if (field === 'category') return (a.category || '').localeCompare(b.category || '') * mul || a.name.localeCompare(b.name);
+                if (field === 'price') return ((alchPrice(a.sell_price) || 0) - (alchPrice(b.sell_price) || 0)) * mul;
+                if (field === 'rarity') return ((RARITY_ORDER[a.rarity] ?? 0) - (RARITY_ORDER[b.rarity] ?? 0)) * mul || a.name.localeCompare(b.name);
+                return 0;
+            });
+            return out;
+        }
+
+        function render() {
+            const grid = document.getElementById('grid');
+            const items = visible();
+            grid.innerHTML = '';
+            if (items.length === 0) {
+                grid.innerHTML = '<div class="col-span-full text-center py-16 text-base-content/50"><div class="text-3xl mb-2">&#129528;</div>No items match — try clearing a filter.</div>';
+            }
+            items.forEach((it, i) => {
+                const rar = it.rarity || 'common';
+                const card = document.createElement('div');
+                const color = RARITY_COLORS[rar] || RARITY_COLORS.common;
+                card.className = 'card card-compact bg-base-100 border border-base-200 card-pop p-2.5 sm:p-3 text-center transition-all hover:-translate-y-1 hover:shadow-lg';
+                card.style.borderTop = `3px solid ${color}`;
+                card.style.animationDelay = Math.min(i * 12, 400) + 'ms';
+
+                const icon = it.icon
+                    ? `<img src="${ICON_BASE}${it.icon.replace(/"/g, '')}" alt="" loading="lazy" class="w-12 h-12 sm:w-14 sm:h-14 mx-auto mb-1.5 image-pixelated filter drop-shadow" onerror="this.outerHTML='<div class=\'text-2xl sm:text-3xl leading-[48px]\'>&#129528;</div>'">`
+                    : '<div class="text-2xl sm:text-3xl leading-[48px]">&#129528;</div>';
+
+                let price;
+                if (it.sell_price) {
+                    const conv = alchPrice(it.sell_price);
+                    const showAlch = alchActive() && conv !== it.sell_price;
+                    price = `<div class="font-bold text-accent text-xs sm:text-sm mt-1.5">&#129689; ${fmt(it.sell_price)}</div>`
+                        + (showAlch ? `<div class="text-[9px] sm:text-[10px] text-secondary font-semibold mt-0.5">&#10024;&#129689; ${fmt(conv)}</div>` : '');
+                    if (showAlch) {
+                        const cph = Math.round(conv * 3600 / 5.2);
+                        price += `<div class="text-[9px] sm:text-[10px] text-success font-semibold mt-0.5">&#128337; ${fmt(cph)}/h</div>`;
+                    }
+                } else {
+                    price = '<div class="text-[10px] sm:text-xs text-base-content/40 mt-1.5">— no value —</div>';
+                }
+
+                card.innerHTML = icon
+                    + `<div class="font-bold text-[11px] sm:text-xs leading-tight min-h-[28px] sm:min-h-[32px] flex items-center justify-center break-words">${it.name.replace(/</g, '&lt;')}</div>`
+                    + `<div class="text-[8px] sm:text-[9px] uppercase tracking-widest mt-1 font-semibold" style="color:${color}">${rar}</div>` + price;
+                grid.appendChild(card);
+            });
+            document.getElementById('st-shown').textContent = fmt(items.length);
+            document.getElementById('st-total').textContent = fmt(ITEMS.length);
+        }
+
+        const modal = document.getElementById('alch-modal');
+        const alchBtn = document.getElementById('alch-btn');
+
+        function alchBtnState() {
+            const on = alchActive();
+            alchBtn.classList.toggle('btn-active', on);
+        }
+
+        alchBtn.onclick = () => {
+            document.getElementById('alch-level').value = ALCH.level || '';
+            document.getElementById('alch-touch').value = ALCH.touch || '';
+            modal.showModal();
+        };
+
+        document.getElementById('alch-save').onclick = () => {
+            ALCH.level = Math.max(0, parseFloat(document.getElementById('alch-level').value) || 0);
+            ALCH.touch = Math.max(0, parseFloat(document.getElementById('alch-touch').value) || 0);
+            try { localStorage.setItem('kx_vault_alch', JSON.stringify(ALCH)); } catch (e) { }
+            alchBtnState(); modal.close(); render();
+        };
+
+        document.getElementById('alch-reset').onclick = () => {
+            ALCH = { level: 0, touch: 0 };
+            try { localStorage.removeItem('kx_vault_alch'); } catch (e) { }
+            alchBtnState(); modal.close(); render();
+        };
+
+        function saveSealed() { try { localStorage.setItem('kx_vault_sealed', JSON.stringify(sealedOn)); } catch (e) { } }
+        Object.keys(SEALED).forEach(k => {
+            const b = document.getElementById('sealed-' + k);
+            b.onclick = () => {
+                sealedOn[k] = !sealedOn[k];
+                b.className = sealedOn[k] ? 'btn btn-xs rounded-full btn-secondary shrink-0' : 'btn btn-xs rounded-full btn-outline border-base-content/20 shrink-0';
+                saveSealed(); render();
+            };
+        });
+
+        function sealedBtnsState() {
+            Object.keys(SEALED).forEach(k => {
+                const b = document.getElementById('sealed-' + k);
+                b.className = sealedOn[k] ? 'btn btn-xs rounded-full btn-secondary shrink-0' : 'btn btn-xs rounded-full btn-outline border-base-content/20 shrink-0';
+            });
+        }
+
+        function boot(loaded) {
+            ITEMS = loaded;
+            const allCats = new Set();
+            const catCounts = {};
+            ITEMS.forEach(it => {
+                const c = it.category || 'uncategorized';
+                if (HIDDEN_CATS.includes(c)) return;
+                allCats.add(c);
+                catCounts[c] = (catCounts[c] || 0) + 1;
+            });
+            state.cats = new Set([...allCats].filter(c => DEFAULT_CATS.includes(c)));
+            Object.keys(RARITY_ORDER).forEach(r => state.rars.add(r));
+            buildChips(document.getElementById('cat-chips'), [...allCats].sort(), state.cats, null, k => k + ' (' + (catCounts[k] || 0) + ')');
+            buildChips(document.getElementById('rar-chips'), Object.keys(RARITY_ORDER), state.rars, k => RARITY_COLORS[k]);
+            sealedBtnsState();
+            alchBtnState();
+            render();
+        }
+
+        fetch('all_items.json')
+            .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+            .then(boot)
+            .catch(err => {
+                document.getElementById('grid').innerHTML =
+                    '<div class="col-span-full text-center py-16 text-base-content/50"><div class="text-3xl mb-2">&#128274;</div>Could not load all_items.json (' + err.message + ').<br><br>' +
+                    'Browsers block a double-clicked page from reading local files — run <b class="text-secondary">open.bat</b> instead.</div>';
+            });
+
+        function scrollRow(btn, direction) {
+            const container = btn.parentElement.querySelector('.scroll-row');
+            if (container) {
+                container.scrollBy({ left: direction * 180, behavior: 'smooth' });
+            }
+        }
+
+        function updateScrollArrows() {
+            document.querySelectorAll('.scroll-row').forEach(row => {
+                const parent = row.parentElement;
+                const leftBtn = parent.querySelector('.scroll-arrow.left-btn');
+                const rightBtn = parent.querySelector('.scroll-arrow.right-btn');
+
+                if (!leftBtn || !rightBtn) return;
+
+                const canScrollLeft = row.scrollLeft > 2;
+                const canScrollRight = row.scrollLeft < (row.scrollWidth - row.clientWidth - 2);
+
+                leftBtn.disabled = !canScrollLeft;
+                rightBtn.disabled = !canScrollRight;
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.scroll-row').forEach(row => {
+                row.addEventListener('scroll', updateScrollArrows);
+            });
+            window.addEventListener('resize', updateScrollArrows);
+        });
+
+        const originalBoot = boot;
+        boot = function (loaded) {
+            originalBoot(loaded);
+            setTimeout(updateScrollArrows, 50);
+        };
+    </script>
 </body>
+
 </html>
