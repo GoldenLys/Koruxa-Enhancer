@@ -127,6 +127,7 @@
   .modal-actions .primary { background: rgba(245,197,66,.12); border-color: var(--gold); color: var(--gold); }
   .modal-actions .primary:hover { background: rgba(245,197,66,.22); }
   .price-alch { font-size: 9px; color: #c084fc; margin-top: 2px; font-weight: 600; }
+  .price-cph { font-size: 9px; color: var(--green); margin-top: 2px; font-weight: 600; }
 </style>
 </head>
 <body>
@@ -276,8 +277,13 @@ function render() {
     let price;
     if (it.sell_price) {
       const conv = alchPrice(it.sell_price);
+      const showAlch = alchActive() && conv !== it.sell_price;
       price = '<div class="price">&#129689; ' + fmt(it.sell_price) + '</div>'
-        + (alchActive() && conv !== it.sell_price ? '<div class="price-alch">&#10024;&#129689; ' + fmt(conv) + '</div>' : '');
+        + (showAlch ? '<div class="price-alch">&#10024;&#129689; ' + fmt(conv) + '</div>' : '');
+      if (showAlch) {
+        const cph = Math.round(conv * 3600 / 5.2); // 5.2s per transmute, all items
+        price += '<div class="price-cph">&#128337; ' + fmt(cph) + '/h</div>';
+      }
     } else {
       price = '<div class="price none">— no value —</div>';
     }
