@@ -948,7 +948,7 @@
     "name": "Ashes",
     "sell_price": 2,
     "rarity": null,
-    "category": "material",
+    "category": "ashes",
     "icon": "items/ashes.png"
   },
   {
@@ -956,7 +956,7 @@
     "name": "Ashfruit",
     "sell_price": 13500,
     "rarity": "mythic",
-    "category": "fruit",
+    "category": "farming - fruit",
     "icon": "farming/ashfruit.png"
   },
   {
@@ -972,7 +972,7 @@
     "name": "Ashling Fruit",
     "sell_price": 75,
     "rarity": null,
-    "category": "fruit",
+    "category": "farming - fruit",
     "icon": "farming/ashling_fruit.png"
   },
   {
@@ -1832,41 +1832,9 @@
     "icon": "tools/auorite_saw.png"
   },
   {
-    "item_key": "auorite_saw_e6",
-    "name": "Auorite Saw +6",
-    "sell_price": 9500,
-    "rarity": "epic",
-    "category": "tools",
-    "icon": "tools/auorite_saw.png"
-  },
-  {
-    "item_key": "auorite_saw_e7",
-    "name": "Auorite Saw +7",
-    "sell_price": 10250,
-    "rarity": "epic",
-    "category": "tools",
-    "icon": "tools/auorite_saw.png"
-  },
-  {
     "item_key": "auorite_saw_moon",
     "name": "Auorite Saw 🌙",
     "sell_price": 10000,
-    "rarity": "epic",
-    "category": "tools",
-    "icon": "tools/auorite_saw.png"
-  },
-  {
-    "item_key": "auorite_saw_moon_e6",
-    "name": "Auorite Saw 🌙 +6",
-    "sell_price": 19000,
-    "rarity": "epic",
-    "category": "tools",
-    "icon": "tools/auorite_saw.png"
-  },
-  {
-    "item_key": "auorite_saw_moon_e7",
-    "name": "Auorite Saw 🌙 +7",
-    "sell_price": 20500,
     "rarity": "epic",
     "category": "tools",
     "icon": "tools/auorite_saw.png"
@@ -1880,41 +1848,9 @@
     "icon": "tools/auorite_saw.png"
   },
   {
-    "item_key": "auorite_saw_star_e6",
-    "name": "Auorite Saw ⭐ +6",
-    "sell_price": 14250,
-    "rarity": "epic",
-    "category": "tools",
-    "icon": "tools/auorite_saw.png"
-  },
-  {
-    "item_key": "auorite_saw_star_e7",
-    "name": "Auorite Saw ⭐ +7",
-    "sell_price": 15375,
-    "rarity": "epic",
-    "category": "tools",
-    "icon": "tools/auorite_saw.png"
-  },
-  {
     "item_key": "auorite_saw_sun",
     "name": "Auorite Saw ☀️",
     "sell_price": 15000,
-    "rarity": "epic",
-    "category": "tools",
-    "icon": "tools/auorite_saw.png"
-  },
-  {
-    "item_key": "auorite_saw_sun_e6",
-    "name": "Auorite Saw ☀️ +6",
-    "sell_price": 28500,
-    "rarity": "epic",
-    "category": "tools",
-    "icon": "tools/auorite_saw.png"
-  },
-  {
-    "item_key": "auorite_saw_sun_e7",
-    "name": "Auorite Saw ☀️ +7",
-    "sell_price": 30750,
     "rarity": "epic",
     "category": "tools",
     "icon": "tools/auorite_saw.png"
@@ -2120,41 +2056,9 @@
     "icon": "tools/auorite_wrench.png"
   },
   {
-    "item_key": "auorite_wrench_e6",
-    "name": "Auorite Wrench +6",
-    "sell_price": 9500,
-    "rarity": "epic",
-    "category": "tools",
-    "icon": "tools/auorite_wrench.png"
-  },
-  {
-    "item_key": "auorite_wrench_e7",
-    "name": "Auorite Wrench +7",
-    "sell_price": 10250,
-    "rarity": "epic",
-    "category": "tools",
-    "icon": "tools/auorite_wrench.png"
-  },
-  {
     "item_key": "auorite_wrench_moon",
     "name": "Auorite Wrench 🌙",
     "sell_price": 10000,
-    "rarity": "epic",
-    "category": "tools",
-    "icon": "tools/auorite_wrench.png"
-  },
-  {
-    "item_key": "auorite_wrench_moon_e6",
-    "name": "Auorite Wrench 🌙 +6",
-    "sell_price": 19000,
-    "rarity": "epic",
-    "category": "tools",
-    "icon": "tools/auorite_wrench.png"
-  },
-  {
-    "item_key": "auorite_wrench_moon_e7",
-    "name": "Auorite Wrench 🌙 +7",
-    "sell_price": 20500,
     "rarity": "epic",
     "category": "tools",
     "icon": "tools/auorite_wrench.png"
@@ -2168,41 +2072,9 @@
     "icon": "tools/auorite_wrench.png"
   },
   {
-    "item_key": "auorite_wrench_star_e6",
-    "name": "Auorite Wrench ⭐ +6",
-    "sell_price": 14250,
-    "rarity": "epic",
-    "category": "tools",
-    "icon": "tools/auorite_wrench.png"
-  },
-  {
-    "item_key": "auorite_wrench_star_e7",
-    "name": "Auorite Wrench ⭐ +7",
-    "sell_price": 15375,
-    "rarity": "epic",
-    "category": "tools",
-    "icon": "tools/auorite_wrench.png"
-  },
-  {
     "item_key": "auorite_wrench_sun",
     "name": "Auorite Wrench ☀️",
     "sell_price": 15000,
-    "rarity": "epic",
-    "category": "tools",
-    "icon": "tools/auorite_wrench.png"
-  },
-  {
-    "item_key": "auorite_wrench_sun_e6",
-    "name": "Auorite Wrench ☀️ +6",
-    "sell_price": 28500,
-    "rarity": "epic",
-    "category": "tools",
-    "icon": "tools/auorite_wrench.png"
-  },
-  {
-    "item_key": "auorite_wrench_sun_e7",
-    "name": "Auorite Wrench ☀️ +7",
-    "sell_price": 30750,
     "rarity": "epic",
     "category": "tools",
     "icon": "tools/auorite_wrench.png"
@@ -2460,7 +2332,7 @@
     "name": "Celestine Herb",
     "sell_price": 1200,
     "rarity": "epic",
-    "category": "herb",
+    "category": "farming - herb",
     "icon": "farming/celestine_herb.png"
   },
   {
@@ -2732,7 +2604,7 @@
     "name": "Cinderbloom",
     "sell_price": 4000,
     "rarity": "mythic",
-    "category": "herb",
+    "category": "farming - herb",
     "icon": "farming/cinderbloom.png"
   },
   {
@@ -2748,7 +2620,7 @@
     "name": "Cinderfruit",
     "sell_price": 9000,
     "rarity": "mythic",
-    "category": "fruit",
+    "category": "farming - fruit",
     "icon": "farming/cinderfruit.png"
   },
   {
@@ -2772,7 +2644,7 @@
     "name": "Cindergourd",
     "sell_price": 1100,
     "rarity": "rare",
-    "category": "crop",
+    "category": "farming - crop",
     "icon": "farming/cindergourd.png"
   },
   {
@@ -3980,7 +3852,7 @@
     "name": "Crimson Corn",
     "sell_price": 25,
     "rarity": null,
-    "category": "crop",
+    "category": "farming - crop",
     "icon": "farming/crimson_corn.png"
   },
   {
@@ -4812,7 +4684,7 @@
     "name": "Crystalbark Fruit",
     "sell_price": 600,
     "rarity": "rare",
-    "category": "fruit",
+    "category": "farming - fruit",
     "icon": "farming/crystalbark_fruit.png"
   },
   {
@@ -4900,7 +4772,7 @@
     "name": "Drakeflower",
     "sell_price": 3000,
     "rarity": "mythic",
-    "category": "herb",
+    "category": "farming - herb",
     "icon": "farming/drakeflower.png"
   },
   {
@@ -5244,7 +5116,7 @@
     "name": "Drakewheat",
     "sell_price": 800,
     "rarity": "rare",
-    "category": "crop",
+    "category": "farming - crop",
     "icon": "farming/drakewheat.png"
   },
   {
@@ -5856,89 +5728,9 @@
     "icon": "tools/drakonite_saw.png"
   },
   {
-    "item_key": "drakonite_saw_e10",
-    "name": "Drakonite Saw +10",
-    "sell_price": 250000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/drakonite_saw.png"
-  },
-  {
-    "item_key": "drakonite_saw_e6",
-    "name": "Drakonite Saw +6",
-    "sell_price": 190000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/drakonite_saw.png"
-  },
-  {
-    "item_key": "drakonite_saw_e7",
-    "name": "Drakonite Saw +7",
-    "sell_price": 205000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/drakonite_saw.png"
-  },
-  {
-    "item_key": "drakonite_saw_e8",
-    "name": "Drakonite Saw +8",
-    "sell_price": 220000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/drakonite_saw.png"
-  },
-  {
-    "item_key": "drakonite_saw_e9",
-    "name": "Drakonite Saw +9",
-    "sell_price": 235000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/drakonite_saw.png"
-  },
-  {
     "item_key": "drakonite_saw_moon",
     "name": "Drakonite Saw 🌙",
     "sell_price": 200000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/drakonite_saw.png"
-  },
-  {
-    "item_key": "drakonite_saw_moon_e10",
-    "name": "Drakonite Saw 🌙 +10",
-    "sell_price": 500000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/drakonite_saw.png"
-  },
-  {
-    "item_key": "drakonite_saw_moon_e6",
-    "name": "Drakonite Saw 🌙 +6",
-    "sell_price": 380000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/drakonite_saw.png"
-  },
-  {
-    "item_key": "drakonite_saw_moon_e7",
-    "name": "Drakonite Saw 🌙 +7",
-    "sell_price": 410000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/drakonite_saw.png"
-  },
-  {
-    "item_key": "drakonite_saw_moon_e8",
-    "name": "Drakonite Saw 🌙 +8",
-    "sell_price": 440000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/drakonite_saw.png"
-  },
-  {
-    "item_key": "drakonite_saw_moon_e9",
-    "name": "Drakonite Saw 🌙 +9",
-    "sell_price": 470000,
     "rarity": "mythic",
     "category": "tools",
     "icon": "tools/drakonite_saw.png"
@@ -5952,89 +5744,9 @@
     "icon": "tools/drakonite_saw.png"
   },
   {
-    "item_key": "drakonite_saw_star_e10",
-    "name": "Drakonite Saw ⭐ +10",
-    "sell_price": 375000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/drakonite_saw.png"
-  },
-  {
-    "item_key": "drakonite_saw_star_e6",
-    "name": "Drakonite Saw ⭐ +6",
-    "sell_price": 285000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/drakonite_saw.png"
-  },
-  {
-    "item_key": "drakonite_saw_star_e7",
-    "name": "Drakonite Saw ⭐ +7",
-    "sell_price": 307500,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/drakonite_saw.png"
-  },
-  {
-    "item_key": "drakonite_saw_star_e8",
-    "name": "Drakonite Saw ⭐ +8",
-    "sell_price": 330000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/drakonite_saw.png"
-  },
-  {
-    "item_key": "drakonite_saw_star_e9",
-    "name": "Drakonite Saw ⭐ +9",
-    "sell_price": 352500,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/drakonite_saw.png"
-  },
-  {
     "item_key": "drakonite_saw_sun",
     "name": "Drakonite Saw ☀️",
     "sell_price": 300000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/drakonite_saw.png"
-  },
-  {
-    "item_key": "drakonite_saw_sun_e10",
-    "name": "Drakonite Saw ☀️ +10",
-    "sell_price": 750000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/drakonite_saw.png"
-  },
-  {
-    "item_key": "drakonite_saw_sun_e6",
-    "name": "Drakonite Saw ☀️ +6",
-    "sell_price": 570000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/drakonite_saw.png"
-  },
-  {
-    "item_key": "drakonite_saw_sun_e7",
-    "name": "Drakonite Saw ☀️ +7",
-    "sell_price": 615000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/drakonite_saw.png"
-  },
-  {
-    "item_key": "drakonite_saw_sun_e8",
-    "name": "Drakonite Saw ☀️ +8",
-    "sell_price": 660000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/drakonite_saw.png"
-  },
-  {
-    "item_key": "drakonite_saw_sun_e9",
-    "name": "Drakonite Saw ☀️ +9",
-    "sell_price": 705000,
     "rarity": "mythic",
     "category": "tools",
     "icon": "tools/drakonite_saw.png"
@@ -6272,89 +5984,9 @@
     "icon": "tools/drakonite_wrench.png"
   },
   {
-    "item_key": "drakonite_wrench_e10",
-    "name": "Drakonite Wrench +10",
-    "sell_price": 250000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/drakonite_wrench.png"
-  },
-  {
-    "item_key": "drakonite_wrench_e6",
-    "name": "Drakonite Wrench +6",
-    "sell_price": 190000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/drakonite_wrench.png"
-  },
-  {
-    "item_key": "drakonite_wrench_e7",
-    "name": "Drakonite Wrench +7",
-    "sell_price": 205000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/drakonite_wrench.png"
-  },
-  {
-    "item_key": "drakonite_wrench_e8",
-    "name": "Drakonite Wrench +8",
-    "sell_price": 220000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/drakonite_wrench.png"
-  },
-  {
-    "item_key": "drakonite_wrench_e9",
-    "name": "Drakonite Wrench +9",
-    "sell_price": 235000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/drakonite_wrench.png"
-  },
-  {
     "item_key": "drakonite_wrench_moon",
     "name": "Drakonite Wrench 🌙",
     "sell_price": 200000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/drakonite_wrench.png"
-  },
-  {
-    "item_key": "drakonite_wrench_moon_e10",
-    "name": "Drakonite Wrench 🌙 +10",
-    "sell_price": 500000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/drakonite_wrench.png"
-  },
-  {
-    "item_key": "drakonite_wrench_moon_e6",
-    "name": "Drakonite Wrench 🌙 +6",
-    "sell_price": 380000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/drakonite_wrench.png"
-  },
-  {
-    "item_key": "drakonite_wrench_moon_e7",
-    "name": "Drakonite Wrench 🌙 +7",
-    "sell_price": 410000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/drakonite_wrench.png"
-  },
-  {
-    "item_key": "drakonite_wrench_moon_e8",
-    "name": "Drakonite Wrench 🌙 +8",
-    "sell_price": 440000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/drakonite_wrench.png"
-  },
-  {
-    "item_key": "drakonite_wrench_moon_e9",
-    "name": "Drakonite Wrench 🌙 +9",
-    "sell_price": 470000,
     "rarity": "mythic",
     "category": "tools",
     "icon": "tools/drakonite_wrench.png"
@@ -6368,89 +6000,9 @@
     "icon": "tools/drakonite_wrench.png"
   },
   {
-    "item_key": "drakonite_wrench_star_e10",
-    "name": "Drakonite Wrench ⭐ +10",
-    "sell_price": 375000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/drakonite_wrench.png"
-  },
-  {
-    "item_key": "drakonite_wrench_star_e6",
-    "name": "Drakonite Wrench ⭐ +6",
-    "sell_price": 285000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/drakonite_wrench.png"
-  },
-  {
-    "item_key": "drakonite_wrench_star_e7",
-    "name": "Drakonite Wrench ⭐ +7",
-    "sell_price": 307500,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/drakonite_wrench.png"
-  },
-  {
-    "item_key": "drakonite_wrench_star_e8",
-    "name": "Drakonite Wrench ⭐ +8",
-    "sell_price": 330000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/drakonite_wrench.png"
-  },
-  {
-    "item_key": "drakonite_wrench_star_e9",
-    "name": "Drakonite Wrench ⭐ +9",
-    "sell_price": 352500,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/drakonite_wrench.png"
-  },
-  {
     "item_key": "drakonite_wrench_sun",
     "name": "Drakonite Wrench ☀️",
     "sell_price": 300000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/drakonite_wrench.png"
-  },
-  {
-    "item_key": "drakonite_wrench_sun_e10",
-    "name": "Drakonite Wrench ☀️ +10",
-    "sell_price": 750000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/drakonite_wrench.png"
-  },
-  {
-    "item_key": "drakonite_wrench_sun_e6",
-    "name": "Drakonite Wrench ☀️ +6",
-    "sell_price": 570000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/drakonite_wrench.png"
-  },
-  {
-    "item_key": "drakonite_wrench_sun_e7",
-    "name": "Drakonite Wrench ☀️ +7",
-    "sell_price": 615000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/drakonite_wrench.png"
-  },
-  {
-    "item_key": "drakonite_wrench_sun_e8",
-    "name": "Drakonite Wrench ☀️ +8",
-    "sell_price": 660000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/drakonite_wrench.png"
-  },
-  {
-    "item_key": "drakonite_wrench_sun_e9",
-    "name": "Drakonite Wrench ☀️ +9",
-    "sell_price": 705000,
     "rarity": "mythic",
     "category": "tools",
     "icon": "tools/drakonite_wrench.png"
@@ -6876,7 +6428,7 @@
     "name": "Duskwood Fruit",
     "sell_price": 225,
     "rarity": "uncommon",
-    "category": "fruit",
+    "category": "farming - fruit",
     "icon": "farming/duskwood_fruit.png"
   },
   {
@@ -7700,7 +7252,7 @@
     "name": "Dustwheat",
     "sell_price": 10,
     "rarity": null,
-    "category": "crop",
+    "category": "farming - crop",
     "icon": "farming/dustwheat.png"
   },
   {
@@ -7756,7 +7308,7 @@
     "name": "Elder Ashes",
     "sell_price": 150,
     "rarity": "epic",
-    "category": "material",
+    "category": "ashes",
     "icon": "items/elder_ashes.png"
   },
   {
@@ -7804,7 +7356,7 @@
     "name": "Elderbloom",
     "sell_price": 2500,
     "rarity": "legendary",
-    "category": "herb",
+    "category": "farming - herb",
     "icon": "farming/elderbloom.png"
   },
   {
@@ -7836,7 +7388,7 @@
     "name": "Emberlily",
     "sell_price": 2200,
     "rarity": "epic",
-    "category": "flower",
+    "category": "farming - flower",
     "icon": "farming/emberlily.png"
   },
   {
@@ -7852,7 +7404,7 @@
     "name": "Emberstem",
     "sell_price": 35,
     "rarity": null,
-    "category": "herb",
+    "category": "farming - herb",
     "icon": "farming/emberstem.png"
   },
   {
@@ -8188,7 +7740,7 @@
     "name": "Fine Ashes",
     "sell_price": 8,
     "rarity": "uncommon",
-    "category": "material",
+    "category": "ashes",
     "icon": "items/fine_ashes.png"
   },
   {
@@ -8732,7 +8284,7 @@
     "name": "Frostleaf",
     "sell_price": 75,
     "rarity": "uncommon",
-    "category": "herb",
+    "category": "farming - herb",
     "icon": "farming/frostleaf.png"
   },
   {
@@ -9060,7 +8612,7 @@
     "name": "Glowroot",
     "sell_price": 15,
     "rarity": null,
-    "category": "herb",
+    "category": "farming - herb",
     "icon": "farming/glowroot.png"
   },
   {
@@ -9164,7 +8716,7 @@
     "name": "Infernal Ashes",
     "sell_price": 750,
     "rarity": "mythic",
-    "category": "material",
+    "category": "ashes",
     "icon": "items/infernal_ashes.png"
   },
   {
@@ -9928,89 +9480,9 @@
     "icon": "tools/infernite_saw.png"
   },
   {
-    "item_key": "infernite_saw_e10",
-    "name": "Infernite Saw +10",
-    "sell_price": 1000000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/infernite_saw.png"
-  },
-  {
-    "item_key": "infernite_saw_e6",
-    "name": "Infernite Saw +6",
-    "sell_price": 760000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/infernite_saw.png"
-  },
-  {
-    "item_key": "infernite_saw_e7",
-    "name": "Infernite Saw +7",
-    "sell_price": 820000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/infernite_saw.png"
-  },
-  {
-    "item_key": "infernite_saw_e8",
-    "name": "Infernite Saw +8",
-    "sell_price": 880000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/infernite_saw.png"
-  },
-  {
-    "item_key": "infernite_saw_e9",
-    "name": "Infernite Saw +9",
-    "sell_price": 940000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/infernite_saw.png"
-  },
-  {
     "item_key": "infernite_saw_moon",
     "name": "Infernite Saw 🌙",
     "sell_price": 800000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/infernite_saw.png"
-  },
-  {
-    "item_key": "infernite_saw_moon_e10",
-    "name": "Infernite Saw 🌙 +10",
-    "sell_price": 2000000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/infernite_saw.png"
-  },
-  {
-    "item_key": "infernite_saw_moon_e6",
-    "name": "Infernite Saw 🌙 +6",
-    "sell_price": 1520000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/infernite_saw.png"
-  },
-  {
-    "item_key": "infernite_saw_moon_e7",
-    "name": "Infernite Saw 🌙 +7",
-    "sell_price": 1640000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/infernite_saw.png"
-  },
-  {
-    "item_key": "infernite_saw_moon_e8",
-    "name": "Infernite Saw 🌙 +8",
-    "sell_price": 1760000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/infernite_saw.png"
-  },
-  {
-    "item_key": "infernite_saw_moon_e9",
-    "name": "Infernite Saw 🌙 +9",
-    "sell_price": 1880000,
     "rarity": "mythic",
     "category": "tools",
     "icon": "tools/infernite_saw.png"
@@ -10024,89 +9496,9 @@
     "icon": "tools/infernite_saw.png"
   },
   {
-    "item_key": "infernite_saw_star_e10",
-    "name": "Infernite Saw ⭐ +10",
-    "sell_price": 1500000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/infernite_saw.png"
-  },
-  {
-    "item_key": "infernite_saw_star_e6",
-    "name": "Infernite Saw ⭐ +6",
-    "sell_price": 1140000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/infernite_saw.png"
-  },
-  {
-    "item_key": "infernite_saw_star_e7",
-    "name": "Infernite Saw ⭐ +7",
-    "sell_price": 1230000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/infernite_saw.png"
-  },
-  {
-    "item_key": "infernite_saw_star_e8",
-    "name": "Infernite Saw ⭐ +8",
-    "sell_price": 1320000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/infernite_saw.png"
-  },
-  {
-    "item_key": "infernite_saw_star_e9",
-    "name": "Infernite Saw ⭐ +9",
-    "sell_price": 1410000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/infernite_saw.png"
-  },
-  {
     "item_key": "infernite_saw_sun",
     "name": "Infernite Saw ☀️",
     "sell_price": 1200000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/infernite_saw.png"
-  },
-  {
-    "item_key": "infernite_saw_sun_e10",
-    "name": "Infernite Saw ☀️ +10",
-    "sell_price": 3000000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/infernite_saw.png"
-  },
-  {
-    "item_key": "infernite_saw_sun_e6",
-    "name": "Infernite Saw ☀️ +6",
-    "sell_price": 2280000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/infernite_saw.png"
-  },
-  {
-    "item_key": "infernite_saw_sun_e7",
-    "name": "Infernite Saw ☀️ +7",
-    "sell_price": 2460000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/infernite_saw.png"
-  },
-  {
-    "item_key": "infernite_saw_sun_e8",
-    "name": "Infernite Saw ☀️ +8",
-    "sell_price": 2640000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/infernite_saw.png"
-  },
-  {
-    "item_key": "infernite_saw_sun_e9",
-    "name": "Infernite Saw ☀️ +9",
-    "sell_price": 2820000,
     "rarity": "mythic",
     "category": "tools",
     "icon": "tools/infernite_saw.png"
@@ -10344,89 +9736,9 @@
     "icon": "tools/infernite_wrench.png"
   },
   {
-    "item_key": "infernite_wrench_e10",
-    "name": "Infernite Wrench +10",
-    "sell_price": 1000000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/infernite_wrench.png"
-  },
-  {
-    "item_key": "infernite_wrench_e6",
-    "name": "Infernite Wrench +6",
-    "sell_price": 760000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/infernite_wrench.png"
-  },
-  {
-    "item_key": "infernite_wrench_e7",
-    "name": "Infernite Wrench +7",
-    "sell_price": 820000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/infernite_wrench.png"
-  },
-  {
-    "item_key": "infernite_wrench_e8",
-    "name": "Infernite Wrench +8",
-    "sell_price": 880000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/infernite_wrench.png"
-  },
-  {
-    "item_key": "infernite_wrench_e9",
-    "name": "Infernite Wrench +9",
-    "sell_price": 940000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/infernite_wrench.png"
-  },
-  {
     "item_key": "infernite_wrench_moon",
     "name": "Infernite Wrench 🌙",
     "sell_price": 800000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/infernite_wrench.png"
-  },
-  {
-    "item_key": "infernite_wrench_moon_e10",
-    "name": "Infernite Wrench 🌙 +10",
-    "sell_price": 2000000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/infernite_wrench.png"
-  },
-  {
-    "item_key": "infernite_wrench_moon_e6",
-    "name": "Infernite Wrench 🌙 +6",
-    "sell_price": 1520000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/infernite_wrench.png"
-  },
-  {
-    "item_key": "infernite_wrench_moon_e7",
-    "name": "Infernite Wrench 🌙 +7",
-    "sell_price": 1640000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/infernite_wrench.png"
-  },
-  {
-    "item_key": "infernite_wrench_moon_e8",
-    "name": "Infernite Wrench 🌙 +8",
-    "sell_price": 1760000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/infernite_wrench.png"
-  },
-  {
-    "item_key": "infernite_wrench_moon_e9",
-    "name": "Infernite Wrench 🌙 +9",
-    "sell_price": 1880000,
     "rarity": "mythic",
     "category": "tools",
     "icon": "tools/infernite_wrench.png"
@@ -10440,89 +9752,9 @@
     "icon": "tools/infernite_wrench.png"
   },
   {
-    "item_key": "infernite_wrench_star_e10",
-    "name": "Infernite Wrench ⭐ +10",
-    "sell_price": 1500000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/infernite_wrench.png"
-  },
-  {
-    "item_key": "infernite_wrench_star_e6",
-    "name": "Infernite Wrench ⭐ +6",
-    "sell_price": 1140000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/infernite_wrench.png"
-  },
-  {
-    "item_key": "infernite_wrench_star_e7",
-    "name": "Infernite Wrench ⭐ +7",
-    "sell_price": 1230000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/infernite_wrench.png"
-  },
-  {
-    "item_key": "infernite_wrench_star_e8",
-    "name": "Infernite Wrench ⭐ +8",
-    "sell_price": 1320000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/infernite_wrench.png"
-  },
-  {
-    "item_key": "infernite_wrench_star_e9",
-    "name": "Infernite Wrench ⭐ +9",
-    "sell_price": 1410000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/infernite_wrench.png"
-  },
-  {
     "item_key": "infernite_wrench_sun",
     "name": "Infernite Wrench ☀️",
     "sell_price": 1200000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/infernite_wrench.png"
-  },
-  {
-    "item_key": "infernite_wrench_sun_e10",
-    "name": "Infernite Wrench ☀️ +10",
-    "sell_price": 3000000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/infernite_wrench.png"
-  },
-  {
-    "item_key": "infernite_wrench_sun_e6",
-    "name": "Infernite Wrench ☀️ +6",
-    "sell_price": 2280000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/infernite_wrench.png"
-  },
-  {
-    "item_key": "infernite_wrench_sun_e7",
-    "name": "Infernite Wrench ☀️ +7",
-    "sell_price": 2460000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/infernite_wrench.png"
-  },
-  {
-    "item_key": "infernite_wrench_sun_e8",
-    "name": "Infernite Wrench ☀️ +8",
-    "sell_price": 2640000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/infernite_wrench.png"
-  },
-  {
-    "item_key": "infernite_wrench_sun_e9",
-    "name": "Infernite Wrench ☀️ +9",
-    "sell_price": 2820000,
     "rarity": "mythic",
     "category": "tools",
     "icon": "tools/infernite_wrench.png"
@@ -10532,7 +9764,7 @@
     "name": "Infernmelon",
     "sell_price": 1500,
     "rarity": "rare",
-    "category": "crop",
+    "category": "farming - crop",
     "icon": "farming/infernmelon.png"
   },
   {
@@ -10564,7 +9796,7 @@
     "name": "Infernroot",
     "sell_price": 5500,
     "rarity": "mythic",
-    "category": "herb",
+    "category": "farming - herb",
     "icon": "farming/infernroot.png"
   },
   {
@@ -11288,89 +10520,9 @@
     "icon": "tools/korunite_saw.png"
   },
   {
-    "item_key": "korunite_saw_e10",
-    "name": "Korunite Saw +10",
-    "sell_price": 125000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/korunite_saw.png"
-  },
-  {
-    "item_key": "korunite_saw_e6",
-    "name": "Korunite Saw +6",
-    "sell_price": 95000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/korunite_saw.png"
-  },
-  {
-    "item_key": "korunite_saw_e7",
-    "name": "Korunite Saw +7",
-    "sell_price": 102500,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/korunite_saw.png"
-  },
-  {
-    "item_key": "korunite_saw_e8",
-    "name": "Korunite Saw +8",
-    "sell_price": 110000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/korunite_saw.png"
-  },
-  {
-    "item_key": "korunite_saw_e9",
-    "name": "Korunite Saw +9",
-    "sell_price": 117500,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/korunite_saw.png"
-  },
-  {
     "item_key": "korunite_saw_moon",
     "name": "Korunite Saw 🌙",
     "sell_price": 100000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/korunite_saw.png"
-  },
-  {
-    "item_key": "korunite_saw_moon_e10",
-    "name": "Korunite Saw 🌙 +10",
-    "sell_price": 250000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/korunite_saw.png"
-  },
-  {
-    "item_key": "korunite_saw_moon_e6",
-    "name": "Korunite Saw 🌙 +6",
-    "sell_price": 190000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/korunite_saw.png"
-  },
-  {
-    "item_key": "korunite_saw_moon_e7",
-    "name": "Korunite Saw 🌙 +7",
-    "sell_price": 205000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/korunite_saw.png"
-  },
-  {
-    "item_key": "korunite_saw_moon_e8",
-    "name": "Korunite Saw 🌙 +8",
-    "sell_price": 220000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/korunite_saw.png"
-  },
-  {
-    "item_key": "korunite_saw_moon_e9",
-    "name": "Korunite Saw 🌙 +9",
-    "sell_price": 235000,
     "rarity": "mythic",
     "category": "tools",
     "icon": "tools/korunite_saw.png"
@@ -11384,89 +10536,9 @@
     "icon": "tools/korunite_saw.png"
   },
   {
-    "item_key": "korunite_saw_star_e10",
-    "name": "Korunite Saw ⭐ +10",
-    "sell_price": 187500,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/korunite_saw.png"
-  },
-  {
-    "item_key": "korunite_saw_star_e6",
-    "name": "Korunite Saw ⭐ +6",
-    "sell_price": 142500,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/korunite_saw.png"
-  },
-  {
-    "item_key": "korunite_saw_star_e7",
-    "name": "Korunite Saw ⭐ +7",
-    "sell_price": 153750,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/korunite_saw.png"
-  },
-  {
-    "item_key": "korunite_saw_star_e8",
-    "name": "Korunite Saw ⭐ +8",
-    "sell_price": 165000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/korunite_saw.png"
-  },
-  {
-    "item_key": "korunite_saw_star_e9",
-    "name": "Korunite Saw ⭐ +9",
-    "sell_price": 176250,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/korunite_saw.png"
-  },
-  {
     "item_key": "korunite_saw_sun",
     "name": "Korunite Saw ☀️",
     "sell_price": 150000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/korunite_saw.png"
-  },
-  {
-    "item_key": "korunite_saw_sun_e10",
-    "name": "Korunite Saw ☀️ +10",
-    "sell_price": 375000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/korunite_saw.png"
-  },
-  {
-    "item_key": "korunite_saw_sun_e6",
-    "name": "Korunite Saw ☀️ +6",
-    "sell_price": 285000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/korunite_saw.png"
-  },
-  {
-    "item_key": "korunite_saw_sun_e7",
-    "name": "Korunite Saw ☀️ +7",
-    "sell_price": 307500,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/korunite_saw.png"
-  },
-  {
-    "item_key": "korunite_saw_sun_e8",
-    "name": "Korunite Saw ☀️ +8",
-    "sell_price": 330000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/korunite_saw.png"
-  },
-  {
-    "item_key": "korunite_saw_sun_e9",
-    "name": "Korunite Saw ☀️ +9",
-    "sell_price": 352500,
     "rarity": "mythic",
     "category": "tools",
     "icon": "tools/korunite_saw.png"
@@ -11672,89 +10744,9 @@
     "icon": "tools/korunite_wrench.png"
   },
   {
-    "item_key": "korunite_wrench_e10",
-    "name": "Korunite Wrench +10",
-    "sell_price": 125000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/korunite_wrench.png"
-  },
-  {
-    "item_key": "korunite_wrench_e6",
-    "name": "Korunite Wrench +6",
-    "sell_price": 95000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/korunite_wrench.png"
-  },
-  {
-    "item_key": "korunite_wrench_e7",
-    "name": "Korunite Wrench +7",
-    "sell_price": 102500,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/korunite_wrench.png"
-  },
-  {
-    "item_key": "korunite_wrench_e8",
-    "name": "Korunite Wrench +8",
-    "sell_price": 110000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/korunite_wrench.png"
-  },
-  {
-    "item_key": "korunite_wrench_e9",
-    "name": "Korunite Wrench +9",
-    "sell_price": 117500,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/korunite_wrench.png"
-  },
-  {
     "item_key": "korunite_wrench_moon",
     "name": "Korunite Wrench 🌙",
     "sell_price": 100000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/korunite_wrench.png"
-  },
-  {
-    "item_key": "korunite_wrench_moon_e10",
-    "name": "Korunite Wrench 🌙 +10",
-    "sell_price": 250000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/korunite_wrench.png"
-  },
-  {
-    "item_key": "korunite_wrench_moon_e6",
-    "name": "Korunite Wrench 🌙 +6",
-    "sell_price": 190000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/korunite_wrench.png"
-  },
-  {
-    "item_key": "korunite_wrench_moon_e7",
-    "name": "Korunite Wrench 🌙 +7",
-    "sell_price": 205000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/korunite_wrench.png"
-  },
-  {
-    "item_key": "korunite_wrench_moon_e8",
-    "name": "Korunite Wrench 🌙 +8",
-    "sell_price": 220000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/korunite_wrench.png"
-  },
-  {
-    "item_key": "korunite_wrench_moon_e9",
-    "name": "Korunite Wrench 🌙 +9",
-    "sell_price": 235000,
     "rarity": "mythic",
     "category": "tools",
     "icon": "tools/korunite_wrench.png"
@@ -11768,89 +10760,9 @@
     "icon": "tools/korunite_wrench.png"
   },
   {
-    "item_key": "korunite_wrench_star_e10",
-    "name": "Korunite Wrench ⭐ +10",
-    "sell_price": 187500,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/korunite_wrench.png"
-  },
-  {
-    "item_key": "korunite_wrench_star_e6",
-    "name": "Korunite Wrench ⭐ +6",
-    "sell_price": 142500,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/korunite_wrench.png"
-  },
-  {
-    "item_key": "korunite_wrench_star_e7",
-    "name": "Korunite Wrench ⭐ +7",
-    "sell_price": 153750,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/korunite_wrench.png"
-  },
-  {
-    "item_key": "korunite_wrench_star_e8",
-    "name": "Korunite Wrench ⭐ +8",
-    "sell_price": 165000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/korunite_wrench.png"
-  },
-  {
-    "item_key": "korunite_wrench_star_e9",
-    "name": "Korunite Wrench ⭐ +9",
-    "sell_price": 176250,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/korunite_wrench.png"
-  },
-  {
     "item_key": "korunite_wrench_sun",
     "name": "Korunite Wrench ☀️",
     "sell_price": 150000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/korunite_wrench.png"
-  },
-  {
-    "item_key": "korunite_wrench_sun_e10",
-    "name": "Korunite Wrench ☀️ +10",
-    "sell_price": 375000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/korunite_wrench.png"
-  },
-  {
-    "item_key": "korunite_wrench_sun_e6",
-    "name": "Korunite Wrench ☀️ +6",
-    "sell_price": 285000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/korunite_wrench.png"
-  },
-  {
-    "item_key": "korunite_wrench_sun_e7",
-    "name": "Korunite Wrench ☀️ +7",
-    "sell_price": 307500,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/korunite_wrench.png"
-  },
-  {
-    "item_key": "korunite_wrench_sun_e8",
-    "name": "Korunite Wrench ☀️ +8",
-    "sell_price": 330000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/korunite_wrench.png"
-  },
-  {
-    "item_key": "korunite_wrench_sun_e9",
-    "name": "Korunite Wrench ☀️ +9",
-    "sell_price": 352500,
     "rarity": "mythic",
     "category": "tools",
     "icon": "tools/korunite_wrench.png"
@@ -12572,7 +11484,7 @@
     "name": "Magmarose",
     "sell_price": 3000,
     "rarity": "epic",
-    "category": "flower",
+    "category": "farming - flower",
     "icon": "farming/magmarose.png"
   },
   {
@@ -12588,7 +11500,7 @@
     "name": "Ashforged Mask",
     "sell_price": 4000,
     "rarity": null,
-    "category": "slayer mask",
+    "category": "slayer equipment",
     "icon": "items/slayer/mask_ashforged.png"
   },
   {
@@ -12596,7 +11508,7 @@
     "name": "Bonewing Mask",
     "sell_price": 1500,
     "rarity": "rare",
-    "category": "slayer mask",
+    "category": "slayer equipment",
     "icon": "slayer/mask_bonewing.png"
   },
   {
@@ -12604,7 +11516,7 @@
     "name": "Darkfang Mask",
     "sell_price": 1500,
     "rarity": "rare",
-    "category": "slayer mask",
+    "category": "slayer equipment",
     "icon": "slayer/mask_darkfang.png"
   },
   {
@@ -12612,7 +11524,7 @@
     "name": "Drakonic Fiend Mask",
     "sell_price": 12000,
     "rarity": null,
-    "category": "slayer mask",
+    "category": "slayer equipment",
     "icon": "items/slayer/mask_drakonic.png"
   },
   {
@@ -12620,7 +11532,7 @@
     "name": "Dustwhirl Mask",
     "sell_price": 1000,
     "rarity": "uncommon",
-    "category": "slayer mask",
+    "category": "slayer equipment",
     "icon": "slayer/mask_dustwhirl.png"
   },
   {
@@ -12628,7 +11540,7 @@
     "name": "Gorevine Mask",
     "sell_price": 800,
     "rarity": "uncommon",
-    "category": "slayer mask",
+    "category": "slayer equipment",
     "icon": "slayer/mask_gorevine.png"
   },
   {
@@ -12636,7 +11548,7 @@
     "name": "Infernal Warlord Mask",
     "sell_price": 8000,
     "rarity": null,
-    "category": "slayer mask",
+    "category": "slayer equipment",
     "icon": "items/slayer/mask_infernal.png"
   },
   {
@@ -12644,7 +11556,7 @@
     "name": "Lavajaw Mask",
     "sell_price": 1000,
     "rarity": "uncommon",
-    "category": "slayer mask",
+    "category": "slayer equipment",
     "icon": "slayer/mask_lavajaw.png"
   },
   {
@@ -12652,7 +11564,7 @@
     "name": "Magma Revenant Mask",
     "sell_price": 6000,
     "rarity": null,
-    "category": "slayer mask",
+    "category": "slayer equipment",
     "icon": "items/slayer/mask_magma_revenant.png"
   },
   {
@@ -12660,7 +11572,7 @@
     "name": "Nightmare Sovereign Mask",
     "sell_price": 3000,
     "rarity": "legendary",
-    "category": "slayer mask",
+    "category": "slayer equipment",
     "icon": "slayer/mask_nightmare_sovereign.png"
   },
   {
@@ -12668,7 +11580,7 @@
     "name": "Pyre Wraith Mask",
     "sell_price": 5000,
     "rarity": null,
-    "category": "slayer mask",
+    "category": "slayer equipment",
     "icon": "items/slayer/mask_pyre_wraith.png"
   },
   {
@@ -12676,7 +11588,7 @@
     "name": "Stonefiend Mask",
     "sell_price": 1000,
     "rarity": "uncommon",
-    "category": "slayer mask",
+    "category": "slayer equipment",
     "icon": "slayer/mask_stonefiend.png"
   },
   {
@@ -12684,7 +11596,7 @@
     "name": "Veilstalker Mask",
     "sell_price": 1500,
     "rarity": "rare",
-    "category": "slayer mask",
+    "category": "slayer equipment",
     "icon": "slayer/mask_veilstalker.png"
   },
   {
@@ -12692,7 +11604,7 @@
     "name": "Venomjaw Mask",
     "sell_price": 2500,
     "rarity": "epic",
-    "category": "slayer mask",
+    "category": "slayer equipment",
     "icon": "slayer/mask_venomjaw.png"
   },
   {
@@ -12700,7 +11612,7 @@
     "name": "Voidclaw Mask",
     "sell_price": 2000,
     "rarity": "epic",
-    "category": "slayer mask",
+    "category": "slayer equipment",
     "icon": "slayer/mask_voidclaw.png"
   },
   {
@@ -12772,7 +11684,7 @@
     "name": "Molten Ashes",
     "sell_price": 500,
     "rarity": "mythic",
-    "category": "material",
+    "category": "ashes",
     "icon": "items/molten_ashes.png"
   },
   {
@@ -12788,7 +11700,7 @@
     "name": "Monster Trophy",
     "sell_price": 25000,
     "rarity": null,
-    "category": "resource",
+    "category": "dungeon drop",
     "icon": "items/slayer/monster_trophy.png"
   },
   {
@@ -12796,7 +11708,7 @@
     "name": "Moonpotato",
     "sell_price": 60,
     "rarity": "uncommon",
-    "category": "crop",
+    "category": "farming - crop",
     "icon": "farming/moonpotato.png"
   },
   {
@@ -12852,7 +11764,7 @@
     "name": "Mystic Ashes",
     "sell_price": 25,
     "rarity": "rare",
-    "category": "material",
+    "category": "ashes",
     "icon": "items/mystic_ashes.png"
   },
   {
@@ -13196,7 +12108,7 @@
     "name": "Nightshade Flower",
     "sell_price": 90,
     "rarity": "uncommon",
-    "category": "flower",
+    "category": "farming - flower",
     "icon": "farming/nightshade_flower.png"
   },
   {
@@ -14200,14 +13112,6 @@
     "icon": "weapons/oak_bow.png"
   },
   {
-    "item_key": "oak_log",
-    "name": "Oak Log",
-    "sell_price": 3,
-    "rarity": "common",
-    "category": "wood",
-    "icon": "oak.png"
-  },
-  {
     "item_key": "opal",
     "name": "Opal",
     "sell_price": 50,
@@ -14580,7 +13484,7 @@
     "name": "Phoenix Ashes",
     "sell_price": 1100,
     "rarity": "mythic",
-    "category": "material",
+    "category": "ashes",
     "icon": "items/phoenix_ashes.png"
   },
   {
@@ -15004,7 +13908,7 @@
     "name": "Pyreblossom",
     "sell_price": 4000,
     "rarity": "epic",
-    "category": "flower",
+    "category": "farming - flower",
     "icon": "farming/pyreblossom.png"
   },
   {
@@ -16008,89 +14912,9 @@
     "icon": "tools/pyrethium_saw.png"
   },
   {
-    "item_key": "pyrethium_saw_e10",
-    "name": "Pyrethium Saw +10",
-    "sell_price": 500000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/pyrethium_saw.png"
-  },
-  {
-    "item_key": "pyrethium_saw_e6",
-    "name": "Pyrethium Saw +6",
-    "sell_price": 380000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/pyrethium_saw.png"
-  },
-  {
-    "item_key": "pyrethium_saw_e7",
-    "name": "Pyrethium Saw +7",
-    "sell_price": 410000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/pyrethium_saw.png"
-  },
-  {
-    "item_key": "pyrethium_saw_e8",
-    "name": "Pyrethium Saw +8",
-    "sell_price": 440000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/pyrethium_saw.png"
-  },
-  {
-    "item_key": "pyrethium_saw_e9",
-    "name": "Pyrethium Saw +9",
-    "sell_price": 470000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/pyrethium_saw.png"
-  },
-  {
     "item_key": "pyrethium_saw_moon",
     "name": "Pyrethium Saw 🌙",
     "sell_price": 400000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/pyrethium_saw.png"
-  },
-  {
-    "item_key": "pyrethium_saw_moon_e10",
-    "name": "Pyrethium Saw 🌙 +10",
-    "sell_price": 1000000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/pyrethium_saw.png"
-  },
-  {
-    "item_key": "pyrethium_saw_moon_e6",
-    "name": "Pyrethium Saw 🌙 +6",
-    "sell_price": 760000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/pyrethium_saw.png"
-  },
-  {
-    "item_key": "pyrethium_saw_moon_e7",
-    "name": "Pyrethium Saw 🌙 +7",
-    "sell_price": 820000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/pyrethium_saw.png"
-  },
-  {
-    "item_key": "pyrethium_saw_moon_e8",
-    "name": "Pyrethium Saw 🌙 +8",
-    "sell_price": 880000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/pyrethium_saw.png"
-  },
-  {
-    "item_key": "pyrethium_saw_moon_e9",
-    "name": "Pyrethium Saw 🌙 +9",
-    "sell_price": 940000,
     "rarity": "mythic",
     "category": "tools",
     "icon": "tools/pyrethium_saw.png"
@@ -16104,89 +14928,9 @@
     "icon": "tools/pyrethium_saw.png"
   },
   {
-    "item_key": "pyrethium_saw_star_e10",
-    "name": "Pyrethium Saw ⭐ +10",
-    "sell_price": 750000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/pyrethium_saw.png"
-  },
-  {
-    "item_key": "pyrethium_saw_star_e6",
-    "name": "Pyrethium Saw ⭐ +6",
-    "sell_price": 570000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/pyrethium_saw.png"
-  },
-  {
-    "item_key": "pyrethium_saw_star_e7",
-    "name": "Pyrethium Saw ⭐ +7",
-    "sell_price": 615000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/pyrethium_saw.png"
-  },
-  {
-    "item_key": "pyrethium_saw_star_e8",
-    "name": "Pyrethium Saw ⭐ +8",
-    "sell_price": 660000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/pyrethium_saw.png"
-  },
-  {
-    "item_key": "pyrethium_saw_star_e9",
-    "name": "Pyrethium Saw ⭐ +9",
-    "sell_price": 705000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/pyrethium_saw.png"
-  },
-  {
     "item_key": "pyrethium_saw_sun",
     "name": "Pyrethium Saw ☀️",
     "sell_price": 600000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/pyrethium_saw.png"
-  },
-  {
-    "item_key": "pyrethium_saw_sun_e10",
-    "name": "Pyrethium Saw ☀️ +10",
-    "sell_price": 1500000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/pyrethium_saw.png"
-  },
-  {
-    "item_key": "pyrethium_saw_sun_e6",
-    "name": "Pyrethium Saw ☀️ +6",
-    "sell_price": 1140000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/pyrethium_saw.png"
-  },
-  {
-    "item_key": "pyrethium_saw_sun_e7",
-    "name": "Pyrethium Saw ☀️ +7",
-    "sell_price": 1230000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/pyrethium_saw.png"
-  },
-  {
-    "item_key": "pyrethium_saw_sun_e8",
-    "name": "Pyrethium Saw ☀️ +8",
-    "sell_price": 1320000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/pyrethium_saw.png"
-  },
-  {
-    "item_key": "pyrethium_saw_sun_e9",
-    "name": "Pyrethium Saw ☀️ +9",
-    "sell_price": 1410000,
     "rarity": "mythic",
     "category": "tools",
     "icon": "tools/pyrethium_saw.png"
@@ -16424,89 +15168,9 @@
     "icon": "tools/pyrethium_wrench.png"
   },
   {
-    "item_key": "pyrethium_wrench_e10",
-    "name": "Pyrethium Wrench +10",
-    "sell_price": 500000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/pyrethium_wrench.png"
-  },
-  {
-    "item_key": "pyrethium_wrench_e6",
-    "name": "Pyrethium Wrench +6",
-    "sell_price": 380000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/pyrethium_wrench.png"
-  },
-  {
-    "item_key": "pyrethium_wrench_e7",
-    "name": "Pyrethium Wrench +7",
-    "sell_price": 410000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/pyrethium_wrench.png"
-  },
-  {
-    "item_key": "pyrethium_wrench_e8",
-    "name": "Pyrethium Wrench +8",
-    "sell_price": 440000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/pyrethium_wrench.png"
-  },
-  {
-    "item_key": "pyrethium_wrench_e9",
-    "name": "Pyrethium Wrench +9",
-    "sell_price": 470000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/pyrethium_wrench.png"
-  },
-  {
     "item_key": "pyrethium_wrench_moon",
     "name": "Pyrethium Wrench 🌙",
     "sell_price": 400000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/pyrethium_wrench.png"
-  },
-  {
-    "item_key": "pyrethium_wrench_moon_e10",
-    "name": "Pyrethium Wrench 🌙 +10",
-    "sell_price": 1000000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/pyrethium_wrench.png"
-  },
-  {
-    "item_key": "pyrethium_wrench_moon_e6",
-    "name": "Pyrethium Wrench 🌙 +6",
-    "sell_price": 760000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/pyrethium_wrench.png"
-  },
-  {
-    "item_key": "pyrethium_wrench_moon_e7",
-    "name": "Pyrethium Wrench 🌙 +7",
-    "sell_price": 820000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/pyrethium_wrench.png"
-  },
-  {
-    "item_key": "pyrethium_wrench_moon_e8",
-    "name": "Pyrethium Wrench 🌙 +8",
-    "sell_price": 880000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/pyrethium_wrench.png"
-  },
-  {
-    "item_key": "pyrethium_wrench_moon_e9",
-    "name": "Pyrethium Wrench 🌙 +9",
-    "sell_price": 940000,
     "rarity": "mythic",
     "category": "tools",
     "icon": "tools/pyrethium_wrench.png"
@@ -16520,89 +15184,9 @@
     "icon": "tools/pyrethium_wrench.png"
   },
   {
-    "item_key": "pyrethium_wrench_star_e10",
-    "name": "Pyrethium Wrench ⭐ +10",
-    "sell_price": 750000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/pyrethium_wrench.png"
-  },
-  {
-    "item_key": "pyrethium_wrench_star_e6",
-    "name": "Pyrethium Wrench ⭐ +6",
-    "sell_price": 570000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/pyrethium_wrench.png"
-  },
-  {
-    "item_key": "pyrethium_wrench_star_e7",
-    "name": "Pyrethium Wrench ⭐ +7",
-    "sell_price": 615000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/pyrethium_wrench.png"
-  },
-  {
-    "item_key": "pyrethium_wrench_star_e8",
-    "name": "Pyrethium Wrench ⭐ +8",
-    "sell_price": 660000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/pyrethium_wrench.png"
-  },
-  {
-    "item_key": "pyrethium_wrench_star_e9",
-    "name": "Pyrethium Wrench ⭐ +9",
-    "sell_price": 705000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/pyrethium_wrench.png"
-  },
-  {
     "item_key": "pyrethium_wrench_sun",
     "name": "Pyrethium Wrench ☀️",
     "sell_price": 600000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/pyrethium_wrench.png"
-  },
-  {
-    "item_key": "pyrethium_wrench_sun_e10",
-    "name": "Pyrethium Wrench ☀️ +10",
-    "sell_price": 1500000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/pyrethium_wrench.png"
-  },
-  {
-    "item_key": "pyrethium_wrench_sun_e6",
-    "name": "Pyrethium Wrench ☀️ +6",
-    "sell_price": 1140000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/pyrethium_wrench.png"
-  },
-  {
-    "item_key": "pyrethium_wrench_sun_e7",
-    "name": "Pyrethium Wrench ☀️ +7",
-    "sell_price": 1230000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/pyrethium_wrench.png"
-  },
-  {
-    "item_key": "pyrethium_wrench_sun_e8",
-    "name": "Pyrethium Wrench ☀️ +8",
-    "sell_price": 1320000,
-    "rarity": "mythic",
-    "category": "tools",
-    "icon": "tools/pyrethium_wrench.png"
-  },
-  {
-    "item_key": "pyrethium_wrench_sun_e9",
-    "name": "Pyrethium Wrench ☀️ +9",
-    "sell_price": 1410000,
     "rarity": "mythic",
     "category": "tools",
     "icon": "tools/pyrethium_wrench.png"
@@ -16980,7 +15564,7 @@
     "name": "Sacred Ashes",
     "sell_price": 400,
     "rarity": "mythic",
-    "category": "material",
+    "category": "ashes",
     "icon": "items/sacred_ashes.png"
   },
   {
@@ -16988,7 +15572,7 @@
     "name": "Scorchfruit",
     "sell_price": 6000,
     "rarity": "mythic",
-    "category": "fruit",
+    "category": "farming - fruit",
     "icon": "farming/scorchfruit.png"
   },
   {
@@ -17244,7 +15828,7 @@
     "name": "Shadowmoss",
     "sell_price": 150,
     "rarity": "uncommon",
-    "category": "herb",
+    "category": "farming - herb",
     "icon": "farming/shadowmoss.png"
   },
   {
@@ -19612,7 +18196,7 @@
     "name": "Soulgrape",
     "sell_price": 540,
     "rarity": "rare",
-    "category": "crop",
+    "category": "farming - crop",
     "icon": "farming/soulgrape.png"
   },
   {
@@ -19700,7 +18284,7 @@
     "name": "Spiritbloom",
     "sell_price": 300,
     "rarity": "rare",
-    "category": "herb",
+    "category": "farming - herb",
     "icon": "farming/spiritbloom.png"
   },
   {
@@ -19716,7 +18300,7 @@
     "name": "Spiritoak Fruit",
     "sell_price": 1500,
     "rarity": "epic",
-    "category": "fruit",
+    "category": "farming - fruit",
     "icon": "farming/spiritoak_fruit.png"
   },
   {
@@ -19748,7 +18332,7 @@
     "name": "Stardust Rose",
     "sell_price": 360,
     "rarity": "rare",
-    "category": "flower",
+    "category": "farming - flower",
     "icon": "farming/stardust_rose.png"
   },
   {
@@ -19764,7 +18348,7 @@
     "name": "Starmelon",
     "sell_price": 135,
     "rarity": "uncommon",
-    "category": "crop",
+    "category": "farming - crop",
     "icon": "farming/starmelon.png"
   },
   {
@@ -20284,7 +18868,7 @@
     "name": "Sunpetal",
     "sell_price": 25,
     "rarity": null,
-    "category": "flower",
+    "category": "farming - flower",
     "icon": "farming/sunpetal.png"
   },
   {
@@ -20356,7 +18940,7 @@
     "name": "Superior Charm",
     "sell_price": 2000,
     "rarity": null,
-    "category": "slayer utility",
+    "category": "slayer equipment",
     "icon": "slayer/superior_charm.png"
   },
   {
@@ -22144,41 +20728,9 @@
     "icon": "tools/vexite_saw.png"
   },
   {
-    "item_key": "vexite_saw_e6",
-    "name": "Vexite Saw +6",
-    "sell_price": 19000,
-    "rarity": "epic",
-    "category": "tools",
-    "icon": "tools/vexite_saw.png"
-  },
-  {
-    "item_key": "vexite_saw_e7",
-    "name": "Vexite Saw +7",
-    "sell_price": 20500,
-    "rarity": "epic",
-    "category": "tools",
-    "icon": "tools/vexite_saw.png"
-  },
-  {
     "item_key": "vexite_saw_moon",
     "name": "Vexite Saw 🌙",
     "sell_price": 20000,
-    "rarity": "epic",
-    "category": "tools",
-    "icon": "tools/vexite_saw.png"
-  },
-  {
-    "item_key": "vexite_saw_moon_e6",
-    "name": "Vexite Saw 🌙 +6",
-    "sell_price": 38000,
-    "rarity": "epic",
-    "category": "tools",
-    "icon": "tools/vexite_saw.png"
-  },
-  {
-    "item_key": "vexite_saw_moon_e7",
-    "name": "Vexite Saw 🌙 +7",
-    "sell_price": 41000,
     "rarity": "epic",
     "category": "tools",
     "icon": "tools/vexite_saw.png"
@@ -22192,41 +20744,9 @@
     "icon": "tools/vexite_saw.png"
   },
   {
-    "item_key": "vexite_saw_star_e6",
-    "name": "Vexite Saw ⭐ +6",
-    "sell_price": 28500,
-    "rarity": "epic",
-    "category": "tools",
-    "icon": "tools/vexite_saw.png"
-  },
-  {
-    "item_key": "vexite_saw_star_e7",
-    "name": "Vexite Saw ⭐ +7",
-    "sell_price": 30750,
-    "rarity": "epic",
-    "category": "tools",
-    "icon": "tools/vexite_saw.png"
-  },
-  {
     "item_key": "vexite_saw_sun",
     "name": "Vexite Saw ☀️",
     "sell_price": 30000,
-    "rarity": "epic",
-    "category": "tools",
-    "icon": "tools/vexite_saw.png"
-  },
-  {
-    "item_key": "vexite_saw_sun_e6",
-    "name": "Vexite Saw ☀️ +6",
-    "sell_price": 57000,
-    "rarity": "epic",
-    "category": "tools",
-    "icon": "tools/vexite_saw.png"
-  },
-  {
-    "item_key": "vexite_saw_sun_e7",
-    "name": "Vexite Saw ☀️ +7",
-    "sell_price": 61500,
     "rarity": "epic",
     "category": "tools",
     "icon": "tools/vexite_saw.png"
@@ -22432,41 +20952,9 @@
     "icon": "tools/vexite_wrench.png"
   },
   {
-    "item_key": "vexite_wrench_e6",
-    "name": "Vexite Wrench +6",
-    "sell_price": 19000,
-    "rarity": "epic",
-    "category": "tools",
-    "icon": "tools/vexite_wrench.png"
-  },
-  {
-    "item_key": "vexite_wrench_e7",
-    "name": "Vexite Wrench +7",
-    "sell_price": 20500,
-    "rarity": "epic",
-    "category": "tools",
-    "icon": "tools/vexite_wrench.png"
-  },
-  {
     "item_key": "vexite_wrench_moon",
     "name": "Vexite Wrench 🌙",
     "sell_price": 20000,
-    "rarity": "epic",
-    "category": "tools",
-    "icon": "tools/vexite_wrench.png"
-  },
-  {
-    "item_key": "vexite_wrench_moon_e6",
-    "name": "Vexite Wrench 🌙 +6",
-    "sell_price": 38000,
-    "rarity": "epic",
-    "category": "tools",
-    "icon": "tools/vexite_wrench.png"
-  },
-  {
-    "item_key": "vexite_wrench_moon_e7",
-    "name": "Vexite Wrench 🌙 +7",
-    "sell_price": 41000,
     "rarity": "epic",
     "category": "tools",
     "icon": "tools/vexite_wrench.png"
@@ -22480,41 +20968,9 @@
     "icon": "tools/vexite_wrench.png"
   },
   {
-    "item_key": "vexite_wrench_star_e6",
-    "name": "Vexite Wrench ⭐ +6",
-    "sell_price": 28500,
-    "rarity": "epic",
-    "category": "tools",
-    "icon": "tools/vexite_wrench.png"
-  },
-  {
-    "item_key": "vexite_wrench_star_e7",
-    "name": "Vexite Wrench ⭐ +7",
-    "sell_price": 30750,
-    "rarity": "epic",
-    "category": "tools",
-    "icon": "tools/vexite_wrench.png"
-  },
-  {
     "item_key": "vexite_wrench_sun",
     "name": "Vexite Wrench ☀️",
     "sell_price": 30000,
-    "rarity": "epic",
-    "category": "tools",
-    "icon": "tools/vexite_wrench.png"
-  },
-  {
-    "item_key": "vexite_wrench_sun_e6",
-    "name": "Vexite Wrench ☀️ +6",
-    "sell_price": 57000,
-    "rarity": "epic",
-    "category": "tools",
-    "icon": "tools/vexite_wrench.png"
-  },
-  {
-    "item_key": "vexite_wrench_sun_e7",
-    "name": "Vexite Wrench ☀️ +7",
-    "sell_price": 61500,
     "rarity": "epic",
     "category": "tools",
     "icon": "tools/vexite_wrench.png"
@@ -22540,7 +20996,7 @@
     "name": "Void Ashes",
     "sell_price": 75,
     "rarity": "epic",
-    "category": "material",
+    "category": "ashes",
     "icon": "items/void_ashes.png"
   },
   {
@@ -22836,7 +21292,7 @@
     "name": "Voidberry",
     "sell_price": 270,
     "rarity": "rare",
-    "category": "crop",
+    "category": "farming - crop",
     "icon": "farming/voidberry.png"
   },
   {
@@ -22876,7 +21332,7 @@
     "name": "Voidorchid",
     "sell_price": 1500,
     "rarity": "epic",
-    "category": "flower",
+    "category": "farming - flower",
     "icon": "farming/voidorchid.png"
   },
   {
@@ -22892,7 +21348,7 @@
     "name": "Voidpetal",
     "sell_price": 600,
     "rarity": "rare",
-    "category": "herb",
+    "category": "farming - herb",
     "icon": "farming/voidpetal.png"
   },
   {
@@ -23236,7 +21692,7 @@
     "name": "Worldtree Fruit",
     "sell_price": 4000,
     "rarity": "legendary",
-    "category": "fruit",
+    "category": "farming - fruit",
     "icon": "farming/worldtree_fruit.png"
   },
   {
@@ -23856,89 +22312,9 @@
     "icon": "tools/zephyne_saw.png"
   },
   {
-    "item_key": "zephyne_saw_e10",
-    "name": "Zephyne Saw +10",
-    "sell_price": 50000,
-    "rarity": "legendary",
-    "category": "tools",
-    "icon": "tools/zephyne_saw.png"
-  },
-  {
-    "item_key": "zephyne_saw_e6",
-    "name": "Zephyne Saw +6",
-    "sell_price": 38000,
-    "rarity": "legendary",
-    "category": "tools",
-    "icon": "tools/zephyne_saw.png"
-  },
-  {
-    "item_key": "zephyne_saw_e7",
-    "name": "Zephyne Saw +7",
-    "sell_price": 41000,
-    "rarity": "legendary",
-    "category": "tools",
-    "icon": "tools/zephyne_saw.png"
-  },
-  {
-    "item_key": "zephyne_saw_e8",
-    "name": "Zephyne Saw +8",
-    "sell_price": 44000,
-    "rarity": "legendary",
-    "category": "tools",
-    "icon": "tools/zephyne_saw.png"
-  },
-  {
-    "item_key": "zephyne_saw_e9",
-    "name": "Zephyne Saw +9",
-    "sell_price": 47000,
-    "rarity": "legendary",
-    "category": "tools",
-    "icon": "tools/zephyne_saw.png"
-  },
-  {
     "item_key": "zephyne_saw_moon",
     "name": "Zephyne Saw 🌙",
     "sell_price": 40000,
-    "rarity": "legendary",
-    "category": "tools",
-    "icon": "tools/zephyne_saw.png"
-  },
-  {
-    "item_key": "zephyne_saw_moon_e10",
-    "name": "Zephyne Saw 🌙 +10",
-    "sell_price": 100000,
-    "rarity": "legendary",
-    "category": "tools",
-    "icon": "tools/zephyne_saw.png"
-  },
-  {
-    "item_key": "zephyne_saw_moon_e6",
-    "name": "Zephyne Saw 🌙 +6",
-    "sell_price": 76000,
-    "rarity": "legendary",
-    "category": "tools",
-    "icon": "tools/zephyne_saw.png"
-  },
-  {
-    "item_key": "zephyne_saw_moon_e7",
-    "name": "Zephyne Saw 🌙 +7",
-    "sell_price": 82000,
-    "rarity": "legendary",
-    "category": "tools",
-    "icon": "tools/zephyne_saw.png"
-  },
-  {
-    "item_key": "zephyne_saw_moon_e8",
-    "name": "Zephyne Saw 🌙 +8",
-    "sell_price": 88000,
-    "rarity": "legendary",
-    "category": "tools",
-    "icon": "tools/zephyne_saw.png"
-  },
-  {
-    "item_key": "zephyne_saw_moon_e9",
-    "name": "Zephyne Saw 🌙 +9",
-    "sell_price": 94000,
     "rarity": "legendary",
     "category": "tools",
     "icon": "tools/zephyne_saw.png"
@@ -23952,89 +22328,9 @@
     "icon": "tools/zephyne_saw.png"
   },
   {
-    "item_key": "zephyne_saw_star_e10",
-    "name": "Zephyne Saw ⭐ +10",
-    "sell_price": 75000,
-    "rarity": "legendary",
-    "category": "tools",
-    "icon": "tools/zephyne_saw.png"
-  },
-  {
-    "item_key": "zephyne_saw_star_e6",
-    "name": "Zephyne Saw ⭐ +6",
-    "sell_price": 57000,
-    "rarity": "legendary",
-    "category": "tools",
-    "icon": "tools/zephyne_saw.png"
-  },
-  {
-    "item_key": "zephyne_saw_star_e7",
-    "name": "Zephyne Saw ⭐ +7",
-    "sell_price": 61500,
-    "rarity": "legendary",
-    "category": "tools",
-    "icon": "tools/zephyne_saw.png"
-  },
-  {
-    "item_key": "zephyne_saw_star_e8",
-    "name": "Zephyne Saw ⭐ +8",
-    "sell_price": 66000,
-    "rarity": "legendary",
-    "category": "tools",
-    "icon": "tools/zephyne_saw.png"
-  },
-  {
-    "item_key": "zephyne_saw_star_e9",
-    "name": "Zephyne Saw ⭐ +9",
-    "sell_price": 70500,
-    "rarity": "legendary",
-    "category": "tools",
-    "icon": "tools/zephyne_saw.png"
-  },
-  {
     "item_key": "zephyne_saw_sun",
     "name": "Zephyne Saw ☀️",
     "sell_price": 60000,
-    "rarity": "legendary",
-    "category": "tools",
-    "icon": "tools/zephyne_saw.png"
-  },
-  {
-    "item_key": "zephyne_saw_sun_e10",
-    "name": "Zephyne Saw ☀️ +10",
-    "sell_price": 150000,
-    "rarity": "legendary",
-    "category": "tools",
-    "icon": "tools/zephyne_saw.png"
-  },
-  {
-    "item_key": "zephyne_saw_sun_e6",
-    "name": "Zephyne Saw ☀️ +6",
-    "sell_price": 114000,
-    "rarity": "legendary",
-    "category": "tools",
-    "icon": "tools/zephyne_saw.png"
-  },
-  {
-    "item_key": "zephyne_saw_sun_e7",
-    "name": "Zephyne Saw ☀️ +7",
-    "sell_price": 123000,
-    "rarity": "legendary",
-    "category": "tools",
-    "icon": "tools/zephyne_saw.png"
-  },
-  {
-    "item_key": "zephyne_saw_sun_e8",
-    "name": "Zephyne Saw ☀️ +8",
-    "sell_price": 132000,
-    "rarity": "legendary",
-    "category": "tools",
-    "icon": "tools/zephyne_saw.png"
-  },
-  {
-    "item_key": "zephyne_saw_sun_e9",
-    "name": "Zephyne Saw ☀️ +9",
-    "sell_price": 141000,
     "rarity": "legendary",
     "category": "tools",
     "icon": "tools/zephyne_saw.png"
@@ -24240,89 +22536,9 @@
     "icon": "tools/zephyne_wrench.png"
   },
   {
-    "item_key": "zephyne_wrench_e10",
-    "name": "Zephyne Wrench +10",
-    "sell_price": 50000,
-    "rarity": "legendary",
-    "category": "tools",
-    "icon": "tools/zephyne_wrench.png"
-  },
-  {
-    "item_key": "zephyne_wrench_e6",
-    "name": "Zephyne Wrench +6",
-    "sell_price": 38000,
-    "rarity": "legendary",
-    "category": "tools",
-    "icon": "tools/zephyne_wrench.png"
-  },
-  {
-    "item_key": "zephyne_wrench_e7",
-    "name": "Zephyne Wrench +7",
-    "sell_price": 41000,
-    "rarity": "legendary",
-    "category": "tools",
-    "icon": "tools/zephyne_wrench.png"
-  },
-  {
-    "item_key": "zephyne_wrench_e8",
-    "name": "Zephyne Wrench +8",
-    "sell_price": 44000,
-    "rarity": "legendary",
-    "category": "tools",
-    "icon": "tools/zephyne_wrench.png"
-  },
-  {
-    "item_key": "zephyne_wrench_e9",
-    "name": "Zephyne Wrench +9",
-    "sell_price": 47000,
-    "rarity": "legendary",
-    "category": "tools",
-    "icon": "tools/zephyne_wrench.png"
-  },
-  {
     "item_key": "zephyne_wrench_moon",
     "name": "Zephyne Wrench 🌙",
     "sell_price": 40000,
-    "rarity": "legendary",
-    "category": "tools",
-    "icon": "tools/zephyne_wrench.png"
-  },
-  {
-    "item_key": "zephyne_wrench_moon_e10",
-    "name": "Zephyne Wrench 🌙 +10",
-    "sell_price": 100000,
-    "rarity": "legendary",
-    "category": "tools",
-    "icon": "tools/zephyne_wrench.png"
-  },
-  {
-    "item_key": "zephyne_wrench_moon_e6",
-    "name": "Zephyne Wrench 🌙 +6",
-    "sell_price": 76000,
-    "rarity": "legendary",
-    "category": "tools",
-    "icon": "tools/zephyne_wrench.png"
-  },
-  {
-    "item_key": "zephyne_wrench_moon_e7",
-    "name": "Zephyne Wrench 🌙 +7",
-    "sell_price": 82000,
-    "rarity": "legendary",
-    "category": "tools",
-    "icon": "tools/zephyne_wrench.png"
-  },
-  {
-    "item_key": "zephyne_wrench_moon_e8",
-    "name": "Zephyne Wrench 🌙 +8",
-    "sell_price": 88000,
-    "rarity": "legendary",
-    "category": "tools",
-    "icon": "tools/zephyne_wrench.png"
-  },
-  {
-    "item_key": "zephyne_wrench_moon_e9",
-    "name": "Zephyne Wrench 🌙 +9",
-    "sell_price": 94000,
     "rarity": "legendary",
     "category": "tools",
     "icon": "tools/zephyne_wrench.png"
@@ -24336,89 +22552,9 @@
     "icon": "tools/zephyne_wrench.png"
   },
   {
-    "item_key": "zephyne_wrench_star_e10",
-    "name": "Zephyne Wrench ⭐ +10",
-    "sell_price": 75000,
-    "rarity": "legendary",
-    "category": "tools",
-    "icon": "tools/zephyne_wrench.png"
-  },
-  {
-    "item_key": "zephyne_wrench_star_e6",
-    "name": "Zephyne Wrench ⭐ +6",
-    "sell_price": 57000,
-    "rarity": "legendary",
-    "category": "tools",
-    "icon": "tools/zephyne_wrench.png"
-  },
-  {
-    "item_key": "zephyne_wrench_star_e7",
-    "name": "Zephyne Wrench ⭐ +7",
-    "sell_price": 61500,
-    "rarity": "legendary",
-    "category": "tools",
-    "icon": "tools/zephyne_wrench.png"
-  },
-  {
-    "item_key": "zephyne_wrench_star_e8",
-    "name": "Zephyne Wrench ⭐ +8",
-    "sell_price": 66000,
-    "rarity": "legendary",
-    "category": "tools",
-    "icon": "tools/zephyne_wrench.png"
-  },
-  {
-    "item_key": "zephyne_wrench_star_e9",
-    "name": "Zephyne Wrench ⭐ +9",
-    "sell_price": 70500,
-    "rarity": "legendary",
-    "category": "tools",
-    "icon": "tools/zephyne_wrench.png"
-  },
-  {
     "item_key": "zephyne_wrench_sun",
     "name": "Zephyne Wrench ☀️",
     "sell_price": 60000,
-    "rarity": "legendary",
-    "category": "tools",
-    "icon": "tools/zephyne_wrench.png"
-  },
-  {
-    "item_key": "zephyne_wrench_sun_e10",
-    "name": "Zephyne Wrench ☀️ +10",
-    "sell_price": 150000,
-    "rarity": "legendary",
-    "category": "tools",
-    "icon": "tools/zephyne_wrench.png"
-  },
-  {
-    "item_key": "zephyne_wrench_sun_e6",
-    "name": "Zephyne Wrench ☀️ +6",
-    "sell_price": 114000,
-    "rarity": "legendary",
-    "category": "tools",
-    "icon": "tools/zephyne_wrench.png"
-  },
-  {
-    "item_key": "zephyne_wrench_sun_e7",
-    "name": "Zephyne Wrench ☀️ +7",
-    "sell_price": 123000,
-    "rarity": "legendary",
-    "category": "tools",
-    "icon": "tools/zephyne_wrench.png"
-  },
-  {
-    "item_key": "zephyne_wrench_sun_e8",
-    "name": "Zephyne Wrench ☀️ +8",
-    "sell_price": 132000,
-    "rarity": "legendary",
-    "category": "tools",
-    "icon": "tools/zephyne_wrench.png"
-  },
-  {
-    "item_key": "zephyne_wrench_sun_e9",
-    "name": "Zephyne Wrench ☀️ +9",
-    "sell_price": 141000,
     "rarity": "legendary",
     "category": "tools",
     "icon": "tools/zephyne_wrench.png"

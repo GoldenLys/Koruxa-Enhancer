@@ -46,6 +46,24 @@
             scrollbar-width: none;
         }
 
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.15);
+            border-radius: 3px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
         .scroll-arrow {
             flex-shrink: 0;
             width: 22px;
@@ -94,8 +112,8 @@
         <div class="max-w-[1500px] mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-4">
             <div>
                 <h1 class="font-pixel text-secondary text-xs sm:text-sm tracking-widest drop-shadow">
-                    KORUXA ITEMS LIST
-                    <small class="block font-sans text-[9px] sm:text-[10px] text-base-content/60 tracking-widest mt-1">SELL PRICES &amp; RARITIES</small>
+                    KORUXA ITEM INDEX
+                    <small class="block font-sans text-[9px] sm:text-[10px] text-base-content/60 tracking-widest mt-1">ITEM PRICES / SOURCES / ALCHEMY RATES</small>
                 </h1>
             </div>
             <div class="flex gap-4 text-xs text-base-content/70">
@@ -185,7 +203,7 @@
     </dialog>
 
     <main class="max-w-[1500px] mx-auto p-3 sm:p-5 pb-16">
-        <div class="grid grid-cols-[repeat(auto-fill,minmax(140px,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(178px,1fr))] gap-2 sm:gap-3" id="grid"></div>
+        <div class="grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] sm:grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-2 sm:gap-3" id="grid"></div>
     </main>
 
     <footer class="footer footer-center p-4 bg-base-100 text-base-content/60 text-[10px] border-t border-base-200">
@@ -196,6 +214,7 @@
 
     <script>
         let ITEMS = [];
+        let ITEM_SOURCES = {};
         const RARITY_ORDER = { common: 0, uncommon: 1, rare: 2, epic: 3, legendary: 4, mythic: 5 };
         const RARITY_COLORS = { common: '#9ca3af', uncommon: '#50fa7b', rare: '#8be9fd', epic: '#bd93f9', legendary: '#ffb86c', mythic: '#ff5555' };
         const ICON_BASE = 'https://koruxa.com/assets/img/';
@@ -216,12 +235,57 @@
         }
 
         const DEFAULT_CATS = ['bars', 'ore', 'gem'];
-        const HIDDEN_CATS = ['event', 'premium token'];
+        const HIDDEN_CATS = ['event', 'scrolls'];
         const state = { q: '', sort: 'price-desc', cats: new Set(), rars: new Set() };
         let sealedOn = { sun: false, star: false, moon: false };
         try { Object.assign(sealedOn, JSON.parse(localStorage.getItem('kx_vault_sealed') || '{}')); } catch (e) { }
 
         function fmt(n) { return n == null ? '' : Number(n).toLocaleString('en-US'); }
+
+        function buildSkillMap(data) {
+            ITEM_SOURCES = {};
+
+            const addSource = (itemKey, skill, category, source, minLevel, isRare = false) => {
+                if (!itemKey) return;
+                if (!ITEM_SOURCES[itemKey]) ITEM_SOURCES[itemKey] = [];
+
+                const isDup = ITEM_SOURCES[itemKey].some(s => s.skill === skill && s.category === category && s.source === source && s.isRare === isRare);
+                if (!isDup) {
+                    ITEM_SOURCES[itemKey].push({ skill, category, source, minLevel, isRare });
+                }
+            };
+
+            for (const [skillName, sub] of Object.entries(data)) {
+                if (!sub || typeof sub !== 'object') continue;
+                for (const [key, val] of Object.entries(sub)) {
+                    if (!val || typeof val !== 'object') continue;
+                    const isDirect = 'reward_item_key' in val || 'rare_item_keys' in val || 'label' in val || 'min_level' in val || 'xp' in val;
+                    if (isDirect) {
+                        if (val.reward_item_key) {
+                            addSource(val.reward_item_key, skillName, null, val.label || key, val.min_level ?? 1, false);
+                        }
+                        if (Array.isArray(val.rare_item_keys)) {
+                            val.rare_item_keys.forEach(rk => {
+                                addSource(rk, skillName, null, val.label || key, val.min_level ?? 1, true);
+                            });
+                        }
+                    } else {
+                        for (const [actKey, act] of Object.entries(val)) {
+                            if (act && typeof act === 'object') {
+                                if (act.reward_item_key) {
+                                    addSource(act.reward_item_key, skillName, key, act.label || actKey, act.min_level ?? 1, false);
+                                }
+                                if (Array.isArray(act.rare_item_keys)) {
+                                    act.rare_item_keys.forEach(rk => {
+                                        addSource(rk, skillName, key, act.label || actKey, act.min_level ?? 1, true);
+                                    });
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         function buildChips(el, keys, set, colorOf, labelOf) {
             keys.forEach(k => {
@@ -290,31 +354,75 @@
                 const rar = it.rarity || 'common';
                 const card = document.createElement('div');
                 const color = RARITY_COLORS[rar] || RARITY_COLORS.common;
-                card.className = 'card card-compact bg-base-100 border border-base-200 card-pop p-2.5 sm:p-3 text-center transition-all hover:-translate-y-1 hover:shadow-lg';
+                const sources = ITEM_SOURCES[it.item_key] || [];
+                const hasSources = sources.length > 0;
+
+                card.className = 'card card-compact bg-base-100 border border-base-200 card-pop p-3 text-center transition-all hover:-translate-y-1 hover:shadow-lg flex flex-row items-center justify-between gap-2';
                 card.style.borderTop = `3px solid ${color}`;
                 card.style.animationDelay = Math.min(i * 12, 400) + 'ms';
 
                 const icon = it.icon
-                    ? `<img src="${ICON_BASE}${it.icon.replace(/"/g, '')}" alt="" loading="lazy" class="w-12 h-12 sm:w-14 sm:h-14 mx-auto mb-1.5 image-pixelated filter drop-shadow" onerror="this.outerHTML='<div class=\'text-2xl sm:text-3xl leading-[48px]\'>&#129528;</div>'">`
+                    ? `<img src="${ICON_BASE}${it.icon.replace(/"/g, '')}" alt="" loading="lazy" class="w-12 h-12 sm:w-14 sm:h-14 mx-auto mb-1 image-pixelated filter drop-shadow" onerror="this.outerHTML='<div class=\'text-2xl sm:text-3xl leading-[48px]\'>&#129528;</div>'">`
                     : '<div class="text-2xl sm:text-3xl leading-[48px]">&#129528;</div>';
 
                 let price;
                 if (it.sell_price) {
                     const conv = alchPrice(it.sell_price);
                     const showAlch = alchActive() && conv !== it.sell_price;
-                    price = `<div class="font-bold text-accent text-xs sm:text-sm mt-1.5">&#129689; ${fmt(it.sell_price)}</div>`
+                    price = `<div class="font-bold text-accent text-xs sm:text-sm mt-1">&#129689; ${fmt(it.sell_price)}</div>`
                         + (showAlch ? `<div class="text-[9px] sm:text-[10px] text-secondary font-semibold mt-0.5">&#10024;&#129689; ${fmt(conv)}</div>` : '');
                     if (showAlch) {
                         const cph = Math.round(conv * 3600 / 5.2);
                         price += `<div class="text-[9px] sm:text-[10px] text-success font-semibold mt-0.5">&#128337; ${fmt(cph)}/h</div>`;
                     }
                 } else {
-                    price = '<div class="text-[10px] sm:text-xs text-base-content/40 mt-1.5">— no value —</div>';
+                    price = '<div class="text-[10px] sm:text-xs text-base-content/40 mt-1">— no value —</div>';
                 }
 
-                card.innerHTML = icon
-                    + `<div class="font-bold text-[11px] sm:text-xs leading-tight min-h-[28px] sm:min-h-[32px] flex items-center justify-center break-words">${it.name.replace(/</g, '&lt;')}</div>`
-                    + `<div class="text-[8px] sm:text-[9px] uppercase tracking-widest mt-1 font-semibold" style="color:${color}">${rar}</div>` + price;
+                let sourcesHtml = '';
+                if (hasSources) {
+                    const itemsList = sources.map(src => {
+                        const catBadge = src.category ? `<span class="opacity-60"> (${src.category})</span>` : '';
+                        const rareTag = src.isRare
+                            ? `<span class="badge badge-xs bg-warning/20 text-warning border-warning/30 text-[8px] px-1 font-semibold shrink-0">Rare</span>`
+                            : '';
+                        return `
+                            <div class="bg-base-200/90 p-1.5 rounded flex items-start justify-between gap-1 border border-base-content/5 text-left" title="${src.skill}${src.category ? ' (' + src.category + ')' : ''} - ${src.source}">
+                                <div class="min-w-0 flex-1 leading-tight">
+                                    <div class="font-bold text-secondary text-[9px] capitalize break-words">${src.skill}${catBadge}</div>
+                                    <div class="text-base-content/80 text-[8.5px] break-words mt-0.5">${src.source}</div>
+                                </div>
+                                <div class="flex flex-col items-end gap-0.5 shrink-0 ml-1">
+                                    <span class="badge badge-xs badge-neutral text-[8px] px-1 font-mono">Lvl ${src.minLevel}</span>
+                                    ${rareTag}
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+
+                    sourcesHtml = `
+                        <div class="pl-2 border-l border-base-content/10 flex flex-col gap-1 w-[58%] min-w-0 shrink-0">
+                            <div class="text-[8px] uppercase tracking-wider text-base-content/40 font-bold text-left px-0.5">
+                                Sources (${sources.length})
+                            </div>
+                            <div class="max-h-[140px] overflow-y-auto space-y-1 pr-0.5 custom-scrollbar">
+                                ${itemsList}
+                            </div>
+                        </div>
+                    `;
+                }
+
+                const leftWidth = hasSources ? 'w-[42%]' : 'w-full';
+
+                card.innerHTML = `
+                    <div class="${leftWidth} flex flex-col items-center justify-center min-w-0">
+                        ${icon}
+                        <div class="font-bold text-[11px] sm:text-xs leading-tight min-h-[28px] sm:min-h-[32px] flex items-center justify-center text-center break-words w-full px-1">${it.name.replace(/</g, '&lt;')}</div>
+                        <div class="text-[8px] sm:text-[9px] uppercase tracking-widest mt-0.5 font-semibold" style="color:${color}">${rar}</div>
+                        ${price}
+                    </div>
+                    ${sourcesHtml}
+                `;
                 grid.appendChild(card);
             });
             document.getElementById('st-shown').textContent = fmt(items.length);
@@ -384,12 +492,17 @@
             render();
         }
 
-        fetch('all_items.json')
-            .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
-            .then(boot)
+        Promise.all([
+            fetch('assets/js/all_items.json').then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }),
+            fetch('assets/js/data.json').then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+        ])
+            .then(([items, skillsData]) => {
+                buildSkillMap(skillsData);
+                boot(items);
+            })
             .catch(err => {
                 document.getElementById('grid').innerHTML =
-                    '<div class="col-span-full text-center py-16 text-base-content/50"><div class="text-3xl mb-2">&#128274;</div>Could not load all_items.json (' + err.message + ').<br><br>' +
+                    '<div class="col-span-full text-center py-16 text-base-content/50"><div class="text-3xl mb-2">&#128274;</div>Could not load items or skills data (' + err.message + ').<br><br>' +
                     'Browsers block a double-clicked page from reading local files — run <b class="text-secondary">open.bat</b> instead.</div>';
             });
 

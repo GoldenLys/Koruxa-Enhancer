@@ -180,8 +180,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const rangeHitValueDisplay = document.getElementById('rangeHitValue');
     const rangeHitDescDisplay = document.getElementById('rangeHitDesc');
-    const rangeCritHitValueDisplay = document.getElementById('rangeCritHitValue');
-    const rangeCritHitDescDisplay = document.getElementById('rangeCritHitDesc');
     const rangeAttemptDisplay = document.getElementById('rangeAttemptValue');
     const avgHitDisplay = document.getElementById('avgHitValue');
     const avgAttemptDisplay = document.getElementById('avgAttemptValue');
@@ -215,8 +213,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const critChance = Math.min((5 + lvlCrit) / 100, 1);
         const critMult = 1.5 + (lvlDev * 0.15);
         const maxRageBonus = Math.min(lvlRage, 15) * 0.05;
-        const precisionMult = 1 + (lvlPrecision * 0.01);
-
 
         // 1. Calculate Average Rage Multiplier over time (Ramp-up: +10% per hit/sec until cap)
         let rageAvgMult = 1.0;
