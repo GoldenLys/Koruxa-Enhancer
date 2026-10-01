@@ -33,8 +33,10 @@
             }
         }
 
-        .card-pop {
-            animation: pop .3s backwards;
+        @media (min-width: 640px) {
+            .card-pop {
+                animation: pop .3s backwards;
+            }
         }
 
         .no-scrollbar::-webkit-scrollbar {
@@ -78,7 +80,7 @@
             font-size: 14px;
             line-height: 1;
             cursor: pointer;
-            transition: opacity 0.2s, background-color 0.15s;
+            transition: opacity 0.2s, background-color 0.15s, width 0.2s;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
         }
 
@@ -91,6 +93,7 @@
         .scroll-arrow:disabled {
             opacity: 0 !important;
             pointer-events: none;
+            width: 0;
         }
 
         #cat-chips>button,
@@ -123,8 +126,7 @@
         </div>
 
         <div class="max-w-[1500px] mx-auto flex items-center gap-2 mt-3">
-            <input type="search" id="q" placeholder="Search items…" class="input input-sm input-bordered flex-1 text-xs" />
-
+            <input type="search" id="q" placeholder="Search items…" class="input input-sm input-bordered flex-1 min-w-0 text-xs" />
             <select id="sort" class="select select-sm select-bordered text-xs max-w-[130px] sm:max-w-none">
                 <option value="name-asc">Name A→Z</option>
                 <option value="price-desc" selected>Price high→low</option>
@@ -141,8 +143,8 @@
 
         <div class="max-w-[1500px] mx-auto space-y-1.5 mt-3">
 
-            <div class="flex items-start sm:items-center gap-1.5">
-                <span class="text-[9px] uppercase tracking-widest text-base-content/50 shrink-0 w-16 pt-1 sm:pt-0">Sealed</span>
+            <div class="flex items-center gap-2">
+                <span class="text-[9px] uppercase tracking-widest text-base-content/50 shrink-0">Sealed</span>
                 <div class="flex-1 min-w-0 flex items-center gap-1">
                     <button onclick="scrollRow(this, -1)" class="scroll-arrow left-btn">&#8249;</button>
                     <div class="scroll-row flex items-center gap-2 overflow-x-auto sm:overflow-visible sm:flex-wrap no-scrollbar py-0.5 scroll-smooth flex-1" id="sealed-chips">
@@ -154,8 +156,8 @@
                 </div>
             </div>
 
-            <div class="flex items-start sm:items-center gap-1.5">
-                <span class="text-[9px] uppercase tracking-widest text-base-content/50 shrink-0 w-16 pt-1 sm:pt-0">Category</span>
+            <div class="flex items-center gap-2">
+                <span class="text-[9px] uppercase tracking-widest text-base-content/50 shrink-0">Category</span>
                 <div class="flex-1 min-w-0 flex items-center gap-1">
                     <button onclick="scrollRow(this, -1)" class="scroll-arrow left-btn">&#8249;</button>
                     <div class="scroll-row flex items-center gap-2 overflow-x-auto sm:overflow-visible sm:flex-wrap no-scrollbar py-0.5 scroll-smooth flex-1" id="cat-chips"></div>
@@ -163,8 +165,8 @@
                 </div>
             </div>
 
-            <div class="flex items-start sm:items-center gap-1.5">
-                <span class="text-[9px] uppercase tracking-widest text-base-content/50 shrink-0 w-16 pt-1 sm:pt-0">Rarity</span>
+            <div class="flex items-center gap-2">
+                <span class="text-[9px] uppercase tracking-widest text-base-content/50 shrink-0">Rarity</span>
                 <div class="flex-1 min-w-0 flex items-center gap-1">
                     <button onclick="scrollRow(this, -1)" class="scroll-arrow left-btn">&#8249;</button>
                     <div class="scroll-row flex items-center gap-2 overflow-x-auto sm:overflow-visible sm:flex-wrap no-scrollbar py-0.5 scroll-smooth flex-1" id="rar-chips"></div>
@@ -236,11 +238,19 @@
 
         const DEFAULT_CATS = ['bars', 'ore', 'gem'];
         const HIDDEN_CATS = ['event', 'scrolls'];
-        const state = { q: '', sort: 'price-desc', cats: new Set(), rars: new Set() };
+        const state = { q: '', sort: 'price-desc', cats: new Set(), rars: new Set(), limit: 60 };
         let sealedOn = { sun: false, star: false, moon: false };
         try { Object.assign(sealedOn, JSON.parse(localStorage.getItem('kx_vault_sealed') || '{}')); } catch (e) { }
 
+        function isMobile() {
+            return window.innerWidth < 640;
+        }
+
         function fmt(n) { return n == null ? '' : Number(n).toLocaleString('en-US'); }
+
+        function resetLimit() {
+            state.limit = 60;
+        }
 
         function buildSkillMap(data) {
             ITEM_SOURCES = {};
@@ -308,14 +318,34 @@
                     if (set.has(k)) set.delete(k);
                     else set.add(k);
                     updateStyle();
+                    resetLimit();
                     render();
                 };
                 el.appendChild(c);
             });
         }
 
-        document.getElementById('q').oninput = e => { state.q = e.target.value.toLowerCase(); render(); };
-        document.getElementById('sort').onchange = e => { state.sort = e.target.value; render(); };
+        let searchTimeout;
+        document.getElementById('q').oninput = e => {
+            if (!isMobile()) {
+                state.q = e.target.value.toLowerCase();
+                resetLimit();
+                render();
+            } else {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    state.q = e.target.value.toLowerCase();
+                    resetLimit();
+                    render();
+                }, 200);
+            }
+        };
+
+        document.getElementById('sort').onchange = e => {
+            state.sort = e.target.value;
+            resetLimit();
+            render();
+        };
 
         function visible() {
             let out = ITEMS.filter(it => {
@@ -347,10 +377,18 @@
             const grid = document.getElementById('grid');
             const items = visible();
             grid.innerHTML = '';
+
             if (items.length === 0) {
                 grid.innerHTML = '<div class="col-span-full text-center py-16 text-base-content/50"><div class="text-3xl mb-2">&#129528;</div>No items match — try clearing a filter.</div>';
+                document.getElementById('st-shown').textContent = '0';
+                document.getElementById('st-total').textContent = fmt(ITEMS.length);
+                return;
             }
-            items.forEach((it, i) => {
+
+            const mobile = isMobile();
+            const displayed = mobile ? items.slice(0, state.limit) : items;
+
+            displayed.forEach((it, i) => {
                 const rar = it.rarity || 'common';
                 const card = document.createElement('div');
                 const color = RARITY_COLORS[rar] || RARITY_COLORS.common;
@@ -359,7 +397,9 @@
 
                 card.className = 'card card-compact bg-base-100 border border-base-200 card-pop p-3 text-center transition-all hover:-translate-y-1 hover:shadow-lg flex flex-row items-center justify-between gap-2';
                 card.style.borderTop = `3px solid ${color}`;
-                card.style.animationDelay = Math.min(i * 12, 400) + 'ms';
+                if (!mobile) {
+                    card.style.animationDelay = Math.min(i * 12, 400) + 'ms';
+                }
 
                 const icon = it.icon
                     ? `<img src="${ICON_BASE}${it.icon.replace(/"/g, '')}" alt="" loading="lazy" class="w-12 h-12 sm:w-14 sm:h-14 mx-auto mb-1 image-pixelated filter drop-shadow" onerror="this.outerHTML='<div class=\'text-2xl sm:text-3xl leading-[48px]\'>&#129528;</div>'">`
@@ -425,7 +465,22 @@
                 `;
                 grid.appendChild(card);
             });
-            document.getElementById('st-shown').textContent = fmt(items.length);
+
+            if (mobile && items.length > state.limit) {
+                const btnContainer = document.createElement('div');
+                btnContainer.className = 'col-span-full text-center py-4';
+                const moreBtn = document.createElement('button');
+                moreBtn.className = 'btn btn-secondary btn-sm';
+                moreBtn.textContent = `Load More (${items.length - state.limit} remaining)`;
+                moreBtn.onclick = () => {
+                    state.limit += 60;
+                    render();
+                };
+                btnContainer.appendChild(moreBtn);
+                grid.appendChild(btnContainer);
+            }
+
+            document.getElementById('st-shown').textContent = fmt(displayed.length);
             document.getElementById('st-total').textContent = fmt(ITEMS.length);
         }
 
@@ -462,7 +517,7 @@
             b.onclick = () => {
                 sealedOn[k] = !sealedOn[k];
                 b.className = sealedOn[k] ? 'btn btn-xs rounded-full btn-secondary shrink-0' : 'btn btn-xs rounded-full btn-outline border-base-content/20 shrink-0';
-                saveSealed(); render();
+                saveSealed(); resetLimit(); render();
             };
         });
 
@@ -529,11 +584,25 @@
             });
         }
 
+        let scrollTicking = false;
+        function updateScrollArrowsThrottled() {
+            if (!scrollTicking) {
+                requestAnimationFrame(() => {
+                    updateScrollArrows();
+                    scrollTicking = false;
+                });
+                scrollTicking = true;
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('.scroll-row').forEach(row => {
-                row.addEventListener('scroll', updateScrollArrows);
+                row.addEventListener('scroll', updateScrollArrowsThrottled);
             });
-            window.addEventListener('resize', updateScrollArrows);
+            window.addEventListener('resize', () => {
+                updateScrollArrowsThrottled();
+                render();
+            });
         });
 
         const originalBoot = boot;
