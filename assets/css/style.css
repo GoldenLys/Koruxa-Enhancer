@@ -153,6 +153,7 @@ body {
 .neh-footer {
     display: inline-flex;
     gap: 2.5px;
+}
 
 .neh-footer,
 .neh-sub-footer {
