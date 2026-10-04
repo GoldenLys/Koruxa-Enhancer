@@ -26,11 +26,13 @@ body {
 .sidebar-left {
     position: relative;
     transition: all 0.5s ease;
+    padding-top: 0px;
 }
 
 .sidebar-right {
     position: relative;
     height: 100%;
+    grid-column: 3;
 }
 
 #session-stat.nebs-container {
@@ -254,6 +256,11 @@ div#cat-other .skill-name {
     font-size: 26px;
 }
 
+.game-layout .sidebar-left {
+    overflow-x: visible !important;
+    overflow-y: visible !important;
+}
+
 @keyframes backgroundSlide {
     0% {
         background-position: 0% 0;
@@ -345,6 +352,7 @@ div#cat-other .skill-name {
 
     .game-layout .sidebar-left {
         display: flex;
+        flex-direction: row;
         flex-wrap: wrap;
         transition: all 0.5s ease;
         width: 100%;
@@ -355,7 +363,7 @@ div#cat-other .skill-name {
     }
 
     .game-area {
-        grid-column: 2 / 2;
+        grid-column: 1 / 3;
     }
 
     .game-layout .sidebar-left>div:not([class]) {
@@ -363,17 +371,32 @@ div#cat-other .skill-name {
         flex-wrap: wrap;
         justify-content: center;
         overflow-y: initial !important;
+        row-gap: .5rem;
+        column-gap: .5rem;
+        padding-bottom: .5rem;
+        border-bottom: 1px solid var(--border);
     }
 
     .sidebar-footer {
-        flex: 1 1 100%;
+        display: flex;
+        flex-direction: column;
         margin-top: 0;
         justify-content: center;
         align-items: center;
+        border-top: none;
+        border-left: 1px solid var(--border);
+    }
+
+    .sidebar-footer-btn {
+        padding: .25rem;
     }
 
     .skill-category>div:not(.category-header) {
         display: none;
+    }
+
+    .category-header {
+        padding: .5rem 2.5rem;
     }
 }
 
@@ -651,17 +674,11 @@ div[style*="background:#1a1a2e"] {
 }
 
 .skill-category {
-    min-width: 25%;
-    max-width: 25%;
-}
-
-.skill-item {
-    min-width: calc(33.333% - .5rem);
-    max-width: calc(33.333% - .5rem);
-}
-
-.skill-item .skill-name {
-    display: none;
+    position: relative;
+    flex: 0 1 auto;
+    flex-wrap: wrap;
+    display: flex;
+    justify-content: center;
 }
 
 .skill-item .skill-link {
@@ -681,6 +698,8 @@ div[style*="background:#1a1a2e"] {
 .skill-list {
     display: flex;
     flex-wrap: wrap;
+    flex-direction: column;
+    flex: 1 1 100%;
     gap: .25rem .25rem;
     margin-top: .25rem;
 }
@@ -692,4 +711,92 @@ div[style*="background:#1a1a2e"] {
 .skill-link.active {
     border: none;
     border-radius: 5px;
+}
+
+#fav-skills-block.category-header+ul {
+    display: none;
+}
+
+.skill-category:not([id*=fav-skills-block]) .category-header:not([class*="collapsed"])+ul,
+.skill-category .category-header:not([class*="collapsed"])+#cat-clan,
+.skill-category .category-header:not([class*="collapsed"])+#cat-progress,
+.skill-category .category-header:not([class*="collapsed"])+#cat-econ,
+.skill-category .category-header:not([class*="collapsed"])+#cat-social {
+    position: absolute;
+    top: 2rem;
+    margin: .5rem .5rem;
+    width: max-content;
+    z-index: 10000;
+    display: flex !important;
+    flex-direction: column;
+    overflow: visible;
+    background: var(--bg);
+    border-radius: 5px;
+    border: 2px solid var(--border);
+    padding: .25rem .5rem;
+    gap: .5rem;
+}
+
+#fav-skills-block {
+    flex: 1 0 100%;
+    display: flex;
+    min-width: 100%;
+    max-width: 100%;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: .25rem .25rem;
+    align-content: center;
+}
+
+#fav-skills-block .skill-list {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    flex: 0 1 auto;
+}
+
+.cath {
+    margin-top: 0px;
+}
+
+.cath-gather {
+    color: var(--green);
+    border-left: none;
+    background: rgba(34, 197, 94, .10);
+}
+
+.cath-artisan {
+    color: var(--yellow);
+    border-left: none;
+    background: rgba(245, 158, 11, .10);
+}
+
+.cath-combat {
+    color: var(--red);
+    border-left: none;
+    background: rgba(239, 68, 68, .10);
+}
+
+.cath-clan {
+    color: var(--purple);
+    border-left: none;
+    background: rgba(168, 85, 247, .10);
+}
+
+.cath-prog {
+    color: var(--blue);
+    border-left: none;
+    background: rgba(59, 130, 246, .10);
+}
+
+.cath-econ {
+    color: var(--gold);
+    border-left: none;
+    background: rgba(251, 191, 36, .10);
+}
+
+.cath-comm {
+    color: #14b8a6;
+    border-left: none;
+    background: rgba(20, 184, 166, .10);
 }
