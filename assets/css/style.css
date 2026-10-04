@@ -24,8 +24,7 @@ body {
 }
 
 .sidebar-left {
-    min-width: 300px;
-    width: 300px;
+    position: relative;
     transition: all 0.5s ease;
 }
 
@@ -142,7 +141,7 @@ body {
 
 .neh-content {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     width: calc(100% + 0px);
     color: var(--text3);
 }
@@ -150,6 +149,10 @@ body {
 .neh-content b {
     color: var(--green);
 }
+
+.neh-footer {
+    display: inline-flex;
+    gap: 2.5px;
 
 .neh-footer,
 .neh-sub-footer {
@@ -160,6 +163,11 @@ body {
     align-items: center;
     text-align: center;
     color: var(--text3);
+}
+
+.neh-sub-footer {
+    display: block;
+    margin-left: 5px
 }
 
 .neh-text {
@@ -309,19 +317,10 @@ div#cat-other .skill-name {
     }
 
     .game-layout {
-        grid-template-rows: auto minmax(0, calc(100vh - 70px)) !important;
+        grid-template-columns: 0fr 1fr 340px !important;
+        grid-template-rows: auto !important;
         transition: all 0.5s ease;
     }
-
-    .game-layout:not(.lsb-locked-open) {
-        grid-template-columns: 160px minmax(0, 1fr) 340px !important;
-    }
-
-    .game-layout.lsb-hover:not(.lsb-locked-closed),
-    .game-layout.lsb-locked-open {
-        grid-template-columns: 300px minmax(0, 1fr) 340px !important;
-    }
-
 
     .skill-category .skill-category-header {
         display: flex;
@@ -343,21 +342,37 @@ div#cat-other .skill-name {
         align-items: center;
     }
 
-    .game-layout:not(.lsb-locked-open) .sidebar-left {
+    .game-layout .sidebar-left {
+        display: flex;
+        flex-wrap: wrap;
         transition: all 0.5s ease;
-        width: 160px;
-        min-width: 160px;
+        width: 100%;
+        min-width: 100%;
+        grid-column: 1 / -1;
         overflow-x: hidden;
+        height: fit-content;
     }
 
-    .game-layout.lsb-hover:not(.lsb-locked-closed) .sidebar-left,
-    .game-layout.lsb-locked-open .sidebar-left {
-        width: 300px;
-        min-width: 300px;
+    .game-area {
+        grid-column: 2 / 2;
     }
 
-    .game-layout:not(.lsb-hover) .sidebar-left .sidebar-footer {
-        flex-direction: row;
+    .game-layout .sidebar-left>div:not([class]) {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        overflow-y: initial !important;
+    }
+
+    .sidebar-footer {
+        flex: 1 1 100%;
+        margin-top: 0;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .skill-category>div:not(.category-header) {
+        display: none;
     }
 }
 
@@ -620,4 +635,60 @@ img[style="width:18px;height:18px;image-rendering:pixelated"] {
 
 div[style*="background:#1a1a2e"] {
     background: rgb(19 30 49) !important;
+}
+
+#topbar-inv,
+.topbar-xph,
+.topbar-xp-total {
+    display: none !important;
+}
+
+.wb-side-link:not([style*="display:none"]) {
+    display: flex !important;
+    flex: 1 0 100%;
+    justify-content: center;
+}
+
+.skill-category {
+    min-width: 25%;
+    max-width: 25%;
+}
+
+.skill-item {
+    min-width: calc(33.333% - .5rem);
+    max-width: calc(33.333% - .5rem);
+}
+
+.skill-item .skill-name {
+    display: none;
+}
+
+.skill-item .skill-link {
+    gap: 0px;
+}
+
+.skill-icon {
+    font-size: 16px;
+    line-height: 16px;
+}
+
+.skill-level {
+    font-size: 12px;
+    line-height: 12px;
+}
+
+.skill-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .25rem .25rem;
+    margin-top: .25rem;
+}
+
+.skill-link {
+    justify-content: center;
+}
+
+.skill-link.active {
+    border: none;
+    border-radius: 5px;
 }

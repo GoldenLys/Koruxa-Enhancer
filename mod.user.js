@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       3.62
+// @version       3.7
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    https://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
@@ -1318,41 +1318,6 @@ KX.mapping = {
     });
   }
 
-  function LOCK_SIDEBAR() {
-    const sts = ["lsb-unlocked", "lsb-locked-open", "lsb-locked-closed"];
-    const icons = { "lsb-unlocked": "arrows-left-right", "lsb-locked-open": "lock", "lsb-locked-closed": "lock" };
-    const [sL, gL, f] = [".sidebar-left", ".game-layout", ".sidebar-footer"].map((s) => document.querySelector(s));
-    if (!f || document.getElementById("sidebar-lock-btn")) return;
-    const b = document.createElement("div");
-    b.id = "sidebar-lock-btn";
-
-    const updateUI = (s = sts[0]) => {
-      const stateShort = s.replace("lsb-", "");
-      b.className = `sidebar-footer-btn ${stateShort}`;
-      b.innerHTML = `<i class="fas fa-${icons[s]}"></i>`;
-
-      if (gL) {
-        sts.forEach((cls) => gL.classList.toggle(cls, cls === s));
-        if (s !== sts[0]) gL.classList.remove("lsb-hover");
-      }
-    };
-
-    b.onclick = () => {
-      const next = sts[(sts.indexOf(KX.KORUXA_GLOBALS["sidebar-state"]) + 1) % 3];
-      updateUI((KX.KORUXA_GLOBALS["sidebar-state"] = next));
-      NEH_STORAGE("save");
-    };
-
-    if (sL && gL && window.innerWidth > 1024) {
-      sL.onmouseenter = () => KX.KORUXA_GLOBALS["sidebar-state"] === sts[0] && gL.classList.add("lsb-hover");
-      sL.onmouseleave = () => gL.classList.remove("lsb-hover");
-    }
-
-    f.prepend(b);
-    updateUI(KX.KORUXA_GLOBALS["sidebar-state"]);
-    NEH_STORAGE("save");
-  }
-
   function NEH_STORAGE(action) {
     const key = "KORUXA_ENHANCED";
     if (action === "save") {
@@ -1613,9 +1578,6 @@ KX.mapping = {
       await new Promise((r) => setTimeout(r, 150));
     }
 
-    const current = document.querySelector('button[onclick^="setResearchCat("][style*="background:rgba(139,92,246,.15)"]');
-    const match = current?.getAttribute("onclick")?.match(/setResearchCat\(['"]?(\w+)['"]?\)/);
-    const currentCat = match ? match[1] : null;
     const grid = document.querySelector('#page-content div[style*="display:grid;grid-template-columns"]');
     if (!grid) return;
 
@@ -1658,8 +1620,6 @@ KX.mapping = {
   };
 
   const targetSelectors = ["#tab-inventory", "#tab-equipment", "#tab-farms-sidebar"];
-  const COOLDOWN_MS = 3000;
-  let lastUpdateTimestamp = 0;
 
   const REFRESH_ENHANCED_DATA = _.throttle(
     async (isSingle = false) => {
@@ -1713,7 +1673,6 @@ KX.mapping = {
   LOAD_CSS("https://goldenlys.github.io/Koruxa-Enhancer/assets/css/style.css");
   NEH_STORAGE("load");
   REPLACE_ICONS();
-  LOCK_SIDEBAR();
   UPDATE_DATA();
   LOAD_FARM_STATS();
   LOAD_TOOL_STATS();
