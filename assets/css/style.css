@@ -244,10 +244,6 @@ div#cat-other {
     border-left: none;
 }
 
-.lsb-locked-open div#cat-other {
-    display: grid;
-}
-
 div#cat-other .skill-name {
     font-size: 12px;
     line-height: 12px;
@@ -280,6 +276,7 @@ div#cat-other .skill-name {
     .topbar-row2 {
         top: calc(var(--topbar-h) - 30px);
         min-height: 60px;
+        border-bottom: none;
         z-index: 100;
     }
 
@@ -303,8 +300,7 @@ div#cat-other .skill-name {
 
     .sidebar-left,
     .sidebar-right,
-    .game-layout .sidebar-left,
-    .game-layout.lsb-hover .sidebar-left {
+    .game-layout .sidebar-left {
         flex: 1 1 100%;
         width: auto;
         max-height: 100%;
@@ -338,11 +334,6 @@ div#cat-other .skill-name {
         height: 26px;
         padding: 4px 10px;
         transition: all 0.5s ease;
-    }
-
-    .game-layout.lsb-hover .skill-category .skill-category-header,
-    .game-layout.lsb-locked-open .skill-category .skill-category-header {
-        gap: 8px;
     }
 
     .category-toggle {
@@ -797,4 +788,15 @@ div[style*="background:#1a1a2e"] {
     color: #14b8a6;
     border-left: none;
     background: rgba(20, 184, 166, .10);
+}
+
+#fav-skills-block ul>li:last-of-type {
+    display: none; 
+}
+
+.skill-category .category-header+#cat-clan .skill-link,
+.skill-category .category-header+#cat-progress .skill-link,
+.skill-category .category-header+#cat-econ .skill-link,
+.skill-category .category-header+#cat-social .skill-link {
+    padding-left: 1.25rem !important;
 }

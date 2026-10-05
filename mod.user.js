@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       3.7
+// @version       3.8
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    https://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
@@ -47,7 +47,6 @@
 const KX = unsafeWindow;
 KX.KORUXA_GLOBALS = {
   "forced-current-skill": "none",
-  "sidebar-state": "lsb-locked-closed",
   "clan-xp-bonus": 0,
   "amulet-xp-bonus": 0,
   "global-speed-bonus": 0,
@@ -448,8 +447,8 @@ KX.mapping = {
           s ?
             key === "current-skill" ?
               s[1]
-            : s[2]
-          : "(invalid format)"
+              : s[2]
+            : "(invalid format)"
         );
       }
 
@@ -460,8 +459,8 @@ KX.mapping = {
           hpv ?
             key === "current-hp" ?
               hpv[1]
-            : hpv[2]
-          : "(invalid format)"
+              : hpv[2]
+            : "(invalid format)"
         );
       }
     }
@@ -472,7 +471,7 @@ KX.mapping = {
     const selector =
       type === "all" ?
         ".skill-item[data-skill], .skill-link[data-skill]"
-      : `.skill-item[data-skill="${type}"], .skill-link[data-skill="${type}"]`;
+        : `.skill-item[data-skill="${type}"], .skill-link[data-skill="${type}"]`;
 
     const skills = document.querySelectorAll(selector);
 
@@ -1085,7 +1084,7 @@ KX.mapping = {
         let material = searchStr.replace(" cut", "").trim();
         if (materialMap[material]) material = materialMap[material];
         searchStr = `cut_${material}`.replace(/ /g, "_");
-      } else if (skillId === "construction") { 
+      } else if (skillId === "construction") {
         if (searchStr.startsWith("plank") || searchStr.startsWith("nails") || searchStr.startsWith("fixture")) {
           let material = searchStr.split(" ").slice(1).join(" ");
           searchStr = `${material}_${searchStr.split(" ")[0]}`.replace(/ /g, "_");
@@ -1326,7 +1325,6 @@ KX.mapping = {
       const data = localStorage.getItem(key);
       const parsed_data = JSON.parse(data);
       if (data) {
-        KX.KORUXA_GLOBALS["sidebar-state"] = parsed_data["sidebar-state"] || "lsb-locked-closed";
         KX.KORUXA_GLOBALS.Institute = parsed_data.Institute;
         KX.KORUXA_GLOBALS["clan-xp-bonus"] = Number(parsed_data["clan-xp-bonus"]) || 0;
         KX.KORUXA_GLOBALS["global-speed-bonus"] = Number(parsed_data["global-speed_bonus"]) || 0;
@@ -1335,6 +1333,109 @@ KX.mapping = {
         KX.KORUXA_GLOBALS["amulet-xp-bonus"] = Number(parsed_data["amulet-xp-bonus"]) || 0;
       }
     }
+  }
+
+  // Injects custom favorite stars into links and toggles their favorite state
+  function TOGGLE_CUSTOM_FAVORITES() {
+    const targetCategories = ['#cat-clan', '#cat-progress', '#cat-econ', '#cat-social'];
+    const favs = JSON.parse(localStorage.getItem('KX_CUSTOM_FAVS') || '[]');
+
+    targetCategories.forEach(selector => {
+      const cat = document.querySelector(selector);
+      if (!cat) return;
+
+      cat.querySelectorAll('a.skill-link').forEach(link => {
+        const action = link.getAttribute('onclick');
+        if (!action) return;
+
+        let star = link.querySelector('.custom-fav-star');
+        if (!star) {
+          star = document.createElement('button');
+          star.className = 'fav-star custom-fav-star';
+          star.addEventListener('click', (e) => {
+            if (!document.body.classList.contains('fav-edit')) return;
+            e.stopPropagation();
+            e.preventDefault();
+
+            const list = JSON.parse(localStorage.getItem('KX_CUSTOM_FAVS') || '[]');
+            const idx = list.indexOf(action);
+            if (idx > -1) list.splice(idx, 1);
+            else list.push(action);
+
+            localStorage.setItem('KX_CUSTOM_FAVS', JSON.stringify(list));
+            UPDATE_CUSTOM_FAVORITE();
+          });
+          link.appendChild(star);
+        }
+
+        const isFav = favs.includes(action);
+        star.textContent = isFav ? '★' : '☆';
+        star.classList.toggle('on', isFav);
+      });
+    });
+  }
+
+  // Syncs saved custom favorites directly into #fav-skills-block ul.skill-list
+  function UPDATE_CUSTOM_FAVORITE() {
+    const favList = document.querySelector('#fav-skills-block ul.skill-list');
+    if (!favList) return;
+
+    TOGGLE_CUSTOM_FAVORITES();
+
+    favList.querySelectorAll('li.custom-fav-item').forEach(el => el.remove());
+
+    const favs = JSON.parse(localStorage.getItem('KX_CUSTOM_FAVS') || '[]');
+    const targetCategories = ['#cat-clan', '#cat-progress', '#cat-econ', '#cat-social'];
+
+    favs.forEach(action => {
+      let sourceLink = null;
+      for (const selector of targetCategories) {
+        sourceLink = document.querySelector(`${selector} a.skill-link[onclick="${action}"]`);
+        if (sourceLink) break;
+      }
+      if (!sourceLink) return;
+
+      const fullText = sourceLink.textContent.trim().replace(/[★☆]/g, '').trim();
+      const match = fullText.match(/^(\p{Extended_Pictographic}|\S+)\s*(.+)$/u);
+
+      const li = document.createElement('li');
+      li.className = 'skill-item custom-fav-item';
+
+      const cleanLink = document.createElement('a');
+      cleanLink.className = 'skill-link';
+      cleanLink.setAttribute('onclick', action);
+
+      const iconSpan = document.createElement('span');
+      iconSpan.className = 'skill-icon';
+      iconSpan.textContent = match ? match[1] : '⭐';
+
+      const nameSpan = document.createElement('span');
+      nameSpan.className = 'skill-name';
+      nameSpan.textContent = match ? match[2] : fullText;
+
+      cleanLink.append(iconSpan, nameSpan);
+
+      const removeBtn = document.createElement('button');
+      removeBtn.className = 'fav-star on';
+      removeBtn.textContent = '★';
+      removeBtn.title = 'Remove from favorites';
+      removeBtn.addEventListener('click', (e) => {
+        if (!document.body.classList.contains('fav-edit')) return;
+        e.stopPropagation();
+        e.preventDefault();
+
+        const list = JSON.parse(localStorage.getItem('KX_CUSTOM_FAVS') || '[]');
+        const idx = list.indexOf(action);
+        if (idx > -1) {
+          list.splice(idx, 1);
+          localStorage.setItem('KX_CUSTOM_FAVS', JSON.stringify(list));
+          UPDATE_CUSTOM_FAVORITE();
+        }
+      });
+
+      li.append(cleanLink, removeBtn);
+      favList.appendChild(li);
+    });
   }
 
   // Auto-attacks Clan Boss and handles target selection + recap closing even if attack button is hidden.
@@ -1632,7 +1733,7 @@ KX.mapping = {
         const skill = isSingle ? KX.mapping["current_skill"].value : "all";
         await EXTRACT_SKILLS(skill);
         [REPLACE_ICONS, GET_CURRENT_SKILL, LOAD_FARM_STATS, LOAD_TOOL_STATS].forEach((f) => f());
-      } catch (e) {}
+      } catch (e) { }
 
       observe();
       KX.KORUXA_ENHANCED.isUpdating = false;
@@ -1677,6 +1778,8 @@ KX.mapping = {
   LOAD_FARM_STATS();
   LOAD_TOOL_STATS();
   CREATE_NEW_CHAT_TAB();
+  UPDATE_CUSTOM_FAVORITE();
+  setInterval(UPDATE_CUSTOM_FAVORITE, 3000);
 
   try {
     startKoruxaUpdater({ initialDelayMs: 1500, intervalMs: 2000 });
