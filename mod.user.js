@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       3.8
+// @version       3.81
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    https://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
@@ -1335,7 +1335,7 @@ KX.mapping = {
     }
   }
 
-  // Injects custom favorite stars into links and toggles their favorite state
+  // Injects custom favorite stars into non-native links and toggles state
   function TOGGLE_CUSTOM_FAVORITES() {
     const targetCategories = ['#cat-clan', '#cat-progress', '#cat-econ', '#cat-social'];
     const favs = JSON.parse(localStorage.getItem('KX_CUSTOM_FAVS') || '[]');
@@ -1375,66 +1375,118 @@ KX.mapping = {
     });
   }
 
-  // Syncs saved custom favorites directly into #fav-skills-block ul.skill-list
+  // Syncs both native skill items and custom category links into a new custom favorites container
   function UPDATE_CUSTOM_FAVORITE() {
-    const favList = document.querySelector('#fav-skills-block ul.skill-list');
-    if (!favList) return;
+    const favBlock = document.querySelector('#fav-skills-block');
+    if (!favBlock) return;
+
+    let customFavContainer = favBlock.querySelector('ul.custom-fav-list');
+    if (!customFavContainer) {
+      customFavContainer = document.createElement('ul');
+      customFavContainer.className = 'skill-list custom-fav-list';
+      favBlock.appendChild(customFavContainer);
+    }
 
     TOGGLE_CUSTOM_FAVORITES();
 
-    favList.querySelectorAll('li.custom-fav-item').forEach(el => el.remove());
+    customFavContainer.innerHTML = '';
 
-    const favs = JSON.parse(localStorage.getItem('KX_CUSTOM_FAVS') || '[]');
-    const targetCategories = ['#cat-clan', '#cat-progress', '#cat-econ', '#cat-social'];
+    const getSkillLevel = (skillName) => {
+      const key = skillName.toLowerCase().replace(/\s+/g, '');
+      console.log('Fetching skill level for:', skillName, 'Key:', key);
+      return KX?.KORUXA_STATS?.[key]?.level ||KX?.KORUXA_STATS?.[skillName]?.level || null;
+    };
 
-    favs.forEach(action => {
-      let sourceLink = null;
-      for (const selector of targetCategories) {
-        sourceLink = document.querySelector(`${selector} a.skill-link[onclick="${action}"]`);
-        if (sourceLink) break;
-      }
-      if (!sourceLink) return;
+    document.querySelectorAll('.sidebar-left .fav-star.on').forEach(star => {
+      if (star.closest('#fav-skills-block')) return;
 
-      const fullText = sourceLink.textContent.trim().replace(/[★☆]/g, '').trim();
-      const match = fullText.match(/^(\p{Extended_Pictographic}|\S+)\s*(.+)$/u);
+      const nativeLi = star.closest('li.skill-item');
 
-      const li = document.createElement('li');
-      li.className = 'skill-item custom-fav-item';
+      if (nativeLi) {
+        const li = document.createElement('li');
+        li.className = 'skill-item custom-fav-item';
 
-      const cleanLink = document.createElement('a');
-      cleanLink.className = 'skill-link';
-      cleanLink.setAttribute('onclick', action);
+        const sourceLink = nativeLi.querySelector('a.skill-link');
+        if (!sourceLink) return;
 
-      const iconSpan = document.createElement('span');
-      iconSpan.className = 'skill-icon';
-      iconSpan.textContent = match ? match[1] : '⭐';
+        const cleanLink = sourceLink.cloneNode(true);
+        cleanLink.removeAttribute('style');
 
-      const nameSpan = document.createElement('span');
-      nameSpan.className = 'skill-name';
-      nameSpan.textContent = match ? match[2] : fullText;
+        cleanLink.querySelectorAll('.skill-level, .skill-tooltip, .skill-alert-indicator, .fav-star').forEach(el => el.remove());
 
-      cleanLink.append(iconSpan, nameSpan);
+        const rawName = cleanLink.querySelector('.skill-name')?.textContent.trim() || cleanLink.textContent.trim();
+        const level = getSkillLevel(rawName);
 
-      const removeBtn = document.createElement('button');
-      removeBtn.className = 'fav-star on';
-      removeBtn.textContent = '★';
-      removeBtn.title = 'Remove from favorites';
-      removeBtn.addEventListener('click', (e) => {
-        if (!document.body.classList.contains('fav-edit')) return;
-        e.stopPropagation();
-        e.preventDefault();
-
-        const list = JSON.parse(localStorage.getItem('KX_CUSTOM_FAVS') || '[]');
-        const idx = list.indexOf(action);
-        if (idx > -1) {
-          list.splice(idx, 1);
-          localStorage.setItem('KX_CUSTOM_FAVS', JSON.stringify(list));
-          UPDATE_CUSTOM_FAVORITE();
+        if (level !== null && cleanLink.querySelector('.skill-name')) {
+          cleanLink.querySelector('.skill-name').textContent = `${rawName} (${level})`;
         }
-      });
 
-      li.append(cleanLink, removeBtn);
-      favList.appendChild(li);
+        const removeBtn = document.createElement('button');
+        removeBtn.className = 'fav-star on';
+        removeBtn.textContent = '★';
+        removeBtn.title = 'Remove from favorites';
+        removeBtn.addEventListener('click', (e) => {
+          if (!document.body.classList.contains('fav-edit')) return;
+          e.stopPropagation();
+          e.preventDefault();
+          star.click();
+        });
+
+        li.append(cleanLink, removeBtn);
+        customFavContainer.appendChild(li);
+        return;
+      }
+
+      const customLink = star.closest('a.skill-link');
+      if (customLink) {
+        const action = customLink.getAttribute('onclick');
+        if (!action) return;
+
+        const fullText = customLink.textContent.trim().replace(/[★☆]/g, '').trim();
+        const match = fullText.match(/^(\p{Extended_Pictographic}|\S+)\s*(.+)$/u);
+
+        const rawName = match ? match[2] : fullText;
+        const level = getSkillLevel(rawName);
+        const displayName = level !== null ? `${rawName} (${level})` : rawName;
+
+        const li = document.createElement('li');
+        li.className = 'skill-item custom-fav-item';
+
+        const cleanLink = document.createElement('a');
+        cleanLink.className = 'skill-link';
+        cleanLink.setAttribute('onclick', action);
+
+        const iconSpan = document.createElement('span');
+        iconSpan.className = 'skill-icon';
+        iconSpan.textContent = match ? match[1] : '⭐';
+
+        const nameSpan = document.createElement('span');
+        nameSpan.className = 'skill-name';
+        nameSpan.textContent = displayName;
+
+        cleanLink.append(iconSpan, nameSpan);
+
+        const removeBtn = document.createElement('button');
+        removeBtn.className = 'fav-star on';
+        removeBtn.textContent = '★';
+        removeBtn.title = 'Remove from favorites';
+        removeBtn.addEventListener('click', (e) => {
+          if (!document.body.classList.contains('fav-edit')) return;
+          e.stopPropagation();
+          e.preventDefault();
+
+          const list = JSON.parse(localStorage.getItem('KX_CUSTOM_FAVS') || '[]');
+          const idx = list.indexOf(action);
+          if (idx > -1) {
+            list.splice(idx, 1);
+            localStorage.setItem('KX_CUSTOM_FAVS', JSON.stringify(list));
+            UPDATE_CUSTOM_FAVORITE();
+          }
+        });
+
+        li.append(cleanLink, removeBtn);
+        customFavContainer.appendChild(li);
+      }
     });
   }
 
@@ -1732,7 +1784,7 @@ KX.mapping = {
         INJECT_SYNC_BUTTON();
         const skill = isSingle ? KX.mapping["current_skill"].value : "all";
         await EXTRACT_SKILLS(skill);
-        [REPLACE_ICONS, GET_CURRENT_SKILL, LOAD_FARM_STATS, LOAD_TOOL_STATS].forEach((f) => f());
+        [REPLACE_ICONS, GET_CURRENT_SKILL, LOAD_FARM_STATS, LOAD_TOOL_STATS, UPDATE_CUSTOM_FAVORITE].forEach((f) => f());
       } catch (e) { }
 
       observe();
