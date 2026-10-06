@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       3.81
+// @version       3.82
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    https://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
@@ -44,240 +44,231 @@
   
 */
 
-const KX = unsafeWindow;
-KX.KORUXA_GLOBALS = {
-  "forced-current-skill": "none",
-  "clan-xp-bonus": 0,
-  "amulet-xp-bonus": 0,
-  "global-speed-bonus": 0,
-  "global-xp-bonus": 0,
-  "patron-level": "",
-  Institute: {
-    // Gathering researches - 7 available
-    ThiefInstinct: {
-      name: "Thief's Instinct",
-      effect: { category: "gathering", type: "xp_bonus", value: 1.143, skill: "thieving" },
-      level: 0,
-      maxLevel: 50,
-    },
-    WoodcuttersEdge: {
-      name: "Woodcutter's Edge",
-      effect: { category: "gathering", type: "xp_bonus", value: 1.143, skill: "woodcutting" },
-      level: 0,
-      maxLevel: 50,
-    },
-    MinersEye: {
-      name: "Miner's Eye",
-      effect: { category: "gathering", type: "xp_bonus", value: 1.143, skill: "mining" },
-      level: 0,
-      maxLevel: 50,
-    },
-    FishersPatience: {
-      name: "Fisher's Patience",
-      effect: { category: "gathering", type: "xp_bonus", value: 1.143, skill: "fishing" },
-      level: 0,
-      maxLevel: 50,
-    },
-    GatherersTrove: {
-      name: "Gatherer's Trove",
-      effect: { category: "gathering", type: "double_drop", value: 0.15, skill: "all_gathering" },
-      level: 0,
-      maxLevel: 50,
-    },
-    RareInsight: {
-      name: "Rare Insight",
-      effect: { category: "gathering", type: "rare_drop_bonus", value: 0.1, skill: "all_gathering" },
-      level: 0,
-      maxLevel: 50,
-    },
-    EfficientHarvest: {
-      name: "Efficient Harvest",
-      effect: { category: "gathering", type: "max_speed_cap", value: 0.06, skill: "all_gathering" },
-      level: 0,
-      maxLevel: 50,
-    }, // max base speed cap is 95%, at level 50 with this it's 98%
-
-    // Artisan researches - 7 available
-    RunecraftersFocus: {
-      name: "Runecrafter's Focus",
-      effect: { category: "artisan", type: "xp_bonus", value: 1.143, skill: "arcana" },
-      level: 0,
-      maxLevel: 50,
-    },
-    MasterCrafter: {
-      name: "Master Crafter",
-      effect: {
-        category: "artisan",
-        type: "xp_bonus",
-        value: 1.143,
-        skills: ["cooking", "smithing", "crafting", "fletching", "herblore", "firemaking"],
-      },
-      level: 0,
-      maxLevel: 50,
-    },
-    ResourceFrugality: {
-      name: "Resource Frugality",
-      effect: { category: "artisan", type: "crafting_materials_reduction", value: -0.1, skill: "all_artisan" },
-      level: 0,
-      maxLevel: 50,
-    },
-    BonusYield: {
-      name: "Bonus Yield",
-      effect: { category: "artisan", type: "double_drop", value: 0.1, skill: "all_artisan" },
-      level: 0,
-      maxLevel: 50,
-    },
-    FireControl: {
-      name: "Fire Control",
-      effect: { category: "artisan", type: "firemaking_success_rate_bonus", value: -0.15, skill: "firemaking" },
-      level: 0,
-      maxLevel: 50,
-    },
-    EnchantersLuck: {
-      name: "Enchanter's Luck",
-      effect: { category: "artisan", type: "enchanting_success_rate_bonus", value: 0.1, skill: "enchanting" },
-      level: 0,
-      maxLevel: 50,
-    },
-    StableBonds: {
-      name: "Stable Bonds",
-      effect: { category: "artisan", type: "enchanting_destroy_rate_bonus", value: -0.1, skill: "enchanting" },
-      level: 0,
-      maxLevel: 50,
-    },
-
-    // Combat researches - 7 available
-    Conservation: {
-      name: "Conservation",
-      effect: { category: "combat", type: "ammo_conservation", value: 1.0 },
-      level: 0,
-      maxLevel: 20,
-    },
-    StrikeTraining: {
-      name: "Strike Training",
-      effect: { category: "combat", type: "melee_power_bonus", value: 0.2 },
-      level: 0,
-      maxLevel: 50,
-    },
-    Marksmanship: {
-      name: "Marksmanship",
-      effect: { category: "combat", type: "ranged_power_bonus", value: 0.2 },
-      level: 0,
-      maxLevel: 50,
-    },
-    ArcaneFocus: {
-      name: "Arcane Focus",
-      effect: { category: "combat", type: "magic_power_bonus", value: 0.2 },
-      level: 0,
-      maxLevel: 50,
-    },
-    IronHide: { name: "Iron Hide", effect: { category: "combat", type: "defence_bonus", value: 0.15 }, level: 0, maxLevel: 50 },
-    KillerInstinct: {
-      name: "Killer Instinct",
-      effect: { category: "combat", type: "crit_chance_bonus", value: 0.1 },
-      level: 0,
-      maxLevel: 50,
-    },
-    ClanWarfare: {
-      name: "Clan Warfare",
-      effect: { category: "combat", type: "clan_boss_damage_bonus", value: 0.2 },
-      level: 0,
-      maxLevel: 50,
-    },
-
-    // Global researches - 6 available
-    GoldenTouch: {
-      name: "Golden Touch",
-      effect: { category: "global", type: "gold_find_bonus", value: 0.3 },
-      level: 0,
-      maxLevel: 50,
-    },
-    ScholarsMind: {
-      name: "Scholar's Mind",
-      effect: { category: "global", type: "xp_bonus", value: 0.15 },
-      level: 0,
-      maxLevel: 50,
-    },
-    FortunesFavor: {
-      name: "Fortune's Favor",
-      effect: { category: "global", type: "drop_rate_bonus", value: 0.1 },
-      level: 0,
-      maxLevel: 50,
-    },
-    DailyFocus: {
-      name: "Daily Focus",
-      effect: { category: "global", type: "daily_quest_reward_bonus", value: 0.5 },
-      level: 0,
-      maxLevel: 50,
-    },
-    FirstHourFocus: {
-      name: "First Hour Focus",
-      effect: { category: "global", type: "first_hour_xp_bonus", value: 0.5 },
-      level: 0,
-      maxLevel: 50,
-    },
-    ExtendedSlumber: {
-      name: "Extended Slumber",
-      effect: { category: "global", type: "afk_time_bonus", value: 10 },
-      level: 0,
-      maxLevel: 50,
-    },
-
-    // Meta researches - 3 available
-    ResearchVelocity: {
-      name: "Research Velocity",
-      effect: { category: "meta", type: "research_speed_bonus", value: 1.0 },
-      level: 0,
-      maxLevel: 75,
-    },
-    CostReduction: {
-      name: "Cost Reduction",
-      effect: { category: "meta", type: "research_cost_reduction", value: -0.3 },
-      level: 0,
-      maxLevel: 50,
-    },
-    ApprenticeTraining: {
-      name: "Apprentice Training",
-      effect: { category: "meta", type: "research_materials_reduction", value: -0.5 },
-      level: 0,
-      maxLevel: 50,
-    },
-  },
-};
-KX.KORUXA_CONFIGS = {};
-KX.KORUXA_STATS = {};
-KX.KORUXA_TOOLS = {};
-KX.KORUXA_FARMS = {};
-KX.GET_XP_MULTIPLIER = null;
-KX.KORUXA_ENHANCED = {
-  isKXLoaded: false,
-  isKXReady: false,
-  isReadyFuncRunOnce: false,
-  isUpdating: false,
-  isInstituteSynced: false,
-};
-KX.__koruxa_intervals = KX.__koruxa_intervals || [];
-KX.__koruxa_updater_started = KX.__koruxa_updater_started || false;
-KX.mapping = {
-  // Mappings of game data
-  coins: { selector: "#topbar-coins-text", value: "0" },
-  username: { selector: "#topbar-username", value: "" },
-  "total-level": { selector: "#topbar-total-level", value: "0" },
-  //"total-xp": { selector: ".user-total-level .total-level-tooltip", value: "0" },
-  credits: { selector: "#topbar-credits-text", value: "0" },
-  sealpoints: { selector: "#topbar-seal-text", value: "0" },
-  //"online-players": { selector: ".online-count", value: "0" },
-  "current-skill": { selector: "#session-action-row2", value: "" },
-  "current-item": { selector: "#session-action-row2", value: "" },
-  "current-hp": { selector: "#hp-text", value: "0" },
-  "max-hp": { selector: "#hp-text", value: "0" },
-  "session-time-left": { selector: "#session-time-row2", value: "" },
-  cycle: { selector: "#session-cycles-row2", value: { current: "0", total: "0", time: "0" } },
-  "session-xp-rate": { selector: "#topbar-xph", value: "0" },
-};
-
+// Utility function to execute script logic once DOM is available
 (function () {
   "use strict";
+
+  const KX = unsafeWindow;
+  KX.KORUXA_GLOBALS = {
+    "forced-current-skill": "none",
+    "clan-xp-bonus": 0,
+    "amulet-xp-bonus": 0,
+    "global-speed-bonus": 0,
+    "global-xp-bonus": 0,
+    "patron-level": "",
+    Institute: { // Gathering researches - 7 available
+      ThiefInstinct: {
+        name: "Thief's Instinct",
+        effect: { category: "gathering", type: "xp_bonus", value: 1.143, skill: "thieving" },
+        level: 0,
+        maxLevel: 50,
+      },
+      WoodcuttersEdge: {
+        name: "Woodcutter's Edge",
+        effect: { category: "gathering", type: "xp_bonus", value: 1.143, skill: "woodcutting" },
+        level: 0,
+        maxLevel: 50,
+      },
+      MinersEye: {
+        name: "Miner's Eye",
+        effect: { category: "gathering", type: "xp_bonus", value: 1.143, skill: "mining" },
+        level: 0,
+        maxLevel: 50,
+      },
+      FishersPatience: {
+        name: "Fisher's Patience",
+        effect: { category: "gathering", type: "xp_bonus", value: 1.143, skill: "fishing" },
+        level: 0,
+        maxLevel: 50,
+      },
+      GatherersTrove: {
+        name: "Gatherer's Trove",
+        effect: { category: "gathering", type: "double_drop", value: 0.15, skill: "all_gathering" },
+        level: 0,
+        maxLevel: 50,
+      },
+      RareInsight: {
+        name: "Rare Insight",
+        effect: { category: "gathering", type: "rare_drop_bonus", value: 0.1, skill: "all_gathering" },
+        level: 0,
+        maxLevel: 50,
+      },
+      EfficientHarvest: {
+        name: "Efficient Harvest",
+        effect: { category: "gathering", type: "max_speed_cap", value: 0.06, skill: "all_gathering" },
+        level: 0,
+        maxLevel: 50,
+      },
+
+
+      RunecraftersFocus: { // Artisan researches - 7 available
+        name: "Runecrafter's Focus",
+        effect: { category: "artisan", type: "xp_bonus", value: 1.143, skill: "arcana" },
+        level: 0,
+        maxLevel: 50,
+      },
+      MasterCrafter: {
+        name: "Master Crafter",
+        effect: {
+          category: "artisan",
+          type: "xp_bonus",
+          value: 1.143,
+          skills: ["cooking", "smithing", "crafting", "fletching", "herblore", "firemaking"],
+        },
+        level: 0,
+        maxLevel: 50,
+      },
+      ResourceFrugality: {
+        name: "Resource Frugality",
+        effect: { category: "artisan", type: "crafting_materials_reduction", value: -0.1, skill: "all_artisan" },
+        level: 0,
+        maxLevel: 50,
+      },
+      BonusYield: {
+        name: "Bonus Yield",
+        effect: { category: "artisan", type: "double_drop", value: 0.1, skill: "all_artisan" },
+        level: 0,
+        maxLevel: 50,
+      },
+      FireControl: {
+        name: "Fire Control",
+        effect: { category: "artisan", type: "firemaking_success_rate_bonus", value: -0.15, skill: "firemaking" },
+        level: 0,
+        maxLevel: 50,
+      },
+      EnchantersLuck: {
+        name: "Enchanter's Luck",
+        effect: { category: "artisan", type: "enchanting_success_rate_bonus", value: 0.1, skill: "enchanting" },
+        level: 0,
+        maxLevel: 50,
+      },
+      StableBonds: {
+        name: "Stable Bonds",
+        effect: { category: "artisan", type: "enchanting_destroy_rate_bonus", value: -0.1, skill: "enchanting" },
+        level: 0,
+        maxLevel: 50,
+      },
+      Conservation: { // Combat researches - 7 available
+        name: "Conservation",
+        effect: { category: "combat", type: "ammo_conservation", value: 1.0 },
+        level: 0,
+        maxLevel: 20,
+      },
+      StrikeTraining: {
+        name: "Strike Training",
+        effect: { category: "combat", type: "melee_power_bonus", value: 0.2 },
+        level: 0,
+        maxLevel: 50,
+      },
+      Marksmanship: {
+        name: "Marksmanship",
+        effect: { category: "combat", type: "ranged_power_bonus", value: 0.2 },
+        level: 0,
+        maxLevel: 50,
+      },
+      ArcaneFocus: {
+        name: "Arcane Focus",
+        effect: { category: "combat", type: "magic_power_bonus", value: 0.2 },
+        level: 0,
+        maxLevel: 50,
+      },
+      IronHide: { name: "Iron Hide", effect: { category: "combat", type: "defence_bonus", value: 0.15 }, level: 0, maxLevel: 50 },
+      KillerInstinct: {
+        name: "Killer Instinct",
+        effect: { category: "combat", type: "crit_chance_bonus", value: 0.1 },
+        level: 0,
+        maxLevel: 50,
+      },
+      ClanWarfare: {
+        name: "Clan Warfare",
+        effect: { category: "combat", type: "clan_boss_damage_bonus", value: 0.2 },
+        level: 0,
+        maxLevel: 50,
+      },
+      GoldenTouch: { // Global researches - 6 available
+        name: "Golden Touch",
+        effect: { category: "global", type: "gold_find_bonus", value: 0.3 },
+        level: 0,
+        maxLevel: 50,
+      },
+      ScholarsMind: {
+        name: "Scholar's Mind",
+        effect: { category: "global", type: "xp_bonus", value: 0.15 },
+        level: 0,
+        maxLevel: 50,
+      },
+      FortunesFavor: {
+        name: "Fortune's Favor",
+        effect: { category: "global", type: "drop_rate_bonus", value: 0.1 },
+        level: 0,
+        maxLevel: 50,
+      },
+      DailyFocus: {
+        name: "Daily Focus",
+        effect: { category: "global", type: "daily_quest_reward_bonus", value: 0.5 },
+        level: 0,
+        maxLevel: 50,
+      },
+      FirstHourFocus: {
+        name: "First Hour Focus",
+        effect: { category: "global", type: "first_hour_xp_bonus", value: 0.5 },
+        level: 0,
+        maxLevel: 50,
+      },
+      ExtendedSlumber: {
+        name: "Extended Slumber",
+        effect: { category: "global", type: "afk_time_bonus", value: 10 },
+        level: 0,
+        maxLevel: 50,
+      },
+      ResearchVelocity: { // Meta researches - 3 available
+        name: "Research Velocity",
+        effect: { category: "meta", type: "research_speed_bonus", value: 1.0 },
+        level: 0,
+        maxLevel: 75,
+      },
+      CostReduction: {
+        name: "Cost Reduction",
+        effect: { category: "meta", type: "research_cost_reduction", value: -0.3 },
+        level: 0,
+        maxLevel: 50,
+      },
+      ApprenticeTraining: {
+        name: "Apprentice Training",
+        effect: { category: "meta", type: "research_materials_reduction", value: -0.5 },
+        level: 0,
+        maxLevel: 50,
+      },
+    },
+  };
+  KX.KORUXA_CONFIGS = {};
+  KX.KORUXA_STATS = {};
+  KX.KORUXA_TOOLS = {};
+  KX.KORUXA_FARMS = {};
+  KX.GET_XP_MULTIPLIER = null;
+  KX.KORUXA_ENHANCED = {
+    isKXLoaded: false,
+    isKXReady: false,
+    isReadyFuncRunOnce: false,
+    isUpdating: false,
+    isInstituteSynced: false,
+  };
+  KX.__koruxa_intervals = KX.__koruxa_intervals || [];
+  KX.__koruxa_updater_started = KX.__koruxa_updater_started || false;
+  KX.mapping = {
+    coins: { selector: "#topbar-coins-text", value: "0" },
+    username: { selector: "#topbar-username", value: "" },
+    "total-level": { selector: "#topbar-total-level", value: "0" },
+    credits: { selector: "#topbar-credits-text", value: "0" },
+    sealpoints: { selector: "#topbar-seal-text", value: "0" },
+    "current-skill": { selector: "#session-action-row2", value: "" },
+    "current-item": { selector: "#session-action-row2", value: "" },
+    "current-hp": { selector: "#hp-text", value: "0" },
+    "max-hp": { selector: "#hp-text", value: "0" },
+    "session-time-left": { selector: "#session-time-row2", value: "" },
+    cycle: { selector: "#session-cycles-row2", value: { current: "0", total: "0", time: "0" } },
+    "session-xp-rate": { selector: "#topbar-xph", value: "0" },
+  };
 
   fetch("https://goldenlys.github.io/Koruxa-Enhancer/assets/js/data.json")
     .then((response) => response.json())
@@ -421,47 +412,31 @@ KX.mapping = {
         const num = el.childNodes[0]?.textContent.match(/\d+/);
         return num ? num[0] : "(no number)";
       }
-
       case "#topbar-coins-text": {
         if (!text) return "(no text)";
         const num = text.match(/[\d.]+/);
         return num ? num[0] : "(no number)";
       }
-
       case "#session-cycles-row2": {
         if (!text || text === "0 ticks") text = "0/0 ticks · 0s/tick";
         const m = text.replace("~", "").match(/(\d+)\s*\/\s*(\d+).*?([\d.]+s)/);
-        if (m && (m[1] !== KORUXA_GLOBALS.cycle?.current || m[2] !== KORUXA_GLOBALS.cycle?.total)) {
+        if (m && (m[1] !== KX.KORUXA_GLOBALS.cycle?.current || m[2] !== KX.KORUXA_GLOBALS.cycle?.total)) {
           EXTRACT_SKILLS(KX.KORUXA_GLOBALS["current-skill"]);
         }
         return m ? { current: m[1], total: m[2], time: m[3] } : "(invalid format)";
       }
-
       case "#session-action-row2": {
-        if (!text || text == "Idle") text = "Doing: nothing";
+        if (!text || text === "Idle") text = "Doing: nothing";
         const s = text.match(/([^:]+):\s*(.+)/);
-        if (s[1] !== KX.KORUXA_GLOBALS?.["current-skill"] || s[2] !== KX.KORUXA_GLOBALS?.["current-item"]) {
+        if (s && (s[1] !== KX.KORUXA_GLOBALS?.["current-skill"] || s[2] !== KX.KORUXA_GLOBALS?.["current-item"])) {
           EXTRACT_SKILLS();
         }
-        return (
-          s ?
-            key === "current-skill" ?
-              s[1]
-              : s[2]
-            : "(invalid format)"
-        );
+        return s ? (key === "current-skill" ? s[1] : s[2]) : "(invalid format)";
       }
-
       case "#hp-text": {
         if (!text) return "(no text)";
         const hpv = text.match(/(\d+)\/(\d+)/);
-        return (
-          hpv ?
-            key === "current-hp" ?
-              hpv[1]
-              : hpv[2]
-            : "(invalid format)"
-        );
+        return hpv ? (key === "current-hp" ? hpv[1] : hpv[2]) : "(invalid format)";
       }
     }
     return el.value || text;
@@ -469,24 +444,23 @@ KX.mapping = {
 
   async function simulateSkillHover(type = "all", duration = 10) {
     const selector =
-      type === "all" ?
-        ".skill-item[data-skill], .skill-link[data-skill]"
+      type === "all"
+        ? ".skill-item[data-skill], .skill-link[data-skill]"
         : `.skill-item[data-skill="${type}"], .skill-link[data-skill="${type}"]`;
 
     const skills = document.querySelectorAll(selector);
 
     for (const skill of skills) {
       const skillName = skill.getAttribute("data-skill") || skill.innerText.trim().toLowerCase();
-
-      if (typeof showSkillTooltip === "function") showSkillTooltip(skill, skillName);
+      if (typeof KX.showSkillTooltip === "function") KX.showSkillTooltip(skill, skillName);
       await new Promise((r) => setTimeout(r, duration));
-      if (typeof hideSkillTooltip === "function") hideSkillTooltip();
+      if (typeof KX.hideSkillTooltip === "function") KX.hideSkillTooltip();
     }
   }
 
   function parseAndStoreSkillData(tip) {
     let name = tip.id.replace("stt-", "").toLowerCase();
-    if (name === "alt.magic") name = "alchemy"; // ion know if this is still used but just in case lol
+    if (name === "alt.magic") name = "alchemy";
 
     const level = parseInt(document.getElementById(`sl-${name}`)?.textContent) || 1;
     const totalXP = parseInt(tip.querySelector(".skill-tt-total strong")?.textContent.replace(/,/g, "")) || 0;
@@ -501,30 +475,26 @@ KX.mapping = {
       xp_total: totalXP,
     };
   }
+
   async function EXTRACT_SKILLS(type = "all") {
     await simulateSkillHover(type, 10);
     const tooltipSelector = type === "all" ? ".skill-tooltip" : `.skill-tooltip#stt-${type}`;
-
     document.querySelectorAll(tooltipSelector).forEach(parseAndStoreSkillData);
-
-    if (typeof hideSkillTooltip === "function") hideSkillTooltip();
+    if (typeof KX.hideSkillTooltip === "function") KX.hideSkillTooltip();
   }
 
   async function EXTRACT_AMULET() {
     const neckSlot = document.querySelector('.equip-slot[data-slot="neck"]');
     if (!neckSlot || !neckSlot.textContent.toLowerCase().includes("knowledge")) return;
 
-    let tooltip = null;
-    let titleEl = null;
-
-    if (typeof showEquipSlotTooltip === "function") {
-      openEquipModal("neck");
+    if (typeof KX.openEquipModal === "function") {
+      KX.openEquipModal("neck");
     }
 
     await new Promise((r) => setTimeout(r, 50));
 
     const modal = document.getElementById("tool-modal");
-    titleEl = modal?.querySelector(".tool-modal-name");
+    const titleEl = modal?.querySelector(".tool-modal-name");
 
     if (titleEl && titleEl.textContent.toLowerCase().includes("knowledge")) {
       const stats = modal.querySelectorAll(".tooltip-stat");
@@ -543,7 +513,7 @@ KX.mapping = {
       }
     }
 
-    closeToolModal();
+    if (typeof KX.closeToolModal === "function") KX.closeToolModal();
   }
 
   // Updates values and create new html elements
@@ -563,9 +533,10 @@ KX.mapping = {
       KX.mapping["cycle"].current !== "0"
     )
       KX.KORUXA_ENHANCED.isKXLoaded = true;
+
     const patronEl = document.querySelector("#topbar-patron-text");
     KX.KORUXA_GLOBALS["patron-level"] = patronEl ? patronEl.textContent : "none";
-    KX.KORUXA_IS_PREMIUM = document.querySelector("#topbar-premium>span:not([id])") ? true : false;
+    KX.KORUXA_IS_PREMIUM = !!document.querySelector("#topbar-premium>span:not([id])");
     AUTO_CLAN_BOSS();
     REPLACE_IMAGES(imageOverrides);
 
@@ -580,7 +551,7 @@ KX.mapping = {
       GET_BEST_XP_EFFICIENCY();
       DISPLAY_THIEVING_GOLD_RANKING();
       KX.KORUXA_ENHANCED.isReadyFuncRunOnce = true;
-      ENHANCED_CHAT_LOG(`Koruxa Enhanced is enabled and ready.`, "success");
+      ENHANCED_CHAT_LOG("Koruxa Enhanced is enabled and ready.", "success");
     }
 
     // Loop run when the script is ready and loaded
@@ -588,19 +559,15 @@ KX.mapping = {
       const XPBonusEl = document.querySelector("#bonus-breakdown");
       if (XPBonusEl) {
         const text = XPBonusEl.textContent;
-
         const isValidStatsBar = text.includes("XP+") || text.includes("Spd+") || text.includes("|");
 
         if (isValidStatsBar) {
-          //Clan XP bonus
           const matchXp = text.match(/Clan: [^|]*?XP\+(\d+(?:\.\d+)?)%/);
           const extractedXP = matchXp ? parseFloat(matchXp[1]) : 0;
 
-          //Global Speed bonus
           const matchSpd = text.match(/Global: [^|]*?Spd\+(\d+(?:\.\d+)?)%/);
           const extractedSpd = matchSpd ? parseFloat(matchSpd[1]) : 0;
 
-          //Global XP bonus
           const matchGXP = text.match(/Global: [^|]*?XP\+(\d+(?:\.\d+)?)%/);
           const extractedGlobalXP = matchGXP ? parseFloat(matchGXP[1]) : 0;
 
@@ -608,7 +575,6 @@ KX.mapping = {
           const currentSavedSpd = Number(KX.KORUXA_GLOBALS["global-speed-bonus"] || 0);
           const currentSavedGlobalXP = Number(KX.KORUXA_GLOBALS["global-xp-bonus"] || 0);
 
-          // If the values are different (higher, lower, or reset to 0), update them.
           if (extractedXP !== currentSavedXP || extractedSpd !== currentSavedSpd || extractedGlobalXP !== currentSavedGlobalXP) {
             KX.CLAN_XP_BONUS = extractedXP;
             KX.KORUXA_GLOBALS["clan-xp-bonus"] = extractedXP;
@@ -623,7 +589,6 @@ KX.mapping = {
           }
         }
 
-        // Fallbacks in case they are empty strings
         if (!KX.CLAN_XP_BONUS || KX.CLAN_XP_BONUS === "") {
           KX.CLAN_XP_BONUS = KX.KORUXA_GLOBALS["clan-xp-bonus"] || 0;
         }
@@ -645,7 +610,7 @@ KX.mapping = {
         KX.KORUXA_ENHANCED.isInstituteSynced = true;
         ENHANCED_CHAT_LOG(
           "Institute bonuses have been updated for this tab, click on another institute tab to refresh the others.",
-          "info",
+          "info"
         );
       }
       if (!isAtInstitute) KX.KORUXA_ENHANCED.isInstituteSynced = false;
@@ -663,7 +628,6 @@ KX.mapping = {
 
   function LOAD_CSS(url) {
     if (document.querySelector(`link[href="${url}"]`)) return;
-
     const link = document.createElement("link");
     link.rel = "stylesheet";
     link.href = url;
@@ -687,14 +651,12 @@ KX.mapping = {
 
   function FORMAT_TIME(sec) {
     sec = parseInt(sec, 10);
-
     const days = Math.floor(sec / 86400);
     const hours = Math.floor((sec % 86400) / 3600);
     const minutes = Math.floor((sec % 3600) / 60);
     const seconds = sec % 60;
 
     const parts = [];
-
     if (days > 0) parts.push(days + "d");
     if (hours > 0) parts.push(hours + "h");
     if (minutes > 0) parts.push(minutes + "m");
@@ -726,9 +688,7 @@ KX.mapping = {
     }
   }
 
-  const cleanName = (str) => str.replace(/[^\w\s]/g, "").trim(); // Remove emojis + trim
-  const cleanValue = (str) => Number(str.replace(/[^\d.-]/g, "")); // Convert "+15%" → 15
-  const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms)); // Creates a delay for async functions
+  const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
   function getXpToNext(level) {
     if (level < 1) return 0;
@@ -737,12 +697,9 @@ KX.mapping = {
 
   function GET_XP(level, type = "ExpToNext") {
     if (level < 1) return null;
-
     if (type === "ExpToNext") {
       return getXpToNext(level);
     }
-
-    // Calculates total cumulative XP required to reach this level
     let total = 0;
     for (let i = 1; i < level; i++) {
       total += getXpToNext(i);
@@ -753,7 +710,6 @@ KX.mapping = {
   function GET_LEVEL_FROM_XP(totalXp) {
     let cumulative = 0;
     let lvl = 1;
-
     while (true) {
       cumulative += getXpToNext(lvl);
       if (totalXp < cumulative) return lvl;
@@ -769,7 +725,6 @@ KX.mapping = {
     return decPart ? `${intPart},${decPart}` : intPart;
   }
 
-  // Generates a globals for each farm stats
   function LOAD_FARM_STATS() {
     const SPEED = [0, 2, 4, 6, 8, 10, 12, 14, 16, 16, 16];
     const XP = [0, 1, 2, 4, 6, 8, 10, 15, 25, 30, 35];
@@ -810,7 +765,6 @@ KX.mapping = {
       if (!result[s]) result[s] = { level: 0, speed: 0, xp: 0 };
     });
 
-    window.KX = window.KX || {};
     try {
       if (JSON.stringify(KX.KORUXA_FARMS || {}) !== JSON.stringify(result)) {
         KX.KORUXA_FARMS = result;
@@ -820,7 +774,6 @@ KX.mapping = {
     }
   }
 
-  // Generates a globals for each tool stats
   async function LOAD_TOOL_STATS() {
     const skills = [
       "woodcutting",
@@ -837,7 +790,7 @@ KX.mapping = {
       "arcana",
       "jewelery",
       "construction",
-      "tinkering"
+      "tinkering",
     ];
 
     for (const skill of skills) {
@@ -852,7 +805,9 @@ KX.mapping = {
 
       try {
         const mockEvent = { clientX: 0, clientY: 0 };
-        showToolSlotTooltip(mockEvent, `tool_${skill}`);
+        if (typeof KX.showToolSlotTooltip === "function") {
+          KX.showToolSlotTooltip(mockEvent, `tool_${skill}`);
+        }
 
         await wait(50);
         const tooltip = document.getElementById("item-tooltip");
@@ -876,7 +831,7 @@ KX.mapping = {
           });
         }
 
-        if (typeof hideTooltip === "function") hideTooltip();
+        if (typeof KX.hideTooltip === "function") KX.hideTooltip();
       } catch (error) {
         console.warn(`Error loading tool stats for ${skill}:`, error);
       }
@@ -1043,7 +998,7 @@ KX.mapping = {
       .filter((item) => item !== null)
       .sort((a, b) => b.goldPerHour - a.goldPerHour);
 
-    var RANKING = "[b]Best Gold Efficiency for Thieving (Gold/h)[/b]";
+    let RANKING = "[b]Best Gold Efficiency for Thieving (Gold/h)[/b]";
 
     if (rankings.length === 0) {
       ENHANCED_CHAT_LOG("No data available to calculate Gold efficiency.", "error");
@@ -1051,16 +1006,12 @@ KX.mapping = {
       rankings.forEach((item, index) => {
         const medal = index === 0 ? "🏆" : index + 1 + ".";
         const formattedGPH = Math.round(item.goldPerHour).toLocaleString();
-        const color = item.isUnlocked ? "#ffffff" : "#888888";
-
         RANKING += `[newline][normal]${medal} [warning]${formattedGPH} Gold/h[/warning] with ${item.label} [${item.successChance}% success] [Lvl ${item.level}][/normal]`;
-        `[normal]${medal} [warning]${formattedGPH} Gold/h[/warning] with ${item.label} [${item.successChance}% success] [Lvl ${item.level}][/normal]`;
       });
       ENHANCED_CHAT_LOG(RANKING, "info");
     }
   }
 
-  // Calculates session XP based on current skill progress and configuration mappings
   function CALC_SESSION_XP() {
     let skillId = KX.KORUXA_GLOBALS["current-skill"]?.trim().toLowerCase();
     let identifier = KX.KORUXA_GLOBALS["current-item"];
@@ -1084,11 +1035,6 @@ KX.mapping = {
         let material = searchStr.replace(" cut", "").trim();
         if (materialMap[material]) material = materialMap[material];
         searchStr = `cut_${material}`.replace(/ /g, "_");
-      } else if (skillId === "construction") {
-        if (searchStr.startsWith("plank") || searchStr.startsWith("nails") || searchStr.startsWith("fixture")) {
-          let material = searchStr.split(" ").slice(1).join(" ");
-          searchStr = `${material}_${searchStr.split(" ")[0]}`.replace(/ /g, "_");
-        }
       } else {
         const accessoryPatterns = [
           "guardian amulet",
@@ -1108,6 +1054,11 @@ KX.mapping = {
             break;
           }
         }
+      }
+    } else if (skillId === "construction") {
+      if (searchStr.startsWith("plank") || searchStr.startsWith("nails") || searchStr.startsWith("fixture")) {
+        let material = searchStr.split(" ").slice(1).join(" ");
+        searchStr = `${material}_${searchStr.split(" ")[0]}`.replace(/ /g, "_");
       }
     }
     searchStr = searchStr.replace(/ /g, "_");
@@ -1179,7 +1130,7 @@ KX.mapping = {
                     <div class="neh-content">
                     </div>
                 </div>
-            `,
+            `
         );
       }
     });
@@ -1196,26 +1147,22 @@ KX.mapping = {
     const isDoing = KX.KORUXA_GLOBALS["current-skill"] === "Doing";
 
     if (!isDoing && session && typeof session.xpRemaining === "number" && session.xpRemaining > 0) {
-      const cycleTime = KX.KORUXA_GLOBALS["cycle"]?.time || "0s";
-      const currentSkill = KX.KORUXA_GLOBALS["current-skill"];
-
       const currentXP = Number(KX.KORUXA_STATS?.[skill]?.xp_total || 0);
       const targetXP = currentXP + session.xpRemaining;
 
-      const sessionXP_Current = `<b>${FORMAT_NUMBER(session.loops, 0)}</b> x <b>${FORMAT_NUMBER(session.xpPerLoop, 0)}</b> XP`; /* / <b>${cycleTime}</b> */
-      const sessionXP_Total = `${FORMAT_NUMBER(session.xpRemaining, 0)} XP`;
+      const sessionXP_Current = `<b>${FORMAT_NUMBER(session.loops, 0)}</b> x <b>${FORMAT_NUMBER(session.xpPerLoop, 0)}</b> XP`;
       const sessionLevels = GET_LEVEL_FROM_XP(targetXP);
       const levelDiff = sessionLevels - GET_LEVEL_FROM_XP(currentXP);
 
       const html = `<div class="neh-footer">${sessionXP_Current}<div class="neh-sub-footer">(+<b>${levelDiff}</b> levels)</div></div>`;
-      /* <b>${sessionLevels}</b> and <b>${sessionXP_Total}</b> */
       footers.forEach((f) => (f.innerHTML = html));
     }
   }
 
   function CALC_THIEVING_SUCCESS_RATE(skill) {
-    const config = KX.KORUXA_CONFIGS["thieving"][skill];
-    const currentLevel = Number(KX.KORUXA_STATS["thieving"].level || 0);
+    const config = KX.KORUXA_CONFIGS["thieving"]?.[skill];
+    if (!config) return 0;
+    const currentLevel = Number(KX.KORUXA_STATS["thieving"]?.level || 0);
     if (currentLevel < config.min_level) return 0;
 
     const calculatedRate = config.success_chance + (currentLevel - config.min_level) * 1;
@@ -1251,7 +1198,6 @@ KX.mapping = {
           const msPerLoop = (entry.duration_ms || 0) * Math.max(0.1, 1 - speed / 100);
           let xpPerHour = msPerLoop > 0 ? (xpPerLoop / (msPerLoop / 1000)) * 3600 : 0;
 
-          // Apply thieving success rate penalty if applicable
           if (skill === "thieving") {
             const successRate = CALC_THIEVING_SUCCESS_RATE(bestAction.action);
             xpPerHour = xpPerHour * (successRate / 100);
@@ -1268,7 +1214,7 @@ KX.mapping = {
     });
 
     rankings.sort((a, b) => b.xph - a.xph);
-    var RANKING = "[b]Best XP Efficiency Rankings (XP/h)[/b]";
+    let RANKING = "[b]Best XP Efficiency Rankings (XP/h)[/b]";
     if (rankings.length === 0) {
       ENHANCED_CHAT_LOG("No data available to calculate XP efficiency.", "error");
     } else {
@@ -1307,9 +1253,8 @@ KX.mapping = {
   }
 
   function REPLACE_IMAGES(mapping) {
-    Object.entries(imageOverrides).forEach(([oldPath, newUrl]) => {
+    Object.entries(mapping).forEach(([oldPath, newUrl]) => {
       const images = document.querySelectorAll(`img[src$="${oldPath}"]`);
-
       images.forEach((img) => {
         img.removeAttribute("onerror");
         img.src = newUrl;
@@ -1323,11 +1268,11 @@ KX.mapping = {
       localStorage.setItem(key, JSON.stringify(KX.KORUXA_GLOBALS));
     } else if (action === "load") {
       const data = localStorage.getItem(key);
-      const parsed_data = JSON.parse(data);
       if (data) {
+        const parsed_data = JSON.parse(data);
         KX.KORUXA_GLOBALS.Institute = parsed_data.Institute;
         KX.KORUXA_GLOBALS["clan-xp-bonus"] = Number(parsed_data["clan-xp-bonus"]) || 0;
-        KX.KORUXA_GLOBALS["global-speed-bonus"] = Number(parsed_data["global-speed_bonus"]) || 0;
+        KX.KORUXA_GLOBALS["global-speed-bonus"] = Number(parsed_data["global-speed-bonus"]) || 0;
         KX.KORUXA_GLOBALS["global-xp-bonus"] = Number(parsed_data["global-xp-bonus"]) || 0;
         KX.KORUXA_GLOBALS["patron-level"] = parsed_data["patron-level"] || "none";
         KX.KORUXA_GLOBALS["amulet-xp-bonus"] = Number(parsed_data["amulet-xp-bonus"]) || 0;
@@ -1335,98 +1280,95 @@ KX.mapping = {
     }
   }
 
-  // Injects custom favorite stars into non-native links and toggles state
   function TOGGLE_CUSTOM_FAVORITES() {
-    const targetCategories = ['#cat-clan', '#cat-progress', '#cat-econ', '#cat-social'];
-    const favs = JSON.parse(localStorage.getItem('KX_CUSTOM_FAVS') || '[]');
+    const targetCategories = ["#cat-clan", "#cat-progress", "#cat-econ", "#cat-social"];
+    const favs = JSON.parse(localStorage.getItem("KX_CUSTOM_FAVS") || "[]");
 
-    targetCategories.forEach(selector => {
+    targetCategories.forEach((selector) => {
       const cat = document.querySelector(selector);
       if (!cat) return;
 
-      cat.querySelectorAll('a.skill-link').forEach(link => {
-        const action = link.getAttribute('onclick');
+      cat.querySelectorAll("a.skill-link").forEach((link) => {
+        const action = link.getAttribute("onclick");
         if (!action) return;
 
-        let star = link.querySelector('.custom-fav-star');
+        let star = link.querySelector(".custom-fav-star");
         if (!star) {
-          star = document.createElement('button');
-          star.className = 'fav-star custom-fav-star';
-          star.addEventListener('click', (e) => {
-            if (!document.body.classList.contains('fav-edit')) return;
+          star = document.createElement("button");
+          star.className = "fav-star custom-fav-star";
+          star.addEventListener("click", (e) => {
+            if (!document.body.classList.contains("fav-edit")) return;
             e.stopPropagation();
             e.preventDefault();
 
-            const list = JSON.parse(localStorage.getItem('KX_CUSTOM_FAVS') || '[]');
+            const list = JSON.parse(localStorage.getItem("KX_CUSTOM_FAVS") || "[]");
             const idx = list.indexOf(action);
             if (idx > -1) list.splice(idx, 1);
             else list.push(action);
 
-            localStorage.setItem('KX_CUSTOM_FAVS', JSON.stringify(list));
+            localStorage.setItem("KX_CUSTOM_FAVS", JSON.stringify(list));
             UPDATE_CUSTOM_FAVORITE();
           });
           link.appendChild(star);
         }
 
         const isFav = favs.includes(action);
-        star.textContent = isFav ? '★' : '☆';
-        star.classList.toggle('on', isFav);
+        star.textContent = isFav ? "★" : "☆";
+        star.classList.toggle("on", isFav);
       });
     });
   }
 
-  // Syncs both native skill items and custom category links into a new custom favorites container
   function UPDATE_CUSTOM_FAVORITE() {
-    const favBlock = document.querySelector('#fav-skills-block');
+    const favBlock = document.querySelector("#fav-skills-block");
     if (!favBlock) return;
 
-    let customFavContainer = favBlock.querySelector('ul.custom-fav-list');
+    let customFavContainer = favBlock.querySelector("ul.custom-fav-list");
     if (!customFavContainer) {
-      customFavContainer = document.createElement('ul');
-      customFavContainer.className = 'skill-list custom-fav-list';
+      customFavContainer = document.createElement("ul");
+      customFavContainer.className = "skill-list custom-fav-list";
       favBlock.appendChild(customFavContainer);
     }
 
     TOGGLE_CUSTOM_FAVORITES();
 
-    customFavContainer.innerHTML = '';
+    customFavContainer.innerHTML = "";
 
     const getSkillLevel = (skillName) => {
-      const key = skillName.toLowerCase().replace(/\s+/g, '');
-      console.log('Fetching skill level for:', skillName, 'Key:', key);
-      return KX?.KORUXA_STATS?.[key]?.level ||KX?.KORUXA_STATS?.[skillName]?.level || null;
+      const key = skillName.toLowerCase().replace(/\s+/g, "");
+      return KX?.KORUXA_STATS?.[key]?.level || KX?.KORUXA_STATS?.[skillName]?.level || null;
     };
 
-    document.querySelectorAll('.sidebar-left .fav-star.on').forEach(star => {
-      if (star.closest('#fav-skills-block')) return;
+    document.querySelectorAll(".sidebar-left .fav-star.on").forEach((star) => {
+      if (star.closest("#fav-skills-block")) return;
 
-      const nativeLi = star.closest('li.skill-item');
+      const nativeLi = star.closest("li.skill-item");
 
       if (nativeLi) {
-        const li = document.createElement('li');
-        li.className = 'skill-item custom-fav-item';
+        const li = document.createElement("li");
+        li.className = "skill-item custom-fav-item";
 
-        const sourceLink = nativeLi.querySelector('a.skill-link');
+        const sourceLink = nativeLi.querySelector("a.skill-link");
         if (!sourceLink) return;
 
         const cleanLink = sourceLink.cloneNode(true);
-        cleanLink.removeAttribute('style');
+        cleanLink.removeAttribute("style");
 
-        cleanLink.querySelectorAll('.skill-level, .skill-tooltip, .skill-alert-indicator, .fav-star').forEach(el => el.remove());
+        cleanLink.querySelectorAll(".skill-level, .skill-tooltip, .skill-alert-indicator, .fav-star").forEach((el) => el.remove());
 
-        const rawName = cleanLink.querySelector('.skill-name')?.textContent.trim() || cleanLink.textContent.trim();
+        const rawName = cleanLink.querySelector(".skill-name")?.textContent.trim() || cleanLink.textContent.trim();
         const level = getSkillLevel(rawName);
 
-        if (level !== null && cleanLink.querySelector('.skill-name')) {
-          cleanLink.querySelector('.skill-name').textContent = `${rawName} (${level})`;
+        if (level !== null && cleanLink.querySelector(".skill-name")) {
+          cleanLink.querySelector(".skill-name").textContent = `${rawName} (${level})`;
         }
 
-        const removeBtn = document.createElement('button');
-        removeBtn.className = 'fav-star on';
-        removeBtn.textContent = '★';
-        removeBtn.title = 'Remove from favorites';
-        removeBtn.addEventListener('click', (e) => {
-          if (!document.body.classList.contains('fav-edit')) return;
+        const removeBtn = document.createElement("button");
+        removeBtn.className = "fav-star on";
+        removeBtn.textContent = "★";
+        removeBtn.title = "Remove from favorites";
+        removeBtn.addEventListener("click", (e) => {
+          if (!document.body.classList.contains("fav-edit")) return;
           e.stopPropagation();
           e.preventDefault();
           star.click();
@@ -1437,49 +1379,49 @@ KX.mapping = {
         return;
       }
 
-      const customLink = star.closest('a.skill-link');
+      const customLink = star.closest("a.skill-link");
       if (customLink) {
-        const action = customLink.getAttribute('onclick');
+        const action = customLink.getAttribute("onclick");
         if (!action) return;
 
-        const fullText = customLink.textContent.trim().replace(/[★☆]/g, '').trim();
+        const fullText = customLink.textContent.trim().replace(/[★☆]/g, "").trim();
         const match = fullText.match(/^(\p{Extended_Pictographic}|\S+)\s*(.+)$/u);
 
         const rawName = match ? match[2] : fullText;
         const level = getSkillLevel(rawName);
         const displayName = level !== null ? `${rawName} (${level})` : rawName;
 
-        const li = document.createElement('li');
-        li.className = 'skill-item custom-fav-item';
+        const li = document.createElement("li");
+        li.className = "skill-item custom-fav-item";
 
-        const cleanLink = document.createElement('a');
-        cleanLink.className = 'skill-link';
-        cleanLink.setAttribute('onclick', action);
+        const cleanLink = document.createElement("a");
+        cleanLink.className = "skill-link";
+        cleanLink.setAttribute("onclick", action);
 
-        const iconSpan = document.createElement('span');
-        iconSpan.className = 'skill-icon';
-        iconSpan.textContent = match ? match[1] : '⭐';
+        const iconSpan = document.createElement("span");
+        iconSpan.className = "skill-icon";
+        iconSpan.textContent = match ? match[1] : "⭐";
 
-        const nameSpan = document.createElement('span');
-        nameSpan.className = 'skill-name';
+        const nameSpan = document.createElement("span");
+        nameSpan.className = "skill-name";
         nameSpan.textContent = displayName;
 
         cleanLink.append(iconSpan, nameSpan);
 
-        const removeBtn = document.createElement('button');
-        removeBtn.className = 'fav-star on';
-        removeBtn.textContent = '★';
-        removeBtn.title = 'Remove from favorites';
-        removeBtn.addEventListener('click', (e) => {
-          if (!document.body.classList.contains('fav-edit')) return;
+        const removeBtn = document.createElement("button");
+        removeBtn.className = "fav-star on";
+        removeBtn.textContent = "★";
+        removeBtn.title = "Remove from favorites";
+        removeBtn.addEventListener("click", (e) => {
+          if (!document.body.classList.contains("fav-edit")) return;
           e.stopPropagation();
           e.preventDefault();
 
-          const list = JSON.parse(localStorage.getItem('KX_CUSTOM_FAVS') || '[]');
+          const list = JSON.parse(localStorage.getItem("KX_CUSTOM_FAVS") || "[]");
           const idx = list.indexOf(action);
           if (idx > -1) {
             list.splice(idx, 1);
-            localStorage.setItem('KX_CUSTOM_FAVS', JSON.stringify(list));
+            localStorage.setItem("KX_CUSTOM_FAVS", JSON.stringify(list));
             UPDATE_CUSTOM_FAVORITE();
           }
         });
@@ -1490,7 +1432,6 @@ KX.mapping = {
     });
   }
 
-  // Auto-attacks Clan Boss and handles target selection + recap closing even if attack button is hidden.
   function AUTO_CLAN_BOSS() {
     const header = document.querySelector("#page-content .page-header>h1");
     const isOnClanBoss = header ? header.textContent.includes("Clan Boss") : false;
@@ -1503,8 +1444,8 @@ KX.mapping = {
 
     if (FightRecapVisible) {
       ENHANCED_CHAT_LOG("Automatically closing Clan Boss fight recap.", "info");
-      bossAttackAgain();
-      closeBossRecap();
+      if (typeof KX.bossAttackAgain === "function") KX.bossAttackAgain();
+      if (typeof KX.closeBossRecap === "function") KX.closeBossRecap();
       return;
     }
 
@@ -1550,7 +1491,7 @@ KX.mapping = {
     };
     const toolsXp = KX.KORUXA_TOOLS?.[skill]?.xp || 0;
     const farmsXp = KX.KORUXA_FARMS?.[skill]?.xp || 0;
-    const premiumBonus = KX.KORUXA_IS_PREMIUM ? premiumLevels[KX.KORUXA_GLOBALS["patron-level"]] : 0;
+    const premiumBonus = KX.KORUXA_IS_PREMIUM ? (premiumLevels[KX.KORUXA_GLOBALS["patron-level"]] || 0) : 0;
     const clanBonus = Number(KX.KORUXA_GLOBALS["clan-xp-bonus"]) || 0;
     let instituteBonus = 0;
     let capeXp = 0;
@@ -1568,13 +1509,13 @@ KX.mapping = {
         instituteBonus += item.effect.value * item.level;
       }
     }
-    //{name: 'Mining Skillcape', type: 'skill', skill: 'mining', speed: 0, xp: 20}
+
     const capeData = LOAD_CAPE_STATS();
     if (capeData.xp > 0 && capeData.type === "skill" && capeData.skill === skill) {
       capeXp = capeData.xp;
     }
 
-    if (skill == "mining" && debug) {
+    if (skill === "mining" && debug) {
       console.log("Calculating XP Multiplier for skill:", skill);
       console.log("Tools XP Bonus:", toolsXp);
       console.log("Premium Bonus:", premiumBonus);
@@ -1593,14 +1534,15 @@ KX.mapping = {
             premiumBonus +
             clanBonus +
             instituteBonus +
-            KX.KORUXA_GLOBALS?.["amulet-xp-bonus"] +
+            (KX.KORUXA_GLOBALS?.["amulet-xp-bonus"] || 0) +
             capeXp +
-            KX.KORUXA_GLOBALS?.["global-xp-bonus"]
-          ).toFixed(2),
-        ),
+            (KX.KORUXA_GLOBALS?.["global-xp-bonus"] || 0)
+          ).toFixed(2)
+        )
       );
       console.log("------------------------------------");
     }
+
     return parseFloat(
       (
         toolsXp +
@@ -1608,10 +1550,10 @@ KX.mapping = {
         farmsXp +
         instituteBonus +
         clanBonus +
-        KX.KORUXA_GLOBALS?.["amulet-xp-bonus"] +
+        (KX.KORUXA_GLOBALS?.["amulet-xp-bonus"] || 0) +
         capeXp +
-        KX.KORUXA_GLOBALS?.["global-xp-bonus"]
-      ).toFixed(2),
+        (KX.KORUXA_GLOBALS?.["global-xp-bonus"] || 0)
+      ).toFixed(2)
     );
   }
   KX.GET_XP_MULTIPLIER = GET_XP_MULTIPLIER;
@@ -1632,7 +1574,7 @@ KX.mapping = {
     };
     const toolsSpeed = KX.KORUXA_TOOLS?.[skill]?.speed || 0;
     const farmsSpeed = KX.KORUXA_FARMS?.[skill]?.speed || 0;
-    const premiumBonus = KX.KORUXA_IS_PREMIUM ? premiumLevels[KX.KORUXA_GLOBALS["patron-level"]] : 0;
+    const premiumBonus = KX.KORUXA_IS_PREMIUM ? (premiumLevels[KX.KORUXA_GLOBALS["patron-level"]] || 0) : 0;
     const globalSpeedBonus = Number(KX.KORUXA_GLOBALS["global-speed-bonus"]) || 0;
     return parseFloat((toolsSpeed + farmsSpeed + premiumBonus + globalSpeedBonus).toFixed(2));
   }
@@ -1682,12 +1624,11 @@ KX.mapping = {
     if (channel === "koruxa-enhanced") {
       if (defaultChat) defaultChat.style.display = "none";
       enhancedChat.style.display = "";
-      // add class disabled
-      chatMessageBar.classList.add("disabled");
+      if (chatMessageBar) chatMessageBar.classList.add("disabled");
     } else {
       if (defaultChat) defaultChat.style.display = "";
       enhancedChat.style.display = "none";
-      chatMessageBar.classList.remove("disabled");
+      if (chatMessageBar) chatMessageBar.classList.remove("disabled");
     }
   }
 
@@ -1726,8 +1667,8 @@ KX.mapping = {
 
   async function FIND_INSTITUTE_BONUSES(cat = null) {
     if (!document.querySelector(".page-header h1")?.textContent.includes("🏛")) return;
-    if (cat) {
-      setResearchCat(cat);
+    if (cat && typeof KX.setResearchCat === "function") {
+      KX.setResearchCat(cat);
       await new Promise((r) => setTimeout(r, 150));
     }
 
@@ -1741,6 +1682,7 @@ KX.mapping = {
       const s = res?.effect?.skill;
       const skill =
         s || (["all_gathering", "all_combat", "all_artisan"].includes(res?.effect?.category) ? res.effect.category : "global");
+
 
       if (res) {
         if (res.effect?.type === "xp_bonus") {
@@ -1784,19 +1726,19 @@ KX.mapping = {
         INJECT_SYNC_BUTTON();
         const skill = isSingle ? KX.mapping["current_skill"].value : "all";
         await EXTRACT_SKILLS(skill);
-        [REPLACE_ICONS, GET_CURRENT_SKILL, LOAD_FARM_STATS, LOAD_TOOL_STATS, UPDATE_CUSTOM_FAVORITE].forEach((f) => f());
+        [REPLACE_ICONS, GET_CURRENT_SKILL, LOAD_FARM_STATS, LOAD_TOOL_STATS].forEach((f) => f());
       } catch (e) { }
 
       observe();
       KX.KORUXA_ENHANCED.isUpdating = false;
     },
-    500,
-    { trailing: false },
+    30000,
+    { trailing: false }
   );
 
   const observer = new MutationObserver((mutations) => {
     const active = targetSelectors.find((s) =>
-      mutations.some((m) => m.target.nodeType === 1 && (m.target.closest(s) || document.querySelector(s)?.contains(m.target))),
+      mutations.some((m) => m.target.nodeType === 1 && (m.target.closest(s) || document.querySelector(s)?.contains(m.target)))
     );
 
     if (active) REFRESH_ENHANCED_DATA(active === "#tab-inventory");
@@ -1810,13 +1752,22 @@ KX.mapping = {
     if (!document.body) return setTimeout(init, 100);
 
     document.addEventListener("click", (e) => {
-      if (e.target.closest(".sidebar-left, .sidebar-right")) REFRESH_ENHANCED_DATA(false);
-      if (e.target.closest('button[onclick^="setResearchCat("]') || e.target.closest(`#sidebar-institute-btn`))
+      if (e.target.closest(".skill-link, .sidebar-footer-btn, .sidebar-right")) {
+        REFRESH_ENHANCED_DATA(false);
+      }
+
+      if (e.target.closest(".skill-link")) {
+        UPDATE_CUSTOM_FAVORITE();
+      }
+      if (e.target.closest('button[onclick^="setResearchCat("]') || e.target.closest("#sidebar-institute-btn"))
         setTimeout(FIND_INSTITUTE_BONUSES, 500);
     });
 
     observe();
     REFRESH_ENHANCED_DATA(false);
+    TOGGLE_CUSTOM_FAVORITES();
+    UPDATE_CUSTOM_FAVORITE();
+    setInterval(UPDATE_CUSTOM_FAVORITE, 3000);
   };
 
   init();
@@ -1830,12 +1781,33 @@ KX.mapping = {
   LOAD_FARM_STATS();
   LOAD_TOOL_STATS();
   CREATE_NEW_CHAT_TAB();
-  UPDATE_CUSTOM_FAVORITE();
-  setInterval(UPDATE_CUSTOM_FAVORITE, 3000);
+  
 
   try {
     startKoruxaUpdater({ initialDelayMs: 1500, intervalMs: 2000 });
   } catch (err) {
     console.error("Koruxa Enhanced error", err);
   }
+
+  // Debug logger to trace initialization and click delays
+function DEBUG_LOG(label, extra = "") {
+  console.log(`[FAV-DEBUG ${performance.now().toFixed(1)}ms] ${label}`, extra);
+}
+
+// Trace sidebar click listener
+document.addEventListener("click", (e) => {
+  if (e.target.closest(".skill-link, .sidebar-right")) {
+    DEBUG_LOG("Click detected on target element:", e.target);
+    TOGGLE_CUSTOM_FAVORITES();
+    UPDATE_CUSTOM_FAVORITE();
+  }
+});
+
+// Trace DOM load vs script load
+DEBUG_LOG("Script loaded/executed");
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", () => DEBUG_LOG("DOMContentLoaded fired"));
+} else {
+  DEBUG_LOG("Document already ready at script execution");
+}
 })();
