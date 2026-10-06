@@ -1781,33 +1781,11 @@
   LOAD_FARM_STATS();
   LOAD_TOOL_STATS();
   CREATE_NEW_CHAT_TAB();
-  
+
 
   try {
     startKoruxaUpdater({ initialDelayMs: 1500, intervalMs: 2000 });
   } catch (err) {
     console.error("Koruxa Enhanced error", err);
   }
-
-  // Debug logger to trace initialization and click delays
-function DEBUG_LOG(label, extra = "") {
-  console.log(`[FAV-DEBUG ${performance.now().toFixed(1)}ms] ${label}`, extra);
-}
-
-// Trace sidebar click listener
-document.addEventListener("click", (e) => {
-  if (e.target.closest(".skill-link, .sidebar-right")) {
-    DEBUG_LOG("Click detected on target element:", e.target);
-    TOGGLE_CUSTOM_FAVORITES();
-    UPDATE_CUSTOM_FAVORITE();
-  }
-});
-
-// Trace DOM load vs script load
-DEBUG_LOG("Script loaded/executed");
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", () => DEBUG_LOG("DOMContentLoaded fired"));
-} else {
-  DEBUG_LOG("Document already ready at script execution");
-}
 })();
