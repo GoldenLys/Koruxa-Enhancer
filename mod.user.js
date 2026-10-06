@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       3.82
+// @version       3.83
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    https://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
@@ -1405,6 +1405,8 @@
         const nameSpan = document.createElement("span");
         nameSpan.className = "skill-name";
         nameSpan.textContent = displayName;
+        nameSpan.innerHTML = nameSpan.innerHTML.replace(/Ready/g, '<span style="color: rgb(251, 191, 36);">Ready</span>');
+        nameSpan.innerHTML = nameSpan.innerHTML.replace(/Active/g, '<span style="color: rgb(34, 197, 94);">Active</span>');
 
         cleanLink.append(iconSpan, nameSpan);
 

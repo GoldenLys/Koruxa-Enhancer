@@ -3,14 +3,7 @@
     src: url('https://goldenlys.github.io/Koruxa-Enhancer/assets/fonts/NotoColorEmoji.ttf') format('truetype');
 }
 
-:root {
-    --surface: #121b33;
-    --surface2: #152245;
-    --bg-body: radial-gradient(circle at top, #1f2d45 0, #131b2f 60%);
-}
-
 body {
-    background: var(--bg-body);
     font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "emoji", sans-serif;
 }
 
