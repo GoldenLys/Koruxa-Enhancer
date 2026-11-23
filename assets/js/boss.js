@@ -8,14 +8,46 @@
 |-----------------|---------------------------------|---------------------|------------|----------------|-----------------|---------------------------------------------|
 | Damage          | +5 max damage                   | +1 per level        | Unlimited  | Infinite       | 5               | Increases base attack power                 |
 | Time Extension  | 30s time per attempt            | +1 second per level | Unlimited  | 30             | 8               | Extends each attack attempt duration        |
-| Critical Chance | 5% chance                       | +1% per level       | 25%        | 25             | 8               | Higher crit chance means more damage procs  |
+| Critical Chance | 5% crit chance                  | +1% per level       | 25%        | 25             | 8               | Higher crit chance means more damage procs  |
 | Power           | ×1.00 damage                    | ^1.28 per level     | Unlimited  | Infinite       | 12              | Multiplies total damage output              |
 | Devastation     | ×1.00 crit damage mult          | +0.15× per level    | 3.00×      | 20             | 12              | Increases critical hit damage               |
 | Rage            | +0% bonus from consecutive hits | +5% per Rage level  | 75%        | 15             | 12              | Hitting same body repeatedly builds up Rage |
 | Precision       | +0% bonus to min damage         | +1% per level       | 40%        | 40             | 25              | Raises minimum hit damage per level         |
-| Clan Warfare    | +0% bonus to damage             | +0.2% per level     | 25%        | 50             | 0 (no scrolls)  | global clan boss damage per level.          |
+|-----------------|---------------------------------|---------------------|------------|----------------|-----------------|---------------------------------------------|
+| Institute Researches (not using scrolls)
+|-----------------|---------------------------------|---------------------|------------|----------------|-----------------|---------------------------------------------|
+| Clan Warfare    | +0% bonus to damage             | +0.2% per level     | 25%        | 50             | 0 (no scrolls)  | Coordinated strikes against the great beasts. +0.2% clan boss damage per level.          |
+| Lethal Study    | +0% crit chance                 | +0.1% per level     | 5%         | 50             | 0 (no scrolls)  | Learn where the great beasts are soft. +0.1% crit chance against the clan boss per level (also above the 75% cap).|
+| Practiced Form  | +0% bonus to min damage         | +0.1% per level     | 5%         | 50             | 0 (no scrolls)  | Drilled until every swing counts. +0.1% minimum hit against the clan boss per level, on top of Precision and cards (also above the 40% cap). |
+| Siegecraft      | +0% damage bonus                | +0.1% per level     | 5%         | 50             | 0 (no scrolls)  | Know how to crack a ward. +0.1% damage to clan boss shields per level. |
+| Kindled Fury    | +0% bonus rage speed build-up   | +1% per level       | 25%        | 25             | 0 (no scrolls)  | Anger comes quicker. Your rage against the clan boss builds 1% faster per level. |
+| Deep Wrath      | +0 bonus rage level             | +1 per level        | +10        | 10             | 0 (no scrolls)  | Room for more fury. +1 rage cap against the clan boss per level (max +10). Cannot be prestiged. |
 
 This table shows how each stat impacts your damage potential as you invest more scrolls.
+
+In-Game WIKI 
+
+⚔️ How It Works
+The Clan Boss is a shared boss that all clan members fight together. Each player gets a limited number of attempts per window. Deal as much damage as possible within your fight timer!
+
+💪 Damage Calculation
+Base Hit: Random 1 to (5 + Damage Level)
+Power: Multiplied by 1.28power level
+Crit: 5% + Crit Level. Crits multiply damage by 1.5 + (0.15 x Devastation Level)
+Rage: +10% per consecutive hit on same part, capped at Rage Level x 5% (+ up to 10 from the Institute)
+🛡️ Shields & Parts
+From Tier 50+, boss parts gain shields. Shields must be destroyed before damaging the part HP. Target specific parts to focus your damage!
+
+📜 Scrolls & Upgrades
+When the boss is killed, ALL clan members receive scrolls. Use scrolls in the Clan Shop to upgrade your stats. Higher tiers = more scrolls.
+
+⚡ Clan Boosts (Leaders only)
+Extra Attempt: +1 attempt for all players (50 clan credits, max 3)
+Cooldown Skip: Skip 1h of boss cooldown (50 cc/hr)
+Scroll Multiplier: 2x scrolls on next kill (200 cc)
+🔄 Respec
+Remove 1 level from any upgrade for 50 credits. Scrolls are refunded. 12-hour cooldown between respecs.
+
 ***/
 
 const cachedKoruxaData = localStorage.getItem('koruxa_boss_upgrades');
@@ -26,39 +58,42 @@ function FORMAT_NUMBER(num, decimals = 0) {
     const absNum = Math.abs(num);
     const suffixDecimals = decimals === 0 ? 2 : decimals;
 
-    if (absNum >= 1e18) {
-        return (num / 1e18).toLocaleString(undefined, {
-            minimumFractionDigits: suffixDecimals,
-            maximumFractionDigits: suffixDecimals
-        }) + "Qi";
+    // Define scale thresholds and their abbreviations
+    const scales = [
+        { threshold: 1e63, suffix: "Vg", exponent: 63 },   // Vigintillion
+        { threshold: 1e60, suffix: "Nd", exponent: 60 },   // Novemdecillion
+        { threshold: 1e57, suffix: "Od", exponent: 57 },   // Octodecillion
+        { threshold: 1e54, suffix: "St", exponent: 54 },   // Septendecillion
+        { threshold: 1e51, suffix: "Sd", exponent: 51 },   // Sexdecillion
+        { threshold: 1e48, suffix: "Qd", exponent: 48 },   // Quindecillion
+        { threshold: 1e45, suffix: "Qt", exponent: 45 },   // Quattuordecillion
+        { threshold: 1e42, suffix: "Td", exponent: 42 },   // Tredecillion
+        { threshold: 1e39, suffix: "Dd", exponent: 39 },   // Duodecillion
+        { threshold: 1e36, suffix: "Ud", exponent: 36 },   // Undecillion
+        { threshold: 1e33, suffix: "Dc", exponent: 33 },   // Decillion
+        { threshold: 1e30, suffix: "No", exponent: 30 },   // Nonillion
+        { threshold: 1e27, suffix: "Oc", exponent: 27 },   // Octillion
+        { threshold: 1e24, suffix: "Sp", exponent: 24 },   // Septillion
+        { threshold: 1e21, suffix: "Sx", exponent: 21 },   // Sextillion
+        { threshold: 1e18, suffix: "Qi", exponent: 18 },   // Quintillion
+        { threshold: 1e15, suffix: "Qa", exponent: 15 },   // Quadrillion
+        { threshold: 1e12, suffix: "T", exponent: 12 },    // Trillion
+        { threshold: 1e9, suffix: "B", exponent: 9 },      // Billion
+        { threshold: 1e6, suffix: "M", exponent: 6 }       // Million
+    ];
+
+    // Find the appropriate scale
+    for (const scale of scales) {
+        if (absNum >= scale.threshold) {
+            const formatted = (num / scale.threshold).toLocaleString(undefined, {
+                minimumFractionDigits: suffixDecimals,
+                maximumFractionDigits: suffixDecimals
+            });
+            return formatted + scale.suffix;
+        }
     }
 
-    if (absNum >= 1e15) {
-        return (num / 1e15).toLocaleString(undefined, {
-            minimumFractionDigits: suffixDecimals,
-            maximumFractionDigits: suffixDecimals
-        }) + "Qa";
-    }
-    
-    if (absNum >= 1e12) {
-        return (num / 1e12).toLocaleString(undefined, {
-            minimumFractionDigits: suffixDecimals,
-            maximumFractionDigits: suffixDecimals
-        }) + "T";
-    }
-    if (absNum >= 1e9) {
-        return (num / 1e9).toLocaleString(undefined, {
-            minimumFractionDigits: suffixDecimals,
-            maximumFractionDigits: suffixDecimals
-        }) + "B";
-    }
-    if (absNum >= 1e6) {
-        return (num / 1e6).toLocaleString(undefined, {
-            minimumFractionDigits: suffixDecimals,
-            maximumFractionDigits: suffixDecimals
-        }) + "M";
-    }
-
+    // For numbers smaller than 1 million
     return num.toLocaleString(undefined, {
         minimumFractionDigits: decimals,
         maximumFractionDigits: decimals
