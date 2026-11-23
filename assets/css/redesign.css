@@ -1,30 +1,4 @@
-@import url('https://goldenlys.github.io/Koruxa-Enhancer/assets/css/fuck-cynzel.css');
-
-.clv3-ttl,
-.clv2-name,
-.clv2-st b,
-.clv2-note b,
-.clv2-boss b,
-.sidebar-tab,
-.clv2-lvl b,
-.clv3-bud .v,
-.clv3-btab,
-.clv3-it .mt b,
-.clv3-coins .amt,
-.category-header.cath,
-.skill-link .skill-level,
-.topbar-left > span[onclick^="goToActiveSkill"],
-.sk2-lv,
-#chat-header-title > span:first-child {
-  font-family: "Montserrat", sans-serif;
-  font-optical-sizing: auto;
-  font-style: normal;
-}
-
-#chat-header-title > span:first-child {
-  font-size: 1.2rem;
-  font-weight: 600;
-}
+@import url('https://goldenlys.github.io/Koruxa-Enhancer/assets/css/fuck-cinzel.css');
 
 /* Fix width sizing on PC screens */
 html.kx-zoomed body,

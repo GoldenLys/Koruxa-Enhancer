@@ -2,7 +2,7 @@
 // @name          Koruxa Enhanced
 // @namespace     Koruxa Enhanced
 // @author        Nebulys
-// @version       4.0.0
+// @version       4.0.1
 // @homepageURL   https://github.com/GoldenLys/Koruxa-Enhancer/
 // @supportURL    https://github.com/GoldenLys/Koruxa-Enhancer/issues/
 // @downloadURL   https://github.com/GoldenLys/Koruxa-Enhancer/raw/refs/heads/main/mod.user.js
@@ -47,9 +47,20 @@
     );
   };
 
+  const style = [...document.querySelectorAll("style")].find((s) => s.textContent.includes("font-family:'Cinzel'"));
+
+  style.textContent = style.textContent
+    .replaceAll(
+      "/static/fonts/cinzel-latin-ext-de1b0426.woff2",
+      "https://goldenlys.github.io/Koruxa-Enhancer/assets/fonts/montserrat.woff2",
+    )
+    .replaceAll(
+      "/static/fonts/cinzel-latin-e3007b72.woff2",
+      "https://goldenlys.github.io/Koruxa-Enhancer/assets/fonts/montserrat.woff2",
+    );
+
   init();
   LOAD_CSS("https://goldenlys.github.io/Koruxa-Enhancer/assets/css/fa-7.2.0.min.css");
   LOAD_CSS("https://goldenlys.github.io/Koruxa-Enhancer/assets/css/rpg-awesome.min.css");
   LOAD_CSS("https://goldenlys.github.io/Koruxa-Enhancer/assets/css/redesign.css");
-
 })();
